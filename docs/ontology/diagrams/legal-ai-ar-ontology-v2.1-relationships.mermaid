@@ -1,0 +1,66 @@
+---
+title: "Legal AI AR · Ontología v2.1 — Grafo de relaciones de dominio"
+date: 2026-05-21
+---
+
+%% Sección 4 de legal-ai-ar-ontology.md + relaciones en OntologyModelProvider
+
+graph LR
+    NJ["legar:NormaJuridica"]
+    SD["legar:SujetoDeDerecho"]
+    OE["legar:OrganoEstatal"]
+    HJ["legar:HechoJuridico"]
+    AJ["legar:ActoJuridico"]
+    PJ["legar:ProcesoJudicial"]
+    S["legar:Sentencia"]
+    R["legar:Recurso<br/><i>F4 · planificado</i>"]
+    RJ["legar:Responsabilidad<br/><i>consecuencia</i>"]
+    TH["skos:Concept<br/>ThesaurusTerm"]
+    PK["legar:PalabraClave"]
+    SRC["legar:Fuente"]
+    TR["legar:Tribunal"]
+
+    NJ -->|"deroga / modifica / reglamenta"| NJ
+    NJ -->|"regula"| SD
+    NJ -->|"faculta"| OE
+    NJ -->|"valida"| AJ
+
+    SD -->|"celebra"| AJ
+    SD -->|"produce"| HJ
+    SD -->|"participaEn"| PJ
+
+    OE -->|"emite"| NJ
+    OE -->|"superiorJerárquico"| OE
+
+    HJ -->|"origina"| RJ
+    HJ -->|"activa"| PJ
+    AJ -->|"activa"| PJ
+    AJ -->|"origina"| RJ
+
+    PJ -->|"conduceA"| S
+    PJ -->|"aplicaNorma"| NJ
+
+    S -->|"citaFallo"| S
+    S -->|"citaNorma"| NJ
+    S -->|"emitidoPor"| TR
+    S -->|"firmadoPor"| SD
+    S -->|"tieneDescriptor"| TH
+    S -->|"tienePalabraClave"| PK
+    S -->|"provenienteDe"| SRC
+    S -->|"dictaminadoPor"| SD
+
+    PK -->|"normalizadoPor"| TH
+    TH -->|"broader / narrower / related"| TH
+
+    PJ -->|"tieneRecurso"| R
+    R -->|"impugna"| S
+    R -->|"anteQuien"| OE
+
+    RJ -->|"recaeSobre"| SD
+    RJ -->|"activaProceso"| PJ
+
+    classDef implemented stroke:#2E7D32,stroke-width:3px
+    classDef planned stroke:#F57C00,stroke-width:2px,stroke-dasharray:5
+
+    class NJ,SD,OE,PJ,S,TH,PK,SRC,TR implemented
+    class R,RJ,HJ,AJ planned

@@ -1,0 +1,163 @@
+@import 'sass-rem/_rem.scss';
+@import '@appkit4/styles/scss/_variables.scss';
+
+.ap-pattern-error-page-content{
+    display: flex;
+    justify-content: center;
+    background-color: $color-background-container-alt;
+    position: fixed;
+    left: rem(280px);
+    width: calc(100% - 280px);
+    height: 100%;
+    top: 0;
+    .error-page{
+        z-index: 1;
+        width:calc(100% - 80px);
+        display: flex;
+        justify-content: center;
+        background-color: $color-background-alt;
+        margin-top: rem(64px);
+        margin-bottom: rem(72px);
+        border-radius: rem(8px);
+    } 
+    .error-footer {
+        position: fixed;
+        bottom: 0;
+        left: rem(320px);
+        background-color: $color-background-container-alt;
+        height: rem(76px);
+        padding-top: rem(24px);
+    }
+    &.nav-collapse {
+        left: rem(72px);
+        width: calc(100% - rem(72px));
+        .error-footer{
+            left: rem(112px);
+        }
+    }
+    .ap-navigation-wrapper {
+        height: 100%;
+        .ap-navigation-content {
+            position: relative;
+            top: rem(48px);
+            padding-top: rem(28px);
+        }
+    }
+}
+.ap-pattern-error-page{
+    .ap-navigation-wrapper{
+        position: fixed;
+        top:0;
+        left:0;
+    }
+}
+
+.ap-pattern-error-page {
+    .page-logo {
+        position: fixed;
+        top: $height-5;
+        left: $width-6;
+        justify-content: center;
+        align-items: center;
+        z-index: 1999;
+        width: rem(116px);
+        height: rem(88px);
+        overflow: auto;
+        background-image: url(./svg/logo.svg);
+        background-size: cover;
+        background-position: center;
+      }
+}
+
+.view-directory{
+    display: flex;
+    height: rem(40px);
+    line-height: rem(40px);
+    color: $color-text-primary;
+    align-items: center;
+    margin-top: rem(16px);
+    cursor: pointer;
+    .view-directory-link {
+        display: flex;
+        &:after {
+            content:'';
+            width: rem(32px);
+            cursor: auto;
+        }
+    }
+    .ap-button.ap-button-primary{
+        padding-left: rem(16px);
+        padding-right: rem(16px);
+    }
+    .view-directory-icon{
+        height: rem(40px);
+        line-height: rem(40px);
+        color: $color-text-primary;
+        outline-offset: rem(4px);
+    }
+    .view-directory-text{
+        margin-left: rem(4px);
+        color: $color-text-primary;
+    }
+    
+}
+
+.div-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: rem(450px);
+}
+
+.error-image {
+    max-height: rem(290px);
+    max-width: rem(385px);
+    text-align: center;
+    margin-bottom: rem(46px);
+}
+
+.ap-pattern-error-page-title {
+    font-size: rem(42px);
+    font-weight: 500;
+    color: $color-background-container-inverse;
+    text-align: center;
+    margin-left: rem(-30px);
+    height: auto;
+}
+
+.error-text {
+    width: 100%;
+    margin-top: rem(8px);
+    font-size: rem(16px);
+    font-stretch: normal;
+    font-style: normal;
+    line-height: rem(24px);
+    letter-spacing: normal;
+    text-align: center;
+    color: $color-text-heading
+    // margin-left: rem(-30px);
+}
+
+.ap-pattern-error-page{
+    .ap-header{
+        position: fixed;
+        left:0;
+        top:0;
+    }
+}
+
+[data-mode="dark"] {
+    .ap-pattern-error-page-content {
+        .error-page {
+            background-color: $color-background-default;
+        }
+    }
+}
+.light[data-mode="light"]{
+    .ap-pattern-error-page-content {
+        .error-page {
+            background-color: $color-background-alt;
+        }
+    }
+}

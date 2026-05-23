@@ -1,0 +1,51 @@
+%% E096 - Search module component tree - F1-10 Frontend
+%% Source: docs/design/f1-10-frontend-search.md (E095), architecture §6
+flowchart TB
+    subgraph App["AppComponent"]
+        Router["RouterOutlet"]
+    end
+
+    subgraph Search["Search Module"]
+        SearchHome["SearchHomeComponent\n/buscar"]
+        SearchResults["SearchResultsComponent\n/buscar/resultados"]
+        RulingDetail["RulingDetailComponent\n/fallos/:id"]
+    end
+
+    subgraph SearchHomeChildren["SearchHome children"]
+        SearchBar["SearchBarComponent"]
+        FiltersPanel["FiltersPanelComponent\n(collapsible)"]
+    end
+
+    subgraph SearchResultsChildren["SearchResults children"]
+        RulingCard["RulingCardComponent"]
+        Pagination["PaginationComponent"]
+        LoadingSpinner["LoadingSpinnerComponent"]
+    end
+
+    subgraph RulingDetailChildren["RulingDetail children"]
+        RulingCard2["RulingCardComponent\n(related rulings)"]
+    end
+
+    subgraph Services["Services"]
+        RulingService["RulingService"]
+    end
+
+    Router --> SearchHome
+    Router --> SearchResults
+    Router --> RulingDetail
+
+    SearchHome --> SearchBar
+    SearchHome --> FiltersPanel
+
+    SearchResults --> RulingCard
+    SearchResults --> Pagination
+    SearchResults --> LoadingSpinner
+
+    RulingDetail --> RulingCard2
+
+    SearchHome -.->|navigate with params| SearchResults
+    SearchResults -.->|routerLink| RulingDetail
+    RulingCard -.->|routerLink| RulingDetail
+
+    SearchResults -->|search, getById, getRelated| RulingService
+    RulingDetail -->|getById, getRelated| RulingService

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin DLQ — Legal AI AR</title>
+  <link rel="stylesheet" href="mockup-shell.css">
+  <style>
+    .breadcrumb { font-size: 12px; color: #696969; margin-bottom: 1rem; }
+    .breadcrumb a { color: #D04A02; text-decoration: none; }
+    .eyebrow { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #D04A02; margin-bottom: 0.5rem; }
+    h1 { font-family: Georgia, serif; font-size: 28px; font-weight: 300; color: #252525; margin: 0 0 1.5rem 0; }
+    .tabs { display: flex; gap: 4px; margin-bottom: 1rem; border-bottom: 1px solid #d1d1d1; }
+    .tab { padding: 10px 20px; font-size: 14px; color: #696969; background: transparent; border: none; border-bottom: 3px solid transparent; cursor: pointer; }
+    .tab:hover { color: #D04A02; }
+    .tab.active { color: #D04A02; font-weight: 500; border-bottom-color: #D04A02; }
+    .panel { background: #fff; border: 1px solid #d1d1d1; border-radius: 0.25rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08); overflow: hidden; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid #f0f0f0; }
+    th { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #696969; background: #fafafa; }
+    td { font-size: 14px; color: #474747; }
+    .id-cell { font-family: monospace; font-size: 12px; color: #696969; max-width: 200px; overflow: hidden; text-overflow: ellipsis; }
+    .body-preview { font-size: 12px; color: #696969; max-width: 300px; overflow: hidden; text-overflow: ellipsis; }
+    .btn-primary { background: #D04A02; color: #fff; border: none; padding: 0.5rem 1rem; font-size: 14px; font-weight: 500; border-radius: 0.25rem; cursor: pointer; }
+    .btn-primary:hover { background: #EB8C00; }
+    .empty-state { padding: 3rem; text-align: center; color: #696969; font-size: 14px; }
+    .footer { padding: 1rem 2rem; background: #f3f3f3; border-top: 1px solid #d1d1d1; font-size: 11px; color: #696969; display: flex; justify-content: space-between; }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="header">
+      <div style="display:flex;align-items:center;gap:0.5rem;"><img src="assets/pwc.svg" alt="PwC" width="42" height="24" style="height:1.5rem;width:auto;"><span class="header-title">Legal AI AR</span></div>
+      <div class="header-options"><nav class="header-nav"><a href="mockup-home.html">Bienvenida</a><a href="mockup-search.html">Búsqueda</a><a href="mockup-chat.html">Chat</a></nav><a href="#" class="header-opt"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>Iniciar recorrido</a><a href="#" class="header-opt"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>Español (Argentina)</a><a href="#" class="header-opt"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Soporte</a><div class="avatar">PN</div></div>
+    </header>
+    <div class="main">
+      <nav class="sidebar">
+        <a href="mockup-home.html" class="nav-item"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>Bienvenida</a>
+        <a href="mockup-search.html" class="nav-item"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>Búsqueda</a>
+        <a href="mockup-chat.html" class="nav-item"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>Coach</a>
+        <a href="mockup-roadmap-dashboard.html" class="nav-item"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>Panel</a>
+        <a href="mockup-admin-dashboard.html" class="nav-item active"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg></span>Admin</a>
+      </nav>
+      <main class="content">
+        <div class="breadcrumb"><a href="#">Admin</a><span>›</span> Cola de errores</div>
+        <div class="eyebrow">Administración</div>
+        <h1>Dead Letter Queue</h1>
+        <p style="font-size: 14px; color: #696969; margin-bottom: 1rem;">Mensajes que fallaron tras varios reintentos. Puedes reencolarlos para que se procesen de nuevo.</p>
+        <div class="tabs">
+          <button class="tab">Crawler</button>
+          <button class="tab active">Parser</button>
+          <button class="tab">Enrichment</button>
+          <button class="tab">Indexer</button>
+        </div>
+        <div class="panel">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Insertado</th>
+                <th>Dequeue count</th>
+                <th>Vista previa</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="id-cell">a1b2c3d4-e5f6-7890-abcd-ef1234567890</td>
+                <td>10/03/2026 14:50</td>
+                <td>5</td>
+                <td class="body-preview">{"sourceId":"csjn","documentId":"12345","url":"..."}</td>
+                <td><button class="btn-primary">Reencolar</button></td>
+              </tr>
+              <tr>
+                <td class="id-cell">b2c3d4e5-f6a7-8901-bcde-f12345678901</td>
+                <td>10/03/2026 12:30</td>
+                <td>5</td>
+                <td class="body-preview">{"sourceId":"csjn","documentId":"12346",...}</td>
+                <td><button class="btn-primary">Reencolar</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </main>
+    </div>
+    <footer class="footer">
+      <span>© 2026 PwC. Legal AI AR</span>
+      <span><a href="index.html" style="color: #D04A02;">Mockups</a> · <a href="#" style="color: #D04A02;">Términos</a> · <a href="#" style="color: #D04A02;">Privacidad</a> · <a href="#" style="color: #D04A02;">Soporte</a></span>
+    </footer>
+  </div>
+</body>
+</html>

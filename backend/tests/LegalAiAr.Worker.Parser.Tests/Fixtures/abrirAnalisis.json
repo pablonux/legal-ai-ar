@@ -1,0 +1,10 @@
+{
+  "tituloCausa": "Test Case Title",
+  "fecha": "2024-01-15",
+  "jurisdiccion": "APELACION EXTRAORDINARIA",
+  "tipoRecurso": "RECURSO EXTRAORDINARIO FEDERAL",
+  "sentido": "UPHOLDS",
+  "materia": "Tributario",
+  "inconstitucional": false,
+  "sintesis": "Summary text"
+}

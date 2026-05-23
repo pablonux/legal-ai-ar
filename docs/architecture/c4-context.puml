@@ -1,0 +1,41 @@
+@startuml C4 Context - Legal AI AR
+!pragma revision 1
+
+' C4 Context - standard elements (Azure icons used in Container diagram)
+!includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+title System Context — Legal AI AR
+
+Person(lawyer, "Lawyer", "Firm lawyer who searches rulings, uses RAG chat, and manages ingestion")
+
+System_Boundary(legal_ai_ar, "Legal AI AR") {
+    System(legal_ai, "Legal AI AR", "Internal legal AI platform. Ingests judicial rulings from public sources, indexes them in a hybrid Knowledge Base, and exposes semantic search and RAG jurisprudential chat.")
+}
+
+System_Boundary(doc_sources, "Document Sources") {
+    System_Ext(csjn, "CSJN", "Corte Suprema de Justicia de la Nación")
+    System_Ext(saij, "SAIJ", "Sistema Argentino de Información Jurídica")
+    System_Ext(pjn, "PJN", "Poder Judicial de la Nación")
+    System_Ext(scba, "SCBA", "Suprema Corte de Buenos Aires")
+}
+
+System_Boundary(external_services, "External Services") {
+    System_Ext(entra, "Azure Entra ID", "Identity provider. SSO with Microsoft 365.")
+    System_Ext(openai, "Azure OpenAI", "Embeddings and LLM")
+    System_Ext(sql, "Azure SQL", "Relational database")
+    System_Ext(blob, "Blob Storage", "PDF file storage")
+    System_Ext(search, "Azure AI Search", "Semantic search index")
+}
+
+Rel(lawyer, legal_ai, "Uses", "Search rulings, RAG chat, manage pipeline")
+Rel(legal_ai, entra, "Authenticates via", "MSAL / OAuth 2.0")
+Rel(legal_ai, csjn, "Ingests rulings from")
+Rel(legal_ai, saij, "Ingests rulings from")
+Rel(legal_ai, pjn, "Ingests rulings from")
+Rel(legal_ai, scba, "Ingests rulings from")
+Rel(legal_ai, openai, "Uses", "Embeddings, enrichment, RAG chat")
+Rel(legal_ai, sql, "Stores metadata")
+Rel(legal_ai, blob, "Stores PDFs")
+Rel(legal_ai, search, "Semantic search")
+
+@enduml

@@ -1,0 +1,52 @@
+{{- if and .Values.imagePreloader (hasKey .Values.imagePreloader "enabled") .Values.imagePreloader.enabled }}
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: {{ .Release.Name }}-preloader
+spec:
+  selector:
+    matchLabels:
+      name: {{ .Release.Name }}-preloader
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "false"
+      labels:
+        name: {{ .Release.Name }}-preloader
+        {{- if and .Values.persistentLogging (hasKey .Values.persistentLogging "enabled") .Values.persistentLogging.enabled }}
+        gcaas_datadog_enabled: "true"
+        {{- end -}}
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                - key: agentpool
+                  operator: In
+                  values:
+                  - standardd8
+                  - standard
+
+      initContainers:
+      {{- range .Values.apps }}
+        - image: {{ .image.repository }}/{{ .image.name }}:{{ .image.tag }}
+          name: container-preloader-{{ .name }}
+          command: [ "sh", "-c" , "'true'"]
+      {{- end -}}
+
+
+      # Use the pause container to ensure the Pod goes into a `Running` phase but doesn't take up resources on the cluster
+      containers:
+        - name: pause
+          image: gcr.io/google_containers/pause:3.2
+          securityContext:
+            readOnlyRootFilesystem: true
+          resources:
+            limits:
+              cpu: 50m
+              memory: 256Mi
+            requests:
+              cpu: 10m
+              memory: 64Mi
+{{- end -}}

@@ -1,0 +1,93 @@
+{
+  "courts": [
+    { "name": "Corte Suprema de Justicia de la Nación", "jurisdictionArea": "Federal", "territory": "Nacional", "instance": "Única" },
+    { "name": "Cámara Nacional de Apelaciones en lo Civil", "jurisdictionArea": "Nacional", "territory": "CABA", "instance": "Segunda" },
+    { "name": "Cámara Nacional de Apelaciones en lo Contencioso Administrativo Federal", "jurisdictionArea": "Federal", "territory": "CABA", "instance": "Segunda" },
+    { "name": "Cámara Nacional de Apelaciones en lo Civil y Comercial Federal", "jurisdictionArea": "Federal", "territory": "CABA", "instance": "Segunda" },
+    { "name": "Cámara Nacional Electoral", "jurisdictionArea": "Federal", "territory": "Nacional", "instance": "Segunda" },
+    { "name": "Cámara Federal de la Seguridad Social", "jurisdictionArea": "Federal", "territory": "CABA", "instance": "Segunda" },
+    { "name": "Cámara Nacional de Apelaciones en lo Penal Económico", "jurisdictionArea": "Nacional", "territory": "CABA", "instance": "Segunda" },
+    { "name": "Cámara Nacional de Apelaciones del Trabajo", "jurisdictionArea": "Nacional", "territory": "CABA", "instance": "Segunda" },
+    { "name": "Cámara Criminal y Correccional Federal", "jurisdictionArea": "Federal", "territory": "CABA", "instance": "Segunda" },
+    { "name": "Cámara Nacional de Apelaciones en lo Criminal y Correccional", "jurisdictionArea": "Nacional", "territory": "CABA", "instance": "Segunda" },
+    { "name": "Cámara Nacional de Apelaciones en lo Comercial", "jurisdictionArea": "Nacional", "territory": "CABA", "instance": "Segunda" },
+    { "name": "Cámara Federal de Casación Penal", "jurisdictionArea": "Federal", "territory": "Nacional", "instance": "Casación" },
+    { "name": "Cámara Nacional de Casación Penal", "jurisdictionArea": "Nacional", "territory": "CABA", "instance": "Casación" },
+    { "name": "Justicia Federal de Bahía Blanca", "jurisdictionArea": "Federal", "territory": "Buenos Aires", "instance": "Segunda" },
+    { "name": "Justicia Federal de Comodoro Rivadavia", "jurisdictionArea": "Federal", "territory": "Chubut", "instance": "Segunda" },
+    { "name": "Justicia Federal de Córdoba", "jurisdictionArea": "Federal", "territory": "Córdoba", "instance": "Segunda" },
+    { "name": "Justicia Federal de Corrientes", "jurisdictionArea": "Federal", "territory": "Corrientes", "instance": "Segunda" },
+    { "name": "Justicia Federal de General Roca", "jurisdictionArea": "Federal", "territory": "Río Negro", "instance": "Segunda" },
+    { "name": "Justicia Federal de La Plata", "jurisdictionArea": "Federal", "territory": "Buenos Aires", "instance": "Segunda" },
+    { "name": "Justicia Federal de Mar del Plata", "jurisdictionArea": "Federal", "territory": "Buenos Aires", "instance": "Segunda" },
+    { "name": "Justicia Federal de Mendoza", "jurisdictionArea": "Federal", "territory": "Mendoza", "instance": "Segunda" },
+    { "name": "Justicia Federal de Posadas", "jurisdictionArea": "Federal", "territory": "Misiones", "instance": "Segunda" },
+    { "name": "Justicia Federal de Paraná", "jurisdictionArea": "Federal", "territory": "Entre Ríos", "instance": "Segunda" },
+    { "name": "Justicia Federal de Resistencia", "jurisdictionArea": "Federal", "territory": "Chaco", "instance": "Segunda" },
+    { "name": "Justicia Federal de Salta", "jurisdictionArea": "Federal", "territory": "Salta", "instance": "Segunda" },
+    { "name": "Justicia Federal de Rosario", "jurisdictionArea": "Federal", "territory": "Santa Fe", "instance": "Segunda" },
+    { "name": "Justicia Federal de San Martín", "jurisdictionArea": "Federal", "territory": "Buenos Aires", "instance": "Segunda" },
+    { "name": "Justicia Federal de Tucumán", "jurisdictionArea": "Federal", "territory": "Tucumán", "instance": "Segunda" }
+  ],
+  "judges": [
+    { "lastName": "Rosatti", "firstName": "Horacio", "role": "Ministro" },
+    { "lastName": "Rosenkrantz", "firstName": "Carlos Fernando", "role": "Ministro" },
+    { "lastName": "Lorenzetti", "firstName": "Ricardo Luis", "role": "Ministro" },
+    { "lastName": "García-Mansilla", "firstName": "Manuel José", "role": "Ministro" },
+    { "lastName": "Maqueda", "firstName": "Juan Carlos", "role": "Ex-Ministro" },
+    { "lastName": "Highton de Nolasco", "firstName": "Elena", "role": "Ex-Ministra" },
+    { "lastName": "Argibay", "firstName": "Carmen", "role": "Ex-Ministra" },
+    { "lastName": "Fayt", "firstName": "Carlos Santiago", "role": "Ex-Ministro" },
+    { "lastName": "Petracchi", "firstName": "Enrique Santiago", "role": "Ex-Ministro" },
+    { "lastName": "Zaffaroni", "firstName": "Eugenio Raúl", "role": "Ex-Ministro" }
+  ],
+  "jurisdictions": [
+    "Buenos Aires", "Catamarca", "Chaco", "Chubut",
+    "Ciudad Autónoma de Buenos Aires", "Córdoba", "Corrientes",
+    "Entre Ríos", "Formosa", "Jujuy", "La Pampa", "La Rioja",
+    "Mendoza", "Misiones", "Neuquén", "Nordeste", "Río Negro",
+    "Salta", "San Juan", "San Luis", "Santa Cruz", "Santa Fe",
+    "Santiago del Estero", "Tierra del Fuego", "Tucumán"
+  ],
+  "resourceTypes": [
+    "Recurso de Aclaratoria",
+    "Recurso de Nulidad",
+    "Recurso de Queja",
+    "Recurso de Revocatoria",
+    "Recurso Extraordinario Federal",
+    "Recurso Extraordinario por Salto de Instancia",
+    "Recurso Ordinario de Apelación"
+  ],
+  "resolutionDirections": [
+    "Admite", "Admite Medida Cautelar", "Confirma", "Confirma Parcialmente",
+    "Declara Abstracta la Cuestión", "Declara Caducidad", "Declara Competencia",
+    "Declara Desierto", "Declara Improcedente", "Declara Inadmisible",
+    "Declara Inexistencia", "Declara Inoficioso", "Declara Mal Concedido",
+    "Declara Mal Denegado", "Declara Nulidad", "Deja Sin Efecto",
+    "Desestima", "Hace Lugar a la Demanda", "Hace Lugar Parcialmente a la Demanda",
+    "Homologa", "Intima", "Medida Para Mejor Proveer", "Modifica",
+    "Procedimiento", "Reanuda el Trámite", "Rechaza", "Rechaza Caducidad",
+    "Rechaza la Demanda", "Rechaza Medida Cautelar", "Regula Honorarios",
+    "Revoca", "Revoca Parcialmente", "Se Confiere Vista a la Procuración",
+    "Se Difiere el Trámite del Recurso", "Se Difiere Regulación",
+    "Se Tiene por Desistido", "Se Tiene por No Presentado",
+    "Suspensión del Trámite", "Tasa de Justicia"
+  ],
+  "accessRoutes": [
+    "Apelación Extraordinaria", "Apelación Ordinaria",
+    "Competencia Originaria", "Cuestión de Competencia",
+    "Jurisdicción Dirimente", "Presentaciones Varias",
+    "Queja por Retardo de Justicia", "Solicitud de Opinión Consultiva",
+    "Superintendencia"
+  ],
+  "subjectAreas": [
+    "Previsional", "Penal", "Laboral",
+    "Tributario-Aduanero-Bancario", "Contencioso Administrativo",
+    "Civil y Comercial"
+  ],
+  "federalQuestions": [
+    "Artículo 14 de la Ley 48",
+    "Sentencia Arbitraria",
+    "Gravedad Institucional"
+  ]
+}

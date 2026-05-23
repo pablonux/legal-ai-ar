@@ -1,0 +1,55 @@
+---
+title: "F1-20 · Knowledge Graph Data Model — Entity Nodes, Edge Types, Traversal"
+---
+
+%% Updated 2026-04-30: Renamed Judge → Person; added Proceeding node + edges.
+
+graph TD
+    subgraph nodeTypes [Node Types]
+        RulingNode["Ruling (round-rect, coral #ea580c)"]
+        CourtNode["Court (hexagon, blue #2563eb)"]
+        PersonNode["Person (ellipse, green #16a34a)"]
+        StatuteNode["Statute (round-rect, violet #7c3aed)"]
+        KeywordNode["Keyword (round-rect, gray #6b7280)"]
+        ProceedingNode["Proceeding (diamond, cyan #0891b2)"]
+    end
+
+    subgraph edgeTypes [Edge Types]
+        CitesEdge["cites / citedBy (solid, directed)"]
+        CitesStatuteEdge["citesStatute (dashed violet)"]
+        SignedByEdge["signedBy (dashed green)"]
+        IssuedByEdge["issuedBy (solid blue)"]
+        HasKeywordEdge["hasKeyword (dotted gray)"]
+        NormRelationEdge["normRelation (dashed, labeled)"]
+        MemberOfEdge["memberOf (solid green)"]
+        InProceedingEdge["inProceeding (solid cyan)"]
+        FiledAtEdge["filedAt (dashed cyan)"]
+        HasPartyEdge["hasParty (dashed cyan, labeled)"]
+    end
+
+    subgraph example [Example Graph from Ruling]
+        Arriola["Arriola (ruling)"]
+        Bazterrica["Bazterrica (ruling)"]
+        Montalvo["Montalvo (ruling)"]
+        CSJN["CSJN (court)"]
+        Lorenzetti["Lorenzetti (person)"]
+        Zaffaroni["Zaffaroni (person)"]
+        Ley23737["Ley 23.737 (statute)"]
+        Ley20771["Ley 20.771 (statute)"]
+        Estupefacientes["Estupefacientes (keyword)"]
+        ExpteArriola["A. 891. XLIV (proceeding)"]
+
+        Arriola -->|"cites FOLLOWS"| Bazterrica
+        Arriola -->|"cites OVERRULES"| Montalvo
+        Arriola -->|"issuedBy"| CSJN
+        Arriola -->|"signedBy MAJORITY"| Lorenzetti
+        Arriola -->|"signedBy MAJORITY"| Zaffaroni
+        Arriola -->|"citesStatute art. 14"| Ley23737
+        Arriola -->|"hasKeyword"| Estupefacientes
+        Arriola -->|"inProceeding"| ExpteArriola
+        ExpteArriola -->|"filedAt"| CSJN
+        ExpteArriola -->|"hasParty IMPUTADO"| Arriola
+        Ley23737 -.->|"normRelation DEROGATES"| Ley20771
+        Lorenzetti -->|"memberOf"| CSJN
+        Zaffaroni -->|"memberOf"| CSJN
+    end

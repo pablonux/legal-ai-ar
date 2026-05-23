@@ -1,0 +1,67 @@
+@startuml C4 Container - Legal AI AR (Simple - no external includes)
+!pragma revision 1
+
+' Minimal C4 Container - uses only built-in PlantUML, no !includeurl
+' Use this for reliable VS Code preview. For Azure icons, use c4-container.puml with local PlantUML.
+
+title Container — Legal AI AR
+
+skinparam backgroundColor #FEFEFE
+
+actor "Lawyer" as lawyer
+
+rectangle "Legal AI AR" {
+  rectangle "Angular SPA\nAngular" as spa
+  rectangle "API\nASP.NET Core" as api
+  
+  rectangle "Ingestion Workers" {
+    rectangle "CrawlerWorker\n.NET" as crawler
+    rectangle "ParserWorker\n.NET" as parser
+    rectangle "EnrichmentWorker\n.NET" as enrichment
+    rectangle "IndexerWorker\n.NET" as indexer
+  }
+  
+  queue "Storage Queues\nAzure Storage Queues" as queues
+}
+
+rectangle "Document Sources" {
+  rectangle "CSJN" as csjn
+  rectangle "SAIJ" as saij
+  rectangle "PJN" as pjn
+  rectangle "SCBA" as scba
+}
+
+rectangle "External Services" {
+  rectangle "Azure Entra ID" as entra
+  rectangle "Azure OpenAI" as openai
+  database "Azure SQL" as sql
+  database "Blob Storage" as blob
+  database "AI Search" as search
+}
+
+lawyer --> spa : Uses
+spa --> api : HTTPS/JSON
+api --> sql : Reads/writes
+api --> search : Hybrid search
+api --> blob : Reads PDFs
+api --> openai : Embeddings, RAG
+api --> entra : Validates tokens
+api --> queues : Publishes crawl jobs
+
+queues --> crawler : queue-crawler
+crawler --> csjn : Downloads from
+crawler --> blob : Uploads PDFs
+crawler --> queues : queue-parser
+queues --> parser : queue-parser
+parser --> blob : Reads PDFs
+parser --> queues : queue-enrichment
+queues --> enrichment : queue-enrichment
+enrichment --> openai : GPT-4o
+enrichment --> queues : queue-indexer
+queues --> indexer : queue-indexer
+indexer --> sql : Writes
+indexer --> blob : Writes
+indexer --> search : Indexes
+indexer --> openai : Embeddings
+
+@enduml

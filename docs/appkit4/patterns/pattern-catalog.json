@@ -1,0 +1,141 @@
+{
+  "portal": {
+    "home": "https://appkit.pwc.com/appkit4",
+    "patternList": "https://appkit.pwc.com/appkit4/content/pattern-list",
+    "patternDetailTemplate": "https://appkit.pwc.com/appkit4/content/pattern_detail?name={name}&background=transparent"
+  },
+  "figmaOnlyPatterns": [
+    "Dashboard Builder",
+    "Page Templates",
+    "Table Row Actions"
+  ],
+  "note": "Figma and React ZIPs are downloaded from the portal (not stored in repo). In-repo: patterns/source/react/ for extracted React reference.",
+  "patterns": [
+    {
+      "name": "404 / 500 Error Page",
+      "slug": "404-500-error-page",
+      "category": "Error handling",
+      "reactSource": true,
+      "variants": [{ "id": "error-page-404" }, { "id": "error-page-500" }]
+    },
+    {
+      "name": "Form template",
+      "slug": "form-template",
+      "category": "Input and form",
+      "reactSource": true,
+      "variants": [
+        { "id": "form-default" },
+        { "id": "form-2col" },
+        { "id": "form-login" },
+        { "id": "form-register" }
+      ]
+    },
+    {
+      "name": "Card",
+      "slug": "card",
+      "category": "Miscellaneous",
+      "reactSource": true,
+      "variants": [{ "id": "card" }]
+    },
+    {
+      "name": "Dashboard Builder",
+      "slug": "dashboard-builder",
+      "category": "Miscellaneous",
+      "reactSource": false,
+      "figmaOnly": true,
+      "variants": []
+    },
+    {
+      "name": "FAQs",
+      "slug": "faqs",
+      "category": "Miscellaneous",
+      "reactSource": true,
+      "variants": [{ "id": "faq-default" }]
+    },
+    {
+      "name": "Hero Banner",
+      "slug": "hero-banner",
+      "category": "Miscellaneous",
+      "reactSource": true,
+      "variants": [
+        { "id": "hero-banner-neutral-left-right" },
+        { "id": "hero-banner-neutral-right-left" },
+        { "id": "hero-banner-primary-left-right" },
+        { "id": "hero-banner-primary-right-left" }
+      ]
+    },
+    {
+      "name": "Page Templates",
+      "slug": "page-templates",
+      "category": "Miscellaneous",
+      "reactSource": false,
+      "figmaOnly": true,
+      "variants": []
+    },
+    {
+      "name": "Delete Confirmation",
+      "slug": "delete-confirmation",
+      "category": "Modals and Overlays",
+      "reactSource": true,
+      "variants": [{ "id": "confirmation-default" }, { "id": "confirmation-additional" }]
+    },
+    {
+      "name": "Multi-purpose action menu",
+      "slug": "multi-purpose-action-menu",
+      "category": "Navigation",
+      "reactSource": true,
+      "variants": [{ "id": "multiple-action-menu" }]
+    },
+    {
+      "name": "Page anchors",
+      "slug": "page-anchors",
+      "category": "Navigation",
+      "reactSource": true,
+      "variants": [{ "id": "page-anchors-default" }]
+    },
+    {
+      "name": "Page header with back button",
+      "slug": "page-header-with-back-button",
+      "category": "Navigation",
+      "reactSource": true,
+      "variants": [
+        { "id": "page-header-with-back-button-small" },
+        { "id": "page-header-with-back-button-medium" },
+        { "id": "page-header-with-back-button-large" }
+      ]
+    },
+    {
+      "name": "Search & Filter",
+      "slug": "search-filter",
+      "category": "Search",
+      "reactSource": true,
+      "variants": [{ "id": "search-filter-solid" }]
+    },
+    {
+      "name": "Data List Header",
+      "slug": "data-list-header",
+      "category": "Tables and Lists",
+      "reactSource": true,
+      "variants": [{ "id": "data-list-header-default" }, { "id": "data-list-header-solid" }]
+    },
+    {
+      "name": "Table Row Actions",
+      "slug": "table-row-actions",
+      "category": "Tables and Lists",
+      "reactSource": false,
+      "figmaOnly": true,
+      "variants": []
+    },
+    {
+      "name": "Login Page",
+      "slug": "login-page",
+      "category": "User Flows",
+      "reactSource": true,
+      "variants": [
+        { "id": "login-default" },
+        { "id": "login-fractional" },
+        { "id": "login-generic" }
+      ]
+    }
+  ]
+}

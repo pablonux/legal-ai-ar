@@ -1,0 +1,52 @@
+%% Visión general: Fuentes semi-estructuradas → Ontología → Knowledge Base
+%% Muestra el flujo completo de conocimiento y el rol de la ontología como eje de mapeo
+
+flowchart TB
+    subgraph sources [Fuentes Semi-Estructuradas]
+        direction TB
+        CSJN["CSJN API\n8 endpoints REST + PDF\nAlta estructura"]
+        SAIJ_J["SAIJ Jurisprudencia\nHTML + PDF\nEstructura media"]
+        SAIJ_L["SAIJ Legislación\nAPI REST\nAlta estructura"]
+        PJN["PJN\nHTML + PDF\nBaja estructura"]
+        SCBA["SCBA\nHTML + PDF\nBaja estructura"]
+    end
+
+    subgraph pipeline [Pipeline de Ingesta — 4 Workers]
+        direction TB
+        Crawler["CrawlerWorker\nDescubrimiento incremental\nDeduplicación SHA-256"]
+        Parser["ParserWorker\nExtracción estructurada\n+ PDF normalización"]
+        Enrich["EnrichmentWorker\nLLM gap-fill selectivo\n+ Chunking"]
+        Indexer["IndexerWorker\nPersistencia + Embeddings\n+ Resolución de citas"]
+
+        Crawler -->|"ParserMessage"| Parser
+        Parser -->|"EnrichmentMessage\n+ ExtractedMetadata"| Enrich
+        Enrich -->|"IndexerMessage\n+ RulingData + PersonData[]\n+ StatuteData[] + ..."| Indexer
+    end
+
+    subgraph ontology [Modelo Ontológico — Eje Central]
+        direction TB
+        O1["NormaJuridica\n→ Statute"]
+        O2["SujetoDeDerecho\n→ Person"]
+        O3["OrganoEstatal\n→ Court"]
+        O4["ProcesoJudicial\n→ JudicialProceeding"]
+        O5["Sentencia\n→ Ruling"]
+        O6["FuenteDelDerecho\n→ Keyword + Tesauro"]
+        O7["HechoJuridico\nfuturo"]
+        O8["RelacionJuridica\nfuturo"]
+        O9["Jurisdiccion\n→ Court.JurisdictionArea"]
+        O10["Recurso\nfuturo"]
+    end
+
+    subgraph kb [Knowledge Base]
+        direction TB
+        SQL["Azure SQL\nRuling, Person, Court,\nStatute, JudicialProceeding,\nVote, Sumario, Citation,\nKeyword, + 28 tablas más"]
+        Search["Azure AI Search\nrulings-by-ruling\nrulings-by-chunk\n(futuro: statutes-index)"]
+        GraphQ["Grafo Relacional\nSqlGraphService\nRecursive CTEs\nMulti-hop traversal"]
+    end
+
+    sources --> Crawler
+    ontology -.->|"guía\nel mapeo"| Parser
+    ontology -.->|"define\nentidades"| Indexer
+    Indexer --> SQL
+    Indexer --> Search
+    SQL --> GraphQ

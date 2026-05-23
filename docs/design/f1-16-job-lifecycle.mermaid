@@ -1,0 +1,45 @@
+%% F1-16 · Ingestion Job Lifecycle
+%% Sequence: Admin triggers crawl → job created → messages propagated → rulings indexed with FK → job closed with metrics
+
+sequenceDiagram
+    autonumber
+    participant Admin
+    participant API
+    participant QueueCrawler
+    participant CrawlerWorker
+    participant QueueParser
+    participant ParserWorker
+    participant QueueEnrichment
+    participant EnrichmentWorker
+    participant QueueIndexer
+    participant IndexerWorker
+    participant SQL as Azure SQL
+
+    Admin->>API: POST /api/admin/crawlers/{sourceId}/run
+    API->>QueueCrawler: Publish CrawlerMessage
+
+    CrawlerWorker->>QueueCrawler: Receive CrawlerMessage
+    CrawlerWorker->>SQL: INSERT IngestionJob (Status=running)
+    SQL-->>CrawlerWorker: job.Id
+
+    CrawlerWorker->>CrawlerWorker: Discovery loop (Selenium)
+    loop For each new document
+        CrawlerWorker->>QueueParser: Publish ParserMessage (ingestionJobId=job.Id)
+    end
+
+    CrawlerWorker->>SQL: UPDATE IngestionJob SET DocumentsDiscovered=N
+    CrawlerWorker->>SQL: UPDATE IngestionJob SET Status=completed, CompletedAt=now
+
+    ParserWorker->>QueueParser: Receive ParserMessage
+    ParserWorker->>ParserWorker: Parse, extract metadata
+    ParserWorker->>QueueEnrichment: Publish EnrichmentMessage (ingestionJobId)
+
+    EnrichmentWorker->>QueueEnrichment: Receive EnrichmentMessage
+    EnrichmentWorker->>EnrichmentWorker: GPT-4o enrichment
+    EnrichmentWorker->>QueueIndexer: Publish IndexerMessage (ingestionJobId)
+
+    IndexerWorker->>QueueIndexer: Receive IndexerMessage
+    IndexerWorker->>SQL: PersistRuling (IngestionJobId=message.IngestionJobId)
+    IndexerWorker->>SQL: UPDATE IngestionJob SET DocumentsIndexed += 1
+
+    Note over ParserWorker,IndexerWorker: On DLQ: UPDATE DocumentsFailed += 1

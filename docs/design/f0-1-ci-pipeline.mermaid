@@ -1,0 +1,16 @@
+flowchart LR
+    subgraph Triggers["Triggers"]
+        Push["Push a main"]
+        PR["PR hacia main"]
+    end
+
+    subgraph Pipeline["Pipeline CI"]
+        Build["Build"]
+        Test["Test"]
+        Lint["Lint"]
+    end
+
+    Push --> Build
+    PR --> Build
+    Build --> Test
+    Test --> Lint

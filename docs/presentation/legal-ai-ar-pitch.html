@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Legal AI AR — Presentación Interna</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --orange:#D04A02;--amber:#EB8C00;--yellow:#FFB600;
+    --gray-900:#252525;--gray-800:#474747;--gray-500:#696969;
+    --gray-300:#d1d1d1;--gray-100:#f3f3f3;--gray-50:#f8f8f8;
+    --white:#ffffff;--black:#000000;
+    --success:#21812d;--success-bg:#e9f5eb;
+    --orange-bg:#fff0eb;--orange-border:#f5c4b0;
+    --font-heading:Georgia,'Times New Roman',serif;
+    --font-body:Arial,Helvetica,sans-serif;
+    --shadow:0 4px 24px rgba(0,0,0,0.10);
+  }
+  html,body{height:100%;overflow:hidden;font-family:var(--font-body);color:var(--gray-800);background:var(--gray-100)}
+
+  .deck{position:relative;width:100%;height:100%}
+  .slide{
+    position:absolute;inset:0;display:flex;flex-direction:column;
+    justify-content:center;align-items:center;padding:3rem 6rem;
+    opacity:0;pointer-events:none;transition:opacity .45s ease,transform .45s ease;
+    transform:translateX(40px);background:var(--white);
+  }
+  .slide.active{opacity:1;pointer-events:auto;transform:translateX(0)}
+  .slide.prev{transform:translateX(-40px)}
+
+  /* progress */
+  .progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--orange),var(--amber));z-index:999;transition:width .4s ease}
+
+  /* nav */
+  .nav{
+    position:fixed;bottom:1.5rem;right:2rem;display:flex;gap:.75rem;z-index:100;
+    align-items:center;font-size:13px;color:var(--gray-500);
+  }
+  .nav button{
+    width:2.5rem;height:2.5rem;border-radius:50%;border:1px solid var(--gray-300);
+    background:var(--white);cursor:pointer;display:flex;align-items:center;justify-content:center;
+    transition:all .2s;font-size:1rem;color:var(--gray-800);
+  }
+  .nav button:hover{background:var(--orange);color:var(--white);border-color:var(--orange)}
+  .nav button:disabled{opacity:.3;pointer-events:none}
+
+  /* common */
+  .eyebrow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--orange);margin-bottom:.5rem}
+  h1{font-family:var(--font-heading);font-size:2.75rem;font-weight:300;color:var(--gray-900);line-height:1.2;margin-bottom:1rem}
+  h2{font-family:var(--font-heading);font-size:2rem;font-weight:300;color:var(--gray-900);line-height:1.3;margin-bottom:1.25rem}
+  h3{font-size:1rem;font-weight:600;color:var(--gray-900);margin-bottom:.5rem}
+  p{font-size:15px;line-height:1.7;max-width:680px;color:var(--gray-800)}
+  .subtitle{font-size:1.125rem;color:var(--gray-500);max-width:600px;line-height:1.6}
+
+  .badge{
+    display:inline-block;padding:3px 12px;border-radius:100px;font-size:11px;font-weight:600;
+    background:var(--orange-bg);border:1px solid var(--orange-border);color:var(--orange);
+  }
+  .badge.green{background:var(--success-bg);border-color:#b5ddb9;color:var(--success)}
+  .badge.gray{background:#f0f0f0;border-color:#ddd;color:#555}
+
+  .card{
+    background:var(--white);border:1px solid var(--gray-300);border-radius:.25rem;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);padding:1.5rem;position:relative;overflow:hidden;
+  }
+  .card.accent::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--orange)}
+
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;width:100%;max-width:960px}
+  .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.25rem;width:100%;max-width:1060px}
+  .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;width:100%;max-width:1060px}
+
+  .stat{text-align:center;padding:1.25rem}
+  .stat .value{font-family:var(--font-heading);font-size:2.5rem;font-weight:300;color:var(--orange)}
+  .stat .label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--gray-500);margin-top:.25rem}
+
+  .icon-box{
+    width:40px;height:40px;border-radius:.25rem;background:var(--orange-bg);border-left:3px solid var(--orange);
+    display:flex;align-items:center;justify-content:center;margin-bottom:.75rem;font-size:1.25rem;
+  }
+  .icon-box svg,.ico svg{width:20px;height:20px;stroke:var(--orange);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+  .ico{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+
+  /* flow diagram */
+  .flow{width:100%;max-width:1100px;position:relative}
+  .flow-row{display:flex;align-items:center;justify-content:center;gap:0;width:100%}
+  .flow-node{
+    display:flex;flex-direction:column;align-items:center;padding:.6rem .5rem;border-radius:.5rem;
+    background:var(--white);border:1.5px solid var(--gray-300);min-width:130px;max-width:150px;
+    position:relative;transition:border-color .2s,box-shadow .2s;
+  }
+  .flow-node:hover{border-color:var(--orange);box-shadow:0 2px 12px rgba(208,74,2,.12)}
+  .flow-node.highlight{border-color:var(--orange);background:var(--orange-bg)}
+  .flow-node .node-icon{
+    width:32px;height:32px;border-radius:50%;background:var(--orange-bg);
+    display:flex;align-items:center;justify-content:center;margin-bottom:.35rem;
+  }
+  .flow-node .node-icon svg{width:16px;height:16px;stroke:var(--orange);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+  .flow-node .node-label{font-size:10px;font-weight:600;color:var(--gray-900);text-align:center;line-height:1.2}
+  .flow-node .node-desc{font-size:8px;color:var(--gray-500);text-align:center;margin-top:.15rem;line-height:1.3}
+  .flow-arrow{
+    width:28px;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .flow-arrow svg{width:20px;height:20px;stroke:var(--gray-300);stroke-width:1.5;fill:none}
+  .flow-arrow.down{transform:rotate(90deg)}
+  .flow-tools{
+    display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center;margin-top:.5rem;
+    padding:.6rem;background:var(--gray-50);border:1px dashed var(--gray-300);border-radius:.35rem;
+    max-width:600px;
+  }
+  .flow-tool{
+    display:flex;align-items:center;gap:.25rem;padding:.2rem .5rem;border-radius:100px;
+    background:var(--white);border:1px solid var(--orange-border);font-size:8px;font-weight:600;color:var(--orange);
+  }
+  .flow-tool svg{width:12px;height:12px;stroke:var(--orange);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+  .flow-user{
+    display:flex;flex-direction:column;align-items:center;gap:.25rem;
+  }
+  .flow-user .avatar{
+    width:42px;height:42px;border-radius:50%;background:var(--orange);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .flow-user .avatar svg{width:22px;height:22px;stroke:var(--white);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+  .flow-user span{font-size:9px;font-weight:600;color:var(--gray-500)}
+
+  .timeline{display:flex;gap:0;width:100%;max-width:1060px;position:relative}
+  .timeline .phase{flex:1;text-align:center;padding:1rem .5rem;position:relative}
+  .timeline .phase::after{
+    content:'';position:absolute;top:50%;right:0;width:1px;height:40%;
+    transform:translateY(-50%);background:var(--gray-300);
+  }
+  .timeline .phase:last-child::after{display:none}
+  .timeline .phase .num{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:2rem;height:2rem;border-radius:50%;font-size:.75rem;font-weight:700;
+    margin-bottom:.5rem;
+  }
+  .timeline .phase .num.done{background:var(--success-bg);color:var(--success)}
+  .timeline .phase .num.current{background:var(--orange);color:var(--white)}
+  .timeline .phase .num.future{background:var(--gray-100);color:var(--gray-500);border:1px solid var(--gray-300)}
+
+  .pipeline{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;justify-content:center;margin:1.5rem 0}
+  .pipeline .step{
+    padding:.5rem 1rem;border-radius:.25rem;font-size:13px;font-weight:600;
+    background:var(--orange-bg);color:var(--orange);border:1px solid var(--orange-border);
+  }
+  .pipeline .arrow{color:var(--gray-300);font-size:1.25rem}
+
+  .tag-list{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.75rem}
+
+  .text-center{text-align:center}
+  .text-left{text-align:left}
+  .w-full{width:100%}
+  .mt-1{margin-top:1rem}
+  .mt-2{margin-top:1.5rem}
+  .mb-1{margin-bottom:1rem}
+  .mb-2{margin-bottom:1.5rem}
+  .gap-2{gap:1.5rem}
+
+  ul.clean{list-style:none;padding:0}
+  ul.clean li{padding:.4rem 0;padding-left:1.5rem;position:relative;font-size:14px;line-height:1.6}
+  ul.clean li::before{content:'';position:absolute;left:0;top:.7rem;width:8px;height:8px;border-radius:50%;background:var(--orange)}
+
+  .two-col{display:flex;gap:3rem;align-items:flex-start;width:100%;max-width:1060px}
+  .two-col .col{flex:1}
+
+  .logo-row{display:flex;align-items:center;gap:.75rem;margin-bottom:2rem}
+  .logo-row .pwc-logo{font-size:1.75rem;font-weight:700;color:var(--orange);font-family:var(--font-heading)}
+  .logo-row .sep{width:1px;height:1.5rem;background:var(--gray-300)}
+  .logo-row .app-name{font-size:1rem;font-weight:500;color:var(--gray-900)}
+
+  .hero-bg{background:linear-gradient(135deg,#fff 0%,#fff8f5 100%)}
+  .dark-bg{background:var(--gray-900);color:var(--white)}
+  .dark-bg h1,.dark-bg h2{color:var(--white)}
+  .dark-bg p{color:rgba(255,255,255,.75)}
+  .dark-bg .eyebrow{color:var(--amber)}
+  .dark-bg .subtitle{color:rgba(255,255,255,.6)}
+
+  .stack{display:flex;flex-direction:column;align-items:center;gap:.25rem}
+
+  .quote{
+    font-family:var(--font-heading);font-size:1.5rem;font-weight:300;
+    line-height:1.5;color:var(--gray-900);font-style:italic;max-width:700px;
+    border-left:3px solid var(--orange);padding-left:1.5rem;
+  }
+
+  .cta-btn{
+    display:inline-block;padding:.75rem 2rem;background:var(--orange);color:var(--white);
+    border:none;border-radius:.25rem;font-size:15px;font-weight:500;cursor:pointer;
+    text-decoration:none;transition:background .2s;margin-top:1.5rem;
+  }
+  .cta-btn:hover{background:var(--amber)}
+
+  .footer-note{position:absolute;bottom:1.5rem;left:3rem;font-size:11px;color:var(--gray-500)}
+  .slide-num{position:absolute;bottom:1.5rem;right:6rem;font-size:11px;color:var(--gray-500)}
+
+  @media(max-width:900px){
+    .slide{padding:2rem 2rem}
+    h1{font-size:2rem}
+    h2{font-size:1.5rem}
+    .grid-3{grid-template-columns:1fr}
+    .grid-4{grid-template-columns:1fr 1fr}
+    .two-col{flex-direction:column}
+    .timeline{flex-direction:column}
+  }
+
+  .fade-in{animation:fadeUp .6s ease both}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  .d1{animation-delay:.1s}.d2{animation-delay:.2s}.d3{animation-delay:.3s}.d4{animation-delay:.4s}.d5{animation-delay:.5s}
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<div class="deck" id="deck">
+
+<!-- ====== SLIDE 0: Cover ====== -->
+<div class="slide hero-bg active">
+  <div class="logo-row fade-in">
+    <span class="pwc-logo">pwc</span>
+    <span class="sep"></span>
+    <span class="app-name">Legal AI AR</span>
+  </div>
+  <div class="eyebrow fade-in d1">Plataforma de Inteligencia Artificial Legal</div>
+  <h1 class="fade-in d2" style="text-align:center">Jurisprudencia argentina<br>al alcance de una pregunta</h1>
+  <p class="subtitle text-center fade-in d3">Ingesta automatizada, búsqueda semántica y asistente jurisprudencial con IA generativa para potenciar la práctica legal.</p>
+  <div class="fade-in d4 mt-2">
+    <span class="badge">Azure Cloud-Native</span>&nbsp;
+    <span class="badge">.NET 8 + Angular 18</span>&nbsp;
+    <span class="badge">GPT-5o</span>
+  </div>
+  <div class="footer-note">PwC Argentina — Marzo 2026 — Confidencial</div>
+</div>
+
+<!-- ====== SLIDE 1: The Problem ====== -->
+<div class="slide">
+  <div class="eyebrow fade-in">El desafío</div>
+  <h2 class="fade-in d1">La investigación jurisprudencial hoy es lenta, fragmentada e incompleta</h2>
+  <div class="grid-3 mt-2">
+    <div class="card accent fade-in d2">
+      <div class="icon-box"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+      <h3>Horas de búsqueda manual</h3>
+      <p style="font-size:13px">Los abogados navegan múltiples portales públicos (CSJN, SAIJ, PJN, SCBA) sin integración, copiando y pegando resultados.</p>
+    </div>
+    <div class="card accent fade-in d3">
+      <div class="icon-box"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+      <h3>Búsqueda por texto exacto</h3>
+      <p style="font-size:13px">Los buscadores públicos solo soportan keywords. No entienden la intención ni el contexto jurídico de la consulta.</p>
+    </div>
+    <div class="card accent fade-in d4">
+      <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+      <h3>Riesgo de fallos omitidos</h3>
+      <p style="font-size:13px">Sin cobertura completa ni relaciones entre fallos, se pierden precedentes relevantes que pueden definir un caso.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ====== SLIDE 2: The Solution ====== -->
+<div class="slide hero-bg">
+  <div class="eyebrow fade-in">La solución</div>
+  <h2 class="fade-in d1">Legal AI AR: tu asistente jurisprudencial con IA</h2>
+  <div class="two-col mt-2">
+    <div class="col fade-in d2">
+      <ul class="clean">
+        <li><strong>Ingesta automática</strong> de fallos desde fuentes públicas argentinas</li>
+        <li><strong>Búsqueda semántica</strong> en lenguaje natural sobre toda la base de conocimiento</li>
+        <li><strong>Chat RAG agéntico</strong> que responde citando fallos concretos con links navegables</li>
+        <li><strong>Grafo de citas</strong> entre fallos con resolución retroactiva</li>
+        <li><strong>Panel de administración</strong> para controlar el pipeline de ingesta</li>
+        <li><strong>Guardrails de seguridad</strong>: moderación de entrada, verificación de citas, disclaimer legal</li>
+      </ul>
+    </div>
+    <div class="col fade-in d3">
+      <div class="card" style="background:var(--gray-100);border:none;padding:1.5rem">
+        <div style="font-size:13px;color:var(--gray-500);margin-bottom:.75rem">Ejemplo de consulta al chat:</div>
+        <div style="background:var(--orange-bg);padding:1rem;border-radius:.25rem;font-size:14px;color:var(--gray-900);margin-bottom:1rem;border-left:3px solid var(--orange)">
+          "¿Qué dijo la Corte Suprema sobre la doble imposición tributaria en los últimos 5 años?"
+        </div>
+        <div style="font-size:13px;color:var(--gray-500);margin-bottom:.5rem">Respuesta del asistente:</div>
+        <div style="background:var(--white);padding:1rem;border-radius:.25rem;font-size:13px;line-height:1.6;border:1px solid var(--gray-300)">
+          La CSJN ha abordado la doble imposición en varios fallos recientes. En <span style="color:var(--orange);font-weight:600">"Molinos Río de la Plata S.A. c/ DGI"</span> (2022) estableció que...
+          <br><span style="font-size:11px;color:var(--gray-500);margin-top:.5rem;display:block">&#10003; 3 citas verificadas contra la base de conocimiento</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== SLIDE 3: Architecture ====== -->
+<div class="slide">
+  <div class="eyebrow fade-in">Arquitectura</div>
+  <h2 class="fade-in d1">Pipeline inteligente de ingesta + Knowledge Base híbrida</h2>
+  <div class="pipeline fade-in d2">
+    <div class="step"><span class="ico"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:var(--orange);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></span> Crawler</div>
+    <div class="arrow"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:var(--gray-300);stroke-width:1.5;fill:none"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+    <div class="step"><span class="ico"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:var(--orange);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span> Parser</div>
+    <div class="arrow"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:var(--gray-300);stroke-width:1.5;fill:none"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+    <div class="step"><span class="ico"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:var(--orange);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg></span> Enrichment (GPT-5o)</div>
+    <div class="arrow"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:var(--gray-300);stroke-width:1.5;fill:none"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+    <div class="step"><span class="ico"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:var(--orange);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></span> Indexer</div>
+    <div class="arrow"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:var(--gray-300);stroke-width:1.5;fill:none"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+    <div class="step" style="background:var(--success-bg);color:var(--success);border-color:#b5ddb9"><span class="ico"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:var(--success);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></span> Knowledge Base</div>
+  </div>
+  <div class="grid-3 mt-1 fade-in d3">
+    <div class="card accent">
+      <h3>Azure SQL</h3>
+      <p style="font-size:13px">Metadata estructurada, relaciones entre fallos, jueces, leyes y voces temáticas. Grafo de citas con CTEs recursivas.</p>
+    </div>
+    <div class="card accent">
+      <h3>Azure AI Search</h3>
+      <p style="font-size:13px">Búsqueda híbrida (vector + keyword) sobre 2 índices: por fallo y por chunk de 512 tokens con overlap 50.</p>
+    </div>
+    <div class="card accent">
+      <h3>Azure Blob + OpenAI</h3>
+      <p style="font-size:13px">PDFs originales en Blob. Embeddings con <code>text-embedding-3-large</code> (3072 dims). Chat con <code>gpt-5o</code>.</p>
+    </div>
+  </div>
+  <div class="tag-list mt-2 fade-in d4" style="justify-content:center;display:flex">
+    <span class="badge gray">Deduplicación SHA-256</span>
+    <span class="badge gray">Idempotencia</span>
+    <span class="badge gray">Scale-to-zero (KEDA)</span>
+    <span class="badge gray">DLQ + Retry</span>
+    <span class="badge gray">Resolución retroactiva de citas</span>
+  </div>
+</div>
+
+<!-- ====== SLIDE 4: Chat Agéntico ====== -->
+<div class="slide hero-bg" style="padding:2rem 3rem">
+  <div class="eyebrow fade-in">Funcionalidad estrella</div>
+  <h2 class="fade-in d1" style="margin-bottom:.75rem">Recorrido de una consulta por el pipeline agéntico</h2>
+  <p class="fade-in d1" style="font-size:12px;color:var(--gray-500);margin-bottom:1rem;max-width:800px;text-align:center">Cada pregunta del abogado atraviesa 5 agentes especializados. El Executor invoca herramientas dinámicamente antes de responder.</p>
+
+  <div class="flow fade-in d2">
+    <!-- Main pipeline row -->
+    <div class="flow-row">
+      <!-- User -->
+      <div class="flow-user">
+        <div class="avatar"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <span>Abogado</span>
+      </div>
+      <div class="flow-arrow"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+
+      <!-- Stage 1: Input Guardrail -->
+      <div class="flow-node">
+        <div class="node-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div class="node-label">Input Guardrail</div>
+        <div class="node-desc">Filtra prompt injection, PII y consultas fuera de scope</div>
+      </div>
+      <div class="flow-arrow"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+
+      <!-- Stage 2: Query Enricher -->
+      <div class="flow-node">
+        <div class="node-icon"><svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg></div>
+        <div class="node-label">Query Enricher</div>
+        <div class="node-desc">Detecta intención, extrae entidades, tribunales y leyes</div>
+      </div>
+      <div class="flow-arrow"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+
+      <!-- Stage 3: Agentic Executor (highlighted) -->
+      <div class="flow-node highlight" style="min-width:160px;max-width:170px">
+        <div class="node-icon" style="background:var(--orange)"><svg viewBox="0 0 24 24" style="stroke:white"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/></svg></div>
+        <div class="node-label" style="color:var(--orange)">Agentic Executor</div>
+        <div class="node-desc">GPT-5o decide qué herramientas invocar (máx. 5 ciclos)</div>
+      </div>
+      <div class="flow-arrow"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+
+      <!-- Stage 4: Output Guardrail -->
+      <div class="flow-node">
+        <div class="node-icon"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+        <div class="node-label">Output Guardrail</div>
+        <div class="node-desc">Valida citas contra la DB y agrega disclaimer legal</div>
+      </div>
+      <div class="flow-arrow"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+
+      <!-- Stage 5: Response Finalizer -->
+      <div class="flow-node">
+        <div class="node-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+        <div class="node-label">Finalizer</div>
+        <div class="node-desc">Normaliza citas, limpia formato y aplica estructura final</div>
+      </div>
+      <div class="flow-arrow"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+
+      <!-- Response -->
+      <div class="flow-user">
+        <div class="avatar" style="background:var(--success)"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+        <span>Respuesta<br>verificada</span>
+      </div>
+    </div>
+
+    <!-- Tools panel below executor -->
+    <div style="display:flex;justify-content:center;margin-top:.35rem" class="fade-in d3">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:.3rem">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:var(--gray-300);stroke-width:1.5;fill:none"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+        <div style="font-size:9px;font-weight:600;color:var(--gray-500);letter-spacing:.5px;text-transform:uppercase;margin-bottom:.2rem">Herramientas disponibles (function calling)</div>
+        <div class="flow-tools">
+          <div class="flow-tool"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Buscar fallos</div>
+          <div class="flow-tool"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Detalle de fallo</div>
+          <div class="flow-tool"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>Citas y relaciones</div>
+          <div class="flow-tool"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Buscar por ley</div>
+          <div class="flow-tool"><svg viewBox="0 0 24 24"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>Estadísticas</div>
+          <div class="flow-tool"><svg viewBox="0 0 24 24"><path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/></svg>Fallos similares</div>
+          <div class="flow-tool"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Tribunales</div>
+          <div class="flow-tool"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Jueces</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fade-in d4" style="margin-top:.75rem;display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap">
+    <div style="display:flex;align-items:center;gap:.35rem;font-size:10px;color:var(--gray-500)"><div style="width:10px;height:10px;border-radius:50%;background:var(--orange-bg);border:1.5px solid var(--orange)"></div> Agente con reglas + LLM</div>
+    <div style="display:flex;align-items:center;gap:.35rem;font-size:10px;color:var(--gray-500)"><div style="width:10px;height:10px;border-radius:50%;background:var(--orange)"></div> Ejecutor principal (GPT-5o)</div>
+    <div style="display:flex;align-items:center;gap:.35rem;font-size:10px;color:var(--gray-500)"><div style="width:10px;height:10px;border-radius:50%;background:var(--success)"></div> Respuesta verificada con citas</div>
+    <div style="display:flex;align-items:center;gap:.35rem;font-size:10px;color:var(--gray-500)"><svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:var(--gray-300);stroke-width:1.5;fill:none"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> Streaming SSE en tiempo real</div>
+  </div>
+</div>
+
+<!-- ====== SLIDE 5: Tech Stack ====== -->
+<div class="slide">
+  <div class="eyebrow fade-in">Stack tecnológico</div>
+  <h2 class="fade-in d1">Enterprise-grade, 100% Azure, escalable</h2>
+  <div class="grid-2 mt-2" style="max-width:900px">
+    <div class="fade-in d2">
+      <div class="card accent mb-1" style="padding:1.25rem">
+        <h3>Backend</h3>
+        <div class="tag-list">
+          <span class="badge gray">.NET 8</span>
+          <span class="badge gray">ASP.NET Core</span>
+          <span class="badge gray">MediatR (CQRS)</span>
+          <span class="badge gray">EF Core</span>
+          <span class="badge gray">FluentValidation</span>
+          <span class="badge gray">AutoMapper</span>
+        </div>
+      </div>
+      <div class="card accent mb-1" style="padding:1.25rem">
+        <h3>Frontend</h3>
+        <div class="tag-list">
+          <span class="badge gray">Angular 18</span>
+          <span class="badge gray">Standalone Components</span>
+          <span class="badge gray">SSE Streaming</span>
+          <span class="badge gray">PwC AppKit4</span>
+        </div>
+      </div>
+      <div class="card accent" style="padding:1.25rem">
+        <h3>IA / ML</h3>
+        <div class="tag-list">
+          <span class="badge">GPT-5o</span>
+          <span class="badge">GPT-5o-mini</span>
+          <span class="badge">text-embedding-3-large</span>
+          <span class="badge gray">Function Calling</span>
+          <span class="badge gray">Structured Output</span>
+        </div>
+      </div>
+    </div>
+    <div class="fade-in d3">
+      <div class="card accent mb-1" style="padding:1.25rem">
+        <h3>Azure Services</h3>
+        <div class="tag-list">
+          <span class="badge gray">Azure SQL (Serverless)</span>
+          <span class="badge gray">Azure AI Search</span>
+          <span class="badge gray">Azure Blob Storage</span>
+          <span class="badge gray">Azure OpenAI</span>
+          <span class="badge gray">Storage Queues</span>
+          <span class="badge gray">Container Apps (KEDA)</span>
+          <span class="badge gray">App Service</span>
+          <span class="badge gray">Static Web Apps</span>
+        </div>
+      </div>
+      <div class="card accent mb-1" style="padding:1.25rem">
+        <h3>Workers (4 microservicios)</h3>
+        <div class="tag-list">
+          <span class="badge gray">Crawler (Selenium)</span>
+          <span class="badge gray">Parser (PdfPig)</span>
+          <span class="badge gray">Enrichment (GPT-5o)</span>
+          <span class="badge gray">Indexer (AI Search)</span>
+        </div>
+      </div>
+      <div class="card accent" style="padding:1.25rem">
+        <h3>DevOps</h3>
+        <div class="tag-list">
+          <span class="badge gray">GitHub Actions CI/CD</span>
+          <span class="badge gray">Docker</span>
+          <span class="badge gray">ACR</span>
+          <span class="badge gray">Staging/Production slots</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== SLIDE 6: Data Sources ====== -->
+<div class="slide hero-bg">
+  <div class="eyebrow fade-in">Cobertura de fuentes</div>
+  <h2 class="fade-in d1">Ingesta multi-fuente de jurisprudencia argentina</h2>
+  <div class="grid-4 mt-2 fade-in d2">
+    <div class="card accent text-center" style="padding:1.5rem">
+      <div style="font-family:var(--font-heading);font-size:2rem;font-weight:300;color:var(--orange)">CSJN</div>
+      <p style="font-size:12px;margin-top:.5rem">Corte Suprema de Justicia de la Nación</p>
+      <div class="mt-1"><span class="badge green">Phase 1 &#10003;</span></div>
+      <p style="font-size:11px;color:var(--gray-500);margin-top:.5rem">API-first + Selenium<br>GPT-5o solo para gaps</p>
+    </div>
+    <div class="card accent text-center" style="padding:1.5rem">
+      <div style="font-family:var(--font-heading);font-size:2rem;font-weight:300;color:var(--gray-500)">SAIJ</div>
+      <p style="font-size:12px;margin-top:.5rem">Sistema Argentino de Información Jurídica</p>
+      <div class="mt-1"><span class="badge">Phase 2</span></div>
+      <p style="font-size:11px;color:var(--gray-500);margin-top:.5rem">HTML + PDF<br>Enrichment completo GPT-5o</p>
+    </div>
+    <div class="card accent text-center" style="padding:1.5rem">
+      <div style="font-family:var(--font-heading);font-size:2rem;font-weight:300;color:var(--gray-500)">PJN</div>
+      <p style="font-size:12px;margin-top:.5rem">Poder Judicial de la Nación</p>
+      <div class="mt-1"><span class="badge">Phase 2</span></div>
+      <p style="font-size:11px;color:var(--gray-500);margin-top:.5rem">HTML + PDF<br>Metadata básica + enrichment</p>
+    </div>
+    <div class="card accent text-center" style="padding:1.5rem">
+      <div style="font-family:var(--font-heading);font-size:2rem;font-weight:300;color:var(--gray-500)">SCBA</div>
+      <p style="font-size:12px;margin-top:.5rem">Suprema Corte de Buenos Aires</p>
+      <div class="mt-1"><span class="badge">Phase 2</span></div>
+      <p style="font-size:11px;color:var(--gray-500);margin-top:.5rem">HTML + PDF<br>Metadata básica + enrichment</p>
+    </div>
+  </div>
+  <div class="mt-2 text-center fade-in d3">
+    <p style="font-size:14px;color:var(--gray-500)">Cada fallo es enriquecido con: <strong>jueces firmantes</strong>, <strong>leyes citadas</strong>, <strong>tipo de cita</strong> (UPHOLDS, OVERRULES, DISTINGUISHES, CITES), <strong>keywords</strong> y <strong>resumen + holding</strong>.</p>
+  </div>
+</div>
+
+<!-- ====== SLIDE 7: Ontological Knowledge Pipeline ====== -->
+<div class="slide" style="padding:2.5rem 3rem">
+  <div class="eyebrow fade-in">Arquitectura de conocimiento</div>
+  <h2 class="fade-in d1" style="margin-bottom:.5rem">De la documentación dispersa al conocimiento ontológico</h2>
+  <p class="fade-in d1" style="font-size:13px;color:var(--gray-500);margin-bottom:1.5rem;max-width:800px;text-align:center">La información jurídica fragmentada se transforma en una base de conocimiento estructurada semánticamente, que potencia agentes IA especializados.</p>
+
+  <div class="flow fade-in d2" style="max-width:1100px">
+    <div class="flow-row" style="align-items:flex-start;gap:.5rem">
+
+      <!-- Column 1: External Legal Documentation -->
+      <div style="display:flex;flex-direction:column;align-items:center;gap:.5rem;min-width:180px">
+        <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gray-500);margin-bottom:.25rem">Documentación legal externa</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.4rem">
+          <div style="display:flex;flex-direction:column;align-items:center;padding:.5rem .6rem;border-radius:.35rem;background:var(--white);border:1.5px solid var(--gray-300);min-width:80px">
+            <div style="width:28px;height:28px;border-radius:50%;background:#e8f4fd;display:flex;align-items:center;justify-content:center;margin-bottom:.25rem">
+              <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#2b7bb9;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round"><path d="M3 21l1.65-3.8a9 9 0 113.4 2.9L3 21"/><path d="M12 7v5l3 3"/></svg>
+            </div>
+            <div style="font-size:9px;font-weight:700;color:var(--gray-900);text-align:center">CSJN</div>
+            <div style="font-size:7px;color:var(--gray-500);text-align:center">Corte Suprema</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;padding:.5rem .6rem;border-radius:.35rem;background:var(--white);border:1.5px solid var(--gray-300);min-width:80px">
+            <div style="width:28px;height:28px;border-radius:50%;background:#e8f4fd;display:flex;align-items:center;justify-content:center;margin-bottom:.25rem">
+              <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#2b7bb9;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+            </div>
+            <div style="font-size:9px;font-weight:700;color:var(--gray-900);text-align:center">SAIJ</div>
+            <div style="font-size:7px;color:var(--gray-500);text-align:center">Info Jurídica</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;padding:.5rem .6rem;border-radius:.35rem;background:var(--white);border:1.5px solid var(--gray-300);min-width:80px">
+            <div style="width:28px;height:28px;border-radius:50%;background:#e8f4fd;display:flex;align-items:center;justify-content:center;margin-bottom:.25rem">
+              <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#2b7bb9;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </div>
+            <div style="font-size:9px;font-weight:700;color:var(--gray-900);text-align:center">PJN</div>
+            <div style="font-size:7px;color:var(--gray-500);text-align:center">Poder Judicial</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;padding:.5rem .6rem;border-radius:.35rem;background:var(--white);border:1.5px solid var(--gray-300);min-width:80px">
+            <div style="width:28px;height:28px;border-radius:50%;background:#e8f4fd;display:flex;align-items:center;justify-content:center;margin-bottom:.25rem">
+              <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#2b7bb9;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            </div>
+            <div style="font-size:9px;font-weight:700;color:var(--gray-900);text-align:center">SCBA</div>
+            <div style="font-size:7px;color:var(--gray-500);text-align:center">Sup. Corte BsAs</div>
+          </div>
+        </div>
+        <div style="font-size:8px;color:var(--gray-500);text-align:center;font-style:italic;margin-top:.15rem">Fallos, resoluciones, acordadas,<br>dictámenes, legislación</div>
+      </div>
+
+      <!-- Arrow 1 -->
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:120px;padding:0 .25rem">
+        <svg viewBox="0 0 48 24" style="width:48px;height:24px;stroke:var(--orange);stroke-width:1.5;fill:none"><line x1="4" y1="12" x2="40" y2="12"/><polyline points="34 6 40 12 34 18"/></svg>
+        <div style="font-size:7px;font-weight:600;color:var(--orange);margin-top:.15rem;text-align:center;white-space:nowrap">Crawling +<br>Parsing</div>
+      </div>
+
+      <!-- Column 2: Legal Ontology -->
+      <div style="display:flex;flex-direction:column;align-items:center;gap:.4rem;min-width:175px">
+        <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--orange);margin-bottom:.25rem">Ontología legal</div>
+        <div style="background:var(--orange-bg);border:2px solid var(--orange);border-radius:.5rem;padding:1rem;text-align:center;position:relative">
+          <div style="width:40px;height:40px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;margin:0 auto .5rem">
+            <svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:white;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round"><circle cx="12" cy="12" r="3"/><circle cx="5" cy="6" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="5" cy="18" r="2"/><circle cx="19" cy="18" r="2"/><line x1="6.7" y1="7.5" x2="10" y2="10"/><line x1="17.3" y1="7.5" x2="14" y2="10"/><line x1="6.7" y1="16.5" x2="10" y2="14"/><line x1="17.3" y1="16.5" x2="14" y2="14"/></svg>
+          </div>
+          <div style="font-size:10px;font-weight:700;color:var(--gray-900)">Modelo semántico</div>
+          <div style="font-size:8px;color:var(--gray-500);margin-top:.25rem;line-height:1.4">Taxonomía de conceptos,<br>relaciones y jerarquías<br>del derecho argentino</div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:.25rem;justify-content:center;max-width:175px;margin-top:.15rem">
+          <span style="font-size:7px;padding:2px 6px;border-radius:100px;background:var(--orange-bg);color:var(--orange);font-weight:600;border:1px solid var(--orange-border)">Tribunales</span>
+          <span style="font-size:7px;padding:2px 6px;border-radius:100px;background:var(--orange-bg);color:var(--orange);font-weight:600;border:1px solid var(--orange-border)">Materias</span>
+          <span style="font-size:7px;padding:2px 6px;border-radius:100px;background:var(--orange-bg);color:var(--orange);font-weight:600;border:1px solid var(--orange-border)">Leyes</span>
+          <span style="font-size:7px;padding:2px 6px;border-radius:100px;background:var(--orange-bg);color:var(--orange);font-weight:600;border:1px solid var(--orange-border)">Jueces</span>
+          <span style="font-size:7px;padding:2px 6px;border-radius:100px;background:var(--orange-bg);color:var(--orange);font-weight:600;border:1px solid var(--orange-border)">Citas</span>
+          <span style="font-size:7px;padding:2px 6px;border-radius:100px;background:var(--orange-bg);color:var(--orange);font-weight:600;border:1px solid var(--orange-border)">Voces</span>
+        </div>
+      </div>
+
+      <!-- Arrow 2 -->
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:120px;padding:0 .25rem">
+        <svg viewBox="0 0 48 24" style="width:48px;height:24px;stroke:var(--orange);stroke-width:1.5;fill:none"><line x1="4" y1="12" x2="40" y2="12"/><polyline points="34 6 40 12 34 18"/></svg>
+        <div style="font-size:7px;font-weight:600;color:var(--orange);margin-top:.15rem;text-align:center;white-space:nowrap">Enrichment +<br>Indexing</div>
+      </div>
+
+      <!-- Column 3: Ontological Knowledge Base -->
+      <div style="display:flex;flex-direction:column;align-items:center;gap:.4rem;min-width:185px">
+        <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--success);margin-bottom:.25rem">Knowledge base ontológica</div>
+        <div style="background:var(--success-bg);border:2px solid #6abf72;border-radius:.5rem;padding:1rem;text-align:center">
+          <div style="width:40px;height:40px;border-radius:50%;background:var(--success);display:flex;align-items:center;justify-content:center;margin:0 auto .5rem">
+            <svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:white;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+          </div>
+          <div style="font-size:10px;font-weight:700;color:var(--gray-900)">Base unificada</div>
+          <div style="font-size:8px;color:var(--gray-500);margin-top:.25rem;line-height:1.4">Datos estructurados +<br>vectores semánticos +<br>grafo de relaciones</div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:.25rem;justify-content:center;max-width:185px;margin-top:.15rem">
+          <span style="font-size:7px;padding:2px 6px;border-radius:100px;background:var(--success-bg);color:var(--success);font-weight:600;border:1px solid #b5ddb9">Azure SQL</span>
+          <span style="font-size:7px;padding:2px 6px;border-radius:100px;background:var(--success-bg);color:var(--success);font-weight:600;border:1px solid #b5ddb9">AI Search</span>
+          <span style="font-size:7px;padding:2px 6px;border-radius:100px;background:var(--success-bg);color:var(--success);font-weight:600;border:1px solid #b5ddb9">Embeddings</span>
+          <span style="font-size:7px;padding:2px 6px;border-radius:100px;background:var(--success-bg);color:var(--success);font-weight:600;border:1px solid #b5ddb9">Grafo citas</span>
+        </div>
+      </div>
+
+      <!-- Arrow 3 -->
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:120px;padding:0 .25rem">
+        <svg viewBox="0 0 48 24" style="width:48px;height:24px;stroke:var(--orange);stroke-width:1.5;fill:none"><line x1="4" y1="12" x2="40" y2="12"/><polyline points="34 6 40 12 34 18"/></svg>
+        <div style="font-size:7px;font-weight:600;color:var(--orange);margin-top:.15rem;text-align:center;white-space:nowrap">Function<br>Calling</div>
+      </div>
+
+      <!-- Column 4: AI Agents -->
+      <div style="display:flex;flex-direction:column;align-items:center;gap:.4rem;min-width:180px">
+        <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--orange);margin-bottom:.25rem">Agentes IA</div>
+        <div style="display:flex;flex-direction:column;gap:.4rem">
+          <div style="display:flex;align-items:center;gap:.4rem;padding:.45rem .6rem;border-radius:.35rem;background:var(--white);border:1.5px solid var(--orange);min-width:155px">
+            <div style="width:26px;height:26px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:white;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            </div>
+            <div>
+              <div style="font-size:9px;font-weight:700;color:var(--gray-900)">Búsqueda semántica</div>
+              <div style="font-size:7px;color:var(--gray-500)">Consultas en lenguaje natural</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:.4rem;padding:.45rem .6rem;border-radius:.35rem;background:var(--white);border:1.5px solid var(--orange);min-width:155px">
+            <div style="width:26px;height:26px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:white;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+            </div>
+            <div>
+              <div style="font-size:9px;font-weight:700;color:var(--gray-900)">Chat RAG agéntico</div>
+              <div style="font-size:7px;color:var(--gray-500)">Respuestas con citas verificadas</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:.4rem;padding:.45rem .6rem;border-radius:.35rem;background:var(--white);border:1.5px solid var(--orange);min-width:155px">
+            <div style="width:26px;height:26px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:white;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+            </div>
+            <div>
+              <div style="font-size:9px;font-weight:700;color:var(--gray-900)">Análisis de relaciones</div>
+              <div style="font-size:7px;color:var(--gray-500)">Grafo de citas y precedentes</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:.4rem;padding:.45rem .6rem;border-radius:.35rem;background:var(--white);border:1.5px solid var(--orange);min-width:155px">
+            <div style="width:26px;height:26px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:white;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <div>
+              <div style="font-size:9px;font-weight:700;color:var(--gray-900)">Generación de memos</div>
+              <div style="font-size:7px;color:var(--gray-500)">Documentos con fundamentación</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Bottom insight -->
+  <div class="fade-in d3" style="margin-top:1.25rem;max-width:900px;text-align:center">
+    <div style="display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;align-items:flex-start">
+      <div style="flex:1;min-width:220px;max-width:280px;text-align:center">
+        <div style="font-size:11px;font-weight:700;color:var(--gray-900);margin-bottom:.25rem">Datos no estructurados</div>
+        <div style="font-size:10px;color:var(--gray-500);line-height:1.4">PDFs, HTML, texto libre de múltiples fuentes con formatos heterogéneos</div>
+      </div>
+      <div style="color:var(--orange);font-size:1.25rem;padding-top:.25rem">&#10230;</div>
+      <div style="flex:1;min-width:220px;max-width:280px;text-align:center">
+        <div style="font-size:11px;font-weight:700;color:var(--gray-900);margin-bottom:.25rem">Conocimiento estructurado</div>
+        <div style="font-size:10px;color:var(--gray-500);line-height:1.4">Entidades, relaciones y semántica unificada bajo una ontología legal común</div>
+      </div>
+      <div style="color:var(--orange);font-size:1.25rem;padding-top:.25rem">&#10230;</div>
+      <div style="flex:1;min-width:220px;max-width:280px;text-align:center">
+        <div style="font-size:11px;font-weight:700;color:var(--gray-900);margin-bottom:.25rem">Inteligencia accionable</div>
+        <div style="font-size:10px;color:var(--gray-500);line-height:1.4">Agentes IA que razonan sobre la ontología para dar respuestas precisas</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== SLIDE 8: Roadmap ====== -->
+
+<div class="slide">
+  <div class="eyebrow fade-in">Hoja de ruta</div>
+  <h2 class="fade-in d1">5 fases de evolución planificadas</h2>
+  <div class="timeline mt-2 fade-in d2" style="max-width:1060px">
+    <div class="phase">
+      <div class="num done">0</div>
+      <h3>Fundaciones</h3>
+      <p style="font-size:12px">Repo, infra Azure, CI, dashboard de roadmap</p>
+      <div class="mt-1"><span class="badge green" style="font-size:10px">Completada</span></div>
+    </div>
+    <div class="phase">
+      <div class="num current">1</div>
+      <h3>Producto mínimo</h3>
+      <p style="font-size:12px">CSJN crawler, pipeline, search, chat agéntico, auth, admin, deploy</p>
+      <div class="mt-1"><span class="badge" style="font-size:10px">En progreso</span></div>
+    </div>
+    <div class="phase">
+      <div class="num future">2</div>
+      <h3>Expansión</h3>
+      <p style="font-size:12px">SAIJ, PJN, SCBA, scheduling automático, roles de usuario</p>
+    </div>
+    <div class="phase">
+      <div class="num future">3</div>
+      <h3>Inteligencia</h3>
+      <p style="font-size:12px">Neo4j, grafo visual, timeline, analytics, notificaciones, Entra ID</p>
+    </div>
+    <div class="phase">
+      <div class="num future">4</div>
+      <h3>Cobertura total</h3>
+      <p style="font-size:12px">Legislación, perfiles de jueces, doctrina académica</p>
+    </div>
+  </div>
+  <div class="grid-3 mt-2 fade-in d3">
+    <div class="card stat">
+      <div class="value">250</div>
+      <div class="label">Entregables planificados</div>
+    </div>
+    <div class="card stat">
+      <div class="value">33</div>
+      <div class="label">Features definidas</div>
+    </div>
+    <div class="card stat">
+      <div class="value">18</div>
+      <div class="label">Features en Phase 1</div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== SLIDE 9: Future Vision ====== -->
+<div class="slide hero-bg">
+  <div class="eyebrow fade-in">Visión futura</div>
+  <h2 class="fade-in d1">Más allá del MVP: un ecosistema legal inteligente</h2>
+  <div class="grid-3 mt-2">
+    <div class="card accent fade-in d2" style="padding:1.25rem">
+      <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="12" y2="18"/></svg></div>
+      <h3>Generación de memos</h3>
+      <p style="font-size:12px">Memo jurídico automático con citas verificadas a partir de una pregunta.</p>
+    </div>
+    <div class="card accent fade-in d2" style="padding:1.25rem">
+      <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+      <h3>Asistente de redacción</h3>
+      <p style="font-size:12px">Drafting assistant para escritos legales con sugerencias de jurisprudencia.</p>
+    </div>
+    <div class="card accent fade-in d3" style="padding:1.25rem">
+      <div class="icon-box"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><polyline points="22 4 18 8 14 4"/></svg></div>
+      <h3>Predicción de resultados</h3>
+      <p style="font-size:12px">Análisis predictivo basado en historial de fallos por tema, tribunal y juez.</p>
+    </div>
+    <div class="card accent fade-in d3" style="padding:1.25rem">
+      <div class="icon-box"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div>
+      <h3>Grafo visual interactivo</h3>
+      <p style="font-size:12px">Exploración visual de relaciones entre fallos, jueces y leyes con Neo4j.</p>
+    </div>
+    <div class="card accent fade-in d4" style="padding:1.25rem">
+      <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div>
+      <h3>Alertas inteligentes</h3>
+      <p style="font-size:12px">Notificaciones cuando se indexan fallos relevantes para tus suscripciones.</p>
+    </div>
+    <div class="card accent fade-in d4" style="padding:1.25rem">
+      <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg></div>
+      <h3>Plugin para Word</h3>
+      <p style="font-size:12px">Búsqueda jurisprudencial y citación directa desde Microsoft Word.</p>
+    </div>
+  </div>
+  <div class="mt-2 fade-in d5">
+    <div class="tag-list" style="justify-content:center;display:flex;flex-wrap:wrap">
+      <span class="badge gray">Comparación de documentos</span>
+      <span class="badge gray">Carpetas de investigación</span>
+      <span class="badge gray">Bookmarks</span>
+      <span class="badge gray">Extracción tabular</span>
+      <span class="badge gray">API pública</span>
+      <span class="badge gray">Workspace de equipo</span>
+      <span class="badge gray">Perfiles de jueces</span>
+      <span class="badge gray">Tendencias jurisprudenciales</span>
+    </div>
+  </div>
+</div>
+
+<!-- ====== SLIDE 10: Value Prop ====== -->
+<div class="slide dark-bg">
+  <div class="eyebrow fade-in">Propuesta de valor</div>
+  <h2 class="fade-in d1" style="max-width:700px;text-align:center">Impacto directo en la práctica legal</h2>
+  <div class="grid-4 mt-2" style="max-width:960px">
+    <div class="card fade-in d2" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);text-align:center;padding:1.5rem">
+      <div style="font-family:var(--font-heading);font-size:2.5rem;font-weight:300;color:var(--amber)">80%</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.7);margin-top:.25rem">Reducción en tiempo de investigación</div>
+    </div>
+    <div class="card fade-in d3" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);text-align:center;padding:1.5rem">
+      <div style="font-family:var(--font-heading);font-size:2.5rem;font-weight:300;color:var(--amber)">100%</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.7);margin-top:.25rem">Citas trazables y verificadas</div>
+    </div>
+    <div class="card fade-in d3" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);text-align:center;padding:1.5rem">
+      <div style="font-family:var(--font-heading);font-size:2.5rem;font-weight:300;color:var(--amber)">4</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.7);margin-top:.25rem">Fuentes públicas integradas</div>
+    </div>
+    <div class="card fade-in d4" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);text-align:center;padding:1.5rem">
+      <div style="font-family:var(--font-heading);font-size:2.5rem;font-weight:300;color:var(--amber)">24/7</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.7);margin-top:.25rem">Disponibilidad del asistente</div>
+    </div>
+  </div>
+  <div class="mt-2 fade-in d5" style="max-width:700px">
+    <div class="quote" style="color:rgba(255,255,255,.9);border-left-color:var(--amber)">
+      "Un abogado que puede encontrar el precedente exacto en segundos tiene una ventaja competitiva insuperable."
+    </div>
+  </div>
+</div>
+
+<!-- ====== SLIDE 11: Differentiators ====== -->
+<div class="slide">
+  <div class="eyebrow fade-in">Diferenciadores</div>
+  <h2 class="fade-in d1">¿Por qué Legal AI AR?</h2>
+  <div class="grid-2 mt-2 fade-in d2" style="max-width:900px">
+    <div class="card accent" style="padding:1.25rem">
+      <h3><span class="ico" style="margin-right:.35rem"><svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:var(--orange);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></span>Específico para derecho argentino</h3>
+      <p style="font-size:13px">No es un ChatGPT genérico. Ingesta real de fuentes oficiales argentinas con metadata estructurada y verificada.</p>
+    </div>
+    <div class="card accent" style="padding:1.25rem">
+      <h3><span class="ico" style="margin-right:.35rem"><svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:var(--orange);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg></span>Citas verificadas, no alucinaciones</h3>
+      <p style="font-size:13px">Output guardrail valida cada cita contra la base de datos. El abogado confía porque puede verificar.</p>
+    </div>
+    <div class="card accent" style="padding:1.25rem">
+      <h3><span class="ico" style="margin-right:.35rem"><svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:var(--orange);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>Enterprise-grade en Azure</h3>
+      <p style="font-size:13px">Infraestructura PwC: Azure Entra ID (SSO), cumplimiento, scale-to-zero, CI/CD automatizado.</p>
+    </div>
+    <div class="card accent" style="padding:1.25rem">
+      <h3><span class="ico" style="margin-right:.35rem"><svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:var(--orange);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/></svg></span>Agentic, no solo RAG</h3>
+      <p style="font-size:13px">El modelo decide qué herramientas usar. Puede buscar, cruzar citas, consultar leyes y agregar estadísticas.</p>
+    </div>
+    <div class="card accent" style="padding:1.25rem">
+      <h3><span class="ico" style="margin-right:.35rem"><svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:var(--orange);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span>Diseñado para evolucionar</h3>
+      <p style="font-size:13px">Roadmap de 5 fases con 250 entregables. Arquitectura extensible para nuevas fuentes y capacidades.</p>
+    </div>
+    <div class="card accent" style="padding:1.25rem">
+      <h3><span class="ico" style="margin-right:.35rem"><svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:var(--orange);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span>UX profesional PwC</h3>
+      <p style="font-size:13px">Diseño alineado con AppKit4 de PwC. UI en español. Accesible, responsive, integrada con la marca.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ====== SLIDE 12: Close ====== -->
+<div class="slide dark-bg" style="text-align:center">
+  <div class="logo-row fade-in" style="justify-content:center">
+    <span class="pwc-logo" style="color:var(--amber)">pwc</span>
+    <span class="sep" style="background:rgba(255,255,255,.2)"></span>
+    <span class="app-name" style="color:var(--white)">Legal AI AR</span>
+  </div>
+  <h1 class="fade-in d1" style="max-width:700px;text-align:center">La jurisprudencia argentina, potenciada por IA</h1>
+  <p class="subtitle fade-in d2" style="text-align:center">Transformemos la forma en que nuestros abogados investigan, analizan y construyen argumentos legales.</p>
+  <div class="fade-in d3 mt-2">
+    <span style="font-size:14px;color:var(--amber);font-weight:600">&#191;Próximos pasos?</span>
+  </div>
+  <div class="fade-in d4 mt-1" style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center">
+    <div class="card" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);padding:1rem 1.5rem;text-align:center">
+      <div style="margin-bottom:.25rem"><svg viewBox="0 0 24 24" style="width:24px;height:24px;stroke:var(--amber);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+      <div style="font-size:13px;color:rgba(255,255,255,.8)">Demo con el equipo legal</div>
+    </div>
+    <div class="card" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);padding:1rem 1.5rem;text-align:center">
+      <div style="margin-bottom:.25rem"><svg viewBox="0 0 24 24" style="width:24px;height:24px;stroke:var(--amber);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div>
+      <div style="font-size:13px;color:rgba(255,255,255,.8)">Piloto con 100+ fallos CSJN</div>
+    </div>
+    <div class="card" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);padding:1rem 1.5rem;text-align:center">
+      <div style="margin-bottom:.25rem"><svg viewBox="0 0 24 24" style="width:24px;height:24px;stroke:var(--amber);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/></svg></div>
+      <div style="font-size:13px;color:rgba(255,255,255,.8)">Deploy en staging Azure</div>
+    </div>
+    <div class="card" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);padding:1rem 1.5rem;text-align:center">
+      <div style="margin-bottom:.25rem"><svg viewBox="0 0 24 24" style="width:24px;height:24px;stroke:var(--amber);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg></div>
+      <div style="font-size:13px;color:rgba(255,255,255,.8)">Feedback y Phase 2</div>
+    </div>
+  </div>
+  <div class="footer-note" style="color:rgba(255,255,255,.35)">PwC Argentina — Marzo 2026 — Confidencial</div>
+</div>
+
+</div><!-- /deck -->
+
+<!-- Navigation -->
+<div class="nav">
+  <span id="counter">1 / 13</span>
+  <button id="prevBtn" onclick="go(-1)" disabled>&#8592;</button>
+  <button id="nextBtn" onclick="go(1)">&#8594;</button>
+</div>
+
+<script>
+  const slides=document.querySelectorAll('.slide');
+  const bar=document.getElementById('progress');
+  const counter=document.getElementById('counter');
+  const prevBtn=document.getElementById('prevBtn');
+  const nextBtn=document.getElementById('nextBtn');
+  let idx=0;
+
+  function show(n){
+    slides.forEach((s,i)=>{
+      s.classList.remove('active','prev');
+      if(i===n)s.classList.add('active');
+      else if(i<n)s.classList.add('prev');
+    });
+    bar.style.width=((n/(slides.length-1))*100)+'%';
+    counter.textContent=(n+1)+' / '+slides.length;
+    prevBtn.disabled=n===0;
+    nextBtn.disabled=n===slides.length-1;
+  }
+
+  function go(d){idx=Math.max(0,Math.min(slides.length-1,idx+d));show(idx)}
+
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown')go(1);
+    else if(e.key==='ArrowLeft'||e.key==='PageUp')go(-1);
+    else if(e.key==='Home'){idx=0;show(idx)}
+    else if(e.key==='End'){idx=slides.length-1;show(idx)}
+  });
+
+  show(0);
+</script>
+
+</body>
+</html>

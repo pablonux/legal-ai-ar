@@ -1,0 +1,101 @@
+---
+title: "Legal AI AR · Ontología v2.1 — Jerarquía de clases (is-a)"
+date: 2026-05-21
+---
+
+%% Basado en docs/ontology/legal-ai-ar-ontology.md v2.1
+%% Implementación: OntologyModelProvider.cs
+
+graph TD
+    Thing["owl:Thing"]
+
+    Thing --> NormaJuridica["legar:NormaJuridica<br/><i>core · Statute</i>"]
+    Thing --> SujetoDeDerecho["legar:SujetoDeDerecho<br/><i>core</i>"]
+    Thing --> OrganoEstatal["legar:OrganoEstatal<br/><i>core</i>"]
+    Thing --> HechoJuridico["legar:HechoJuridico<br/><i>core · futuro</i>"]
+    Thing --> RelacionJuridica["legar:RelacionJuridica<br/><i>conceptual</i>"]
+    Thing --> ProcesoJudicial["legar:ProcesoJudicial<br/><i>kb · JudicialProceeding</i>"]
+    Thing --> FuenteDelDerecho["legar:FuenteDelDerecho<br/><i>core · conceptual</i>"]
+    Thing --> Jurisdiccion["legar:Jurisdiccion<br/><i>core · parcial</i>"]
+
+    %% NormaJuridica
+    NormaJuridica --> Constitucion["legar:Constitucion"]
+    NormaJuridica --> Tratado["legar:Tratado"]
+    NormaJuridica --> Ley["legar:Ley"]
+    NormaJuridica --> Decreto["legar:Decreto"]
+    NormaJuridica --> Resolucion["legar:Resolucion"]
+    NormaJuridica --> Ordenanza["legar:Ordenanza"]
+    NormaJuridica --> Acordada["legar:Acordada"]
+
+    %% SujetoDeDerecho
+    SujetoDeDerecho --> PersonaHumana["legar:PersonaHumana<br/><i>kb · Person</i>"]
+    SujetoDeDerecho --> PersonaJuridica["legar:PersonaJuridica"]
+    PersonaJuridica --> PJPublica["legar:PersonaJuridicaPublica"]
+    PersonaJuridica --> PJPrivada["legar:PersonaJuridicaPrivada"]
+
+    %% Roles (no subclases — aristas punteadas)
+    PersonaHumana -.->|"rol"| Juez["legar:Juez"]
+    PersonaHumana -.->|"rol"| Fiscal["legar:Fiscal"]
+    PersonaHumana -.->|"rol"| Defensor["legar:Defensor"]
+    PersonaHumana -.->|"rol"| Abogado["legar:Abogado"]
+
+    %% OrganoEstatal
+    OrganoEstatal --> OrganoJudicial["legar:OrganoJudicial"]
+    OrganoEstatal --> OrganoLegislativo["legar:OrganoLegislativo"]
+    OrganoEstatal --> OrganoEjecutivo["legar:OrganoEjecutivo"]
+    OrganoEstatal --> OrganoDescentralizado["legar:OrganoDescentralizado"]
+    OrganoJudicial --> Tribunal["legar:Tribunal<br/><i>kb · Court</i>"]
+    OrganoJudicial --> MinisterioPublico["legar:MinisterioPublico"]
+
+    %% HechoJuridico
+    HechoJuridico --> HechoInvoluntario["legar:HechoInvoluntario"]
+    HechoJuridico --> HechoVoluntario["legar:HechoVoluntario"]
+    HechoVoluntario --> ActoLicito["legar:ActoLicito"]
+    HechoVoluntario --> ActoIlicito["legar:ActoIlicito"]
+    ActoLicito --> ActoJuridico["legar:ActoJuridico"]
+    ActoIlicito --> Delito["legar:Delito"]
+    ActoIlicito --> Cuasidelito["legar:Cuasidelito"]
+    ActoJuridico --> Contrato["legar:Contrato"]
+    ActoJuridico --> ActoAdministrativo["legar:ActoAdministrativo"]
+    ActoJuridico --> ActoProcesal["legar:ActoProcesal"]
+    ActoJuridico --> ActoDeFamilia["legar:ActoDeFamilia"]
+    ActoJuridico --> Testamento["legar:Testamento"]
+
+    %% ProcesoJudicial
+    ProcesoJudicial --> ProcesoCivil["legar:ProcesoCivil"]
+    ProcesoJudicial --> ProcesoPenal["legar:ProcesoPenal"]
+    ProcesoJudicial --> ProcesoLaboral["legar:ProcesoLaboral"]
+    ProcesoJudicial --> ProcesoContAdm["legar:ProcesoContencisoAdministrativo"]
+    ProcesoJudicial --> ProcesoFamilia["legar:ProcesoDeFamilia"]
+    ProcesoJudicial --> ProcesoConst["legar:ProcesoConstitucional"]
+
+    %% FuenteDelDerecho
+    FuenteDelDerecho --> FuenteFormal["legar:FuenteFormal"]
+    FuenteDelDerecho --> FuenteMaterial["legar:FuenteMaterial"]
+    FuenteFormal -.->|"comprende"| NormaJuridica
+    FuenteMaterial --> Jurisprudencia["legar:Jurisprudencia"]
+    FuenteMaterial --> Doctrina["legar:Doctrina"]
+    FuenteMaterial --> CostumbreJuridica["legar:CostumbreJuridica"]
+    Jurisprudencia -.->|"instancia de"| Sentencia["legar:Sentencia<br/><i>kb · Ruling</i>"]
+
+    %% Jurisdiccion
+    Jurisdiccion --> Federal["legar:Federal"]
+    Jurisdiccion --> Provincial["legar:Provincial"]
+    Jurisdiccion --> CABA["legar:CABA"]
+    Jurisdiccion --> Municipal["legar:Municipal"]
+
+    %% Entidades KB auxiliares (sin padre en owl:Thing en el viewer)
+    ThesaurusTerm["skos:Concept · ThesaurusTerm<br/><i>kb · /vocabulario</i>"]
+    PalabraClave["legar:PalabraClave<br/><i>kb · Keyword</i>"]
+    Fuente["legar:Fuente<br/><i>kb · Source</i>"]
+
+    classDef core fill:#1E3A5F,color:#fff,stroke:#0D2137
+    classDef kb fill:#D04A02,color:#fff,stroke:#9A3601
+    classDef subclass fill:#4A7CB5,color:#fff,stroke:#1E3A5F
+    classDef conceptual fill:#9E9E9E,color:#fff,stroke:#616161,stroke-dasharray:5
+    classDef role fill:#EB8C00,color:#fff,stroke:#B36D00
+
+    class NormaJuridica,SujetoDeDerecho,OrganoEstatal,HechoJuridico,ProcesoJudicial,FuenteDelDerecho,Jurisdiccion core
+    class Sentencia,PersonaHumana,Tribunal,ThesaurusTerm,PalabraClave,Fuente,ProcesoJudicial kb
+    class RelacionJuridica conceptual
+    class Juez,Fiscal,Defensor,Abogado role

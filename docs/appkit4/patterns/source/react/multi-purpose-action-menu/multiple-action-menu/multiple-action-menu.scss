@@ -1,0 +1,61 @@
+@import 'sass-rem/_rem.scss';
+@import '@appkit4/styles/scss/_variables.scss';
+
+.ap-action-menu-group {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    position: fixed;
+
+    .ap-action-menu-group-wrap {
+        gap: 20px;
+        flex-direction: column;
+        top: auto;
+        bottom: 60px;
+    }
+
+    .ap-action-menu-group-trigger {
+
+        .Appkit4-icon {
+            transform: rotate(0);
+            transition: transform .3s ease-in-out;
+        }
+
+
+        &.open {
+
+            .Appkit4-icon {
+                transform: rotate(45deg);
+            }
+            
+        }
+    }
+}
+
+.ap-action-menu-group-wrap {
+    z-index: -1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+}
+
+
+
+.ap-action-menu-tooltip-content {
+    display: flex;
+    flex-direction: column;
+
+    color: $color-text-tertiary;
+
+    .title {
+        font-size: 14px;
+        line-height: 20px;
+        letter-spacing: -0.2px;
+    }
+
+    .subtitle {
+        font-size: 12px;
+        line-height: 14px;
+    }
+}

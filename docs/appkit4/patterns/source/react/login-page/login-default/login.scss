@@ -1,0 +1,435 @@
+@import 'sass-rem/_rem.scss';
+@import '@appkit4/styles/scss/_variables.scss';
+
+.ap-pattern-form-header {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-7);
+}
+
+.ap-pattern-login {
+  display: flex;
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  .login-left-side {
+    width: 60vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 1;
+    .login-header {
+      .login-logo {
+        position: fixed;
+        top: $height-5;
+        left: $width-6;
+        justify-content: center;
+        align-items: center;
+        z-index: 1999;
+        width: rem(116px);
+        height: rem(89px);
+        overflow: auto;
+        background-image: url(./svg/logo.svg);
+        background-size: cover;
+        background-position: center;
+      }
+    }
+    .login-body{
+      align-items: center;
+    }
+
+    .login-body,.ap-pattern-form {
+      display: flex;
+      flex-direction: column;
+      min-width: rem(548px);
+      position: fixed;
+      margin-bottom: $height-9;
+      padding: unset;
+      width: fit-content;
+      .login-text-title {
+        width: 100%;
+        font-family: 'Helvetica Neue';
+        font-style: normal;
+        font-weight: $font-weight-2;
+        font-size: $typography-text-size-4;
+        line-height: $typography-line-height-2;
+        height: $typography-line-height-2;
+        /* identical to box height, or 100% */
+        letter-spacing: rem(-0.26px);
+        /* Text/Light */
+
+        color: $color-text-light;
+        margin-bottom: $height-0;
+
+        .select-language {
+          float: right;
+          position: relative;
+          left: $width-0;
+          .ap-buttons-wrapper {
+            top: rem(-4px);
+          }
+          .ap-button-dropdown.open {
+            width: rem(150px);
+
+            .ap-option-label {
+              font-size: $typography-text-size-3;
+              font-style: normal;
+              font-weight: 400;
+              font-size: $typography-text-size-3;
+              line-height: $typography-line-height-3;
+              letter-spacing: $letter-spacing-1;
+              color: $color-text-body;
+              flex: none;
+              order: 0;
+              flex-grow: 1;
+            }
+          }
+
+          .ap-button .ap-button-label {
+            font-family: 'Helvetica Neue';
+            font-style: normal;
+            font-weight: $font-weight-1;
+            font-size: $typography-text-size-1;
+            line-height: $typography-line-height-1;
+            /* identical to box height, or 117% */
+            letter-spacing: rem(-0.2px);
+            /* Text/Body */
+            color: $color-text-body;
+          }
+
+          .ap-button.ap-button-primary {
+            background-color: transparent;
+            color: #000000;
+          }
+
+          .ap-button-dropdown.open {
+            top: $height-3;
+          }
+
+          .ap-button:not([disabled]).ap-button-primary:not(.in-loading):focus:not(.keyboard-focus) {
+            box-shadow: none;
+          }
+        }
+      }
+
+      .ap-pattern-form-login-title{
+        letter-spacing: rem(-1.12px);
+      }
+
+      .login-text-detail {
+        width: 100%;
+        font-family: 'Helvetica Neue';
+        font-style: normal;
+        font-weight: $font-weight-2;
+        font-size: $typography-text-size-7;
+        line-height: rem(58px);
+        /* identical to box height, or 121% */
+
+        display: flex;
+        align-items: center;
+        letter-spacing: rem(-1.12px);
+        margin-bottom: $height-3;
+      }
+
+      .login-button-group {
+        border-radius: $border-radius-3;
+        width: 100%;
+
+        .login-button {
+          width: 100%;
+        }
+
+        .login-button:nth-child(1) {
+          margin-bottom: $height-1;
+        }
+      }
+
+    }
+
+    .login-footer {
+      bottom: 0;
+      position: fixed;
+      z-index: -1;
+      .ap-footer-content {
+        text-align: center;
+        color: $color-text-heading;
+      }
+
+      .ap-footer-link-group {
+        display: flex;
+        justify-content: center;
+        margin-bottom: $height-1;
+        .ap-link{
+          color: $color-text-primary;
+        }
+      }
+    }
+  }
+  &:not(.fractional) {
+    .login-left-side{
+      background-color: $color-background-container-alt;
+    }
+  }
+  &.fractional {  
+    &:not(.dark-font-color) {
+      .login-left-side {
+        .login-body,.ap-pattern-form {
+        .login-text-title,
+        .login-text-detail,
+        .ap-pattern-form-login-welcome,
+        .ap-pattern-form-login-title {
+          color: $color-text-secondary;
+        }
+      }
+  
+        .login-header {
+          .login-logo {
+            background-image: url(./svg/logo-white.svg);
+          }
+        }
+        
+        .login-button-group {
+          background-color: $color-text-secondary;
+          padding: $height-3;
+        } 
+      
+      }
+      .ap-footer-content,
+      .ap-footer-link,
+      .ap-link,
+      .ap-footer-link-group .ap-link {
+        color: $color-text-secondary;
+      }
+      .select-language{
+        .ap-button .ap-button-label {
+          color: $color-text-secondary!important;
+        }
+        .custom{
+          .language-text {
+          color: $color-text-secondary!important;
+          }
+        }
+      }
+    }
+    &.dark-font-color{
+      .login-left-side {
+        .login-text-title,
+        .login-text-detail,
+        .ap-pattern-form-login-welcome {
+          color: $color-text-heading;
+        }
+        .custom{
+          .language-text {
+          color: $color-text-heading!important;
+          }
+        }
+  
+        .login-button-group {
+          background-color: $color-text-secondary;
+          padding: $height-3;
+        } 
+      }
+      .ap-footer-content,
+      .ap-footer-link,
+      .ap-link {
+        color: $color-text-heading;
+      }
+      .ap-footer-link-group .ap-link {
+        color: $color-text-primary;
+      }
+    }
+
+    .ap-pattern-login-wrapper {
+      height: 100%;
+      position: absolute;
+      width: 100%;
+    }
+  }
+  .login-right-side {
+    flex: 1;
+
+    .background-right {
+      position: fixed;
+      z-index: -1;
+      height: 100%;
+      object-fit: cover;
+    }
+
+   
+  }
+  .ap-pattern-login-wrapper {
+    height: 100%;
+    background-size: cover;
+  }
+  // .ap-pattern-form-header {
+  //   margin-bottom: 0;
+  // }
+}
+
+.select-language {
+  .ap-button:not([disabled]).ap-button-primary:not(.in-loading) {
+    &:focus.keyboard-focus {
+      outline-width: $spacing-1;
+      outline-style: solid !important;
+    }
+  }
+}
+
+.login-left-side {
+  .ap-pattern-form-footer {
+      display: unset;
+      justify-content: unset;
+      .ap-button:not(:first-child) {
+          margin-left: 0;
+      }
+  }
+}
+
+.ap-pattern-form-footer {
+  display: flex;
+  justify-content: space-between;
+  
+  .ap-button {
+      width: 100%;
+  }
+  .ap-button:not(:first-child) {
+      margin-left: rem(10px);
+  }
+
+}
+
+
+.form-default-demo {
+  display: flex;
+  padding: 1rem;
+
+  .solid-form {
+    margin-left: 2rem;
+  }
+}
+
+.ap-mb-2 {
+  margin-bottom: rem(16px);
+}
+
+.select-language {
+  float: right;
+  position: relative;
+  left: $width-0;
+  .ap-buttons-wrapper {
+    top: rem(-4px);
+  }
+  &.ap-buttons-wrapper .custom + div.ap-button-dropdown {
+    width: rem(150px);
+    left: unset;
+  }
+  .ap-button-dropdown.open {
+    width: rem(150px);
+
+    .ap-option-label {
+      font-size: $typography-text-size-3;
+      font-style: normal;
+      font-weight: 400;
+      font-size: $typography-text-size-3;
+      line-height: $typography-line-height-3;
+      letter-spacing: $letter-spacing-1;
+      color: #474747;
+      flex: none;
+      order: 0;
+      flex-grow: 1;
+    }
+  }
+
+  .ap-button .ap-button-label {
+    font-family: 'Helvetica Neue';
+    font-style: normal;
+    font-weight: $font-weight-1;
+    font-size: $typography-text-size-1;
+    line-height: $typography-line-height-1;
+    /* identical to box height, or 117% */
+    letter-spacing: rem(-0.2px);
+    /* Text/Body */
+    color: #474747;
+
+
+  }
+
+  .ap-button.ap-button-primary {
+    background-color: transparent;
+    color: #000;
+  }
+
+  .ap-button-dropdown.open {
+    top: $height-3;
+  }
+
+  .ap-button:not([disabled]).ap-button-primary:not(.in-loading):focus:not(.keyboard-focus) {
+    box-shadow: none;
+  }
+}
+
+.select-language {
+  .ap-button:not([disabled]).ap-button-primary:not(.in-loading) {
+    &:focus.keyboard-focus {
+      outline-width: $spacing-1;
+      outline-style: solid !important;
+    }
+  }
+}
+
+.language-container,
+.language-trigger {
+  display: flex;
+  align-items: center;
+}
+
+.language-text {
+  margin-left: rem(4px);
+  margin-right: rem(16px);
+
+  font-family: 'Helvetica Neue';
+  font-style: normal;
+  font-weight: 400;
+  font-size: rem(12px);
+  line-height: rem(14px);
+  letter-spacing: rem(-0.2px);
+  color: #474747;
+}
+
+.ap-pattern-login.fractional{
+  &:not(.dark-font-color){
+    .ap-pattern-form-header-extra .ap-button-label{
+        color: $color-text-secondary;
+      }
+  }
+}
+
+.ap-pattern-login{
+.ap-pattern-form-footer.vertical {
+  display: flex;
+  flex-direction: column;
+
+  .ap-button:not(:first-child) {
+      margin-top: rem(16px)!important;
+  }
+}
+}
+
+[data-mode="dark"] {
+  .ap-pattern-login {
+      .login-logo {
+          background-image: url(./svg/logo-white.svg) !important;
+      }
+  }
+}
+.light[data-mode="light"] {
+  &:not(.fractional) {
+    .ap-pattern-login {
+      .login-logo {
+        background-image: url(./svg/logo.svg) !important;
+      }
+    }
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Backend (API)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build-api",
+      "program": "${workspaceFolder}/backend/src/api/LegalAiAr.Api/bin/Debug/net10.0/LegalAiAr.Api.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/backend/src/api/LegalAiAr.Api",
+      "stopAtEntry": false,
+      "envFile": "${workspaceFolder}/.env",
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:5088"
+      }
+    },
+    {
+      "name": "Frontend (Angular)",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:4200",
+      "webRoot": "${workspaceFolder}/frontend/src",
+      "preLaunchTask": "serve-frontend"
+    },
+    {
+      "name": "Worker: Crawler",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build-worker-crawler",
+      "program": "${workspaceFolder}/backend/src/workers/LegalAiAr.Worker.Crawler/bin/Debug/net10.0/LegalAiAr.Worker.Crawler.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/backend/src/workers/LegalAiAr.Worker.Crawler",
+      "stopAtEntry": false,
+      "envFile": "${workspaceFolder}/.env",
+      "env": { "DOTNET_ENVIRONMENT": "Development" }
+    },
+    {
+      "name": "Worker: Parser",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build-worker-parser",
+      "program": "${workspaceFolder}/backend/src/workers/LegalAiAr.Worker.Parser/bin/Debug/net10.0/LegalAiAr.Worker.Parser.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/backend/src/workers/LegalAiAr.Worker.Parser",
+      "stopAtEntry": false,
+      "envFile": "${workspaceFolder}/.env",
+      "env": { "DOTNET_ENVIRONMENT": "Development" }
+    },
+    {
+      "name": "Worker: Enrichment",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build-worker-enrichment",
+      "program": "${workspaceFolder}/backend/src/workers/LegalAiAr.Worker.Enrichment/bin/Debug/net10.0/LegalAiAr.Worker.Enrichment.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/backend/src/workers/LegalAiAr.Worker.Enrichment",
+      "stopAtEntry": false,
+      "envFile": "${workspaceFolder}/.env",
+      "env": { "DOTNET_ENVIRONMENT": "Development" }
+    },
+    {
+      "name": "Worker: Indexer",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build-worker-indexer",
+      "program": "${workspaceFolder}/backend/src/workers/LegalAiAr.Worker.Indexer/bin/Debug/net10.0/LegalAiAr.Worker.Indexer.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/backend/src/workers/LegalAiAr.Worker.Indexer",
+      "stopAtEntry": false,
+      "envFile": "${workspaceFolder}/.env",
+      "env": { "DOTNET_ENVIRONMENT": "Development" }
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Full Stack (Front + Back)",
+      "configurations": ["Backend (API)", "Frontend (Angular)"]
+    }
+  ]
+}

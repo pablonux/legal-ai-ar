@@ -1,0 +1,70 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build-api",
+      "command": "dotnet",
+      "type": "process",
+      "args": ["build", "${workspaceFolder}/backend/src/api/LegalAiAr.Api/LegalAiAr.Api.csproj", "-c", "Debug"],
+      "group": "build",
+      "presentation": { "reveal": "silent" },
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "build-worker-crawler",
+      "command": "dotnet",
+      "type": "process",
+      "args": ["build", "${workspaceFolder}/backend/src/workers/LegalAiAr.Worker.Crawler/LegalAiAr.Worker.Crawler.csproj", "-c", "Debug"],
+      "group": "build",
+      "presentation": { "reveal": "silent" },
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "build-worker-parser",
+      "command": "dotnet",
+      "type": "process",
+      "args": ["build", "${workspaceFolder}/backend/src/workers/LegalAiAr.Worker.Parser/LegalAiAr.Worker.Parser.csproj", "-c", "Debug"],
+      "group": "build",
+      "presentation": { "reveal": "silent" },
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "build-worker-enrichment",
+      "command": "dotnet",
+      "type": "process",
+      "args": ["build", "${workspaceFolder}/backend/src/workers/LegalAiAr.Worker.Enrichment/LegalAiAr.Worker.Enrichment.csproj", "-c", "Debug"],
+      "group": "build",
+      "presentation": { "reveal": "silent" },
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "build-worker-indexer",
+      "command": "dotnet",
+      "type": "process",
+      "args": ["build", "${workspaceFolder}/backend/src/workers/LegalAiAr.Worker.Indexer/LegalAiAr.Worker.Indexer.csproj", "-c", "Debug"],
+      "group": "build",
+      "presentation": { "reveal": "silent" },
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "serve-frontend",
+      "type": "shell",
+      "command": "npm run start",
+      "options": {
+        "cwd": "${workspaceFolder}/frontend",
+        "env": {}
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "typescript",
+        "pattern": { "regexp": "^$" },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*",
+          "endsPattern": "localhost:4200|bundle generation complete|Watch mode enabled"
+        }
+      },
+      "presentation": { "reveal": "always" }
+    }
+  ]
+}

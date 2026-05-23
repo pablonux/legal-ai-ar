@@ -1,0 +1,72 @@
+---
+title: "Legal AI AR · Ontología v2.1 — Estado de implementación y mapeo KB/UI"
+date: 2026-05-21
+---
+
+flowchart TB
+    subgraph legend [Leyenda]
+        L1["Implementada en KB + UI"]
+        L2["Parcial / en curso"]
+        L3["Conceptual / planificada"]
+    end
+
+    subgraph kb [Knowledge Base]
+        Ruling["Ruling + Vote + RulingParticipation"]
+        Court["Court + JudicialOffice"]
+        Person["Person + ProceedingParty"]
+        Statute["Statute + RulingStatute + Citation"]
+        Proceeding["JudicialProceeding"]
+        Thesaurus["ThesaurusTerm + Keyword"]
+        Source["Source"]
+    end
+
+    subgraph ontology [Clases ontológicas legar:]
+        Sentencia["Sentencia ✓"]
+        Tribunal["Tribunal ✓"]
+        Sujeto["SujetoDeDerecho ✓"]
+        Norma["NormaJuridica ◐"]
+        Proceso["ProcesoJudicial ◐"]
+        Jurisd["Jurisdiccion ◐"]
+        FuenteDD["FuenteDelDerecho ○"]
+        Hecho["HechoJuridico ○"]
+        Relacion["RelacionJuridica ○"]
+        Recurso["Recurso ○ F4"]
+    end
+
+    subgraph ui [Espacios UI]
+        UI_J["/jurisprudencia"]
+        UI_O["/organismos"]
+        UI_S["/sujetos"]
+        UI_N["/ordenamiento F3"]
+        UI_P["/procesos F3"]
+        UI_V["/vocabulario"]
+        UI_ONT["/ontologia viewer"]
+    end
+
+    Ruling --> Sentencia
+    Court --> Tribunal
+    Person --> Sujeto
+    Statute --> Norma
+    Proceeding --> Proceso
+    Thesaurus --> Sentencia
+    Source --> Sentencia
+
+    Sentencia --> UI_J
+    Tribunal --> UI_O
+    Sujeto --> UI_S
+    Norma --> UI_N
+    Proceso --> UI_P
+    Thesaurus --> UI_V
+
+    Sentencia --> UI_ONT
+    Norma --> UI_ONT
+    Tribunal --> UI_ONT
+    Sujeto --> UI_ONT
+
+    classDef done fill:#2E7D32,color:#fff
+    classDef partial fill:#F9A825,color:#000
+    classDef future fill:#BDBDBD,color:#333
+
+    class Sentencia,Tribunal,Sujeto,UI_J,UI_O,UI_S,UI_V,UI_ONT done
+    class Norma,Proceso,Jurisd,UI_N,UI_P partial
+    class FuenteDD,Hecho,Relacion,Recurso future

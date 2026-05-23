@@ -1,0 +1,52 @@
+@startuml C4 Component - API
+!pragma revision 1
+
+' C4 Component
+!includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+' Azure icons for external dependencies
+!define AzurePuml https://raw.githubusercontent.com/plantuml-stdlib/Azure-PlantUML/master/dist
+!includeurl AzurePuml/AzureCommon.puml
+!includeurl AzurePuml/AzureC4Integration.puml
+!includeurl AzurePuml/AIMachineLearning/AzureCognitiveServices.puml
+!includeurl AzurePuml/Databases/AzureSqlDatabase.puml
+!includeurl AzurePuml/Storage/AzureBlobStorage.puml
+!includeurl AzurePuml/Storage/AzureQueueStorage.puml
+!includeurl AzurePuml/Web/AzureSearch.puml
+
+title Component — API (ASP.NET Core)
+
+Container_Boundary(api, "API") {
+    Component(search_handler, "SearchRulingsHandler", "MediatR", "Hybrid semantic search. Query embedding + Azure AI Search.")
+    Component(get_handler, "GetRulingByIdHandler", "MediatR", "Full ruling details by ID.")
+    Component(related_handler, "GetRelatedRulingsHandler", "MediatR", "Related rulings by semantic similarity.")
+    Component(chat_handler, "ChatQueryHandler", "MediatR", "RAG jurisprudential chat. SSE streaming.")
+    Component(crawler_handler, "CrawlerHandlers", "MediatR", "Pipeline status, crawler config, manual run.")
+    Component(jobs_handler, "JobsHandler", "MediatR", "Active, completed, failed jobs.")
+    Component(dlq_handler, "DLQHandler", "MediatR", "Dead Letter Queue view and requeue.")
+    Component(users_handler, "UsersHandlers", "MediatR", "User CRUD and role assignment.")
+    Component(health, "HealthEndpoint", "ASP.NET Core", "Health check.")
+}
+
+AzureSqlDatabase(sql, "Azure SQL", "Azure SQL Database")
+AzureSearch(search, "AI Search", "Azure AI Search")
+AzureBlobStorage(blob, "Blob Storage", "Azure Blob Storage")
+AzureQueueStorage(queues, "Storage Queues", "Azure Storage Queues")
+AzureCognitiveServices(openai, "Azure OpenAI", "Embeddings + LLM")
+
+Rel(search_handler, search, "Hybrid search")
+Rel(search_handler, openai, "Query embedding")
+Rel(get_handler, sql, "GetById")
+Rel(related_handler, search, "Vector similarity")
+Rel(related_handler, openai, "Query embedding")
+
+Rel(chat_handler, openai, "Embeddings, GPT-4o")
+Rel(chat_handler, search, "Chunk + ruling search")
+
+Rel(crawler_handler, sql, "CrawlerConfigs")
+Rel(crawler_handler, queues, "Publish crawl")
+Rel(jobs_handler, sql, "IngestionJobs")
+Rel(dlq_handler, queues, "DLQ read, requeue")
+Rel(users_handler, sql, "Users")
+
+@enduml

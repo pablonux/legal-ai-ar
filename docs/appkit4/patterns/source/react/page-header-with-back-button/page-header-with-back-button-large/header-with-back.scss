@@ -1,0 +1,73 @@
+@import 'sass-rem/_rem.scss';
+@import '@appkit4/styles/scss/_variables.scss';
+
+.ap-pattern-header-with-back {
+    display: flex;
+    flex-direction: column;
+    margin-top: 0;
+    max-width: rem(1600px);
+    .ap-breadcrumb .ap-breadcrumb-item:last-child span:focus {
+        text-decoration: none !important;
+    }
+    .header-with-back-content {
+        margin-top: rem(20px);
+        &.without-breadcrumbs {
+            margin-top: 0!important;
+        }
+        .header-with-back-button-title {
+            display: flex;
+            line-height: rem(40px);
+            align-items: center;
+            margin-top: rem(12px);
+            .ap-button.ap-button-icon {
+                padding-left: $spacing-3;
+                padding-right: $spacing-3;
+            }
+            .ap-button:not(.ap-button-icon-only) .Appkit4-icon {
+                margin-right: 0;
+            }
+            .header-title{
+                font-size: rem(20px);
+                line-height: rem(24px);
+                letter-spacing: rem(-.4px);
+                font-weight: 500;
+                margin-left: rem(16px);
+                color: $color-text-heading;
+            }
+        }
+        .header-with-back-button-detail{
+            font-size: rem(16px);
+            line-height: rem(24px);
+            letter-spacing: rem(-.4px);
+            color: $color-text-body;
+            margin-top: rem(12px);
+            font-weight: 400;
+        }
+    }
+
+    &.medium {
+        .header-with-back-content {
+            .header-title{
+                font-size: rem(24px);
+                line-height: rem(32px);
+            }
+        }
+    }
+
+    &.large {
+        .header-with-back-content {
+            .header-title{
+                font-size: rem(36px);
+                line-height: rem(42px);
+            }
+        }
+    }
+}
+
+body[data-mode="dark"] {
+    .header-with-back-button-title {
+        .ap-button[disabled].ap-button-tertiary {
+            color: rgba(255, 255, 255, $opacity-5);
+        }
+    }
+}

@@ -1,0 +1,35 @@
+%% E077 - Chat RAG flow sequence - F1-7 API Chat
+%% Source: docs/design/f1-7-chat-rag.md (E076), architecture §5, specs 7.2
+sequenceDiagram
+    participant Client
+    participant Controller as ChatController
+    participant MediatR
+    participant Validation as ValidationBehavior
+    participant Handler as ChatQueryHandler
+    participant Embedding as IEmbeddingService
+    participant Search as ISearchService
+    participant Repo as IRulingRepository
+    participant LLM as AzureOpenAiEnrichmentService
+
+    Client->>Controller: POST /api/chat (query)
+    Controller->>MediatR: Send(ChatQueryCommand)
+    MediatR->>Validation: Validate
+    Validation-->>MediatR: ok
+    MediatR->>Handler: Handle(ChatQueryCommand)
+    Handler->>Embedding: GenerateAsync(query)
+    Embedding-->>Handler: embedding vector
+    Handler->>Search: SearchChunksAsync(embedding, topK=10)
+    Search-->>Handler: chunks (rulingId, text)
+    Handler->>Search: SearchRulingsAsync(embedding, topK=5)
+    Search-->>Handler: rulings (metadata)
+    Handler->>Repo: GetByIdAsync(rulingIds not in results)
+    Repo-->>Handler: ruling metadata
+    Note over Handler: Build context from chunks + rulings
+    Handler->>LLM: StreamChatAsync(system + context + query)
+    loop SSE stream
+        LLM-->>Handler: chunk
+        Handler-->>Controller: chunk
+        Controller-->>Client: data: chunk
+    end
+    LLM-->>Handler: done
+    Controller->>Client: stream end

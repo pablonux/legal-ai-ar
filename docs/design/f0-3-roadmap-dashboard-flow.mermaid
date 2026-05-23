@@ -1,0 +1,18 @@
+flowchart TB
+    subgraph source [Source]
+        ROADMAP[ROADMAP.md]
+    end
+
+    subgraph script [IDE Script]
+        NodeScript[scripts/roadmap-dashboard.js]
+        ROADMAP --> NodeScript
+        NodeScript -->|parse + embed| HTML[roadmap-dashboard.html]
+    end
+
+    subgraph view [View]
+        Browser[Browser]
+        HTML -->|open file| Browser
+        Browser -->|render| UI[Dashboard UI]
+    end
+
+    ROADMAP -.->|user runs script after update| NodeScript

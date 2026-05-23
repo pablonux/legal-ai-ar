@@ -1,0 +1,44 @@
+@import 'node_modules/sass-rem/_rem.scss';
+@import '@appkit4/styles/scss/variables';
+
+.ap-pattern-confirmation {
+    width: rem(540px);
+
+    .ap-pattern-confirmation-message {
+        font-weight: 400;
+        font-size: rem(16px);
+        line-height: rem(24px);
+        /* or 150% */
+
+        letter-spacing: rem(-0.4px);
+
+        /* Text/Body */
+
+        color: $color-text-body;
+        
+    }
+    
+    .ap-pattern-form-label {
+        position: relative;
+        display: block;
+        margin-top: rem(8px);
+    }
+
+    
+    label span {
+        display: inline-block;
+        font-style: normal;
+        font-weight: 500;
+        font-size: rem(16px);
+        line-height: rem(24px);
+        letter-spacing: rem(-0.4px);
+        margin-bottom: rem(4px);
+        color: $color-background-container-inverse;
+    }
+    .ap-modal-body{
+        min-height: rem(92px);
+    }
+    .ap-modal-footer{
+        padding: $spacing-3 $spacing-6 $spacing-6 $spacing-6;
+    }
+}

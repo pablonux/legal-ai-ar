@@ -1,0 +1,85 @@
+@import 'sass-rem/_rem.scss';
+@import '@appkit4/styles/scss/_variables.scss';
+
+.ap-pattern-page-anchor {
+    color: $color-text-body;
+    width: rem(246px);
+    position: fixed;
+    top: rem(96px);
+
+    &.anchor-list {
+        margin-left: rem(20px);
+        margin-right: rem(20px);
+    }
+
+    &.hidden {
+        display: none;
+    }
+
+    &.fixed {
+        position: fixed;
+        top: 0;
+        right: 0;
+        margin-top: rem(80px);
+        margin-right: $spacing-6;
+    }
+
+    .anchor-trigger {
+        height: $height-3;
+        font-size: $typography-text-size-3;
+        line-height: $typography-line-height-3;
+        letter-spacing: rem(-0.4px);
+        display: inline-block;
+        height: 100%;
+        &:hover {
+            text-decoration: underline;
+        }
+
+        &.selected {
+            font-weight: $font-weight-2;
+            color: $color-text-heading !important;
+        }
+
+        .Appkit4-icon:first-child {
+            margin-right: rem(2px);
+        }
+    }
+
+    ul {
+        padding-left: 0;
+        margin-top: 0;
+
+        li {
+            line-height: $typography-line-height-3;
+            cursor: pointer;
+            list-style-type: none;
+
+            &:not(:first-child) {
+                margin-top: $spacing-3;
+            }
+
+            a {
+                color: $color-text-body;
+                &:focus-visible{
+                    outline: auto rem(5px) -webkit-focus-ring-color;
+                    box-shadow: none;
+                }
+            }
+        }
+    }
+
+    .ap-pattern-page-anchor-heading {
+        font-weight: $font-weight-2;
+        line-height: $typography-line-height-4;
+        font-size: $typography-text-size-4;
+        margin-bottom: var(--spacing-3);
+        color: $color-text-heading;
+        &:focus-visible{
+            outline: auto rem(5px) -webkit-focus-ring-color;
+            box-shadow: none;
+        }
+        span:first-child{
+            font-size: $typography-text-size-3;
+        }
+    }
+}

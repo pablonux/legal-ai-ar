@@ -1,0 +1,62 @@
+%% C4 Level 2 — Container
+%% Legal AI AR — shows the high-level containers (applications and data stores)
+%% Source: docs/architecture/legal-ai-ar-architecture.md, README.md
+
+C4Container
+    title Container — Legal AI AR
+
+    Person(lawyer, "Lawyer", "Firm lawyer")
+
+    Container_Boundary(legal_ai_ar, "Legal AI AR") {
+        Container(spa, "Angular SPA", "Angular", "Single-page application. Search, RAG chat, ruling detail. Admin panel under /admin/*.")
+        Container(api, "API", "ASP.NET Core", "REST API. Rulings search, chat (SSE), admin endpoints. CQRS with MediatR.")
+
+        Container_Boundary(workers, "Ingestion Workers") {
+            Container(crawler, "CrawlerWorker", ".NET", "Discovers and downloads documents from judicial sources. Selenium for CSJN.")
+            Container(parser, "ParserWorker", ".NET", "Extracts metadata, normalizes text. PdfPig for PDF. Publishes to queue-enrichment.")
+            Container(enrichment, "EnrichmentWorker", ".NET", "GPT-4o enrichment. Judges, statutes, citation types. Publishes to queue-indexer.")
+            Container(indexer, "IndexerWorker", ".NET", "Persists to SQL, Blob, AI Search. Generates embeddings. Citation resolution.")
+        }
+
+        ContainerQueue(queues, "Storage Queues", "Azure Storage Queues", "4 queues: crawler, parser, enrichment, indexer. KEDA-scaled workers.")
+    }
+
+    System_Boundary(doc_sources, "Document Sources") {
+        System_Ext(csjn, "CSJN", "Corte Suprema")
+        System_Ext(saij, "SAIJ", "Sistema Argentino de Información Jurídica")
+        System_Ext(pjn, "PJN", "Poder Judicial de la Nación")
+        System_Ext(scba, "SCBA", "Suprema Corte de Buenos Aires")
+    }
+
+    System_Boundary(external_services, "External Services") {
+        System_Ext(entra, "Azure Entra ID", "Identity")
+        System_Ext(openai, "Azure OpenAI", "Embeddings + LLM")
+        ContainerDb(sql, "Azure SQL", "Azure SQL Database", "Rulings, Courts, Judges, Keywords, Statutes, Citations, CrawlerConfigs.")
+        ContainerDb(blob, "Blob Storage", "Azure Blob Storage", "PDF files. Same Storage Account as Queues.")
+        ContainerDb(search, "AI Search", "Azure AI Search", "rulings-by-ruling and rulings-by-chunk indexes. Vector + keyword search.")
+    }
+
+    Rel(lawyer, spa, "Uses")
+    Rel(spa, api, "HTTPS/JSON")
+    Rel(api, sql, "Reads/writes")
+    Rel(api, search, "Hybrid search")
+    Rel(api, blob, "Reads PDFs")
+    Rel(api, openai, "Embeddings, RAG")
+    Rel(api, entra, "Validates tokens")
+    Rel(api, queues, "Publishes crawl jobs")
+
+    Rel(queues, crawler, "queue-crawler")
+    Rel(crawler, csjn, "Downloads from")
+    Rel(crawler, blob, "Uploads PDFs")
+    Rel(crawler, queues, "queue-parser")
+    Rel(queues, parser, "queue-parser")
+    Rel(parser, blob, "Reads PDFs")
+    Rel(parser, queues, "queue-enrichment")
+    Rel(queues, enrichment, "queue-enrichment")
+    Rel(enrichment, openai, "GPT-4o")
+    Rel(enrichment, queues, "queue-indexer")
+    Rel(queues, indexer, "queue-indexer")
+    Rel(indexer, sql, "Writes")
+    Rel(indexer, blob, "Writes")
+    Rel(indexer, search, "Indexes")
+    Rel(indexer, openai, "Embeddings")

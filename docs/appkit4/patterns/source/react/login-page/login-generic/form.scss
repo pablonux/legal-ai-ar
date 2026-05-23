@@ -1,0 +1,381 @@
+@import 'sass-rem/_rem.scss';
+@import '@appkit4/styles/scss/variables';
+
+.ap-pattern-form-header {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: $spacing-7;
+
+    &.vertical {
+        flex-direction: column;
+    }
+}
+
+.ap-pattern-form-title {
+    font-weight: $font-weight-2;
+    font-size: $typography-text-size-5;
+    line-height: $typography-line-height-5;
+    letter-spacing: $typography-letter-spacing-1;
+    color: var(--color-text-heading);
+}
+
+.ap-pattern-form-required-indicator {
+    position: relative;
+    font-weight: $font-weight-1;
+    font-size: $typography-text-size-3;
+    line-height: $typography-line-height-3;
+    letter-spacing: $typography-letter-spacing-1;
+    color: var(--color-text-light);
+
+    &::before {
+        content: "";
+        position: absolute;
+        left: calc(-1 * var(--spacing-3));
+        top: var(--spacing-2);
+        width: rem(4px);
+        height: rem(4px);
+        border-radius: var(--border-radius-1);
+        background-color: var(--color-text-error);
+        transition: all .3s;
+    }
+}
+
+.ap-pattern-form-item {
+    margin-bottom: 1rem;
+}
+
+.ap-pattern-form-footer {
+    display: flex;
+    justify-content: space-between;
+
+    .ap-button {
+        width: 100%;
+    }
+    .ap-button:not(:first-child) {
+        margin-left: rem(10px);
+    }
+    hr {
+        width: 100%;
+        height: rem(2px);
+        margin: $spacing-5 0;
+        opacity: $opacity-5; // .32
+        background-color: $neutral-05;
+    }
+}
+
+.remember-me {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    span:last-child a{
+        color: $color-text-primary;
+    }
+}
+
+.ap-pattern-form-footer.vertical {
+    display: flex;
+    flex-direction: column;
+
+    .ap-button:not(:first-child) {
+        margin-top: rem(16px);
+    }
+    hr+.ap-button:not(:first-child) {
+        margin-top: 0;
+    }
+}
+
+
+
+.ap-pattern-form-header-extra {
+    .ap-buttons-wrapper div.ap-button-dropdown {
+        right: rem(0px);
+    }
+}
+
+.ap-pattern-form-item {
+    .ap-field-demo-wrapper {
+        width: 100% !important;
+        display: grid;
+        grid-template-columns: auto;
+        grid-row-gap: rem(10px);
+        row-gap: rem(10px);
+    }
+    .ap-field-password .ap-field:not(.has-length) .ap-field-password-creator, .ap-field-password .ap-field:not(:focus-within) .ap-field-password-creator {
+        visibility: unset;
+        display: none;
+    }
+
+    .ap-field-password .ap-field-password-creator {
+        position: relative !important;
+        top: unset;
+        margin-bottom: 0;
+    }
+}
+
+// .a-calendar.error {
+//     .ap-field .ap-field-wrapper {
+//         background-color: rgba(var(--color-text-error-rgb), var(--opacity-3));
+//         box-shadow: inset 0 0 0 0.0625rem var(--color-text-error);
+//     }
+
+//     .ap-field .ap-field-wrapper .ap-field-input {
+//         color: var(--color-text-error);
+//     }
+
+//     .ap-field .ap-field-wrapper .ap-field-icon-btn {
+//         color: var(--color-text-error);
+//     }
+// }
+
+.ap-field-password-error {
+    margin: 0.5rem 0 0 0;
+    line-height: 0.75rem;
+    font-size: 0.75rem;
+    color: var(--color-text-error);
+}
+
+
+.ap-field-password .ap-field:not(.has-length) .ap-field-password-creator,
+.ap-field-password .ap-field:not(:focus-within) .ap-field-password-creator {
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+.ap-field-password .ap-field-password-creator>span.highlight {
+    color: var(--color-text-primary);
+}
+.ap-field-password .ap-field-password-creator.error>span.highlight {
+    color: var(--color-text-error);
+}
+.ap-field-password .ap-field-password-creator.error>span:not(.highlight) {
+    color: var(--color-text-error);
+    opacity: .5;
+}
+
+.ap-field-password .ap-field-password-creator>span {
+    display: grid;
+    grid-auto-flow: column;
+    grid-column-gap: var(--spacing-1);
+}
+
+.ap-field-password .ap-field-password-creator>span .icon-circle-checkmark-fill {
+    width: rem(12px);
+    height: rem(12px);
+    line-height: rem(12px);
+    font-size: rem(8px);
+}
+
+.ap-field-password .ap-field-password-creator>span .ap-field-password-condition {
+    line-height: rem(12px);
+    font-size: rem(12px);
+}
+
+
+
+// Demo
+
+.ap-pattern-form-demo {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+    flex-direction: column;
+    align-items: center;
+    .ap-pattern-form,
+    .ap-pattern-form-login {
+        margin-top: 3rem;
+    }
+}
+
+.ap-field-email-validation-suggestion {
+    margin-bottom: 0 !important;
+    margin-left: 0;
+}
+
+.ap-pattern-form-header-extra {
+    .ap-button-dropdown.open {
+        width: rem(150px);
+    }
+}
+
+.ap-pattern-form {
+    .select-language {
+        position: relative;
+    }
+    .select-language .ap-button-dropdown.open {
+        top: unset;
+    }
+}
+
+.ap-pattern-form {
+
+    // padding: 24px);
+
+    width: rem(432px);
+
+}
+
+.solid-form .ap-pattern-form-body {
+    background-color: #fff;
+    border-radius: rem(8px);
+    padding: rem(24px);
+}
+
+.ap-pattern-form-footer.vertical {
+    .ap-button:not(:first-child) {
+        margin-left: 0;
+    }
+    hr+.ap-button:not(:first-child) {
+        margin-top: 0;
+    }
+}
+
+
+
+.ap-pattern-form-title-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ap-pattern-form .ap-container {
+    padding: 0;
+}
+
+
+.ap-pattern-form-item .ap-container .row .col:first-child {
+    padding-right: rem(8px);
+}
+
+.ap-pattern-form-item .ap-container .row .col:last-child {
+    padding-left: rem(8px);
+}
+.ap-buttons-wrapper .custom + div.ap-button-dropdown {
+    z-index: 2 !important;
+}
+
+.ap-pattern-form-login-welcome {
+    font-weight: $font-weight-2;
+    font-size: $typography-text-size-4;
+    line-height: $typography-line-height-2;
+    letter-spacing: rem(-0.26px);
+    color: var(--color-text-light);
+    margin-bottom: rem(14px);
+}
+
+// .ap-pattern-form-login-title {
+//     font-family: 'Helvetica Neue';
+//     font-style: normal;
+//     font-weight: $font-weight-2;
+//     font-size: 48px); //$typography-text-size-7;
+//     line-height: 58px);
+//     margin-top: rem(8px);
+// }
+
+.ap-pattern-form-login {
+    width: rem(432px);
+
+}
+
+
+.ap-pattern-form-header-extra {
+    position: absolute;
+    right: 0;
+    top: rem(-4px);
+}
+
+.solid-form .ap-pattern-form-login-body {
+    background-color: #fff;
+    border-radius: $border-radius-3;
+    padding: $spacing-7;
+
+}
+
+.ap-pattern-form-login-title {
+
+    font-weight: $font-weight-2;
+    font-size: $typography-text-size-7;
+    line-height: rem(58px);
+    display: flex;
+    align-items: center;
+    letter-spacing: rem(-1.12px);
+    // margin-bottom: $spacing-7;
+    color: var(--color-text-heading);;
+}
+
+.ap-pattern-form-item {
+    margin-bottom: 1rem;
+}
+
+.ap-pattern-form-login-footer {
+
+    .ap-button {
+        width: 100%;
+    }
+
+
+}
+
+
+.ap-pattern-form-title-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ap-pattern-form .ap-container {
+    padding: 0;
+}
+
+.ap-pattern-form-login .ap-container {
+    padding: 0;
+}
+
+.react-date-picker.required-error{
+    .ap-field .ap-field-wrapper, .ap-field:not(.disabled):not(.readonly):not(.error) .ap-field-wrapper:hover {
+        background-color: rgba($color-text-error-rgb, $opacity-3);
+        box-shadow: inset 0 0 0 0.0625rem $color-text-error;
+    }
+    .ap-field:not(.disabled):not(.readonly):not(.error):focus-within .ap-field-wrapper.focus:not(.keyboard-focus){
+        box-shadow: inset 0 0 0 0.0625rem $color-text-error, 0 0 0 0.25rem rgba($color-text-error-rgb, $opacity-3);
+    }
+    .ap-field:not(.has-length):focus-within .ap-field-placeholder-container{
+        color: $color-text-error;
+    }
+    .ap-field-wrapper {
+      background-color: rgba($color-text-error-rgb, $opacity-3); // #C52A1A, .12
+      box-shadow: inset 0 0 0 rem(1px) $color-text-error; // inset 0 0 0 1px #C52A1A
+
+      .ap-field-input {
+        color: $color-text-error; // #C52A1A
+        // @include placeholder(#C52A1A);
+      }
+
+      .ap-field-icon-btn {
+        color: $color-text-error; // #C52A1A
+
+        &:not(.disabled):not(.icon-down-chevron-outline):hover {
+          background-color: rgba($color-text-error-rgb, $opacity-3) !important;
+        }
+      }
+    }
+
+    .ap-field-title-container {
+      // opacity: $opacity-6; // .48
+
+      .ap-field-title {
+        color: $color-text-error; // #C52A1A
+      }
+    }
+
+    .ap-field-container::after {
+      background-color: $color-text-error; // #C52A1A, same as text
+    }
+}
+
+.react-date-picker{
+    .ap-field-email-validation-error{
+        margin-bottom: 0;
+    }
+}

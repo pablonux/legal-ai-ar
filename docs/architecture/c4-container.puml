@@ -1,0 +1,78 @@
+@startuml C4 Container - Legal AI AR
+!pragma revision 1
+
+' C4 Container (use release for stability)
+!includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+' Azure icons (release branch - more stable for remote rendering)
+!define AzurePuml https://raw.githubusercontent.com/plantuml-stdlib/Azure-PlantUML/release/2-2/dist
+!includeurl AzurePuml/AzureCommon.puml
+!includeurl AzurePuml/AzureC4Integration.puml
+!includeurl AzurePuml/Identity/AzureActiveDirectory.puml
+!includeurl AzurePuml/AIMachineLearning/AzureCognitiveServices.puml
+!includeurl AzurePuml/Databases/AzureSqlDatabase.puml
+!includeurl AzurePuml/Storage/AzureBlobStorage.puml
+!includeurl AzurePuml/Storage/AzureQueueStorage.puml
+!includeurl AzurePuml/Web/AzureSearch.puml
+!includeurl AzurePuml/Web/AzureWebApp.puml
+!includeurl AzurePuml/Containers/AzureContainerApp.puml
+
+title Container — Legal AI AR
+
+Person(lawyer, "Lawyer", "Firm lawyer")
+
+Container_Boundary(legal_ai_ar, "Legal AI AR") {
+    Container(spa, "Angular SPA", "Angular", "Single-page application. Search, RAG chat, ruling detail. Admin panel under /admin/*.")
+    AzureWebApp(api, "API", "ASP.NET Core", "REST API. Rulings search, chat (SSE), admin endpoints. CQRS with MediatR.")
+
+    Container_Boundary(workers, "Ingestion Workers") {
+        AzureContainerApp(crawler, "CrawlerWorker", ".NET", "Discovers and downloads documents from judicial sources. Selenium for CSJN.")
+        AzureContainerApp(parser, "ParserWorker", ".NET", "Extracts metadata, normalizes text. PdfPig for PDF.")
+        AzureContainerApp(enrichment, "EnrichmentWorker", ".NET", "GPT-4o enrichment. Judges, statutes, citation types.")
+        AzureContainerApp(indexer, "IndexerWorker", ".NET", "Persists to SQL, Blob, AI Search. Generates embeddings.")
+    }
+
+    AzureQueueStorage(queues, "Storage Queues", "Azure Storage Queues", "4 queues: crawler, parser, enrichment, indexer. KEDA-scaled.")
+}
+
+System_Boundary(doc_sources, "Document Sources") {
+    System_Ext(csjn, "CSJN", "Corte Suprema")
+    System_Ext(saij, "SAIJ", "Sistema Argentino de Información Jurídica")
+    System_Ext(pjn, "PJN", "Poder Judicial de la Nación")
+    System_Ext(scba, "SCBA", "Suprema Corte de Buenos Aires")
+}
+
+System_Boundary(external_services, "External Services") {
+    AzureActiveDirectory(entra, "Azure Entra ID", "Identity")
+    AzureCognitiveServices(openai, "Azure OpenAI", "Embeddings + LLM")
+    AzureSqlDatabase(sql, "Azure SQL", "Azure SQL Database", "Rulings, Courts, Judges, Keywords, Statutes, Citations, CrawlerConfigs.")
+    AzureBlobStorage(blob, "Blob Storage", "Azure Blob Storage", "PDF files. Same Storage Account as Queues.")
+    AzureSearch(search, "AI Search", "Azure AI Search", "rulings-by-ruling and rulings-by-chunk indexes. Vector + keyword search.")
+}
+
+Rel(lawyer, spa, "Uses")
+Rel(spa, api, "HTTPS/JSON")
+Rel(api, sql, "Reads/writes")
+Rel(api, search, "Hybrid search")
+Rel(api, blob, "Reads PDFs")
+Rel(api, openai, "Embeddings, RAG")
+Rel(api, entra, "Validates tokens")
+Rel(api, queues, "Publishes crawl jobs")
+
+Rel(queues, crawler, "queue-crawler")
+Rel(crawler, csjn, "Downloads from")
+Rel(crawler, blob, "Uploads PDFs")
+Rel(crawler, queues, "queue-parser")
+Rel(queues, parser, "queue-parser")
+Rel(parser, blob, "Reads PDFs")
+Rel(parser, queues, "queue-enrichment")
+Rel(queues, enrichment, "queue-enrichment")
+Rel(enrichment, openai, "GPT-4o")
+Rel(enrichment, queues, "queue-indexer")
+Rel(queues, indexer, "queue-indexer")
+Rel(indexer, sql, "Writes")
+Rel(indexer, blob, "Writes")
+Rel(indexer, search, "Indexes")
+Rel(indexer, openai, "Embeddings")
+
+@enduml

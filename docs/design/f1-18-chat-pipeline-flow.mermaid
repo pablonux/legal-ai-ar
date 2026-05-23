@@ -1,0 +1,113 @@
+%% E233 - Chat pipeline sequence - F1-18 Chat Pipeline
+%% Source: docs/design/f1-18-chat-pipeline-architecture.md (E232)
+sequenceDiagram
+    participant Client
+    participant Controller as ChatController
+    participant Orchestrator as ChatPipelineOrchestrator
+    participant Guardrail as InputGuardrailStage
+    participant Enricher as QueryEnricherStage
+    participant Executor as ChatQueryHandler
+    participant LLM as GPT-4o
+    participant OutputGuard as OutputGuardrailStage
+    participant Finalizer as ResponseFinalizerStage
+    participant DB as Rulings DB
+
+    Client->>Controller: POST /api/chat (query)
+    Controller->>Orchestrator: Handle(ChatQueryCommand)
+
+    Note over Orchestrator: Phase 1: Pre-stream stages
+
+    rect rgb(255, 245, 238)
+        Note over Orchestrator,Guardrail: Input Guardrail (fail-closed)
+        Orchestrator->>Guardrail: ProcessAsync(context)
+        Guardrail->>Guardrail: Rule-based check (regex, PII, scope)
+
+        alt Rules conclusive
+            Guardrail-->>Orchestrator: Classification result
+        else Rules inconclusive
+            Guardrail->>LLM: GPT-4o-mini classify
+            LLM-->>Guardrail: Category
+            Guardrail-->>Orchestrator: Classification result
+        end
+
+        alt Category: greeting / out_of_scope / harmful
+            Orchestrator-->>Controller: Templated rejection (SSE text)
+            Controller-->>Client: data: rejection text
+            Controller-->>Client: data: [DONE]
+        else Category: legal_query / clarification
+            Note over Orchestrator: Continue pipeline
+        end
+    end
+
+    rect rgb(240, 248, 255)
+        Note over Orchestrator,Enricher: Query Enricher (fail-open)
+        Orchestrator->>Enricher: ProcessAsync(context)
+        Enricher->>Enricher: Rule-based intent + entity extraction
+
+        alt Complex query needs LLM
+            Enricher->>LLM: GPT-4o-mini structured output
+            LLM-->>Enricher: intent + entities JSON
+        end
+
+        Enricher-->>Orchestrator: Enrichment appended to messages
+
+        Note over Enricher: On failure: proceed with raw query
+    end
+
+    Note over Orchestrator: Phase 2: Agentic executor + chunk-mode
+
+    rect rgb(245, 255, 245)
+        Note over Orchestrator,LLM: Agentic Loop (existing F1-17)
+        Orchestrator->>Executor: Handle(command)
+
+        loop Agentic iterations
+            Executor->>LLM: StreamWithToolsAsync (GPT-4o + tools)
+
+            alt Text response
+                loop SSE text stream
+                    LLM-->>Executor: TextChunkEvent
+                    Executor-->>Orchestrator: ChatTextChunk
+                    Orchestrator->>Finalizer: Process chunk (normalize citations)
+                    Finalizer-->>Orchestrator: Normalized chunk
+                    Orchestrator-->>Controller: data: text chunk
+                    Controller-->>Client: data: text chunk
+                    Note over Orchestrator: Accumulate response text
+                end
+            else Tool calls
+                Note over Executor: Execute tools, re-invoke
+            end
+        end
+    end
+
+    Note over Orchestrator: Phase 3: Post-stream stages
+
+    rect rgb(255, 248, 240)
+        Note over Orchestrator,DB: Output Guardrail (fail-closed)
+        Orchestrator->>OutputGuard: ProcessAsync(context)
+        OutputGuard->>OutputGuard: Parse citations from accumulated text
+        OutputGuard->>DB: SELECT Id, CaseTitle WHERE Id IN (@ids)
+        DB-->>OutputGuard: Known rulings
+        OutputGuard->>OutputGuard: Validate IDs + titles + tool grounding
+
+        alt All citations valid
+            OutputGuard-->>Orchestrator: validation: passed
+        else Warnings found
+            OutputGuard-->>Orchestrator: validation: warnings + details
+            Orchestrator-->>Controller: data: warning text
+            Controller-->>Client: data: warning text
+        end
+
+        Orchestrator-->>Controller: event: validation
+        Controller-->>Client: event: validation (status + details)
+    end
+
+    rect rgb(248, 245, 255)
+        Note over Orchestrator,Finalizer: Disclaimer injection
+        alt Substantive legal content
+            Orchestrator-->>Controller: data: disclaimer text
+            Controller-->>Client: data: disclaimer text
+        end
+    end
+
+    Orchestrator-->>Controller: data: [DONE]
+    Controller-->>Client: data: [DONE]

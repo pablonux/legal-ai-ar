@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1224" height="792" viewBox="0 0 1224 792">
+<style>text{font-family:Segoe UI,Arial,sans-serif;font-size:10px;fill:#fff}</style>
+<rect width="100%" height="100%" fill="#f5f5f5"/>
+<text x="24" y="28" font-size="16" font-weight="bold" fill="#333">Legal AI AR — Ontología v2.1 — Jerarquía de clases</text>
+<line x1="612" y1="40" x2="65" y2="97" stroke="#555" stroke-width="1.5"/>
+<line x1="65" y1="97" x2="65" y2="142" stroke="#555" stroke-width="1.5"/>
+<line x1="65" y1="97" x2="65" y2="186" stroke="#555" stroke-width="1.5"/>
+<line x1="65" y1="97" x2="65" y2="231" stroke="#555" stroke-width="1.5"/>
+<line x1="65" y1="97" x2="65" y2="276" stroke="#555" stroke-width="1.5"/>
+<line x1="65" y1="97" x2="65" y2="320" stroke="#555" stroke-width="1.5"/>
+<line x1="65" y1="97" x2="65" y2="365" stroke="#555" stroke-width="1.5"/>
+<line x1="65" y1="97" x2="65" y2="410" stroke="#555" stroke-width="1.5"/>
+<line x1="612" y1="40" x2="212" y2="97" stroke="#555" stroke-width="1.5"/>
+<line x1="212" y1="97" x2="212" y2="142" stroke="#555" stroke-width="1.5"/>
+<line x1="212" y1="97" x2="212" y2="365" stroke="#555" stroke-width="1.5"/>
+<line x1="212" y1="365" x2="212" y2="410" stroke="#555" stroke-width="1.5"/>
+<line x1="212" y1="365" x2="212" y2="454" stroke="#555" stroke-width="1.5"/>
+<line x1="212" y1="142" x2="212" y2="186" stroke="#555" stroke-width="1.5" stroke-dasharray="5,4"/>
+<line x1="212" y1="142" x2="212" y2="231" stroke="#555" stroke-width="1.5" stroke-dasharray="5,4"/>
+<line x1="212" y1="142" x2="212" y2="276" stroke="#555" stroke-width="1.5" stroke-dasharray="5,4"/>
+<line x1="212" y1="142" x2="212" y2="320" stroke="#555" stroke-width="1.5" stroke-dasharray="5,4"/>
+<line x1="612" y1="40" x2="360" y2="97" stroke="#555" stroke-width="1.5"/>
+<line x1="360" y1="97" x2="360" y2="142" stroke="#555" stroke-width="1.5"/>
+<line x1="360" y1="97" x2="360" y2="276" stroke="#555" stroke-width="1.5"/>
+<line x1="360" y1="97" x2="360" y2="320" stroke="#555" stroke-width="1.5"/>
+<line x1="360" y1="97" x2="360" y2="365" stroke="#555" stroke-width="1.5"/>
+<line x1="360" y1="142" x2="360" y2="186" stroke="#555" stroke-width="1.5"/>
+<line x1="360" y1="142" x2="360" y2="231" stroke="#555" stroke-width="1.5"/>
+<line x1="612" y1="40" x2="508" y2="97" stroke="#555" stroke-width="1.5"/>
+<line x1="508" y1="97" x2="508" y2="142" stroke="#555" stroke-width="1.5"/>
+<line x1="508" y1="97" x2="508" y2="186" stroke="#555" stroke-width="1.5"/>
+<line x1="508" y1="186" x2="508" y2="231" stroke="#555" stroke-width="1.5"/>
+<line x1="508" y1="186" x2="508" y2="365" stroke="#555" stroke-width="1.5"/>
+<line x1="508" y1="231" x2="508" y2="276" stroke="#555" stroke-width="1.5"/>
+<line x1="508" y1="365" x2="508" y2="410" stroke="#555" stroke-width="1.5"/>
+<line x1="508" y1="365" x2="508" y2="454" stroke="#555" stroke-width="1.5"/>
+<line x1="508" y1="276" x2="508" y2="320" stroke="#555" stroke-width="1.5"/>
+<line x1="612" y1="40" x2="655" y2="97" stroke="#555" stroke-width="1.5"/>
+<line x1="655" y1="97" x2="655" y2="142" stroke="#555" stroke-width="1.5"/>
+<line x1="655" y1="97" x2="655" y2="186" stroke="#555" stroke-width="1.5"/>
+<line x1="655" y1="97" x2="655" y2="231" stroke="#555" stroke-width="1.5"/>
+<line x1="612" y1="40" x2="803" y2="97" stroke="#555" stroke-width="1.5"/>
+<line x1="803" y1="97" x2="803" y2="142" stroke="#555" stroke-width="1.5"/>
+<line x1="803" y1="97" x2="803" y2="186" stroke="#555" stroke-width="1.5"/>
+<line x1="803" y1="186" x2="803" y2="231" stroke="#555" stroke-width="1.5"/>
+<line x1="803" y1="186" x2="803" y2="276" stroke="#555" stroke-width="1.5"/>
+<line x1="612" y1="40" x2="950" y2="97" stroke="#555" stroke-width="1.5"/>
+<line x1="950" y1="97" x2="950" y2="142" stroke="#555" stroke-width="1.5"/>
+<line x1="950" y1="97" x2="950" y2="186" stroke="#555" stroke-width="1.5"/>
+<line x1="950" y1="97" x2="950" y2="231" stroke="#555" stroke-width="1.5"/>
+<rect x="545" y="22" width="133" height="36" rx="4" fill="#1E3A5F" stroke="#222"/>
+<text x="612" y="44" text-anchor="middle">Thing</text>
+<rect x="-2" y="79" width="133" height="36" rx="4" fill="#1E3A5F" stroke="#222"/>
+<text x="65" y="101" text-anchor="middle">NormaJuridica [Statute]</text>
+<rect x="-2" y="124" width="133" height="36" rx="4" fill="#4A7CB5" stroke="#222"/>
+<text x="65" y="146" text-anchor="middle">Constitucion</text>
+<rect x="-2" y="168" width="133" height="36" rx="4" fill="#4A7CB5" stroke="#222"/>
+<text x="65" y="190" text-anchor="middle">Tratado</text>
+<rect x="-2" y="213" width="133" height="36" rx="4" fill="#4A7CB5" stroke="#222"/>
+<text x="65" y="235" text-anchor="middle">Ley</text>
+<rect x="-2" y="258" width="133" height="36" rx="4" fill="#4A7CB5" stroke="#222"/>
+<text x="65" y="280" text-anchor="middle">Decreto</text>
+<rect x="-2" y="302" width="133" height="36" rx="4" fill="#4A7CB5" stroke="#222"/>
+<text x="65" y="324" text-anchor="middle">Resolucion</text>
+<rect x="-2" y="347" width="133" height="36" rx="4" fill="#4A7CB5" stroke="#222"/>
+<text x="65" y="369" text-anchor="middle">Ordenanza</text>
+<rect x="-2" y="392" width="133" height="36" rx="4" fill="#4A7CB5" stroke="#222"/>
+<text x="65" y="414" text-anchor="middle">Acordada</text>
+<rect x="146" y="79" width="133" height="36" rx="4" fill="#1E3A5F" stroke="#222"/>
+<text x="212" y="101" text-anchor="middle">SujetoDeDerecho</text>
+<rect x="146" y="124" width="133" height="36" rx="4" fill="#D04A02" stroke="#222"/>
+<text x="212" y="146" text-anchor="middle">PersonaHumana [Person]</text>
+<rect x="146" y="347" width="133" height="36" rx="4" fill="#4A7CB5" stroke="#222"/>
+<text x="212" y="369" text-anchor="middle">PersonaJuridica</text>
+<rect x="146" y="392" width="133" height="36" rx="4" fill="#4A7CB5" stroke="#222"/>
+<text x="212" y="414" text-anchor="middle">PJPublica</text>
+<rect x="146" y="436" width="133" height="36" rx="4" fill="#4A7CB5" stroke="#222"/>
+<text x="212" y="458" text-anchor="middle">PJPrivada</text>
+<rect x="146" y="168" width="133" height="36" rx="4" fill="#EB8C00" stroke="#222"/>
+<text x="212" y="190" text-anchor="middle">Juez</text>
+<rect x="146" y="213" width="133" height="36" rx="4" fill="#EB8C00" stroke="#222"/>
+<text x="212" y="235" text-anchor="middle">Fiscal</text>
+<rect x="146" y="258" width="133" height="36" rx="4" fill="#EB8C00" stroke="#222"/>
+<text x="212" y="280" text-anchor="middle">Defensor</text>
+<rect x="146" y="302" width="133" height="36" rx="4" fill="#EB8C00" stroke="#222"/>
+<text x="212" y="324" text-anchor="middle">Abogado</text>
+<rect x="293" y="79" width="133" height="36" rx="4" fill="#1E3A5F" stroke="#222"/>
+<text x="360" y="101" text-anchor="middle">OrganoEstatal</text>
+<rect x="293" y="124" width="133" height="36" rx="4" fill="#4A7CB5" stroke="#222"/>
+<text x="360" y="146" text-anchor="middle">OrganoJudicial</text>
+<rect x="293" y="258" width="133" height="36" rx="4" fill="#4A7CB5" stroke="#222"/>
+<text x="360" y="280" text-anchor="middle">OrganoLegislativo</text>
+<rect x="293" y="302" width="133" height="36" rx="4" fill="#4A7CB5" stroke="#222"/>
+<text x="360" y="324" text-anchor="middle">OrganoEjecutivo</text>
+<rect x="293" y="347" width="133" height="36" rx="4" fill="#4A7CB5" stroke="#222"/>
+<text x="360" y="369" text-anchor="middle">OrganoDescentralizado</text>
+<rect x="293" y="168" width="133" height="36" rx="4" fill="#D04A02" stroke="#222"/>
+<text x="360" y="190" text-anchor="middle">Tribunal [Court]</text>
+<rect x="293" y="213" width="133" height="36" rx="4" fill="#4A7CB5" stroke="#222"/>
+<text x="360" y="235" text-anchor="middle">MinisterioPublico</text>
+<rect x="441" y="79" width="133" height="36" rx="4" fill="#9E9E9E" stroke="#222"/>
+<text x="508" y="101" text-anchor="middle">HechoJuridico</text>
+<rect x="441" y="124" width="133" height="36" rx="4" fill="#4A7CB5" stroke="#222"/>
+<text x="508" y="146" text-anchor="middle">HechoInvoluntario</text>
+<rect x="441" y="168" width="133" height="36" rx="4" fill="#4A7CB5" stroke="#222"/>
+<text x="508" y="190" text-anchor="middle">HechoVoluntario</text>
+<rect x="441" y="213" width="133" height="36" rx="4" fill="#4A7CB5" stroke="#222"/>
+<text x="508" y="235" text-anchor="middle">ActoLicito</text>
+<rect x="441" y="347" width="133" height="36" rx="4" fill="#4A7CB5" stroke="#222"/>
+<text x="508" y="369" text-anchor="middle">ActoIlicito</text>
+<rect x="441" y="258" width="133" height="36" rx="4" fill="#4A7CB5" stroke="#222"/>
+<text x="508" y="280" text-anchor="middle">ActoJuridico</text>
+<rect x="441" y="392" width="133" height="36" rx="4" fill="#4A7CB5" stroke="#222"/>
+<text x="508" y="414" text-anchor="middle">Delito</text>
+<rect x="441" y="436" width="133" height="36" rx="4" fill="#4A7CB5" stroke="#222"/>
+<text x="508" y="458" text-anchor="middle">Cuasidelito</text>
+<rect x="441" y="302" width="133" height="36" rx="4" fill="#4A7CB5" stroke="#222"/>
+<text x="508" y="324" text-anchor="middle">Contrato</text>
+<rect x="589" y="79" width="133" height="36" rx="4" fill="#D04A02" stroke="#222"/>
+<text x="655" y="101" text-anchor="middle">ProcesoJudicial [JudicialProceeding]</text>
+<rect x="589" y="124" width="133" height="36" rx="4" fill="#4A7CB5" stroke="#222"/>
+<text x="655" y="146" text-anchor="middle">ProcesoCivil</text>
+<rect x="589" y="168" width="133" height="36" rx="4" fill="#4A7CB5" stroke="#222"/>
+<text x="655" y="190" text-anchor="middle">ProcesoPenal</text>
+<rect x="589" y="213" width="133" height="36" rx="4" fill="#4A7CB5" stroke="#222"/>
+<text x="655" y="235" text-anchor="middle">ProcesoLaboral</text>
+<rect x="736" y="79" width="133" height="36" rx="4" fill="#9E9E9E" stroke="#222"/>
+<text x="803" y="101" text-anchor="middle">FuenteDelDerecho</text>
+<rect x="736" y="124" width="133" height="36" rx="4" fill="#4A7CB5" stroke="#222"/>
+<text x="803" y="146" text-anchor="middle">FuenteFormal</text>
+<rect x="736" y="168" width="133" height="36" rx="4" fill="#4A7CB5" stroke="#222"/>
+<text x="803" y="190" text-anchor="middle">FuenteMaterial</text>
+<rect x="736" y="213" width="133" height="36" rx="4" fill="#4A7CB5" stroke="#222"/>
+<text x="803" y="235" text-anchor="middle">Jurisprudencia</text>
+<rect x="736" y="258" width="133" height="36" rx="4" fill="#4A7CB5" stroke="#222"/>
+<text x="803" y="280" text-anchor="middle">Doctrina</text>
+<rect x="884" y="79" width="133" height="36" rx="4" fill="#1E3A5F" stroke="#222"/>
+<text x="950" y="101" text-anchor="middle">Jurisdiccion</text>
+<rect x="884" y="124" width="133" height="36" rx="4" fill="#4A7CB5" stroke="#222"/>
+<text x="950" y="146" text-anchor="middle">Federal</text>
+<rect x="884" y="168" width="133" height="36" rx="4" fill="#4A7CB5" stroke="#222"/>
+<text x="950" y="190" text-anchor="middle">Provincial</text>
+<rect x="884" y="213" width="133" height="36" rx="4" fill="#4A7CB5" stroke="#222"/>
+<text x="950" y="235" text-anchor="middle">CABA</text>
+<rect x="5" y="713" width="133" height="36" rx="4" fill="#D04A02" stroke="#222"/>
+<text x="72" y="735" text-anchor="middle">Sentencia [Ruling]</text>
+<rect x="153" y="713" width="133" height="36" rx="4" fill="#D04A02" stroke="#222"/>
+<text x="220" y="735" text-anchor="middle">ThesaurusTerm [ThesaurusTerm]</text>
+<rect x="301" y="713" width="133" height="36" rx="4" fill="#D04A02" stroke="#222"/>
+<text x="367" y="735" text-anchor="middle">PalabraClave [Keyword]</text>
+<rect x="448" y="713" width="133" height="36" rx="4" fill="#D04A02" stroke="#222"/>
+<text x="515" y="735" text-anchor="middle">Fuente [Source]</text>
+</svg>

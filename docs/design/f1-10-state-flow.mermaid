@@ -1,0 +1,16 @@
+%% E097 - Search UI state flow - F1-10 Frontend
+%% Source: docs/design/f1-10-frontend-search.md (E095)
+stateDiagram-v2
+    direction TB
+
+    [*] --> idle: Component init
+
+    idle --> loading: Submit search (query + filters)
+
+    loading --> results: API returns results (count > 0)
+    loading --> empty: API returns 0 results
+    loading --> error: API error (4xx, 5xx, network)
+
+    results --> loading: Change page / filters
+    empty --> loading: Retry or change filters
+    error --> loading: Retry

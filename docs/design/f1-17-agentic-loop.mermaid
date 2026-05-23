@@ -1,0 +1,58 @@
+%% E216 - Agentic loop sequence - F1-17 Chat Tools
+%% Source: docs/design/f1-17-chat-tools-architecture.md (E215)
+sequenceDiagram
+    participant Client
+    participant Controller as ChatController
+    participant Handler as ChatQueryHandler
+    participant Registry as IToolRegistry
+    participant Agent as IAgentChatService
+    participant LLM as GPT-4o
+    participant Tool as Tool Handler
+
+    Client->>Controller: POST /api/chat (query)
+    Controller->>Handler: CreateStream(ChatQueryCommand)
+
+    Note over Handler: Build messages: system prompt + user query
+
+    Handler->>Registry: GetToolDefinitions()
+    Registry-->>Handler: tool definitions (8 tools)
+
+    rect rgb(240, 248, 255)
+        Note over Handler,LLM: Agentic Loop (max 5 iterations)
+
+        Handler->>Agent: StreamWithToolsAsync(messages, tools, options)
+        Agent->>LLM: CompleteChatStreamingAsync(messages + tools)
+
+        alt Model returns text (FinishReason: Stop)
+            loop SSE text stream
+                LLM-->>Agent: TextChunkEvent
+                Agent-->>Handler: TextChunkEvent
+                Handler-->>Controller: data: text chunk
+                Controller-->>Client: data: text chunk
+            end
+            LLM-->>Agent: DoneEvent(Stop)
+            Agent-->>Handler: DoneEvent(Stop)
+            Handler-->>Controller: data: [DONE]
+            Controller-->>Client: data: [DONE]
+
+        else Model returns tool_calls (FinishReason: ToolCalls)
+            LLM-->>Agent: ToolCallRequestEvent(s)
+            Agent-->>Handler: ToolCallRequestEvent(s)
+
+            loop For each tool call
+                Handler-->>Controller: event: tool_start
+                Controller-->>Client: event: tool_start
+
+                Handler->>Registry: ExecuteAsync(toolName, argsJson, context)
+                Registry->>Tool: ExecuteAsync(argsJson, context)
+                Tool-->>Registry: result string
+                Registry-->>Handler: result string
+
+                Handler-->>Controller: event: tool_end
+                Controller-->>Client: event: tool_end
+            end
+
+            Note over Handler: Append assistant message + tool results to messages
+            Note over Handler: Increment iteration, re-invoke if under max
+        end
+    end

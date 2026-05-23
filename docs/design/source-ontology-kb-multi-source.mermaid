@@ -1,0 +1,59 @@
+%% Estrategia multi-fuente: diferentes fuentes aportan a diferentes clases ontológicas
+%% con diferentes niveles de estructura y dependencia de LLM
+
+flowchart TB
+    subgraph sources [Fuentes Diversas]
+        direction LR
+        CSJN["CSJN\nCorte Suprema\n~1,811 fallos\n8 APIs REST + PDF"]
+        SAIJ_R["SAIJ Juris\nCámaras Federales\nNacionales\nHTML + PDF"]
+        SAIJ_L["SAIJ Legislación\nLeyes, Decretos\nResoluciones\nAPI REST"]
+        PJN["PJN\nPoder Judicial\nHTML + PDF"]
+        SCBA["SCBA\nBuenos Aires\nHTML + PDF"]
+    end
+
+    subgraph strategies [Estrategia de Extracción por Fuente]
+        S_CSJN["CsjnEnrichmentStrategy\n• 8 endpoints estructurados\n• LLM: solo gaps\n• ~1-2 calls/doc"]
+        S_SAIJ_R["SaijEnrichmentStrategy\n• HTML semi-estructurado\n• LLM: parcial\n• ~3-4 calls/doc"]
+        S_SAIJ_L["SaijLegislationParser\n• API estructurada\n• LLM: mínimo\n• ~0-1 calls/doc"]
+        S_FULL["FullEnrichmentStrategy\n• Poca estructura\n• LLM: completo\n• ~4-5 calls/doc"]
+    end
+
+    CSJN --> S_CSJN
+    SAIJ_R --> S_SAIJ_R
+    SAIJ_L --> S_SAIJ_L
+    PJN --> S_FULL
+    SCBA --> S_FULL
+
+    subgraph ontSpace [Espacio Ontológico Cubierto]
+        direction TB
+        Sentencia["Sentencia\nlegar:Jurisprudencia\n• Ruling\n• Vote, Sumario\n• Citation"]
+        NormaJ["NormaJuridica\n• Statute (texto completo)\n• Pirámide normativa\n• Vigencia"]
+        Sujeto["SujetoDeDerecho\n• Person\n• RulingParticipation\n• ProceedingParty"]
+        OrganoJ["OrganoEstatal\n• Court\n• JudicialOffice"]
+        ProcesoJ["ProcesoJudicial\n• JudicialProceeding\n• ProceedingParty"]
+    end
+
+    S_CSJN --> Sentencia
+    S_CSJN --> Sujeto
+    S_CSJN --> OrganoJ
+    S_CSJN --> ProcesoJ
+
+    S_SAIJ_R --> Sentencia
+    S_SAIJ_R --> Sujeto
+    S_SAIJ_R --> OrganoJ
+
+    S_SAIJ_L --> NormaJ
+
+    S_FULL --> Sentencia
+    S_FULL --> Sujeto
+    S_FULL --> OrganoJ
+
+    subgraph kbGrowth [Crecimiento de la KB]
+        direction LR
+        Phase1["Fase 1\n~1,811 fallos CSJN\nprofundizados"]
+        Phase3b["Fase 3b\n+ Miles de normas\ncon texto completo"]
+        Phase4["Fase 4\n+ ~15,000 fallos\nSAIJ + PJN + SCBA"]
+
+        Phase1 -->|"legislación SAIJ"| Phase3b
+        Phase3b -->|"más fuentes"| Phase4
+    end

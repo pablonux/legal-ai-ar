@@ -1,0 +1,201 @@
+# Multiple apps and images are supported, each will have its own independent knativeService and virtualService
+apps:
+- name: backend
+  ingress: enabled
+  image:
+    build: true
+    name: legal-ai-api
+    path: ./backend
+    port: 8080
+    repository: default
+    experimentalBuild: true
+    tag: default
+    languages:
+    - dotnet
+  rewrite:
+    uri: /
+  resources:
+    requests:
+      cpu: 250m
+      memory: 250M
+    limits:
+      cpu: 2000m
+      memory: 2Gi
+- name: frontend
+  ingress: enabled
+  minScale: 1
+  image:
+    build: true
+    name: legal-ai-ui
+    path: ./frontend
+    port: 8081
+    repository: default
+    experimentalBuild: true
+    tag: default
+    languages:
+    - angular
+  rewrite:
+    uri: /
+  resources:
+    requests:
+      cpu: 250m
+      memory: 250M
+    limits:
+      cpu: 500m
+      memory: 500M
+# - name: crawler
+#   ingress: false
+#   image:
+#     build: true
+#     name: legal-ai-crawler
+#     path: ./backend
+#     dockerfileName: ./src/workers/LegalAiAr.Worker.Crawler/Dockerfile
+#     port: 8080
+#     repository: default
+#     experimentalBuild: true
+#     tag: default
+#     languages:
+#     - dotnet
+#   rewrite:
+#     uri: /crawler
+#   resources:
+#     requests:
+#       cpu: 250m
+#       memory: 250M
+#     limits:
+#       cpu: 2000m
+#       memory: 2Gi
+# - name: enrichment
+#   ingress: false
+#   image:
+#     build: true
+#     name: legal-ai-enrichment
+#     path: ./backend
+#     dockerfileName: ./src/workers/LegalAiAr.Worker.Enrichment/Dockerfile
+#     port: 8080
+#     repository: default
+#     experimentalBuild: true
+#     tag: default
+#     languages:
+#     - dotnet
+#   rewrite:
+#     uri: /enrichment
+#   resources:
+#     requests:
+#       cpu: 250m
+#       memory: 250M
+#     limits:
+#       cpu: 2000m
+#       memory: 2Gi
+# - name: indexer
+#   ingress: false
+#   image:
+#     build: true
+#     name: legal-ai-indexer
+#     path: ./backend
+#     dockerfileName: ./src/workers/LegalAiAr.Worker.Indexer/Dockerfile
+#     port: 8080
+#     repository: default
+#     experimentalBuild: true
+#     tag: default
+#     languages:
+#     - dotnet
+#   rewrite:
+#     uri: /indexer
+#   resources:
+#     requests:
+#       cpu: 250m
+#       memory: 250M
+#     limits:
+#       cpu: 2000m
+#       memory: 2Gi
+# - name: parser
+#   ingress: false
+#   image:
+#     build: true
+#     name: legal-ai-parser
+#     path: ./backend
+#     dockerfileName: ./src/workers/LegalAiAr.Worker.Parser/Dockerfile
+#     port: 8080
+#     repository: default
+#     experimentalBuild: true
+#     tag: default
+#     languages:
+#     - dotnet
+#   rewrite:
+#     uri: /parser
+#   resources:
+#     requests:
+#       cpu: 250m
+#       memory: 250M
+#     limits:
+#       cpu: 2000m
+#       memory: 2Gi
+
+# Enable Microsoft Entra ID authentication (GCaaS Envoy). Requires entra VirtualService below.
+authentication:
+  entra: true
+
+# URI entry point to be used for launching the application, do not include hostname. Max length is 63 character after rendering
+entrypoint: "https://{{ .Values.metadata.hostName }}/{{ .Values.metadata.engagementId }}/{{ $.Release.Name }}/"
+
+# Secrets keys must match the ones in your Hashicorp Vault and wrappingReplaced will be replaced in runtime
+secrets:
+  AzureSql__ConnectionString: wrappingReplaced
+  AzureBlob__ConnectionString: wrappingReplaced
+  AzureSearch__ApiKey: wrappingReplaced
+  AzureOpenAI__ApiKey: wrappingReplaced
+  Auth__Platform__TenantId: wrappingReplaced
+  Auth__Platform__ValidAudience: wrappingReplaced
+
+# These secrets will be injected into your enabled dependencies from your helm charts under the deployment/charts folder.
+# Dependencies secrets will be injected in runtime
+dependencySecrets: []
+
+# runtimeReplaced values will be replaced in runtime, and only will be available on deployment from the system.
+metadata:
+  engagementId: runtimeReplaced
+  hostName: runtimeReplaced
+  entraHostName: runtimeReplaced
+  commitHash: runtimeReplaced
+
+# These will be automatically injected in your knative service with the specified value here
+configMap:
+  - key: AzureBlob__ContainerName
+    value: legalaiar-kb-dev
+  - key: AzureSearch__Endpoint
+    value: https://u2zfnlviadcs003.search.windows.net
+  - key: AzureSearch__RulingIndexName
+    value: rulings-by-ruling
+  - key: AzureSearch__ChunkIndexName
+    value: rulings-by-chunk
+  - key: AzureOpenAI__Endpoint
+    value: https://genai-sharedservice-americas.pwcinternal.com
+  - key: AzureOpenAI__ChatDeploymentName
+    value: azure.gpt-5
+  - key: AzureOpenAI__MiniDeploymentName
+    value: azure.gpt-5-mini
+  - key: AzureOpenAI__NanoDeploymentName
+    value: azure.gpt-5-nano
+  - key: AzureOpenAI__EmbeddingDeploymentName
+    value: azure.text-embedding-3-large
+  - key: ENGAGEMENT_ID
+    value: "{{ .Values.metadata.engagementId }}"
+  - key: BACKEND_ROOT_URL
+    value: "https://{{ .Values.metadata.hostName }}/{{ .Values.metadata.engagementId }}/{{ $.Release.Name }}-{{ (index .Values.apps 0).name }}"
+  - key: BACKEND_ROOT_URL_ENTRA
+    value: "https://{{ .Values.metadata.entraHostName }}/{{ .Values.metadata.engagementId }}/{{ $.Release.Name }}-{{ (index .Values.apps 0).name }}"
+# To enable the Veracode security scan on your application for a particular branch, uncomment the following section and enter your app's CI number and branch name
+# pipelineSettings:
+# - branch: my-branch
+#   ciNumber: CI123
+#   veracode:
+#     enabled: true
+
+# To enable persistent logging in Datadog. Note this will be charged-back to your ApptioId
+persistentLogging:
+  enabled: false
+
+# To enable a daemonset preloader to keep your images cached on every node and improve startup times
+imagePreloader:
+  enabled: false

@@ -1,0 +1,11 @@
+description: Legal AI AR
+apiVersion: v2
+name: legal-ai
+version: 0.0.1
+appVersion: 0.0.1
+maintainers:
+  - name: Pablo Nux
+    email: pablo.nux@pwc.com
+keywords:
+  - dotnet
+  - angular

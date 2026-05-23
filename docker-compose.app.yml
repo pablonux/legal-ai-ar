@@ -1,0 +1,64 @@
+# Legal AI AR — Local app containers (API, SPA, workers)
+# Uses .env for Azure SQL, Blob, Search, OpenAI, etc. No SQL/Neo4j containers.
+#
+# Usage:
+#   docker compose -f docker-compose.app.yml up -d
+#   SPA: http://localhost:4200  |  API: http://localhost:5088  |  Docs: http://localhost:5088/docs
+
+services:
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.api
+    env_file: .env
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+    ports:
+      - "5088:8080"
+    restart: unless-stopped
+
+  spa:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "4200:80"
+    depends_on:
+      - api
+    restart: unless-stopped
+
+  worker-crawler:
+    build:
+      context: ./backend
+      dockerfile: src/workers/LegalAiAr.Worker.Crawler/Dockerfile
+    env_file: .env
+    depends_on:
+      - api
+    restart: unless-stopped
+
+  worker-parser:
+    build:
+      context: ./backend
+      dockerfile: src/workers/LegalAiAr.Worker.Parser/Dockerfile
+    env_file: .env
+    depends_on:
+      - api
+    restart: unless-stopped
+
+  worker-enrichment:
+    build:
+      context: ./backend
+      dockerfile: src/workers/LegalAiAr.Worker.Enrichment/Dockerfile
+    env_file: .env
+    depends_on:
+      - api
+    restart: unless-stopped
+
+  worker-indexer:
+    build:
+      context: ./backend
+      dockerfile: src/workers/LegalAiAr.Worker.Indexer/Dockerfile
+    env_file: .env
+    depends_on:
+      - api
+    restart: unless-stopped

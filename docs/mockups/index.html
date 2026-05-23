@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Legal AI AR — Mockups</title>
+  <link rel="stylesheet" href="mockup-shell.css">
+  <style>
+    body { font-family: Arial, sans-serif; background: #f3f3f3; margin: 0; padding: 2rem; }
+    h1 { font-family: Georgia, serif; font-size: 28px; font-weight: 300; color: #252525; }
+    .eyebrow { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #D04A02; margin-bottom: 0.5rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem; margin-top: 2rem; }
+    .card { background: #fff; border: 1px solid #d1d1d1; border-radius: 0.25rem; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    .card h3 { font-size: 14px; font-weight: 600; margin: 0 0 0.5rem 0; color: #252525; }
+    .card p { font-size: 13px; color: #696969; margin: 0 0 1rem 0; }
+    .card a { display: inline-block; background: #D04A02; color: #fff; padding: 0.5rem 1rem; border-radius: 0.25rem; text-decoration: none; font-size: 14px; font-weight: 500; }
+    .card a:hover { background: #EB8C00; }
+    .section { margin-bottom: 2rem; }
+    .section h2 { font-size: 14px; font-weight: 600; color: #555; text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 1rem; }
+  </style>
+</head>
+<body>
+  <div class="eyebrow">PwC Legal AI AR Platform</div>
+  <h1>Mockups de interfaz</h1>
+  <p style="color: #696969; font-size: 14px;">Maquetas HTML de cada página de la aplicación, siguiendo las <a href="legal-ai-ar-pwc-design-guidelines.md" style="color: #D04A02;">guías de diseño PwC AppKit4</a>.</p>
+
+  <div class="section">
+    <h2>Diseño ganador</h2>
+    <p style="color: #696969; font-size: 13px; margin-bottom: 1rem;">Propuesta final: Feedback Exchange light (01 + 07). Header blanco, sidebar blanco, hero con gradiente, iconos outline SVG.</p>
+    <div class="card" style="border-left: 4px solid #D04A02;">
+      <h3>Proposal Final — 01 + 07</h3>
+      <p>Combinación: sidebar 01 + hero wide 07 + 4 cards + nav header. Logo pwc.svg, "Legal AI AR", español (Argentina).</p>
+      <a href="legal-feed-proposals/proposal-final-01-07.html">Ver diseño ganador</a>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Páginas principales</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>Inicio</h3>
+        <p>Página de bienvenida con acceso rápido a búsqueda y chat.</p>
+        <a href="mockup-home.html">Ver mockup</a>
+      </div>
+      <div class="card">
+        <h3>Búsqueda</h3>
+        <p>Búsqueda semántica en lenguaje natural con filtros avanzados.</p>
+        <a href="mockup-search.html">Ver mockup</a>
+      </div>
+      <div class="card">
+        <h3>Resultados</h3>
+        <p>Lista de fallos con paginación y fragmentos relevantes.</p>
+        <a href="mockup-search-results.html">Ver mockup</a>
+      </div>
+      <div class="card">
+        <h3>Detalle de fallo</h3>
+        <p>Vista completa del fallo con metadatos, citas y relacionados.</p>
+        <a href="mockup-ruling-detail.html">Ver mockup</a>
+      </div>
+      <div class="card">
+        <h3>Chat jurisprudencial</h3>
+        <p>Asistente RAG para consultas legales con citas a fallos.</p>
+        <a href="mockup-chat.html">Ver mockup</a>
+      </div>
+      <div class="card">
+        <h3>Roadmap Dashboard</h3>
+        <p>Avance del proyecto: fases, features y entregables.</p>
+        <a href="mockup-roadmap-dashboard.html">Ver mockup</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Panel de administración</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>Dashboard</h3>
+        <p>Estado del pipeline por fuente (CSJN, SAIJ, PJN, SCBA).</p>
+        <a href="mockup-admin-dashboard.html">Ver mockup</a>
+      </div>
+      <div class="card">
+        <h3>Crawlers</h3>
+        <p>Gestión de crawlers y ejecución manual.</p>
+        <a href="mockup-admin-crawlers.html">Ver mockup</a>
+      </div>
+      <div class="card">
+        <h3>Jobs</h3>
+        <p>Jobs activos, completados y fallidos.</p>
+        <a href="mockup-admin-jobs.html">Ver mockup</a>
+      </div>
+      <div class="card" style="border-left: 4px solid #D04A02;">
+        <h3>Jobs con métricas (F1-15/F1-16)</h3>
+        <p>Tabla completa: descubiertos, indexados, fallidos, enlace a DLQ, Re-ejecutar documento.</p>
+        <a href="mockup-admin-jobs-metrics.html">Ver mockup</a>
+      </div>
+      <div class="card" style="border-left: 4px solid #D04A02;">
+        <h3>Re-ejecutar documento (F1-15)</h3>
+        <p>Modal: selector de documento fallido, etapa (parser/enrichment/indexer), confirmación.</p>
+        <a href="mockup-admin-requeue-document.html">Ver mockup</a>
+      </div>
+      <div class="card">
+        <h3>Dead Letter Queue</h3>
+        <p>Mensajes fallidos por cola con opción de reencolar.</p>
+        <a href="mockup-admin-dlq.html">Ver mockup</a>
+      </div>
+      <div class="card" style="border-left: 4px solid #D04A02;">
+        <h3>DLQ con Error (F1-15)</h3>
+        <p>Cola de errores con columna Error: tipo de excepción y mensaje expandible.</p>
+        <a href="mockup-admin-dlq-error.html">Ver mockup</a>
+      </div>
+      <div class="card">
+        <h3>Usuarios</h3>
+        <p>CRUD de usuarios con roles.</p>
+        <a href="mockup-admin-users.html">Ver mockup</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

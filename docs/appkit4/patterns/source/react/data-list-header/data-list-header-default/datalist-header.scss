@@ -1,0 +1,216 @@
+@import 'sass-rem/_rem.scss';
+@import '@appkit4/styles/scss/_variables.scss';
+
+.ap-pattern-data-list-header{
+    display: flex;
+    flex-direction: column;    
+    background-color: transparent;
+    height: rem(96px);
+    &.solid{
+        background-color: $color-background-container;
+        border-radius: rem(8px);
+        padding: rem(20px);
+        height: rem(136px);
+    } 
+    .data-list-header-selected{
+        display: flex;
+        margin-top: rem(12px);
+        margin-bottom: rem(32px);
+        line-height: rem(24px);
+        color: $color-text-body;
+        .header-selected-text{
+            height: rem(32px);
+            line-height: rem(32px);
+        }
+        .icon-panel{
+            margin-left: rem(28px);
+            display: flex;
+            gap:rem(12px);
+            height: rem(32px);
+            .Appkit4-icon{
+                cursor: pointer;
+                width: rem(32px);
+                height:rem(32px);
+                line-height: rem(32px);
+                &:hover {
+                    background-color: rgba(var(--color-background-hover-selected-rgb));
+                    border-radius: rem(4px);
+                }
+            }
+            .icon-delete-outline{
+                color: $color-text-error;
+            }
+        }
+    }
+    .data-list-header-filter{
+        display: flex;
+        justify-content: space-between;
+        height: rem(48px);
+        .ap-search-container{
+            width: rem(304px);
+            padding: 0;
+        }
+        .data-list-header-right-filter{
+            position: relative;
+            display: flex;
+            .ap-buttons-wrapper{
+                margin-right:rem(8px);
+                .ap-button.ap-button-compact {
+                    height: rem(40px);
+                    line-height: rem(32px);
+                }
+            }
+            .ap-button.ap-button-secondary{
+                width: rem(175px);
+            }
+        }
+    }
+    .data-list-header-action-filter{
+        display: flex;
+        justify-content: space-between;
+        height: rem(48px);
+        .data-list-header-right-option,.data-list-header-right-filter{
+            display: flex;
+            align-items: center;
+            .tags-panel{  
+                display: flex;
+                align-items: center;
+                .ap-tag:not(:last-child){
+                    margin-right: rem(16px);
+                }
+            }
+            .tags-panel-border{
+                background-color: #D9D9D9;
+                height: rem(32px);
+                width: rem(1px);
+                margin-left:rem(8px);
+                margin-right: rem(8px);
+            }
+            
+            .header-right-option-clear{
+                color: $color-text-primary;
+                cursor: pointer;
+                line-height: rem(32px);
+                height: rem(32px);
+                width: rem(112px);
+                display: flex;
+                justify-content: center;
+                &:hover {
+                    background-color: rgba($color-background-primary-rgb, $opacity-3);
+                    border-radius: rem(4px);
+                }
+            }
+        }
+        .data-list-header-right-filter{
+            margin-top: rem(8px);
+            justify-content: flex-end;
+            margin-bottom: rem(8px);
+        }
+    }
+
+    .ap-button .icon-down-chevron-outline {
+        margin-left: rem(8px);
+        transition: transform 0.3s;
+        &.rotate {
+            transform: rotate(-180deg);
+        }
+    }
+
+    .ap-button:not([disabled]).ap-button-secondary.ap-pattern-btn-filters{
+        box-shadow: none;
+        margin-right: rem(8px);
+        padding-left: rem(16px);
+        padding-right: rem(16px);
+        width: rem(123px);
+        .Appkit4-icon.icon-down-chevron-outline {
+            margin-left: rem(4px);
+            margin-right: 0;
+        }
+        &.with-count {
+            width: rem(146px);
+        }
+        .disabled{
+            opacity: $opacity-4;
+        }
+        &.compact {
+            height: rem(32px);
+            line-height: rem(32px);
+            display: flex;
+            align-items: center;
+        }
+        &.show-menu {
+            background-color: rgba($color-background-primary-rgb, $opacity-4);
+            &:hover{
+                background-color: rgba($color-background-primary-rgb, $opacity-3);
+                border: none;
+                box-shadow: 0 0 0 0.25rem rgba($color-background-primary-rgb, $opacity-4);
+            }
+        }
+        .filters-count{
+            margin-left: rem(4px);
+            margin-right: 0;
+        }
+        // &:focus.keyboard-focus{
+        //     outline: none;
+        // }
+        &:focus:not(.keyboard-focus){
+            border: none;
+            box-shadow: 0 0 0 0.25rem rgba(var(--color-background-primary-rgb), 0.24);
+        }
+        // &:hover{
+        //     background-color: unset;
+        // }
+    } 
+}
+
+.ap-pattern-filter-popup{
+    background-color: $color-background-container;
+    border-radius: rem(8px);
+    display: flex;
+    flex-direction: column;
+    padding: rem(12px);
+    box-shadow: $box-shadow-3;
+    .filter-content{
+        margin-bottom: rem(12px);
+        &.empty {
+            min-width: rem(200px);
+            min-height: rem(88px);
+        }
+        .filter-list-row{
+            display: flex;
+            padding: rem(12px);
+            height: rem(48px);
+            &:not(:last-child) {
+                margin-bottom: rem(4px);
+            }
+            &:focus-visible{
+                outline: auto rem(5px) -webkit-focus-ring-color;
+                box-shadow: none;
+            }
+            .ap-checkbox-container{
+                width: rem(101px);
+            }
+            .secondary-text{
+                margin-left: rem(8px);
+                line-height: rem(24px);
+                color: $color-text-light;
+            }
+            &.moved:not(.disabled) {
+                background-color: $color-background-hover;
+                box-shadow: 0 0 0 0.0625rem $color-background-tertiary;
+            }
+        }
+        }
+    
+    .filter-footer{
+        display: flex;
+        gap: rem(8px);
+        justify-content: flex-end;
+        .ap-pattern-btn-clear-filters{
+            width: rem(112px);
+        }
+        .ap-pattern-btn-apply{
+            width: rem(73px);
+        }
+    }
+}

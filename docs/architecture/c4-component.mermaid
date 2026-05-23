@@ -1,0 +1,39 @@
+%% C4 Level 3 — Component (API container)
+%% Legal AI AR — shows components inside the ASP.NET Core API
+%% Source: docs/architecture/legal-ai-ar-architecture.md, docs/design/f1-6-cqrs-structure.mermaid
+
+C4Component
+    title Component — API (ASP.NET Core)
+
+    Container_Boundary(api, "API") {
+        Component(search_handler, "SearchRulingsHandler", "MediatR", "Hybrid semantic search. Query embedding + Azure AI Search.")
+        Component(get_handler, "GetRulingByIdHandler", "MediatR", "Full ruling details by ID.")
+        Component(related_handler, "GetRelatedRulingsHandler", "MediatR", "Related rulings by semantic similarity.")
+        Component(chat_handler, "ChatQueryHandler", "MediatR", "RAG jurisprudential chat. SSE streaming.")
+        Component(crawler_handler, "CrawlerHandlers", "MediatR", "Pipeline status, crawler config, manual run.")
+        Component(jobs_handler, "JobsHandler", "MediatR", "Active, completed, failed jobs.")
+        Component(dlq_handler, "DLQHandler", "MediatR", "Dead Letter Queue view and requeue.")
+        Component(users_handler, "UsersHandlers", "MediatR", "User CRUD and role assignment.")
+        Component(health, "HealthEndpoint", "ASP.NET Core", "Health check.")
+    }
+
+    ContainerDb(sql, "Azure SQL", "Azure SQL Database")
+    ContainerDb(search, "AI Search", "Azure AI Search")
+    ContainerDb(blob, "Blob Storage", "Azure Blob Storage")
+    ContainerQueue(queues, "Storage Queues", "Azure Storage Queues")
+    System_Ext(openai, "Azure OpenAI", "Embeddings + LLM")
+
+    Rel(search_handler, search, "Hybrid search")
+    Rel(search_handler, openai, "Query embedding")
+    Rel(get_handler, sql, "GetById")
+    Rel(related_handler, search, "Vector similarity")
+    Rel(related_handler, openai, "Query embedding")
+
+    Rel(chat_handler, openai, "Embeddings, GPT-4o")
+    Rel(chat_handler, search, "Chunk + ruling search")
+
+    Rel(crawler_handler, sql, "CrawlerConfigs")
+    Rel(crawler_handler, queues, "Publish crawl")
+    Rel(jobs_handler, sql, "IngestionJobs")
+    Rel(dlq_handler, queues, "DLQ read, requeue")
+    Rel(users_handler, sql, "Users")

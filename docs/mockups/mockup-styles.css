@@ -1,0 +1,30 @@
+/* PwC AppKit4 Design Tokens — Legal AI AR Mockups */
+:root {
+  --pwc-orange: #D04A02;
+  --pwc-amber: #EB8C00;
+  --pwc-black: #000000;
+  --pwc-white: #FFFFFF;
+  --pwc-gray-900: #252525;
+  --pwc-gray-800: #474747;
+  --pwc-gray-500: #696969;
+  --pwc-gray-300: #d1d1d1;
+  --pwc-gray-100: #f3f3f3;
+  --pwc-gray-50: #f8f8f8;
+  --nav-bg: #191919;
+  --nav-text: #c8c8c8;
+  --nav-active-border: #D04A02;
+  --header-bg: rgba(30, 30, 30, 0.96);
+  --success: #21812d;
+  --success-bg: #e9f5eb;
+  --warning: #7a5a00;
+  --warning-bg: #fff8d6;
+  --error-bg: #fff0eb;
+  --font-heading: Georgia, 'Times New Roman', serif;
+  --font-body: Arial, Helvetica, sans-serif;
+  --header-height: 64px;
+  --nav-width: 280px;
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
+  --radius-sm: 0.25rem;
+  --radius-pill: 100px;
+}

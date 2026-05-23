@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resultados — Legal AI AR</title>
+  <link rel="stylesheet" href="mockup-shell.css">
+  <style>
+    .breadcrumb { font-size: 12px; color: #696969; margin-bottom: 1rem; }
+    .breadcrumb a { color: #D04A02; text-decoration: none; }
+    .breadcrumb span { color: #aaaaaa; margin: 0 6px; }
+    .eyebrow { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #D04A02; margin-bottom: 0.5rem; }
+    h1 { font-family: Georgia, serif; font-size: 28px; font-weight: 300; color: #252525; margin: 0 0 1rem 0; }
+    .query-summary { font-size: 14px; color: #696969; margin-bottom: 1.5rem; }
+    .result-card { background: #fff; border: 1px solid #d1d1d1; border-radius: 0.25rem; padding: 1.5rem; margin-bottom: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    .result-card h3 { font-size: 14px; font-weight: 600; margin: 0 0 0.5rem 0; }
+    .result-card h3 a { color: #D04A02; text-decoration: none; }
+    .result-card h3 a:hover { text-decoration: underline; }
+    .result-meta { font-size: 12px; color: #696969; margin-bottom: 0.5rem; }
+    .result-summary { font-size: 13px; color: #474747; line-height: 1.5; }
+    .badge { display: inline-block; padding: 2px 10px; border-radius: 100px; font-size: 11px; font-weight: 600; margin-left: 8px; }
+    .badge-orange { background: #fff0eb; border: 1px solid #f5c4b0; color: #D04A02; }
+    .highlight { background: #fff8d6; padding: 0 2px; }
+    .pagination { display: flex; align-items: center; justify-content: space-between; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #d1d1d1; }
+    .pagination-info { font-size: 12px; color: #696969; }
+    .pagination-controls { display: flex; gap: 8px; }
+    .btn-secondary { background: transparent; color: #252525; border: 1px solid #d1d1d1; padding: 0.5rem 1rem; font-size: 14px; border-radius: 0.25rem; cursor: pointer; }
+    .btn-secondary:hover { background: #f3f3f3; border-color: #aaa; }
+    .footer { padding: 1rem 2rem; background: #f3f3f3; border-top: 1px solid #d1d1d1; font-size: 11px; color: #696969; display: flex; justify-content: space-between; }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="header">
+      <div style="display:flex;align-items:center;gap:0.5rem;"><img src="assets/pwc.svg" alt="PwC" width="42" height="24" style="height:1.5rem;width:auto;"><span class="header-title">Legal AI AR</span></div>
+      <div class="header-options"><nav class="header-nav"><a href="mockup-home.html">Bienvenida</a><a href="mockup-search.html">Búsqueda</a><a href="mockup-chat.html">Chat</a></nav><a href="#" class="header-opt"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>Iniciar recorrido</a><a href="#" class="header-opt"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>Español (Argentina)</a><a href="#" class="header-opt"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Soporte</a><div class="avatar">PN</div></div>
+    </header>
+    <div class="main">
+      <nav class="sidebar">
+        <a href="mockup-home.html" class="nav-item"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>Bienvenida</a>
+        <a href="mockup-search.html" class="nav-item active"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>Búsqueda</a>
+        <a href="mockup-chat.html" class="nav-item"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>Coach</a>
+        <a href="mockup-roadmap-dashboard.html" class="nav-item"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>Panel</a>
+      </nav>
+      <main class="content">
+        <div class="breadcrumb"><a href="mockup-search.html">Buscar</a><span>›</span> Resultados</div>
+        <h1>Resultados para: responsabilidad del Estado</h1>
+        <div class="query-summary">Nacional · Primera instancia · 47 resultados</div>
+        <div class="result-card">
+          <h3><a href="mockup-ruling-detail.html">Smith, Juan c/ Estado Nacional — daños y perjuicios</a></h3>
+          <div class="result-meta">CSJN · 15/03/2024 · Fallos 337:892 <span class="badge badge-orange">92% relevancia</span></div>
+          <p class="result-summary">La <span class="highlight">responsabilidad del Estado</span> por actos lícitos e ilícitos debe analizarse conforme a los principios de la ley 26.944. El demandante alegó que el daño derivó de la omisión estatal en el mantenimiento de la vía pública.</p>
+        </div>
+        <div class="result-card">
+          <h3><a href="#">García, María c/ GCBA — indemnización</a></h3>
+          <div class="result-meta">SCBA · 22/01/2024 · 89% relevancia</div>
+          <p class="result-summary">En materia de <span class="highlight">responsabilidad del Estado</span>, la jurisprudencia ha establecido que el factor de atribución es objetivo cuando media servicio público. Se confirma la sentencia de primera instancia.</p>
+        </div>
+        <div class="result-card">
+          <h3><a href="#">López, Carlos c/ ANSES — cobro de haberes</a></h3>
+          <div class="result-meta">PJN · 10/11/2023 · 85% relevancia</div>
+          <p class="result-summary">La responsabilidad patrimonial del Estado por el retardo en el pago de haberes configura un supuesto de responsabilidad extracontractual. El actor acreditó el perjuicio derivado del retraso en las liquidaciones.</p>
+        </div>
+        <div class="pagination">
+          <span class="pagination-info">Mostrando 1–10 de 47 resultados</span>
+          <div class="pagination-controls">
+            <button class="btn-secondary" disabled>Anterior</button>
+            <button class="btn-secondary" style="background: #D04A02; color: #fff; border-color: #D04A02;">1</button>
+            <button class="btn-secondary">2</button>
+            <button class="btn-secondary">3</button>
+            <button class="btn-secondary">...</button>
+            <button class="btn-secondary">5</button>
+            <button class="btn-secondary">Siguiente</button>
+          </div>
+        </div>
+      </main>
+    </div>
+    <footer class="footer">
+      <span>© 2026 PwC. Legal AI AR</span>
+      <span><a href="index.html" style="color: #D04A02;">Mockups</a> · <a href="#" style="color: #D04A02;">Términos</a> · <a href="#" style="color: #D04A02;">Privacidad</a> · <a href="#" style="color: #D04A02;">Soporte</a></span>
+    </footer>
+  </div>
+</body>
+</html>

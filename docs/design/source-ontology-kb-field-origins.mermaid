@@ -1,0 +1,53 @@
+%% Origen de campos: cómo se determina cada campo en la KB
+%% API = extraído de fuente, LLM = inferido por modelo, COMPUTE = calculado, CONST = constante
+
+flowchart LR
+    subgraph apiDirect [API Directa — ~42 campos]
+        A1["CaseTitle ← caratula"]
+        A2["CaseNumber ← identificacionExpediente"]
+        A3["RulingDate ← fecha falloDestacado"]
+        A4["Summary ← resumen falloDestacado"]
+        A5["Holding ← texto sumarios"]
+        A6["Keywords[] ← voces[]"]
+        A7["Citations[] ← getCitas"]
+        A8["Votes[] ← votosAnalisisDocumental"]
+        A9["Statutes[] ← referenciasNormativas"]
+        A10["Sumarios[] ← getSumariosAnalisis"]
+        A11["OfficialReference ← tomo+pagina"]
+        A12["ActionType ← tipoAccion"]
+        A13["HasDictamen ← tieneDictamenes"]
+        A14["+ 29 campos escalares más"]
+    end
+
+    subgraph llmGap [LLM Gap-Fill — 4 prompts]
+        L1["judges ← PDF excerpt\n(si no hay API votes)"]
+        L2["cited_statutes ← PDF excerpt\n(si no hay API normas)"]
+        L3["citation_types ← contexto cita\n(siempre para CSJN)"]
+        L4["prosecutor_opinion ← PDF\n(si HasDictamen)"]
+    end
+
+    subgraph computed [Computado — ~8 campos]
+        C1["FullText ← PDF → PdfPig"]
+        C2["Chunks[] ← FullText / 512 tokens"]
+        C3["Embeddings ← text-embedding-3-large"]
+        C4["TargetRulingId ← resolución de citas"]
+        C5["ContentHash ← SHA-256"]
+        C6["CourtId ← resolución por nombre"]
+        C7["Ruling.Id ← DB auto"]
+        C8["IngestionJobId ← pipeline"]
+    end
+
+    subgraph constant [Constante — 3 campos]
+        K1["Court.Name = CSJN"]
+        K2["Instance = CSJN"]
+        K3["SourceId = 1"]
+    end
+
+    subgraph kbTarget [Ruling en KB]
+        KB["Ruling\n+ Person[]\n+ Vote[]\n+ Keyword[]\n+ Statute[]\n+ Citation[]\n+ Sumario[]\n+ Chunks + Embeddings"]
+    end
+
+    apiDirect --> KB
+    llmGap --> KB
+    computed --> KB
+    constant --> KB

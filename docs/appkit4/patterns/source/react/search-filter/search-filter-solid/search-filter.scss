@@ -1,0 +1,184 @@
+@import 'sass-rem/_rem.scss';
+@import '@appkit4/styles/scss/_variables.scss';
+
+.ap-pattern-search-filter{
+    margin: 0 auto;
+    width: rem(244px);
+    border-radius: rem(8px);
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: fit-content;
+    .ap-search-container .ap-search-input {
+        input {
+            height: rem(32px);
+            line-height: rem(32px);
+        }
+        .ap-search-after-icon {
+            width: rem(24px);
+            height: rem(24px);
+        }
+    }
+    .ap-search-container{
+        padding: 0!important;
+    }
+    &.solid{
+        background-color: $color-background-container;
+        box-shadow: 0 rem(2px) rem(4px) rem(-2px) $border-color-1;
+        padding: rem(20px);
+        .ap-pattern-search-filter-header{
+            .search-filter-icon{
+                background-color: $color-background-default;
+            }
+        }
+        .search-menu{
+            .search-text{
+                width: rem(204px);
+                margin-bottom: 0;
+            }
+        }
+    }
+    &:not(.solid){
+        .ap-filter-button,.ap-filter-list {
+            backdrop-filter: unset;
+        }
+    }
+}
+.search-menu{
+    position: relative;
+    width: 100%;
+    margin-top: rem(16px);
+    .search-text{
+        font-size: rem(16px);
+        line-height: rem(24px);
+        height: rem(24px);
+        text-align: center;
+        letter-spacing: rem(-0.4px);
+        color: $color-text-body;
+    }
+}
+.ap-pattern-search-filter-header{
+    display: flex;
+    margin-bottom: rem(32px);
+    position: relative;
+    width: 100%;
+    .search-filter-icon{
+        padding: rem(10px);
+        width: rem(44px);
+        height: rem(44px);
+        border-radius: rem(4px);
+    }
+    .search-filter-description{
+        margin-left: rem(8px);
+        width: rem(152px);
+        .description-title{
+            line-height: rem(24px);
+            font-size: rem(16px);
+            margin-bottom: rem(2px);
+        }
+        .description-content{
+            line-height: rem(14px);
+            font-size: rem(12px);
+            color: $color-text-body
+        }
+    }
+}
+.ap-pattern-search-filter-header .filter-header-hr{
+    width: 100%;
+    height: rem(2px);
+    opacity: var(--opacity-5);
+    background-color: $color-background-border;
+    position: absolute;
+    bottom: rem(-16px);
+}
+.ap-filter:not(:last-child){
+    margin-bottom: rem(16px);
+}
+
+.ap-pattern-search-filter-page-content{
+    display: flex;
+    background-color: #f3f3f3;
+    .ap-navigation-wrapper {
+        position: fixed;
+        .ap-navigation-content {
+            position: relative;
+            top: rem(64px);
+            padding-top: rem(44px);
+        }
+    }
+    .search-filter-page{
+        width: calc(100% - 280px);
+        display: flex;
+        margin-top: rem(96px);
+        margin-left: rem(280px);
+        justify-content: center;
+        .ap-pattern-search-filter{
+            margin-left: rem(40px);
+            margin-right: rem(32px);
+            width: rem(244px);
+            .ap-pattern-search-filter-header .search-filter-description {
+                width: rem(154px);
+            }
+        }
+        .ap-pattern-card-list{
+            display: flex;
+            flex-direction: column;
+            margin-right: 2.5rem;
+            z-index: 0;
+            min-width: rem(802px);
+            .ap-pattern-card{
+                width: rem(802px);
+                height: rem(132px);
+                min-height: unset;
+                margin-bottom: rem(12px);
+                margin-right: 0;
+                .ap-pattern-card-according.component-thumb {
+                    display: none;
+                }
+            }
+        }
+    }
+    &.search-filter-page-collapse{
+        .search-filter-page{
+            width: calc(100% - 72px);
+            margin-left: rem(72px);
+        }
+    }
+    .search-filter-wrapper{
+        margin-top: rem(96px);
+        margin-left: rem(40px);
+        margin-right: rem(40px);
+    }
+}
+.ap-pattern-search-filter-page {
+    .ap-header {
+        position: fixed;
+        left: 0;
+        top: 0;
+    }
+}
+
+[data-mode="dark"] {
+    .ap-pattern-search-filter-page-content {
+        background-color: $color-background-default!important;
+    }
+    .ap-pattern-search-filter-header{
+        .description-title{
+            color: $color-text-body;
+        }
+        .search-filter-icon{
+            color: $neutral-01;
+        }
+    }
+    [data-mode="light"] {
+        .search-filter-icon{
+            color: $neutral-23;
+        }
+    }
+}
+[data-mode="light"] {
+    .search-filter-icon{
+        color: $neutral-23;
+    }
+}

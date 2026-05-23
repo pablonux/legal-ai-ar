@@ -1,0 +1,37 @@
+# Legal AI AR — Pipeline CI
+# Trigger: push a main, PR hacia main
+# Secuencia: Build → Test → Lint (según docs/design/f0-1-ci-pipeline.mermaid)
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    name: Build & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Restore
+        run: dotnet restore backend/LegalAiAr.sln
+
+      - name: Build
+        run: dotnet build backend/LegalAiAr.sln -c Release --no-restore
+
+      - name: Test
+        run: dotnet test backend/LegalAiAr.sln -c Release --no-build --verbosity normal
+
+      - name: Lint (format verify)
+        run: dotnet format backend/LegalAiAr.sln --verify-no-changes --verbosity diagnostic

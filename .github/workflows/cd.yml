@@ -1,0 +1,116 @@
+# Legal AI AR — CD Pipeline (F1-14 T-05)
+# Deploys to staging on merge to main.
+# Requires secrets: AZURE_CREDENTIALS, AZURE_STATIC_WEB_APPS_API_TOKEN, ACR_LOGIN_SERVER, ACR_USERNAME, ACR_PASSWORD
+
+name: CD
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    name: Build & Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Restore
+        run: dotnet restore backend/LegalAiAr.sln
+
+      - name: Build
+        run: dotnet build backend/LegalAiAr.sln -c Release --no-restore
+
+      - name: Test
+        run: dotnet test backend/LegalAiAr.sln -c Release --no-build --verbosity normal
+
+      - name: Lint
+        run: dotnet format backend/LegalAiAr.sln --verify-no-changes --verbosity diagnostic
+
+      - name: Publish API
+        run: dotnet publish backend/src/api/LegalAiAr.Api/LegalAiAr.Api.csproj -c Release -o api-publish
+
+      - name: Upload API artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-publish
+          path: api-publish
+
+  build-spa:
+    name: Build SPA
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install
+        run: npm ci --prefix frontend
+
+      - name: Build
+        run: npm run build --prefix frontend -- --configuration=staging
+
+      - name: Upload SPA artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: spa-dist
+          path: frontend/dist/legal-ai-ar
+
+  deploy-api:
+    name: Deploy API to staging
+    runs-on: ubuntu-latest
+    needs: [build-and-test]
+    if: github.ref == 'refs/heads/main'
+    environment: staging
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download API artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: api-publish
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy to App Service staging
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ vars.APP_SERVICE_NAME || 'legal-ai-ar-api' }}
+          slot-name: staging
+          package: .
+
+  deploy-spa:
+    name: Deploy SPA to Static Web Apps
+    runs-on: ubuntu-latest
+    needs: [build-spa]
+    if: github.ref == 'refs/heads/main'
+    environment: staging
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download SPA artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: spa-dist
+
+      - name: Deploy to Azure Static Web Apps
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: "upload"
+          app_location: "."
+          output_location: "."

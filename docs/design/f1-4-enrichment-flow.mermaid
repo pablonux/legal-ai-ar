@@ -1,0 +1,29 @@
+%% E050 - EnrichmentWorker flow - F1-4 Pipeline
+%% Source: docs/design/f1-4-enrichment.md (E048), docs/design/f1-4-prompts.md (E049)
+flowchart TB
+    Start([Receive EnrichmentMessage]) --> SelectStrategy{Select strategy by sourceId}
+    SelectStrategy -->|sourceId=1| CsjnStrategy[CsjnEnrichmentStrategy]
+    SelectStrategy -->|sourceId=2,3,4| FullStrategy[FullEnrichmentStrategy]
+    CsjnStrategy --> CheckJudges{missingFields contains judges?}
+    CheckJudges -->|Yes| CallJudges[JudgesExtractionPrompt]
+    CallJudges --> ValidateJudges{Valid JSON?}
+    ValidateJudges -->|No| RetryOrFail[Retry or DLQ]
+    ValidateJudges -->|Yes| CheckStatutes{missingFields contains cited_statutes?}
+    CheckJudges -->|No| CheckStatutes
+    CheckStatutes -->|Yes| CallStatutes[StatutesExtractionPrompt]
+    CallStatutes --> ValidateStatutes{Valid JSON?}
+    ValidateStatutes -->|No| RetryOrFail
+    ValidateStatutes -->|Yes| CheckCitationTypes{missingFields contains citation_types?}
+    CheckStatutes -->|No| CheckCitationTypes
+    CheckCitationTypes -->|Yes| CallCitationTypes[CitationTypePrompt]
+    CallCitationTypes --> ValidateCitationTypes{Valid JSON?}
+    ValidateCitationTypes -->|No| RetryOrFail
+    ValidateCitationTypes -->|Yes| Merge[Merge extractedMetadata + GPT outputs]
+    CheckCitationTypes -->|No| Merge
+    Merge --> Chunk[Chunk normalizedText]
+    Chunk --> BuildMessage[Build IndexerMessage]
+    BuildMessage --> Publish[Publish to queue-indexer]
+    Publish --> End([End])
+    FullStrategy --> FullPrompt[FullEnrichmentPrompt]
+    FullPrompt --> Merge
+    RetryOrFail --> EndFail([End - failed])

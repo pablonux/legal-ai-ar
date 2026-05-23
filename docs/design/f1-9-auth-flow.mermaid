@@ -1,0 +1,25 @@
+%% E091 - Simulated auth flow sequence - F1-9 API Auth
+%% Source: docs/design/f1-9-auth.md (E090)
+sequenceDiagram
+    participant User
+    participant SPA
+    participant API as AuthController
+    participant JWT as JWT Service
+
+    Note over User,JWT: Login
+    User->>SPA: Enter email/password
+    SPA->>API: POST /api/auth/login {email, password}
+    API->>JWT: GenerateToken(sub, email, role: admin)
+    JWT-->>API: JWT string
+    API-->>SPA: 200 {token, expiresAt, user}
+    SPA->>SPA: Store token (localStorage/memory)
+
+    Note over User,JWT: Protected request
+    User->>SPA: Navigate /buscar (or any route)
+    SPA->>API: GET /api/rulings/search Authorization: Bearer {token}
+    API->>API: Validate JWT (issuer, audience, signature)
+    alt Token valid
+        API-->>SPA: 200 OK (response)
+    else Token invalid or missing
+        API-->>SPA: 401 Unauthorized (ProblemDetails)
+    end

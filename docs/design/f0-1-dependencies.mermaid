@@ -1,0 +1,38 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#e1f5fe', 'primaryBorderColor': '#01579b', 'lineColor': '#01579b', 'secondaryColor': '#fff3e0', 'tertiaryColor': '#f3e5f5' }}}%%
+flowchart TB
+    subgraph Presentation["Presentation Layer"]
+        Api["LegalAiAr.Api"]
+    end
+
+    subgraph Application["Application Layer"]
+        App["LegalAiAr.Application"]
+    end
+
+    subgraph Infrastructure["Infrastructure Layer"]
+        Infra["LegalAiAr.Infrastructure"]
+    end
+
+    subgraph Domain["Domain Layer"]
+        Core["LegalAiAr.Core"]
+    end
+
+    subgraph Workers["Workers"]
+        Crawler["LegalAiAr.Worker.Crawler"]
+        Parser["LegalAiAr.Worker.Parser"]
+        Enrichment["LegalAiAr.Worker.Enrichment"]
+        Indexer["LegalAiAr.Worker.Indexer"]
+    end
+
+    Api --> App
+    Api --> Infra
+    App --> Core
+    Infra --> Core
+
+    Crawler --> Infra
+    Crawler --> Core
+    Parser --> Infra
+    Parser --> Core
+    Enrichment --> Infra
+    Enrichment --> Core
+    Indexer --> Infra
+    Indexer --> Core

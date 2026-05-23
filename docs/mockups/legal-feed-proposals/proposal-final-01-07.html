@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Final — 01 + 07 | Legal AI AR</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "PwC Helvetica Neue", Arial, Helvetica, sans-serif; background: #f3f3f3; color: #252525; }
+    .shell { display: flex; flex-direction: column; min-height: 100vh; }
+    /* 01: Header completo con logo, opciones */
+    .header { height: 4rem; padding: 0 1rem 0 1.5rem; display: grid; grid-template-columns: auto auto; align-items: center; justify-content: space-between; background: #fff; box-shadow: 0 0 1px 0 #e8e8e8; }
+    .header-logo { width: 2.625rem; height: 2.5rem; background: #252525; border-radius: 2px; }
+    .header-title { font-size: 1rem; line-height: 1.25rem; font-weight: 500; }
+    .header-options { display: flex; gap: 1rem; align-items: center; font-size: 0.875rem; color: #474747; }
+    .header-nav { display: flex; gap: 2rem; }
+    .header-nav a { color: #474747; text-decoration: none; }
+    .header-nav a:hover { color: #D04A02; }
+    .avatar { width: 2.5rem; height: 2.5rem; border-radius: 50%; background: #D04A02; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 0.8125rem; font-weight: 600; }
+    .main { display: flex; flex: 1; background: #f3f3f3; }
+    /* 01: Sidebar fija */
+    .sidebar { width: 280px; background: #fff; padding: 1.75rem 1rem 4.5rem; flex-shrink: 0; }
+    .nav-item { display: flex; align-items: center; padding: 1rem 1rem 1rem 0.75rem; height: 3rem; border-radius: 0.25rem; color: #252525; gap: 1.5rem; cursor: pointer; }
+    .nav-item.selected { background: rgba(208,74,2,0.12); font-weight: 600; color: #D04A02; }
+    .nav-item:hover:not(.selected) { background: rgba(0,0,0,0.04); }
+    .nav-item .nav-icon { width: 24px; height: 24px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+    .nav-item .nav-icon svg { display: block; }
+    .nav-item.selected .nav-icon { color: #D04A02; }
+    .nav-item:not(.selected) .nav-icon { color: #474747; }
+    .header-opt { display: flex; align-items: center; gap: 0.5rem; color: #474747; font-size: 0.875rem; text-decoration: none; }
+    .header-opt:hover { color: #D04A02; }
+    .header-opt svg { flex-shrink: 0; color: inherit; }
+    /* 07: Área de contenido amplia */
+    .content { flex: 1; padding: 1.5rem 2rem; overflow-y: auto; min-width: 0; }
+    .view-tabs { display: flex; gap: 0; margin-bottom: 1.5rem; border-bottom: 1px solid #e8e8e8; }
+    .view-tab { padding: 0.75rem 1.5rem; font-size: 0.875rem; color: #696969; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+    .view-tab:hover { color: #252525; }
+    .view-tab.active { color: #D04A02; font-weight: 600; border-bottom-color: #D04A02; }
+    .view { display: none; }
+    .view.active { display: block; }
+    /* 07: Hero con gradient */
+    .wide-hero { background: linear-gradient(135deg, #fff 0%, #fff8f5 100%); border: 1px solid #e8e8e8; border-radius: 0.25rem; padding: 2rem 2.5rem; margin-bottom: 1.5rem; display: flex; gap: 2.5rem; align-items: center; }
+    .wide-hero h1 { font-size: 1.5rem; font-weight: 600; letter-spacing: -0.72px; margin: 0 0 0.5rem 0; }
+    .wide-hero p { font-size: 1rem; line-height: 1.5rem; color: #474747; margin: 0 0 1rem 0; }
+    .btn-primary { height: 2.5rem; padding: 0 1.75rem; background: #D04A02; color: #fff; border: none; border-radius: 0.25rem; font-size: 1rem; font-weight: 500; cursor: pointer; }
+    .btn-primary:hover { background: #b83d02; }
+    .btn-secondary { background: transparent; color: #D04A02; border: 1px solid #D04A02; padding: 0.5rem 1.25rem; border-radius: 0.25rem; font-size: 1rem; cursor: pointer; }
+    .btn-secondary:hover { background: rgba(208,74,2,0.08); }
+    /* 07: Grid 4 cards */
+    .cards-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+    .card { background: #fff; border-radius: 0.25rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08); padding: 1.5rem; }
+    .card h3 { font-size: 1.125rem; font-weight: 600; margin: 0 0 0.5rem 0; }
+    .card p { font-size: 0.9375rem; color: #474747; margin: 0 0 1rem 0; line-height: 1.5; }
+    .search-input-wrap { display: flex; gap: 12px; margin-bottom: 0.5rem; }
+    .search-input { flex: 1; height: 2.5rem; border: 1px solid #d1d1d1; border-radius: 0.25rem; padding: 0 1rem; font-size: 1rem; }
+    /* 01: Filtros avanzados */
+    .filters-hint { font-size: 0.8125rem; color: #696969; margin-top: 0.5rem; cursor: pointer; }
+    .filters-hint:hover { color: #D04A02; }
+    /* 07: Result grid 2 columnas */
+    .result-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+    .result-card { background: #fff; border: 1px solid #e8e8e8; border-radius: 0.25rem; padding: 1.25rem; }
+    .result-card h3 { font-size: 1rem; font-weight: 600; margin: 0 0 0.5rem 0; }
+    .result-card h3 a { color: #D04A02; text-decoration: none; }
+    .result-meta { font-size: 0.75rem; color: #696969; margin-bottom: 0.5rem; }
+    .result-summary { font-size: 0.875rem; color: #474747; line-height: 1.5; }
+    .badge { display: inline-block; padding: 2px 10px; border-radius: 100px; font-size: 0.6875rem; font-weight: 600; margin-right: 6px; }
+    .badge-orange { background: #fff0eb; border: 1px solid #f5c4b0; color: #D04A02; }
+    .badge-neutral { background: #f0f0f0; border: 1px solid #ddd; color: #555; }
+    .highlight { background: #fff8d6; padding: 0 2px; }
+    /* 07: Detail grid 2fr 1fr */
+    .detail-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; }
+    .detail-panel { background: #fff; border-radius: 0.25rem; padding: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+    .detail-panel.full { grid-column: 1 / -1; }
+    .section-label { font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #D04A02; margin-bottom: 0.75rem; }
+    .message { max-width: 85%; margin-bottom: 1.5rem; }
+    .message.user { margin-left: auto; }
+    .message-bubble { padding: 1rem 1.25rem; border-radius: 0.25rem; font-size: 0.875rem; line-height: 1.6; }
+    .message.user .message-bubble { background: #D04A02; color: #fff; }
+    .message.assistant .message-bubble { background: #fff; border: 1px solid #e8e8e8; }
+    .message-bubble a { color: #D04A02; text-decoration: underline; }
+    .message-meta { font-size: 0.6875rem; color: #696969; margin-top: 0.25rem; }
+    .input-area { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e8e8e8; }
+    .input-wrap { display: flex; gap: 12px; }
+    .chat-input { flex: 1; height: 2.5rem; border: 1px solid #d1d1d1; border-radius: 0.25rem; padding: 0 1rem; font-size: 0.875rem; }
+    .breadcrumb { font-size: 0.75rem; color: #696969; margin-bottom: 1rem; }
+    .breadcrumb a { color: #D04A02; text-decoration: none; }
+  </style>
+</head>
+<body class="shell">
+  <header class="header">
+    <div style="display:flex;align-items:center;gap:0.5rem;">
+      <img src="assets/pwc.svg" alt="PwC" width="42" height="24" style="height:1.5rem;width:auto;">
+      <span class="header-title">Legal Ai AR</span>
+    </div>
+    <div class="header-options">
+      <nav class="header-nav">
+        <a href="#">Bienvenida</a>
+        <a href="#">Búsqueda</a>
+        <a href="#">Chat</a>
+      </nav>
+      <a href="#" class="header-opt"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>Iniciar recorrido</a>
+      <a href="#" class="header-opt"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>Español (Argentina)</a>
+      <a href="#" class="header-opt"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Soporte</a>
+      <div class="avatar">PN</div>
+    </div>
+  </header>
+  <div class="main">
+    <nav class="sidebar">
+      <div class="nav-item selected">
+        <span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
+        Bienvenida
+      </div>
+      <div class="nav-item">
+        <span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+        Búsqueda
+      </div>
+      <div class="nav-item">
+        <span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+        Coach
+      </div>
+      <div class="nav-item">
+        <span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>
+        Panel
+      </div>
+    </nav>
+    <main class="content">
+      <div class="view-tabs">
+        <div class="view-tab active" data-view="welcome">Bienvenida</div>
+        <div class="view-tab" data-view="search">Búsqueda</div>
+        <div class="view-tab" data-view="result">Resultados</div>
+        <div class="view-tab" data-view="detail">Detalle</div>
+        <div class="view-tab" data-view="chat">Chat</div>
+      </div>
+
+      <div id="view-welcome" class="view active">
+        <div class="wide-hero">
+          <img src="assets/welcome-legal-ai.svg" alt="" width="230" height="214" style="height:auto;">
+          <div style="flex:1;">
+            <h1>Bienvenido a Legal AI AR, Pablo</h1>
+            <p>Plataforma de jurisprudencia argentina. Busque fallos en lenguaje natural, consulte el Coach con citas verificables o explore el grafo de relaciones.</p>
+            <p>Si está listo para buscar jurisprudencia, empecemos.</p>
+            <button class="btn-primary">Buscar jurisprudencia</button>
+          </div>
+        </div>
+        <div class="cards-grid">
+          <div class="card">
+            <h3>Búsqueda semántica</h3>
+            <p>Busque fallos usando lenguaje natural. El motor híbrido encuentra los resultados más relevantes.</p>
+            <button class="btn-secondary">Ir a buscar</button>
+          </div>
+          <div class="card">
+            <h3>Chat jurisprudencial</h3>
+            <p>Consultas legales con citas a fallos. El asistente RAG responde con jurisprudencia verificable.</p>
+            <button class="btn-secondary">Abrir chat</button>
+          </div>
+          <div class="card">
+            <h3>Grafo de relaciones</h3>
+            <p>Explora las conexiones entre fallos y conceptos legales.</p>
+            <button class="btn-secondary">Explorar</button>
+          </div>
+          <div class="card">
+            <h3>Historial</h3>
+            <p>Acceda a sus búsquedas y consultas recientes.</p>
+            <button class="btn-secondary">Ver historial</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="view-search" class="view">
+        <div class="wide-hero" style="padding:1.5rem 2.5rem;">
+          <div style="flex:1;">
+            <h2 style="font-size:1.25rem;margin:0 0 0.5rem 0;">Buscar fallos</h2>
+            <p style="margin-bottom:1rem;">Busque en la base de jurisprudencia usando lenguaje natural. Use términos legales, nombres de partes o conceptos.</p>
+            <div class="search-input-wrap">
+              <input type="text" class="search-input" placeholder="Ej: responsabilidad del Estado por omisión...">
+              <button class="btn-primary">Buscar</button>
+            </div>
+            <div class="filters-hint">▼ Filtros avanzados</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="view-result" class="view">
+        <div class="breadcrumb"><a href="#">Buscar</a> › Resultados</div>
+        <h2 style="font-size:1.25rem;margin:0 0 0.5rem 0;">Resultados para: responsabilidad del Estado</h2>
+        <p style="font-size:0.875rem;color:#696969;margin-bottom:1.5rem;">Nacional · 47 resultados</p>
+        <div class="result-grid">
+          <div class="result-card">
+            <h3><a href="#">Smith, Juan c/ Estado Nacional — daños y perjuicios</a></h3>
+            <div class="result-meta">CSJN · 15/03/2024 · Fallos 337:892 <span class="badge badge-orange">92%</span></div>
+            <p class="result-summary">La <span class="highlight">responsabilidad del Estado</span> por actos lícitos e ilícitos debe analizarse conforme a los principios de la ley 26.944. El demandante alegó que el daño derivó de la omisión estatal.</p>
+          </div>
+          <div class="result-card">
+            <h3><a href="#">García, María c/ GCBA — indemnización</a></h3>
+            <div class="result-meta">SCBA · 22/01/2024 · 89%</div>
+            <p class="result-summary">En materia de <span class="highlight">responsabilidad del Estado</span>, la jurisprudencia ha establecido que el factor de atribución es objetivo cuando media servicio público.</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="view-detail" class="view">
+        <div class="breadcrumb"><a href="#">Buscar</a> › <a href="#">Resultados</a> › Smith, Juan</div>
+        <h2 style="font-size:1.25rem;margin:0 0 0.5rem 0;">Smith, Juan c/ Estado Nacional — daños y perjuicios</h2>
+        <p style="font-size:0.875rem;color:#696969;margin-bottom:1rem;">Fallos 337:892 · CSJN · 15/03/2024</p>
+        <div style="margin-bottom:1.5rem;"><span class="badge badge-orange">Nacional</span> <span class="badge badge-neutral">Primera instancia</span></div>
+        <div class="detail-grid">
+          <div class="detail-panel full">
+            <div class="section-label">Resumen</div>
+            <p>La responsabilidad del Estado por actos lícitos e ilícitos debe analizarse conforme a los principios de la ley 26.944. El demandante alegó que el daño derivó de la omisión estatal en el mantenimiento de la vía pública. La Corte confirmó la sentencia de primera instancia.</p>
+          </div>
+          <div class="detail-panel">
+            <div class="section-label">Metadatos</div>
+            <p><strong>Fuente:</strong> CSJN · <strong>Fecha:</strong> 15/03/2024 · <strong>Materia:</strong> Civil</p>
+          </div>
+          <div class="detail-panel">
+            <div class="section-label">Fallos relacionados</div>
+            <p><a href="#" style="color:#D04A02">Fallos 328:1883</a>, <a href="#" style="color:#D04A02">García c/ GCBA</a></p>
+          </div>
+        </div>
+      </div>
+
+      <div id="view-chat" class="view">
+        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.5rem;">
+          <img src="assets/chat-illus.svg" alt="" width="48" height="48">
+          <div>
+            <h2 style="font-size:1.25rem;margin:0;">Chat jurisprudencial</h2>
+            <p style="font-size:0.875rem;color:#696969;margin:0.25rem 0 0 0;">Asistente IA con citas verificables</p>
+          </div>
+        </div>
+        <div class="message user">
+          <div class="message-bubble">¿Cuáles son los criterios de la Corte para la responsabilidad del Estado por omisión?</div>
+          <div class="message-meta">Hace 2 min</div>
+        </div>
+        <div class="message assistant">
+          <div class="message-bubble">La Corte Suprema ha establecido que la responsabilidad del Estado por omisión requiere: (1) deber legal de actuar, (2) omisión en el cumplimiento, y (3) nexo causal. En <a href="#">Smith, Juan c/ Estado Nacional</a> la Corte confirmó que el factor de atribución es objetivo cuando media servicio público. En <a href="#">Fallos 328:1883</a> se precisó el alcance del deber de garantía.</div>
+          <div class="message-meta">Hace 2 min</div>
+        </div>
+        <div class="input-area">
+          <div class="input-wrap">
+            <input type="text" class="chat-input" placeholder="Escribe tu consulta legal...">
+            <button class="btn-primary">Enviar</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script>
+    document.querySelectorAll('.view-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.view-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('view-' + tab.dataset.view).classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>
