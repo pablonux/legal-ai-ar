@@ -1,39 +1,39 @@
-# 07 — Observabilidad & LLMOps
+# 07 — Observability & LLMOps
 
-> **Proyecto:** Legal Ai Ar | **Categoría:** Observability & LLM Operations
-> **Estado:** Parcialmente definido (Application Insights + Serilog en F00-W01)
-> **Última actualización:** Mayo 2026
-
----
-
-## 1. Descripción
-
-Operar un sistema de IA en producción requiere observabilidad específica que va más allá del APM tradicional: tracing de cadenas de agentes, monitoreo de consumo de tokens, detección de degradación de calidad, y estrategias de caching y resiliencia para las APIs de LLM.
-
-LLMOps (LLM Operations) es la disciplina que cubre el ciclo de vida operativo de modelos de lenguaje en producción: deploy, monitoreo, versionado, fallback, y optimización de costos.
+> **Project:** Legal Ai Ar | **Category:** Observability & LLM Operations
+> **Status:** Partially defined (Application Insights + Serilog in F00-W01)
+> **Last updated:** May 2026
 
 ---
 
-## 2. Decisiones Técnicas
+## 1. Description
 
-### 2.1 Stack de observabilidad
+Operating an AI system in production requires specific observability that goes beyond traditional APM: tracing of agent chains, token consumption monitoring, quality degradation detection, and caching and resilience strategies for the LLM APIs.
 
-| Alternativa | Pros | Contras | Decisión |
+LLMOps (LLM Operations) is the discipline that covers the operational lifecycle of language models in production: deploy, monitoring, versioning, fallback, and cost optimization.
+
+---
+
+## 2. Technical Decisions
+
+### 2.1 Observability stack
+
+| Alternative | Pros | Cons | Decision |
 |---|---|---|---|
-| **Application Insights + Serilog** | Ya en el stack. Nativo Azure. Distributed tracing. Alertas. Dashboards. | No tiene conceptos nativos de LLM (tokens, prompts, completions). Requiere custom telemetry. | **Elegido como base** |
-| **LangSmith / LangFuse** | Diseñado para LLM observability. Tracing de chains. Prompt versioning. Eval integrado. | Servicio externo. Datos sensibles fuera de Azure. Costo adicional. Python-first. | Descartado (datos sensibles) |
-| **OpenTelemetry + custom exporter** | Estándar abierto. Semantic conventions para GenAI (draft). Portable. | Las conventions de GenAI son draft (no estables). Más setup manual. | **Elegido como capa de instrumentación** |
-| **Semantic Kernel Telemetry** | Built-in en SK. Emite traces de planificación, tool calls, completions. Compatible con OpenTelemetry. | Solo cubre la capa de SK, no el pipeline completo. | **Elegido — se integra con App Insights** |
+| **Application Insights + Serilog** | Already in the stack. Native Azure. Distributed tracing. Alerts. Dashboards. | No native LLM concepts (tokens, prompts, completions). Requires custom telemetry. | **Chosen as the base** |
+| **LangSmith / LangFuse** | Designed for LLM observability. Chain tracing. Prompt versioning. Integrated eval. | External service. Sensitive data outside Azure. Additional cost. Python-first. | Discarded (sensitive data) |
+| **OpenTelemetry + custom exporter** | Open standard. Semantic conventions for GenAI (draft). Portable. | The GenAI conventions are draft (not stable). More manual setup. | **Chosen as the instrumentation layer** |
+| **Semantic Kernel Telemetry** | Built-in in SK. Emits traces of planning, tool calls, completions. Compatible with OpenTelemetry. | Only covers the SK layer, not the full pipeline. | **Chosen — integrates with App Insights** |
 
-**Decisión:** OpenTelemetry como estándar de instrumentación → Application Insights como backend → Semantic Kernel telemetry como fuente de traces de agentes. Custom metrics para token usage y calidad.
+**Decision:** OpenTelemetry as the instrumentation standard → Application Insights as the backend → Semantic Kernel telemetry as the source of agent traces. Custom metrics for token usage and quality.
 
-### 2.2 Estructura del tracing distribuido
+### 2.2 Distributed tracing structure
 
 ```mermaid
 flowchart TB
     subgraph "Trace: user-query-12345"
         A[Span: HTTP Request<br/>POST /api/chat] --> B[Span: Router<br/>classify intent]
-        B --> C[Span: Agent Normativo<br/>process query]
+        B --> C[Span: Regulatory Agent<br/>process query]
         C --> D[Span: Query Rewrite<br/>LLM call #1]
         D --> E[Span: Hybrid Search<br/>AI Search call]
         E --> F[Span: Graph Enrichment<br/>SQL Graph query]
@@ -44,33 +44,33 @@ flowchart TB
     end
 ```
 
-### 2.3 Custom metrics para LLM
+### 2.3 Custom metrics for LLM
 
 ```csharp
-// Pseudo-código de telemetría custom
+// Pseudo-code for custom telemetry
 public class LlmTelemetry
 {
     private static readonly Meter s_meter = new("Legal Ai Ar.LLM");
-    
-    // Contadores
-    private static readonly Counter<long> s_tokensInput = 
+
+    // Counters
+    private static readonly Counter<long> s_tokensInput =
         s_meter.CreateCounter<long>("llm.tokens.input", "tokens");
-    private static readonly Counter<long> s_tokensOutput = 
+    private static readonly Counter<long> s_tokensOutput =
         s_meter.CreateCounter<long>("llm.tokens.output", "tokens");
-    private static readonly Counter<long> s_llmCalls = 
+    private static readonly Counter<long> s_llmCalls =
         s_meter.CreateCounter<long>("llm.calls.total");
-    
-    // Histogramas
-    private static readonly Histogram<double> s_latency = 
+
+    // Histograms
+    private static readonly Histogram<double> s_latency =
         s_meter.CreateHistogram<double>("llm.latency", "ms");
-    private static readonly Histogram<double> s_costPerQuery = 
+    private static readonly Histogram<double> s_costPerQuery =
         s_meter.CreateHistogram<double>("llm.cost.per_query", "usd");
-    
+
     // Gauges via UpDownCounter
-    private static readonly UpDownCounter<long> s_activeRequests = 
+    private static readonly UpDownCounter<long> s_activeRequests =
         s_meter.CreateUpDownCounter<long>("llm.requests.active");
 
-    public void RecordCompletion(string model, string agent, int inputTokens, 
+    public void RecordCompletion(string model, string agent, int inputTokens,
                                   int outputTokens, double latencyMs)
     {
         var tags = new TagList
@@ -82,7 +82,7 @@ public class LlmTelemetry
         s_tokensOutput.Add(outputTokens, tags);
         s_llmCalls.Add(1, tags);
         s_latency.Record(latencyMs, tags);
-        
+
         var cost = CalculateCost(model, inputTokens, outputTokens);
         s_costPerQuery.Record(cost, tags);
     }
@@ -93,60 +93,60 @@ public class LlmTelemetry
 
 ## 3. Semantic Caching
 
-### 3.1 Estrategia
+### 3.1 Strategy
 
-| Alternativa | Pros | Contras | Decisión |
+| Alternative | Pros | Cons | Decision |
 |---|---|---|---|
-| **Sin cache** | Simple. Siempre datos frescos. | Costo alto: misma query = mismos tokens. Latencia innecesaria. | Descartado |
-| **Cache exacto (key = query hash)** | Simple. Rápido. Determinístico. | Solo matchea queries idénticas. "¿Qué dice el art 245?" ≠ "Art. 245 LCT?" | Insuficiente solo |
-| **Semantic cache (key = embedding)** | Queries similares comparten cache. Alta tasa de hit. | Requiere embedding de cada query ($). Riesgo de servir respuesta incorrecta para query similar pero distinta. | **Elegido con threshold alto** |
-| **Azure Redis + semantic** | Redis como store. Embedding similarity para match. TTL configurable. | Servicio adicional. | Evaluado — usar Table Storage primero |
+| **No cache** | Simple. Always fresh data. | High cost: same query = same tokens. Unnecessary latency. | Discarded |
+| **Exact cache (key = query hash)** | Simple. Fast. Deterministic. | Only matches identical queries. "¿Qué dice el art 245?" ≠ "Art. 245 LCT?" | Insufficient alone |
+| **Semantic cache (key = embedding)** | Similar queries share the cache. High hit rate. | Requires an embedding of each query ($). Risk of serving an incorrect answer for a similar but different query. | **Chosen with a high threshold** |
+| **Azure Redis + semantic** | Redis as the store. Embedding similarity for matching. Configurable TTL. | Additional service. | Evaluated — use Table Storage first |
 
-**Decisión:** Semantic cache con Azure Table Storage. Embedding de la query → buscar en cache con cosine similarity > 0.95. TTL de 24h para resultados de búsqueda, 1h para respuestas de agentes (la KB puede actualizarse).
+**Decision:** Semantic cache with Azure Table Storage. Embedding of the query → look up in the cache with cosine similarity > 0.95. TTL of 24h for search results, 1h for agent answers (the KB may update).
 
-### 3.2 Qué se cachea y qué no
+### 3.2 What is cached and what is not
 
-| Operación | ¿Cache? | TTL | Justificación |
+| Operation | Cache? | TTL | Rationale |
 |---|---|---|---|
-| Embedding de query | Sí | 7 días | Mismo texto = mismo embedding siempre |
-| Hybrid Search results | Sí | 24h | Los índices se actualizan diariamente |
-| Graph enrichment | Sí | 24h | El grafo cambia solo con ingesta |
-| LLM query rewrite | Sí | 7 días | Misma query = misma reescritura |
-| LLM response (agente) | Sí (semantic) | 1h | Puede depender del contexto actualizado |
-| LLM re-ranking | No | — | Depende del contexto recuperado |
+| Query embedding | Yes | 7 days | Same text = same embedding always |
+| Hybrid Search results | Yes | 24h | The indexes update daily |
+| Graph enrichment | Yes | 24h | The graph changes only with ingestion |
+| LLM query rewrite | Yes | 7 days | Same query = same rewrite |
+| LLM response (agent) | Yes (semantic) | 1h | May depend on updated context |
+| LLM re-ranking | No | — | Depends on the retrieved context |
 
 ---
 
-## 4. Resiliencia: Fallback & Circuit Breaker
+## 4. Resilience: Fallback & Circuit Breaker
 
-### 4.1 Patrones de resiliencia
+### 4.1 Resilience patterns
 
 ```mermaid
 flowchart TB
     REQ[Request] --> CB{Circuit<br/>Breaker}
     CB -->|Closed| LLM[Azure OpenAI<br/>Primary]
     CB -->|Open| FB[Fallback]
-    
+
     LLM -->|200 OK| RESP[Response]
-    LLM -->|429 Rate Limit| RETRY[Retry con<br/>exponential backoff]
-    LLM -->|500/503| CB_OPEN[Abrir circuit<br/>breaker]
-    
+    LLM -->|429 Rate Limit| RETRY[Retry with<br/>exponential backoff]
+    LLM -->|500/503| CB_OPEN[Open circuit<br/>breaker]
+
     RETRY -->|Max 3 retries| FB
     CB_OPEN --> FB
-    
-    FB --> FB1[Fallback 1:<br/>Modelo alternativo<br/>GPT-4o-mini]
-    FB1 -->|Falla| FB2[Fallback 2:<br/>Respuesta degradada<br/>solo retrieval results]
-    FB2 -->|Falla| FB3[Fallback 3:<br/>Mensaje de error<br/>amigable]
+
+    FB --> FB1[Fallback 1:<br/>Alternative model<br/>GPT-4o-mini]
+    FB1 -->|Fails| FB2[Fallback 2:<br/>Degraded response<br/>retrieval results only]
+    FB2 -->|Fails| FB3[Fallback 3:<br/>Friendly error<br/>message]
 ```
 
-### 4.2 Configuración con Polly (.NET)
+### 4.2 Configuration with Polly (.NET)
 
 ```csharp
-// Pseudo-configuración de resiliencia con Polly v8
+// Pseudo-configuration of resilience with Polly v8
 services.AddHttpClient("AzureOpenAI")
     .AddResilienceHandler("llm-pipeline", builder =>
     {
-        // Retry con exponential backoff para 429
+        // Retry with exponential backoff for 429
         builder.AddRetry(new RetryStrategyOptions<HttpResponseMessage>
         {
             MaxRetryAttempts = 3,
@@ -155,8 +155,8 @@ services.AddHttpClient("AzureOpenAI")
             ShouldHandle = new PredicateBuilder<HttpResponseMessage>()
                 .HandleResult(r => r.StatusCode == HttpStatusCode.TooManyRequests)
         });
-        
-        // Circuit breaker para errores de servidor
+
+        // Circuit breaker for server errors
         builder.AddCircuitBreaker(new CircuitBreakerStrategyOptions<HttpResponseMessage>
         {
             FailureRatio = 0.5,
@@ -164,8 +164,8 @@ services.AddHttpClient("AzureOpenAI")
             SamplingDuration = TimeSpan.FromSeconds(30),
             BreakDuration = TimeSpan.FromSeconds(60)
         });
-        
-        // Timeout global
+
+        // Global timeout
         builder.AddTimeout(TimeSpan.FromSeconds(30));
     });
 ```
@@ -174,74 +174,74 @@ services.AddHttpClient("AzureOpenAI")
 
 ## 5. Model Versioning & A/B Deploy
 
-### 5.1 Estrategia de versionado de modelos
+### 5.1 Model versioning strategy
 
-| Aspecto | Estrategia |
+| Aspect | Strategy |
 |---|---|
-| **Modelo principal** | GPT-4o (versión fijada, ej: `2024-08-06`) |
-| **Modelo económico** | GPT-4o-mini para tareas auxiliares (rewrite, classify, enrich) |
-| **Actualización** | No actualizar automáticamente. Testear nueva versión contra golden set antes de migrar. |
-| **Rollback** | Mantener deployment anterior activo en Azure OpenAI. Cambio de endpoint vía config (no deploy). |
+| **Main model** | GPT-4o (pinned version, e.g., `2024-08-06`) |
+| **Economical model** | GPT-4o-mini for auxiliary tasks (rewrite, classify, enrich) |
+| **Update** | Do not update automatically. Test the new version against the golden set before migrating. |
+| **Rollback** | Keep the previous deployment active in Azure OpenAI. Endpoint switch via config (not deploy). |
 
-### 5.2 Flujo de actualización de modelo
+### 5.2 Model update flow
 
 ```mermaid
 flowchart LR
-    NEW[Nueva versión<br/>de modelo] --> DEPLOY[Deploy en<br/>Azure OpenAI<br/>como endpoint B]
-    DEPLOY --> EVAL[Correr eval<br/>contra golden set]
-    EVAL --> CMP{¿Métricas<br/>≥ modelo actual?}
-    CMP -->|Sí| CANARY[Canary: 10%<br/>tráfico a B]
-    CMP -->|No| KEEP[Mantener<br/>modelo actual]
-    CANARY --> MON[Monitor<br/>7 días]
-    MON --> OK{¿Métricas<br/>estables?}
-    OK -->|Sí| FULL[Rollout 100%<br/>a modelo B]
-    OK -->|No| ROLL[Rollback<br/>a modelo A]
+    NEW[New model<br/>version] --> DEPLOY[Deploy in<br/>Azure OpenAI<br/>as endpoint B]
+    DEPLOY --> EVAL[Run eval<br/>against golden set]
+    EVAL --> CMP{Metrics<br/>≥ current model?}
+    CMP -->|Yes| CANARY[Canary: 10%<br/>traffic to B]
+    CMP -->|No| KEEP[Keep<br/>current model]
+    CANARY --> MON[Monitor<br/>7 days]
+    MON --> OK{Metrics<br/>stable?}
+    OK -->|Yes| FULL[Rollout 100%<br/>to model B]
+    OK -->|No| ROLL[Rollback<br/>to model A]
 ```
 
 ---
 
 ## 6. Dashboards
 
-### 6.1 Dashboard operativo (Application Insights)
+### 6.1 Operational dashboard (Application Insights)
 
-| Panel | Métricas | Granularidad |
+| Panel | Metrics | Granularity |
 |---|---|---|
-| **LLM Usage** | Tokens in/out por modelo, calls/min, costo acumulado | 1 min |
-| **Latencia** | P50/P95/P99 por agente, por operación (search, rewrite, response) | 5 min |
-| **Errores** | Rate de 429, 500, timeouts. Circuit breaker state. | 1 min |
-| **Calidad** | Faithfulness score, citation accuracy, thumbs up rate | 1 hora |
+| **LLM Usage** | Tokens in/out per model, calls/min, accumulated cost | 1 min |
+| **Latency** | P50/P95/P99 per agent, per operation (search, rewrite, response) | 5 min |
+| **Errors** | Rate of 429, 500, timeouts. Circuit breaker state. | 1 min |
+| **Quality** | Faithfulness score, citation accuracy, thumbs up rate | 1 hour |
 | **Cache** | Hit rate, miss rate, cache size | 5 min |
-| **Ingesta** | Docs procesados/hora, errores, dead letter queue size | 15 min |
+| **Ingestion** | Docs processed/hour, errors, dead letter queue size | 15 min |
 
-### 6.2 Alertas
+### 6.2 Alerts
 
-| Alerta | Condición | Severidad | Acción |
+| Alert | Condition | Severity | Action |
 |---|---|---|---|
-| High error rate | > 5% de requests con error en 5 min | Crítica | PagerDuty → on-call |
-| Cost spike | Gasto diario > 150% del promedio | Alta | Email a tech lead |
-| Latency degradation | P95 > 8s por 10 min | Alta | Investigar + considerar fallback |
-| Circuit breaker open | Cualquier circuit breaker se abre | Crítica | Verificar Azure OpenAI status |
-| Quality drop | Faithfulness < 0.90 en ventana de 4h | Media | Revisar cambios recientes |
-| Cache miss spike | Hit rate < 50% por 1h | Baja | Verificar TTLs y warming |
+| High error rate | > 5% of requests with errors in 5 min | Critical | PagerDuty → on-call |
+| Cost spike | Daily spend > 150% of the average | High | Email to tech lead |
+| Latency degradation | P95 > 8s for 10 min | High | Investigate + consider fallback |
+| Circuit breaker open | Any circuit breaker opens | Critical | Check Azure OpenAI status |
+| Quality drop | Faithfulness < 0.90 over a 4h window | Medium | Review recent changes |
+| Cache miss spike | Hit rate < 50% for 1h | Low | Check TTLs and warming |
 
 ---
 
-## 7. Ítems Pendientes de Definición
+## 7. Items Pending Definition
 
-- [ ] Implementar custom telemetry para LLM calls (tokens, latencia, costo)
-- [ ] Configurar Semantic Kernel telemetry con OpenTelemetry → App Insights
-- [ ] Implementar semantic caching con Table Storage
-- [ ] Configurar Polly para retry + circuit breaker en HttpClient de Azure OpenAI
-- [ ] Crear dashboards en Application Insights (LLM Usage, Latencia, Errores, Calidad)
-- [ ] Definir alertas y routing (email, Teams, PagerDuty)
-- [ ] Implementar el pipeline de canary deploy para cambios de modelo
-- [ ] Definir política de retención de logs (¿30 días? ¿90 días?)
-- [ ] Evaluar si agregar Azure Redis Cache para semantic caching de alto volumen
-- [ ] Crear runbook de troubleshooting de incidentes de LLM
+- [ ] Implement custom telemetry for LLM calls (tokens, latency, cost)
+- [ ] Configure Semantic Kernel telemetry with OpenTelemetry → App Insights
+- [ ] Implement semantic caching with Table Storage
+- [ ] Configure Polly for retry + circuit breaker in the Azure OpenAI HttpClient
+- [ ] Create dashboards in Application Insights (LLM Usage, Latency, Errors, Quality)
+- [ ] Define alerts and routing (email, Teams, PagerDuty)
+- [ ] Implement the canary deploy pipeline for model changes
+- [ ] Define the log retention policy (30 days? 90 days?)
+- [ ] Evaluate whether to add Azure Redis Cache for high-volume semantic caching
+- [ ] Create an LLM incident troubleshooting runbook
 
 ---
 
-## 8. Referencias
+## 8. References
 
 - [OpenTelemetry — Semantic Conventions for GenAI](https://opentelemetry.io/docs/specs/semconv/gen-ai/)
 - [Semantic Kernel — Telemetry](https://learn.microsoft.com/en-us/semantic-kernel/concepts/enterprise-readiness/observability/)
@@ -250,4 +250,4 @@ flowchart LR
 
 ---
 
-*07 — Observabilidad & LLMOps — Legal Ai Ar*
+*07 — Observability & LLMOps — Legal Ai Ar*

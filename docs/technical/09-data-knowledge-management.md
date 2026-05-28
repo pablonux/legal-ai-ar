@@ -1,109 +1,109 @@
 # 09 — Data & Knowledge Management
 
-> **Proyecto:** Legal Ai Ar | **Categoría:** Data & Knowledge Management
-> **Estado:** Parcialmente definido (SQL Graph + Ontología en F00-W01)
-> **Última actualización:** Mayo 2026
+> **Project:** Legal Ai Ar | **Category:** Data & Knowledge Management
+> **Status:** Partially defined (SQL Graph + Ontology in F00-W01)
+> **Last updated:** May 2026
 
 ---
 
-## 1. Descripción
+## 1. Description
 
-El conocimiento legal argentino no es estático: las normas se modifican, derogan y reglamentan constantemente. La jurisprudencia evoluciona con nuevos fallos que cambian criterios interpretativos. El sistema de Knowledge Management de Legal Ai Ar debe manejar esta naturaleza temporal y relacional del derecho, garantizando que el conocimiento en la KB esté actualizado, consistente entre los múltiples stores (SQL, AI Search, Blob, Graph), y sea trazable hasta su fuente original.
+Argentine legal knowledge is not static: norms are amended, repealed, and regulated constantly. Case law evolves with new rulings that change interpretive criteria. Legal Ai Ar's Knowledge Management system must handle this temporal and relational nature of the law, ensuring that the knowledge in the KB is up to date, consistent across the multiple stores (SQL, AI Search, Blob, Graph), and traceable back to its original source.
 
 ---
 
-## 2. Decisiones Técnicas
+## 2. Technical Decisions
 
-### 2.1 Taxonomía legal controlada
+### 2.1 Controlled legal taxonomy
 
-| Alternativa | Pros | Contras | Decisión |
+| Alternative | Pros | Cons | Decision |
 |---|---|---|---|
-| **Taxonomía libre (tags del usuario)** | Flexible. Sin mantenimiento. Los usuarios tagean como quieren. | Inconsistencia: "laboral" vs "trabajo" vs "empleo". Sin jerarquía. Búsqueda imprecisa. | Descartado |
-| **Taxonomía fija (hardcoded)** | Consistente. Predecible. | Rígida: agregar una nueva rama del derecho requiere cambio de código. No escala. | Descartado |
-| **Taxonomía controlada (configurable)** | Consistente + flexible. UI de admin para gestionar. Jerárquica. Sinónimos. | Requiere mantenimiento por alguien con conocimiento legal. | **Elegido** |
-| **Tesauro estándar (UNESCO / LoC)** | Estándar internacional. Interoperable. | No cubre especificidades del derecho argentino (fueros, jurisdicciones, tipos procesales). Está en inglés. | Inspiración, no adopción directa |
+| **Free taxonomy (user tags)** | Flexible. No maintenance. Users tag as they wish. | Inconsistency: "laboral" vs "trabajo" vs "empleo". No hierarchy. Imprecise search. | Discarded |
+| **Fixed taxonomy (hardcoded)** | Consistent. Predictable. | Rigid: adding a new law branch requires a code change. Does not scale. | Discarded |
+| **Controlled taxonomy (configurable)** | Consistent + flexible. Admin UI to manage it. Hierarchical. Synonyms. | Requires maintenance by someone with legal knowledge. | **Chosen** |
+| **Standard thesaurus (UNESCO / LoC)** | International standard. Interoperable. | Does not cover Argentine law specifics (jurisdictions, procedure types). It is in English. | Inspiration, not direct adoption |
 
-**Decisión:** Taxonomía controlada propia, inspirada en las clasificaciones de SAIJ y la ontología legal ya definida. Gestionable desde UI admin. Con soporte de sinónimos para mejorar el retrieval.
+**Decision:** A proprietary controlled taxonomy, inspired by the SAIJ classifications and the already-defined legal ontology. Manageable from the admin UI. With synonym support to improve retrieval.
 
-### 2.2 Estructura de la taxonomía
+### 2.2 Taxonomy structure
 
 ```mermaid
 graph TD
-    ROOT[Derecho Argentino] --> PUBLICO[Derecho Público]
-    ROOT --> PRIVADO[Derecho Privado]
-    ROOT --> PROCESAL[Derecho Procesal]
-    
-    PUBLICO --> CONST[Constitucional]
-    PUBLICO --> ADMIN[Administrativo]
-    PUBLICO --> PENAL[Penal]
-    PUBLICO --> TRIB[Tributario]
-    PUBLICO --> AMB[Ambiental]
-    
+    ROOT[Argentine Law] --> PUBLICO[Public Law]
+    ROOT --> PRIVADO[Private Law]
+    ROOT --> PROCESAL[Procedural Law]
+
+    PUBLICO --> CONST[Constitutional]
+    PUBLICO --> ADMIN[Administrative]
+    PUBLICO --> PENAL[Criminal]
+    PUBLICO --> TRIB[Tax]
+    PUBLICO --> AMB[Environmental]
+
     PRIVADO --> CIVIL[Civil]
-    PRIVADO --> COM[Comercial]
-    PRIVADO --> LAB[Laboral]
-    PRIVADO --> FAM[Familia]
-    PRIVADO --> SOC[Societario]
-    
-    PROCESAL --> PCIVIL[Proc. Civil]
-    PROCESAL --> PPENAL[Proc. Penal]
-    PROCESAL --> PLAB[Proc. Laboral]
-    PROCESAL --> PADMIN[Proc. Administrativo]
-    
-    LAB --> LAB1[Contrato individual]
-    LAB --> LAB2[Despido]
-    LAB --> LAB3[Jornada y descanso]
-    LAB --> LAB4[Remuneración]
-    LAB --> LAB5[Riesgos del trabajo]
-    LAB --> LAB6[Derecho colectivo]
+    PRIVADO --> COM[Commercial]
+    PRIVADO --> LAB[Labor]
+    PRIVADO --> FAM[Family]
+    PRIVADO --> SOC[Corporate]
+
+    PROCESAL --> PCIVIL[Civil Procedure]
+    PROCESAL --> PPENAL[Criminal Procedure]
+    PROCESAL --> PLAB[Labor Procedure]
+    PROCESAL --> PADMIN[Administrative Procedure]
+
+    LAB --> LAB1[Individual contract]
+    LAB --> LAB2[Dismissal]
+    LAB --> LAB3[Working hours and rest]
+    LAB --> LAB4[Compensation]
+    LAB --> LAB5[Work risks]
+    LAB --> LAB6[Collective law]
 ```
 
-### 2.3 Schema de taxonomía
+### 2.3 Taxonomy schema
 
 ```sql
-CREATE TABLE TaxonomiaLegal (
+CREATE TABLE LegalTaxonomy (
     Id INT PRIMARY KEY IDENTITY,
-    Codigo NVARCHAR(20) NOT NULL UNIQUE,       -- "LAB.DESP" (laboral > despido)
-    Nombre NVARCHAR(200) NOT NULL,             -- "Despido"
-    NombreCompleto NVARCHAR(500),              -- "Derecho Privado > Laboral > Despido"
-    PadreId INT FK REFERENCES TaxonomiaLegal(Id),
-    Nivel INT NOT NULL,                        -- 0=raíz, 1=rama, 2=sub-rama, 3=tema
-    Sinonimos NVARCHAR(MAX),                   -- JSON: ["cesantía", "extinción del contrato"]
-    Descripcion NVARCHAR(500),
-    EstaActivo BIT DEFAULT 1,
-    Orden INT DEFAULT 0,
-    FechaCreacion DATETIME2 DEFAULT GETUTCDATE()
+    Code NVARCHAR(20) NOT NULL UNIQUE,         -- "LAB.DESP" (labor > dismissal)
+    Name NVARCHAR(200) NOT NULL,               -- "Despido"
+    FullName NVARCHAR(500),                    -- "Private Law > Labor > Dismissal"
+    ParentId INT FK REFERENCES LegalTaxonomy(Id),
+    Level INT NOT NULL,                        -- 0=root, 1=branch, 2=sub-branch, 3=topic
+    Synonyms NVARCHAR(MAX),                    -- JSON: ["cesantía", "extinción del contrato"]
+    Description NVARCHAR(500),
+    IsActive BIT DEFAULT 1,
+    SortOrder INT DEFAULT 0,
+    CreatedAt DATETIME2 DEFAULT GETUTCDATE()
 );
 
-CREATE INDEX IX_Taxonomia_Padre ON TaxonomiaLegal(PadreId);
-CREATE INDEX IX_Taxonomia_Codigo ON TaxonomiaLegal(Codigo);
+CREATE INDEX IX_Taxonomy_Parent ON LegalTaxonomy(ParentId);
+CREATE INDEX IX_Taxonomy_Code ON LegalTaxonomy(Code);
 
--- Tabla de asociación N:M con entidades
-CREATE TABLE EntidadTaxonomia (
+-- N:M association table with entities
+CREATE TABLE EntityTaxonomy (
     Id INT PRIMARY KEY IDENTITY,
-    EntidadTipo NVARCHAR(50) NOT NULL,         -- "norma" | "jurisprudencia" | "doctrina"
-    EntidadId INT NOT NULL,
-    TaxonomiaId INT FK REFERENCES TaxonomiaLegal(Id),
-    Confianza DECIMAL(3,2) DEFAULT 1.00,       -- 1.0=manual, <1.0=automático (LLM)
-    AsignadoPor NVARCHAR(50),                  -- "llm" | "usuario" | "ingesta"
-    FechaAsignacion DATETIME2 DEFAULT GETUTCDATE(),
-    UNIQUE(EntidadTipo, EntidadId, TaxonomiaId)
+    EntityType NVARCHAR(50) NOT NULL,          -- "norm" | "caseLaw" | "doctrine"
+    EntityId INT NOT NULL,
+    TaxonomyId INT FK REFERENCES LegalTaxonomy(Id),
+    Confidence DECIMAL(3,2) DEFAULT 1.00,      -- 1.0=manual, <1.0=automatic (LLM)
+    AssignedBy NVARCHAR(50),                   -- "llm" | "user" | "ingestion"
+    AssignedAt DATETIME2 DEFAULT GETUTCDATE(),
+    UNIQUE(EntityType, EntityId, TaxonomyId)
 );
 ```
 
-### 2.4 Sinónimos para retrieval
+### 2.4 Synonyms for retrieval
 
-Los sinónimos de la taxonomía se usan en dos momentos:
+The taxonomy synonyms are used at two points:
 
-1. **En ingesta:** Al clasificar un documento, se buscan coincidencias con sinónimos para asignar categorías automáticamente
-2. **En query time:** Al buscar, se expande la query con sinónimos de la taxonomía seleccionada
+1. **At ingestion:** When classifying a document, matches against synonyms are searched to assign categories automatically
+2. **At query time:** When searching, the query is expanded with synonyms of the selected taxonomy
 
 ```json
-// Ejemplo de sinónimos para "Despido"
+// Example synonyms for "Dismissal" (synonym values are Spanish legal terms)
 {
-  "codigo": "LAB.DESP",
-  "nombre": "Despido",
-  "sinonimos": [
+  "code": "LAB.DESP",
+  "name": "Despido",
+  "synonyms": [
     "cesantía",
     "extinción del contrato",
     "rescisión del vínculo laboral",
@@ -115,131 +115,131 @@ Los sinónimos de la taxonomía se usan en dos momentos:
 
 ---
 
-## 3. Temporal Versioning (Vigencia Legal)
+## 3. Temporal Versioning (Legal Validity)
 
-### 3.1 Problema
+### 3.1 Problem
 
-El derecho tiene una dimensión temporal única: un artículo puede haber tenido 5 versiones distintas a lo largo de los años, y un abogado puede necesitar saber qué decía la norma en una fecha específica (por ejemplo, al momento de un hecho ilícito o de la firma de un contrato).
+The law has a unique temporal dimension: an article may have had 5 different versions over the years, and a lawyer may need to know what the norm said on a specific date (for example, at the time of a tort or the signing of a contract).
 
-### 3.2 Modelo de datos temporal
+### 3.2 Temporal data model
 
-| Alternativa | Pros | Contras | Decisión |
+| Alternative | Pros | Cons | Decision |
 |---|---|---|---|
-| **Solo versión actual** | Simple. Menos storage. Menos complejidad. | Pierde historia. No se puede consultar "¿qué decía en 2015?" | Descartado |
-| **Soft versioning (campo vigente/derogado)** | Simple. Flag binario. | No guarda versiones intermedias. No soporta consultas temporales. | Insuficiente |
-| **Temporal tables (SQL Server)** | System-versioned temporal tables nativas. Queries con `FOR SYSTEM_TIME AS OF`. Sin overhead de desarrollo. | Solo trackea cambios desde que se activó. No reconstruye historia pre-existente. | **Elegido para tracking automático** |
-| **Custom version table** | Control total. Puede reconstruir historia pre-sistema. | Más desarrollo. Queries más complejas. | **Elegido para historia legal** |
+| **Current version only** | Simple. Less storage. Less complexity. | Loses history. Cannot answer "what did it say in 2015?" | Discarded |
+| **Soft versioning (in-force/repealed flag)** | Simple. Binary flag. | Does not keep intermediate versions. Does not support temporal queries. | Insufficient |
+| **Temporal tables (SQL Server)** | Native system-versioned temporal tables. Queries with `FOR SYSTEM_TIME AS OF`. No development overhead. | Only tracks changes since it was enabled. Does not reconstruct pre-existing history. | **Chosen for automatic tracking** |
+| **Custom version table** | Full control. Can reconstruct pre-system history. | More development. More complex queries. | **Chosen for legal history** |
 
-**Decisión dual:**
-- **SQL Temporal Tables:** Para auditar cambios en la DB desde el día 1 (automático, sin código)
-- **Custom versioning (ArticuloVersion):** Para la historia legal pre-sistema (reconstruida desde InfoLEG textos consolidados)
+**Dual decision:**
+- **SQL Temporal Tables:** To audit DB changes from day 1 (automatic, no code)
+- **Custom versioning (ArticleVersion):** For pre-system legal history (reconstructed from InfoLEG consolidated texts)
 
 ### 3.3 SQL Temporal Tables
 
 ```sql
--- Activar temporal tables en la tabla de artículos
-ALTER TABLE Articulo
-ADD 
-    SysStartTime DATETIME2 GENERATED ALWAYS AS ROW START NOT NULL 
+-- Enable temporal tables on the articles table
+ALTER TABLE Article
+ADD
+    SysStartTime DATETIME2 GENERATED ALWAYS AS ROW START NOT NULL
         DEFAULT SYSUTCDATETIME(),
-    SysEndTime DATETIME2 GENERATED ALWAYS AS ROW END NOT NULL 
+    SysEndTime DATETIME2 GENERATED ALWAYS AS ROW END NOT NULL
         DEFAULT CONVERT(DATETIME2, '9999-12-31 23:59:59.9999999'),
     PERIOD FOR SYSTEM_TIME (SysStartTime, SysEndTime);
 
-ALTER TABLE Articulo
-SET (SYSTEM_VERSIONING = ON (HISTORY_TABLE = dbo.ArticuloHistory));
+ALTER TABLE Article
+SET (SYSTEM_VERSIONING = ON (HISTORY_TABLE = dbo.ArticleHistory));
 
--- Consultar qué decía un artículo en una fecha específica
-SELECT * 
-FROM Articulo FOR SYSTEM_TIME AS OF '2020-01-01T00:00:00'
-WHERE NormaId = 1 AND NumeroArticulo = '245';
+-- Query what an article said on a specific date
+SELECT *
+FROM Article FOR SYSTEM_TIME AS OF '2020-01-01T00:00:00'
+WHERE LegalNormId = 1 AND ArticleNumber = '245';
 
--- Ver todo el historial de cambios de un artículo
+-- See the full change history of an article
 SELECT *, SysStartTime, SysEndTime
-FROM Articulo FOR SYSTEM_TIME ALL
-WHERE NormaId = 1 AND NumeroArticulo = '245'
+FROM Article FOR SYSTEM_TIME ALL
+WHERE LegalNormId = 1 AND ArticleNumber = '245'
 ORDER BY SysStartTime;
 ```
 
-### 3.4 Diagrama de vigencia
+### 3.4 Validity diagram
 
 ```mermaid
 gantt
-    title Vigencia del Art. 245 LCT (ejemplo)
+    title Validity of Art. 245 LCT (example)
     dateFormat  YYYY
     axisFormat  %Y
-    
+
     section Art. 245
-    Texto original Ley 20.744       :done, 1974, 1998
-    Modificación Ley 25.013         :done, 1998, 2004
-    Modificación Ley 25.877         :active, 2004, 2026
+    Original text Ley 20.744        :done, 1974, 1998
+    Amendment Ley 25.013            :done, 1998, 2004
+    Amendment Ley 25.877            :active, 2004, 2026
 ```
 
 ---
 
 ## 4. Knowledge Graph Maintenance
 
-### 4.1 Integridad del grafo
+### 4.1 Graph integrity
 
-El SQL Graph de Legal Ai Ar puede acumular inconsistencias con el tiempo: edges que apuntan a normas eliminadas, relaciones duplicadas, nodos huérfanos. Se requiere un proceso de mantenimiento periódico.
+Legal Ai Ar's SQL Graph can accumulate inconsistencies over time: edges pointing to deleted norms, duplicate relationships, orphan nodes. A periodic maintenance process is required.
 
-### 4.2 Checks de integridad
+### 4.2 Integrity checks
 
-| Check | Query | Frecuencia | Acción |
+| Check | Query | Frequency | Action |
 |---|---|---|---|
-| **Edges huérfanos** | Edges cuyo nodo origen o destino fue eliminado | Diaria | Eliminar edge |
-| **Duplicados** | Dos edges del mismo tipo entre los mismos nodos | Diaria | Merge (mantener el más reciente) |
-| **Circularidad** | A modifica B y B modifica A | Semanal | Flag para revisión humana |
-| **Nodos aislados** | Normas sin ningún edge (ni entrante ni saliente) | Semanal | Re-ejecutar Graph Builder |
-| **Coherencia de vigencia** | Norma con edge Deroga entrante pero marcada como vigente | Diaria | Actualizar flag de vigencia |
-| **Profundidad excesiva** | Cadenas de modificaciones de > 10 niveles | Mensual | Verificar si es correcto o error de ingesta |
+| **Orphan edges** | Edges whose source or target node was deleted | Daily | Delete edge |
+| **Duplicates** | Two edges of the same type between the same nodes | Daily | Merge (keep the most recent) |
+| **Circularity** | A amends B and B amends A | Weekly | Flag for human review |
+| **Isolated nodes** | Norms with no edges (neither incoming nor outgoing) | Weekly | Re-run the Graph Builder |
+| **Validity coherence** | Norm with an incoming Repeals edge but marked as in force | Daily | Update the validity flag |
+| **Excessive depth** | Amendment chains of > 10 levels | Monthly | Verify whether it is correct or an ingestion error |
 
-### 4.3 Job de mantenimiento
+### 4.3 Maintenance job
 
 ```mermaid
 flowchart TB
-    TIMER[Timer Trigger<br/>Diario 2am] --> ORPHANS[Limpiar edges<br/>huérfanos]
-    ORPHANS --> DUPS[Eliminar<br/>duplicados]
-    DUPS --> VIG[Reconciliar<br/>vigencia]
-    VIG --> STATS[Generar<br/>estadísticas]
-    STATS --> REPORT[Reporte de<br/>salud del grafo]
-    REPORT --> ALERT{¿Anomalías<br/>detectadas?}
-    ALERT -->|Sí| NOTIFY[Notificar<br/>a tech lead]
+    TIMER[Timer Trigger<br/>Daily 2am] --> ORPHANS[Clean orphan<br/>edges]
+    ORPHANS --> DUPS[Remove<br/>duplicates]
+    DUPS --> VIG[Reconcile<br/>validity]
+    VIG --> STATS[Generate<br/>statistics]
+    STATS --> REPORT[Graph health<br/>report]
+    REPORT --> ALERT{Anomalies<br/>detected?}
+    ALERT -->|Yes| NOTIFY[Notify<br/>tech lead]
     ALERT -->|No| END[OK]
 ```
 
-### 4.4 Estadísticas del grafo
+### 4.4 Graph statistics
 
 ```sql
--- Dashboard de salud del Knowledge Graph
-SELECT 
-    'Nodos: Normas' AS Metrica, COUNT(*) AS Valor FROM NormaJuridica
+-- Knowledge Graph health dashboard
+SELECT
+    'Nodes: Norms' AS Metric, COUNT(*) AS Value FROM LegalNorm
 UNION ALL
-SELECT 'Nodos: Jurisprudencia', COUNT(*) FROM Jurisprudencia
+SELECT 'Nodes: Case law', COUNT(*) FROM CaseLaw
 UNION ALL
-SELECT 'Nodos: Artículos', COUNT(*) FROM Articulo
+SELECT 'Nodes: Articles', COUNT(*) FROM Article
 UNION ALL
-SELECT 'Edges: Modifica', COUNT(*) FROM Modifica
+SELECT 'Edges: Amends', COUNT(*) FROM Amends
 UNION ALL
-SELECT 'Edges: Deroga', COUNT(*) FROM Deroga
+SELECT 'Edges: Repeals', COUNT(*) FROM Repeals
 UNION ALL
-SELECT 'Edges: Reglamenta', COUNT(*) FROM Reglamenta
+SELECT 'Edges: Regulates', COUNT(*) FROM Regulates
 UNION ALL
-SELECT 'Edges: Interpreta', COUNT(*) FROM Interpreta
+SELECT 'Edges: Interprets', COUNT(*) FROM Interprets
 UNION ALL
-SELECT 'Edges: Aplica', COUNT(*) FROM Aplica
+SELECT 'Edges: Applies', COUNT(*) FROM Applies
 UNION ALL
-SELECT 'Edges: CitaJurisprudencia', COUNT(*) FROM CitaJurisprudencia
+SELECT 'Edges: CitesCaseLaw', COUNT(*) FROM CitesCaseLaw
 UNION ALL
-SELECT 'Normas vigentes', COUNT(*) FROM NormaJuridica WHERE EstaVigente = 1
+SELECT 'Norms in force', COUNT(*) FROM LegalNorm WHERE IsInForce = 1
 UNION ALL
-SELECT 'Normas sin edges', COUNT(*) FROM NormaJuridica n
+SELECT 'Norms with no edges', COUNT(*) FROM LegalNorm n
     WHERE NOT EXISTS (
-        SELECT 1 FROM Modifica m WHERE n.$node_id = m.$from_id OR n.$node_id = m.$to_id
+        SELECT 1 FROM Amends m WHERE n.$node_id = m.$from_id OR n.$node_id = m.$to_id
         UNION ALL
-        SELECT 1 FROM Deroga d WHERE n.$node_id = d.$from_id OR n.$node_id = d.$to_id
+        SELECT 1 FROM Repeals d WHERE n.$node_id = d.$from_id OR n.$node_id = d.$to_id
         UNION ALL
-        SELECT 1 FROM Reglamenta r WHERE n.$node_id = r.$from_id OR n.$node_id = r.$to_id
+        SELECT 1 FROM Regulates r WHERE n.$node_id = r.$from_id OR n.$node_id = r.$to_id
     );
 ```
 
@@ -247,154 +247,154 @@ SELECT 'Normas sin edges', COUNT(*) FROM NormaJuridica n
 
 ## 5. Data Lineage & Provenance
 
-### 5.1 Trazabilidad de origen
+### 5.1 Source traceability
 
-Cada dato en la KB debe poder rastrear su origen hasta la fuente original. Esto es crítico en el dominio legal porque un abogado necesita saber de dónde viene la información para evaluar su confiabilidad.
+Every piece of data in the KB must be able to trace its origin back to the original source. This is critical in the legal domain because a lawyer needs to know where information comes from to assess its reliability.
 
-### 5.2 Schema de provenance
+### 5.2 Provenance schema
 
 ```sql
 CREATE TABLE DataProvenance (
     Id INT PRIMARY KEY IDENTITY,
-    EntidadTipo NVARCHAR(50) NOT NULL,       -- "norma" | "articulo" | "jurisprudencia"
-    EntidadId INT NOT NULL,
-    FuenteOrigen NVARCHAR(100) NOT NULL,     -- "SAIJ" | "InfoLEG" | "BoletinOficial" | "Manual"
-    UrlOrigen NVARCHAR(1000),                -- URL de la fuente original
-    BlobUrl NVARCHAR(500),                   -- URL del documento original en Blob Storage
-    FechaObtencion DATETIME2 NOT NULL,       -- Cuándo se obtuvo de la fuente
-    FechaUltimaVerificacion DATETIME2,       -- Última vez que se verificó contra la fuente
-    MetodoIngesta NVARCHAR(50),              -- "scraper_auto" | "carga_manual" | "api"
-    HashContenido NVARCHAR(64),              -- SHA-256 del contenido original
-    VersionIngesta NVARCHAR(20),             -- Versión del pipeline que lo procesó
-    MetadataExtra NVARCHAR(MAX),             -- JSON: datos adicionales de la fuente
-    UNIQUE(EntidadTipo, EntidadId, FuenteOrigen)
+    EntityType NVARCHAR(50) NOT NULL,        -- "norm" | "article" | "caseLaw"
+    EntityId INT NOT NULL,
+    SourceOrigin NVARCHAR(100) NOT NULL,     -- "SAIJ" | "InfoLEG" | "OfficialGazette" | "Manual"
+    SourceUrl NVARCHAR(1000),                -- URL of the original source
+    BlobUrl NVARCHAR(500),                   -- URL of the original document in Blob Storage
+    FetchedAt DATETIME2 NOT NULL,            -- When it was fetched from the source
+    LastVerifiedAt DATETIME2,                -- Last time it was verified against the source
+    IngestionMethod NVARCHAR(50),            -- "scraper_auto" | "manual_upload" | "api"
+    ContentHash NVARCHAR(64),                -- SHA-256 of the original content
+    IngestionVersion NVARCHAR(20),           -- Version of the pipeline that processed it
+    ExtraMetadata NVARCHAR(MAX),             -- JSON: additional source data
+    UNIQUE(EntityType, EntityId, SourceOrigin)
 );
 
-CREATE INDEX IX_Provenance_Entidad ON DataProvenance(EntidadTipo, EntidadId);
+CREATE INDEX IX_Provenance_Entity ON DataProvenance(EntityType, EntityId);
 ```
 
-### 5.3 Verificación periódica de fuentes
+### 5.3 Periodic source verification
 
 ```mermaid
 flowchart LR
-    TIMER[Timer semanal] --> SELECT[Seleccionar docs<br/>sin verificar > 30 días]
-    SELECT --> FETCH[Fetch fuente<br/>original]
-    FETCH --> HASH[Comparar hash<br/>del contenido]
-    HASH -->|Igual| OK[Marcar como<br/>verificado]
-    HASH -->|Diferente| CHANGE[Detectar<br/>cambios]
-    CHANGE --> QUEUE[Encolar para<br/>re-ingesta]
-    FETCH -->|Error 404| GONE[Fuente<br/>no disponible]
-    GONE --> FLAG[Flag: verificar<br/>manualmente]
+    TIMER[Weekly timer] --> SELECT[Select docs<br/>unverified > 30 days]
+    SELECT --> FETCH[Fetch original<br/>source]
+    FETCH --> HASH[Compare content<br/>hash]
+    HASH -->|Same| OK[Mark as<br/>verified]
+    HASH -->|Different| CHANGE[Detect<br/>changes]
+    CHANGE --> QUEUE[Enqueue for<br/>re-ingestion]
+    FETCH -->|Error 404| GONE[Source<br/>unavailable]
+    GONE --> FLAG[Flag: verify<br/>manually]
 ```
 
 ---
 
-## 6. Consistencia Cross-Store
+## 6. Cross-Store Consistency
 
-### 6.1 Problema de los múltiples stores
+### 6.1 The multiple-store problem
 
-Legal Ai Ar tiene datos distribuidos en 4 stores que deben estar sincronizados:
+Legal Ai Ar has data distributed across 4 stores that must stay synchronized:
 
-| Store | Qué contiene | Momento de escritura |
+| Store | What it contains | Write moment |
 |---|---|---|
-| **Azure SQL** | Datos estructurados (tablas) + Graph (edges) | Paso 3 del pipeline (Almacenar) |
-| **Azure AI Search** | Índices de búsqueda + embeddings | Paso 6 (Indexar) |
-| **Blob Storage** | Documentos originales (PDF, HTML) | Paso 3 (Almacenar) |
-| **Table Storage** | Cache de embeddings, metadata auxiliar | Paso 5 (Embeber) |
+| **Azure SQL** | Structured data (tables) + Graph (edges) | Pipeline step 3 (Store) |
+| **Azure AI Search** | Search indexes + embeddings | Step 6 (Index) |
+| **Blob Storage** | Original documents (PDF, HTML) | Step 3 (Store) |
+| **Table Storage** | Embedding cache, auxiliary metadata | Step 5 (Embed) |
 
-### 6.2 Estrategia de consistencia
+### 6.2 Consistency strategy
 
-| Alternativa | Pros | Contras | Decisión |
+| Alternative | Pros | Cons | Decision |
 |---|---|---|---|
-| **Consistencia eventual (event-driven)** | Desacoplado. Resiliente. Cada store se actualiza independientemente via colas. | Ventana de inconsistencia (segundos a minutos). Un store puede fallar sin que los otros lo sepan. | **Elegido** |
-| **Transacción distribuida (2PC)** | Consistencia fuerte. Todo o nada. | Complejidad extrema. No soportado entre SQL, AI Search y Blob. Peor performance. | Descartado |
-| **Saga pattern** | Compensación automática si un paso falla. Eventualmente consistente con rollback. | Complejidad de implementar compensaciones para cada store. | **Elegido para operaciones críticas** |
+| **Eventual consistency (event-driven)** | Decoupled. Resilient. Each store updates independently via queues. | Inconsistency window (seconds to minutes). One store can fail without the others knowing. | **Chosen** |
+| **Distributed transaction (2PC)** | Strong consistency. All or nothing. | Extreme complexity. Not supported across SQL, AI Search, and Blob. Worse performance. | Discarded |
+| **Saga pattern** | Automatic compensation if a step fails. Eventually consistent with rollback. | Complexity of implementing compensations for each store. | **Chosen for critical operations** |
 
-### 6.3 Reconciliación periódica
+### 6.3 Periodic reconciliation
 
 ```mermaid
 flowchart TB
-    TIMER[Timer diario 3am] --> SQL_COUNT[Contar docs<br/>en SQL]
-    TIMER --> AIS_COUNT[Contar docs<br/>en AI Search]
-    TIMER --> BLOB_COUNT[Contar docs<br/>en Blob]
-    
-    SQL_COUNT & AIS_COUNT & BLOB_COUNT --> CMP{¿Cuentas<br/>coinciden?}
-    
-    CMP -->|Sí| CHECK[Verificar<br/>sample de 100 docs]
-    CMP -->|No| FIND[Identificar<br/>docs faltantes]
-    
-    FIND --> REQUEUE[Encolar docs<br/>faltantes para<br/>re-procesamiento]
-    
-    CHECK --> HASH_CMP{¿Hashes de<br/>contenido<br/>coinciden?}
-    HASH_CMP -->|Sí| OK[Consistencia OK]
-    HASH_CMP -->|No| REINDEX[Re-indexar<br/>docs inconsistentes]
+    TIMER[Daily timer 3am] --> SQL_COUNT[Count docs<br/>in SQL]
+    TIMER --> AIS_COUNT[Count docs<br/>in AI Search]
+    TIMER --> BLOB_COUNT[Count docs<br/>in Blob]
+
+    SQL_COUNT & AIS_COUNT & BLOB_COUNT --> CMP{Counts<br/>match?}
+
+    CMP -->|Yes| CHECK[Verify a<br/>sample of 100 docs]
+    CMP -->|No| FIND[Identify<br/>missing docs]
+
+    FIND --> REQUEUE[Enqueue missing<br/>docs for<br/>re-processing]
+
+    CHECK --> HASH_CMP{Content<br/>hashes<br/>match?}
+    HASH_CMP -->|Yes| OK[Consistency OK]
+    HASH_CMP -->|No| REINDEX[Re-index<br/>inconsistent docs]
 ```
 
-### 6.4 Monitor de consistencia
+### 6.4 Consistency monitor
 
 ```sql
--- Vista de consistencia cross-store
-CREATE VIEW vw_ConsistenciaStores AS
-SELECT 
-    n.Id AS NormaId,
-    n.Denominacion,
-    CASE WHEN n.Id IS NOT NULL THEN 1 ELSE 0 END AS EnSQL,
-    CASE WHEN p.BlobUrl IS NOT NULL THEN 1 ELSE 0 END AS EnBlob,
-    CASE WHEN p.BlobUrl IS NOT NULL THEN 1 ELSE 0 END AS TieneProvenance,
-    -- AI Search se verifica via API, no SQL
-    n.FechaUltimaActualizacion AS UltimaActSQL,
-    p.FechaUltimaVerificacion AS UltimaVerificacion
-FROM NormaJuridica n
-LEFT JOIN DataProvenance p ON p.EntidadTipo = 'norma' AND p.EntidadId = n.Id;
+-- Cross-store consistency view
+CREATE VIEW vw_StoreConsistency AS
+SELECT
+    n.Id AS LegalNormId,
+    n.Name,
+    CASE WHEN n.Id IS NOT NULL THEN 1 ELSE 0 END AS InSQL,
+    CASE WHEN p.BlobUrl IS NOT NULL THEN 1 ELSE 0 END AS InBlob,
+    CASE WHEN p.BlobUrl IS NOT NULL THEN 1 ELSE 0 END AS HasProvenance,
+    -- AI Search is verified via API, not SQL
+    n.LastUpdatedAt AS LastSqlUpdate,
+    p.LastVerifiedAt AS LastVerification
+FROM LegalNorm n
+LEFT JOIN DataProvenance p ON p.EntityType = 'norm' AND p.EntityId = n.Id;
 ```
 
 ---
 
-## 7. Ejemplo Concreto: Ciclo de vida de una norma modificatoria
+## 7. Concrete Example: Lifecycle of an amending norm
 
-**Escenario:** Se publica en el Boletín Oficial una nueva ley que modifica 3 artículos de la Ley 20.744 (LCT).
+**Scenario:** A new law that amends 3 articles of Ley 20.744 (LCT) is published in the Official Gazette.
 
 ```
-1. INGESTA: Scraper detecta nueva ley en BO → la ingesta como norma nueva
-2. CLASIFICACIÓN: LLM clasifica como "laboral > contrato individual"
-3. NER: Detecta referencias: "Modifícase el art. 245 de la Ley 20.744"
-4. GRAPH BUILDER: Crea edge Modifica(nueva_ley → Ley 20.744)
+1. INGESTION: Scraper detects a new law in the Gazette → ingests it as a new norm
+2. CLASSIFICATION: LLM classifies it as "labor > individual contract"
+3. NER: Detects references: "Modifícase el art. 245 de la Ley 20.744"
+4. GRAPH BUILDER: Creates an Amends(new_law → Ley 20.744) edge
 5. TEMPORAL:
-   a. Crea ArticuloVersion para los 3 artículos con FechaVigenciaHasta = hoy
-   b. Crea nuevas ArticuloVersion con el nuevo texto y FechaVigenciaDesde = hoy
-   c. Actualiza TextoVigente en tabla Articulo
-6. TAXONOMÍA: Hereda taxonomías del artículo padre + agrega nuevas si corresponde
-7. EMBEDDINGS: Re-genera embeddings de los 3 artículos modificados
-8. AI SEARCH: Re-indexa los 3 artículos en idx-articulos
-9. PROVENANCE: Registra origen (BO, fecha, URL) para la nueva ley
-10. CONSISTENCIA: Verifica que SQL, AI Search y Blob están sincronizados
-11. NOTIFICACIÓN: Alerta a abogados con expedientes que citan art. 245
+   a. Creates ArticleVersion for the 3 articles with ValidTo = today
+   b. Creates new ArticleVersion with the new text and ValidFrom = today
+   c. Updates CurrentText in the Article table
+6. TAXONOMY: Inherits the parent article's taxonomies + adds new ones if applicable
+7. EMBEDDINGS: Re-generates embeddings of the 3 amended articles
+8. AI SEARCH: Re-indexes the 3 articles in idx-articles
+9. PROVENANCE: Records the origin (Gazette, date, URL) for the new law
+10. CONSISTENCY: Verifies that SQL, AI Search, and Blob are synchronized
+11. NOTIFICATION: Alerts lawyers with case files that cite art. 245
 ```
 
 ---
 
-## 8. Ítems Pendientes de Definición
+## 8. Items Pending Definition
 
-- [ ] Crear tabla TaxonomiaLegal con la jerarquía completa del derecho argentino
-- [ ] Poblar taxonomía inicial basada en clasificaciones de SAIJ
-- [ ] Implementar sinónimos por categoría para query expansion
-- [ ] Activar SQL Temporal Tables en tablas principales (Articulo, NormaJuridica)
-- [ ] Crear tabla ArticuloVersion para historia legal pre-sistema
-- [ ] Implementar tabla DataProvenance y registrar origen en ingesta
-- [ ] Crear job de mantenimiento de grafo (limpieza + reconciliación)
-- [ ] Implementar reconciliación cross-store (SQL vs AI Search vs Blob)
-- [ ] Diseñar UI admin de taxonomía (CRUD + reordenar + sinónimos)
-- [ ] Definir política de re-verificación de fuentes (¿cada 30 días?)
-- [ ] Implementar alertas de cambios en normas que afectan expedientes activos
-- [ ] Crear dashboard de salud del Knowledge Graph
+- [ ] Create the LegalTaxonomy table with the full Argentine law hierarchy
+- [ ] Populate the initial taxonomy based on SAIJ classifications
+- [ ] Implement per-category synonyms for query expansion
+- [ ] Enable SQL Temporal Tables on the main tables (Article, LegalNorm)
+- [ ] Create the ArticleVersion table for pre-system legal history
+- [ ] Implement the DataProvenance table and record origin at ingestion
+- [ ] Create the graph maintenance job (cleanup + reconciliation)
+- [ ] Implement cross-store reconciliation (SQL vs AI Search vs Blob)
+- [ ] Design the taxonomy admin UI (CRUD + reorder + synonyms)
+- [ ] Define the source re-verification policy (every 30 days?)
+- [ ] Implement alerts for changes in norms that affect active case files
+- [ ] Create a Knowledge Graph health dashboard
 
 ---
 
-## 9. Referencias
+## 9. References
 
 - [SQL Server Temporal Tables](https://learn.microsoft.com/en-us/sql/relational-databases/tables/temporal-tables)
 - [Azure SQL — Graph Processing](https://learn.microsoft.com/en-us/sql/relational-databases/graphs/sql-graph-overview)
-- [SAIJ — Tesauro Jurídico](http://www.saij.gob.ar/tesauro)
+- [SAIJ — Legal Thesaurus](http://www.saij.gob.ar/tesauro)
 - [Data Provenance — W3C PROV](https://www.w3.org/TR/prov-overview/)
 - [Event-Driven Architecture — Microsoft](https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/event-driven)
 

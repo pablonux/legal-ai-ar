@@ -1,123 +1,125 @@
-# 08 — UX de IA Legal
+# 08 — Legal AI UX
 
-> **Proyecto:** Legal Ai Ar | **Categoría:** AI User Experience
-> **Estado:** No definido — todos los ítems son nuevos
-> **Última actualización:** Mayo 2026
-
----
-
-## 1. Descripción
-
-La experiencia de usuario con IA en un contexto legal tiene requerimientos específicos: el abogado necesita confiar en las respuestas, verificar las fuentes rápidamente, entender las limitaciones del sistema, y dar feedback para mejorar la calidad. Una UX de IA legal bien diseñada reduce la fricción entre la respuesta del agente y la acción del profesional.
+> **Project:** Legal Ai Ar | **Category:** AI User Experience
+> **Status:** Not defined — all items are new
+> **Last updated:** May 2026
 
 ---
 
-## 2. Decisiones Técnicas
+## 1. Description
 
-### 2.1 Streaming de respuestas
+The AI user experience in a legal context has specific requirements: the lawyer needs to trust the answers, verify sources quickly, understand the system's limitations, and give feedback to improve quality. A well-designed legal AI UX reduces the friction between the agent's answer and the professional's action.
 
-| Alternativa | Pros | Contras | Decisión |
+---
+
+## 2. Technical Decisions
+
+### 2.1 Response streaming
+
+| Alternative | Pros | Cons | Decision |
 |---|---|---|---|
-| **Request-Response (batch)** | Simple. Sin estado. Fácil de cachear. | El usuario espera 5-15s sin feedback. Sensación de "colgado". | Descartado para chat |
-| **Server-Sent Events (SSE)** | Streaming unidireccional. Nativo HTTP. Reconexión automática. Funciona con proxies/CDN. Simple de implementar en .NET. | Solo server→client. No bidireccional. | **Elegido** |
-| **WebSocket** | Bidireccional. Baja latencia. | Más complejo. Problemas con proxies. Requiere gestión de conexión. Innecesario para chat (el usuario no envía mientras el agente responde). | Para notificaciones (SignalR), no para chat |
-| **Long Polling** | Compatible con todo. Simple. | Ineficiente. Alta latencia. No es streaming real. | Descartado |
+| **Request-Response (batch)** | Simple. Stateless. Easy to cache. | The user waits 5-15s with no feedback. Feels "hung". | Discarded for chat |
+| **Server-Sent Events (SSE)** | Unidirectional streaming. Native HTTP. Automatic reconnection. Works with proxies/CDN. Simple to implement in .NET. | Server→client only. Not bidirectional. | **Chosen** |
+| **WebSocket** | Bidirectional. Low latency. | More complex. Issues with proxies. Requires connection management. Unnecessary for chat (the user does not send while the agent answers). | For notifications (SignalR), not for chat |
+| **Long Polling** | Compatible with everything. Simple. | Inefficient. High latency. Not true streaming. | Discarded |
 
-**Decisión:** SSE para streaming de respuestas de agentes. SignalR (WebSocket) para notificaciones push (alertas de plazos, nuevas normas).
+**Decision:** SSE for streaming agent answers. SignalR (WebSocket) for push notifications (deadline alerts, new norms).
 
-### 2.2 Formato de stream
+### 2.2 Stream format
+
+> Event `type` values are code enums (English). The `step` text shown to the user is in Spanish (end-user facing).
 
 ```typescript
-// Eventos SSE del endpoint /api/chat/stream
+// SSE events from the /api/chat/stream endpoint
 interface ChatStreamEvent {
   type: 'thinking' | 'tool_call' | 'content' | 'citation' | 'done' | 'error';
   data: unknown;
 }
 
-// Ejemplos de eventos:
-// Agente pensando (muestra indicador al usuario)
+// Event examples:
+// Agent thinking (shows an indicator to the user)
 { type: 'thinking', data: { step: 'Buscando normas relevantes...' } }
 
-// Agente invocó una herramienta
-{ type: 'tool_call', data: { tool: 'SearchNormas', query: 'art 245 LCT' } }
+// Agent invoked a tool
+{ type: 'tool_call', data: { tool: 'SearchLegalNorms', query: 'art 245 LCT' } }
 
-// Token de respuesta (streaming de texto)
+// Response token (text streaming)
 { type: 'content', data: { text: 'Según el artículo 245 de la ' } }
 
-// Cita detectada
-{ type: 'citation', data: { ref: 'Ley 20.744, Art. 245', url: '/normas/20744/245', type: 'norma' } }
+// Detected citation
+{ type: 'citation', data: { ref: 'Ley 20.744, Art. 245', url: '/legal-norms/20744/245', type: 'norm' } }
 
-// Respuesta completa
-{ type: 'done', data: { tokens: { input: 2340, output: 856 }, latency_ms: 3200 } }
+// Complete response
+{ type: 'done', data: { tokens: { input: 2340, output: 856 }, latencyMs: 3200 } }
 ```
 
 ---
 
-## 3. Citación Inline con Links a Fuentes
+## 3. Inline Citation with Links to Sources
 
-### 3.1 Formato de citación
+### 3.1 Citation format
 
-Las citas aparecen como badges numerados en el texto de la respuesta, con popover al hacer hover y link directo a la fuente:
+Citations appear as numbered badges in the answer text, with a popover on hover and a direct link to the source. The rendered text is shown to the user in Spanish:
 
 ```
-La indemnización por despido sin justa causa se calcula como un mes de sueldo 
+La indemnización por despido sin justa causa se calcula como un mes de sueldo
 por cada año de antigüedad [1], tomando como base la mejor remuneración mensual,
-normal y habitual [1]. La Corte Suprema estableció que el tope no puede reducir 
+normal y habitual [1]. La Corte Suprema estableció que el tope no puede reducir
 la indemnización a menos del 67% del salario [2].
 
 ───────
 Fuentes:
-[1] Ley 20.744, Art. 245 — Contrato de Trabajo → /normas/20744/articulos/245
-[2] CSJN, "Vizzoti c/ AMSA", 14/09/2004 → /jurisprudencia/12345
+[1] Ley 20.744, Art. 245 — Contrato de Trabajo → /legal-norms/20744/articles/245
+[2] CSJN, "Vizzoti c/ AMSA", 14/09/2004 → /case-law/12345
 ```
 
-### 3.2 Componente Angular de citación
+### 3.2 Angular citation component
 
 ```typescript
-// Estructura del componente de citación
+// Structure of the citation component
 interface Citation {
   index: number;           // [1], [2], etc.
-  type: 'norma' | 'jurisprudencia' | 'doctrina' | 'expediente';
+  type: 'norm' | 'caseLaw' | 'doctrine' | 'caseFile';
   reference: string;       // "Ley 20.744, Art. 245"
-  url: string;             // ruta interna en la app
-  snippet: string;         // extracto del texto fuente (para popover)
-  confidence: number;      // 0-1, score de relevancia
-  verified: boolean;       // si pasó el check de citación
+  url: string;             // internal app route
+  snippet: string;         // excerpt of the source text (for the popover)
+  confidence: number;      // 0-1, relevance score
+  verified: boolean;       // whether it passed the citation check
 }
 ```
 
 ---
 
-## 4. Confidence Score Visible
+## 4. Visible Confidence Score
 
-### 4.1 Niveles de confianza
+### 4.1 Confidence levels
 
-| Nivel | Indicador visual | Significado | Cuándo se muestra |
+| Level | Visual indicator | Meaning | When it is shown |
 |---|---|---|---|
-| **Alta** (≥ 0.85) | Badge verde | Respuesta basada en fuentes encontradas y verificadas | Norma vigente encontrada, citas verificadas |
-| **Media** (0.60-0.84) | Badge amarillo | Respuesta basada en fuentes parciales o potencialmente desactualizadas | Pocas fuentes encontradas, o posible actualización reciente |
-| **Baja** (< 0.60) | Badge rojo + warning | Respuesta con baja confianza, requiere verificación humana | Poca evidencia en la KB, tema fuera de cobertura |
-| **Sin fuentes** | Banner de warning | No se encontraron fuentes en la KB | Query fuera de scope o KB incompleta |
+| **High** (≥ 0.85) | Green badge | Answer based on found and verified sources | Norm in force found, citations verified |
+| **Medium** (0.60-0.84) | Yellow badge | Answer based on partial or potentially outdated sources | Few sources found, or a possible recent update |
+| **Low** (< 0.60) | Red badge + warning | Low-confidence answer, requires human verification | Little evidence in the KB, topic out of coverage |
+| **No sources** | Warning banner | No sources found in the KB | Query out of scope or incomplete KB |
 
-### 4.2 Cálculo del confidence score
+### 4.2 Confidence score calculation
 
 ```
 confidence = weighted_average(
-    0.35 * retrieval_score,       // Score del mejor documento recuperado
-    0.25 * citation_accuracy,     // % de citas verificadas como correctas
-    0.20 * context_coverage,      // % de la respuesta soportada por contexto
-    0.10 * source_recency,        // Qué tan recientes son las fuentes
-    0.10 * source_count           // Cantidad de fuentes concordantes
+    0.35 * retrieval_score,       // Score of the best retrieved document
+    0.25 * citation_accuracy,     // % of citations verified as correct
+    0.20 * context_coverage,      // % of the answer supported by context
+    0.10 * source_recency,        // How recent the sources are
+    0.10 * source_count           // Number of concordant sources
 )
 ```
 
 ---
 
-## 5. Explicabilidad de Respuestas
+## 5. Answer Explainability
 
-### 5.1 Panel "Cómo llegué a esta respuesta"
+### 5.1 "How I reached this answer" panel
 
-Sección expandible que muestra el razonamiento del agente:
+An expandable section that shows the agent's reasoning. The content is shown to the user in Spanish:
 
 ```
 ▼ Cómo llegué a esta respuesta
@@ -132,17 +134,17 @@ Sección expandible que muestra el razonamiento del agente:
 Tiempo de procesamiento: 3.2s | Fuentes consultadas: 20 | Citadas: 5
 ```
 
-### 5.2 Implementación
+### 5.2 Implementation
 
-El panel de explicabilidad se construye con los eventos `thinking` y `tool_call` del stream SSE. No requiere una llamada adicional al LLM; solo se formatean los pasos que el agente ya ejecutó.
+The explainability panel is built from the `thinking` and `tool_call` events of the SSE stream. It does not require an additional LLM call; it only formats the steps the agent already executed.
 
 ---
 
-## 6. Sugerencias de Follow-up
+## 6. Follow-up Suggestions
 
-### 6.1 Generación de sugerencias
+### 6.1 Suggestion generation
 
-Al final de cada respuesta, el agente sugiere 2-3 preguntas de follow-up relevantes:
+At the end of each answer, the agent suggests 2-3 relevant follow-up questions. They are shown to the user in Spanish:
 
 ```
 ───────
@@ -152,19 +154,21 @@ Podés preguntarme:
 → ¿Cuáles son los plazos para reclamar judicialmente?
 ```
 
-| Alternativa | Pros | Contras | Decisión |
+| Alternative | Pros | Cons | Decision |
 |---|---|---|---|
-| **LLM genera sugerencias** | Contextuales. Relevantes. Naturales. | Costo extra (~200 tokens). Puede sugerir cosas que la KB no cubre. | **Elegido** |
-| **Sugerencias predefinidas** | Sin costo. Controladas. | No son contextuales. Pueden ser irrelevantes. | Descartado |
-| **Sugerencias basadas en historial** | Personalizadas al usuario. | Requiere datos de uso. Frío en usuarios nuevos. | Complemento futuro |
+| **LLM generates suggestions** | Contextual. Relevant. Natural. | Extra cost (~200 tokens). May suggest things the KB does not cover. | **Chosen** |
+| **Predefined suggestions** | No cost. Controlled. | Not contextual. May be irrelevant. | Discarded |
+| **History-based suggestions** | Personalized to the user. | Requires usage data. Cold for new users. | Future complement |
 
-### 6.2 Prompt de generación
+### 6.2 Generation prompt
+
+> Agent prompt content, kept in Spanish.
 
 ```yaml
-# Agregado al final del prompt del agente
+# Appended to the end of the agent prompt
 follow_up_instruction: |
-  Al final de tu respuesta, sugiere exactamente 3 preguntas de follow-up que 
-  el usuario podría querer hacer basándose en el tema tratado. Las preguntas 
+  Al final de tu respuesta, sugiere exactamente 3 preguntas de follow-up que
+  el usuario podría querer hacer basándose en el tema tratado. Las preguntas
   deben ser:
   - Relevantes al contexto de la conversación
   - Cubiertas por la base de conocimiento (normas, jurisprudencia, o procesal)
@@ -176,7 +180,9 @@ follow_up_instruction: |
 
 ## 7. Feedback Loop
 
-### 7.1 UI de feedback
+### 7.1 Feedback UI
+
+The UI labels are end-user facing, so they are shown in Spanish:
 
 ```
 ┌─────────────────────────────────────────────┐
@@ -197,49 +203,49 @@ follow_up_instruction: |
 └─────────────────────────────────────────────┘
 ```
 
-### 7.2 Cómo se usa el feedback
+### 7.2 How feedback is used
 
-| Volumen de feedback negativo | Acción |
+| Negative feedback volume | Action |
 |---|---|
-| < 5% | Normal. Monitoreo pasivo. |
-| 5-15% | Investigar: ¿es un tema específico? ¿un agente? Revisar prompts. |
-| 15-25% | Alerta al tech lead. Análisis exhaustivo. Posible rollback de cambio reciente. |
-| > 25% | Alerta crítica. Considerar desactivar agente afectado. Investigación inmediata. |
+| < 5% | Normal. Passive monitoring. |
+| 5-15% | Investigate: is it a specific topic? an agent? Review prompts. |
+| 15-25% | Alert the tech lead. Thorough analysis. Possible rollback of a recent change. |
+| > 25% | Critical alert. Consider disabling the affected agent. Immediate investigation. |
 
 ---
 
-## 8. Progressive Disclosure de Contexto
+## 8. Progressive Disclosure of Context
 
-### 8.1 Niveles de detalle
+### 8.1 Detail levels
 
-La respuesta del agente se presenta en capas que el usuario puede expandir:
+The agent's answer is presented in layers the user can expand:
 
-| Nivel | Qué se muestra | Default |
+| Level | What is shown | Default |
 |---|---|---|
-| **Respuesta** | Texto principal con citas inline [1][2] | Visible |
-| **Fuentes** | Lista de fuentes con links | Visible (colapsada) |
-| **Razonamiento** | Panel "Cómo llegué a esta respuesta" | Colapsado |
-| **Texto fuente** | Texto completo de cada fuente citada | Click para expandir |
-| **Metadata técnica** | Tokens, latencia, modelo, versión prompt | Solo en modo dev |
+| **Answer** | Main text with inline citations [1][2] | Visible |
+| **Sources** | List of sources with links | Visible (collapsed) |
+| **Reasoning** | "How I reached this answer" panel | Collapsed |
+| **Source text** | Full text of each cited source | Click to expand |
+| **Technical metadata** | Tokens, latency, model, prompt version | Dev mode only |
 
 ---
 
-## 9. Ítems Pendientes de Definición
+## 9. Items Pending Definition
 
-- [ ] Implementar endpoint SSE para streaming de respuestas
-- [ ] Diseñar componente Angular de citación con popover
-- [ ] Implementar cálculo de confidence score en el backend
-- [ ] Diseñar UI de confidence score (badges, colores, tooltips)
-- [ ] Implementar panel de explicabilidad (expandible)
-- [ ] Implementar generación de sugerencias de follow-up
-- [ ] Diseñar componente de feedback (thumbs + motivo)
-- [ ] Definir wireframes completos de la experiencia de chat
-- [ ] Integrar progressive disclosure en el componente de respuesta
-- [ ] Definir accesibilidad: screen reader para citaciones, keyboard navigation
+- [ ] Implement the SSE endpoint for response streaming
+- [ ] Design the Angular citation component with a popover
+- [ ] Implement confidence score calculation in the backend
+- [ ] Design the confidence score UI (badges, colors, tooltips)
+- [ ] Implement the explainability panel (expandable)
+- [ ] Implement follow-up suggestion generation
+- [ ] Design the feedback component (thumbs + reason)
+- [ ] Define complete wireframes of the chat experience
+- [ ] Integrate progressive disclosure into the answer component
+- [ ] Define accessibility: screen reader for citations, keyboard navigation
 
 ---
 
-## 10. Referencias
+## 10. References
 
 - [Server-Sent Events — MDN](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events)
 - [Azure SignalR Service](https://learn.microsoft.com/en-us/azure/azure-signalr/)
@@ -248,4 +254,4 @@ La respuesta del agente se presenta en capas que el usuario puede expandir:
 
 ---
 
-*08 — UX de IA Legal — Legal Ai Ar*
+*08 — Legal AI UX — Legal Ai Ar*
