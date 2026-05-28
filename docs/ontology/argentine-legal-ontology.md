@@ -1,831 +1,831 @@
-# Ontología del Sistema Legal Argentino
-> Especificación formal para sistemas de software — Versión 1.0 | 2026
+# Argentine Legal System Ontology
+> Formal specification for software systems — Version 1.0 | 2026
 
 ---
 
-## Tabla de Contenidos
+## Table of Contents
 
-1. [Introducción y Alcance](#1-introducción-y-alcance)
-2. [Jerarquía de Fuentes del Derecho](#2-jerarquía-de-fuentes-del-derecho)
-3. [Norma Jurídica](#3-norma-jurídica)
-4. [Sujetos de Derecho](#4-sujetos-de-derecho)
-5. [Acto Jurídico y Hecho Jurídico](#5-acto-jurídico-y-hecho-jurídico)
-6. [Relación Jurídica y Derechos Subjetivos](#6-relación-jurídica-y-derechos-subjetivos)
-7. [Derecho Penal](#7-derecho-penal)
-8. [Proceso Judicial](#8-proceso-judicial)
-9. [Órganos del Estado y Sistema Judicial](#9-órganos-del-estado-y-sistema-judicial)
-10. [Derecho Laboral y Seguridad Social](#10-derecho-laboral-y-seguridad-social)
-11. [Derecho de Familia](#11-derecho-de-familia)
-12. [Derecho Tributario](#12-derecho-tributario)
-13. [Derecho Administrativo](#13-derecho-administrativo)
-14. [Resumen de Relaciones entre Clases](#14-resumen-de-relaciones-entre-clases)
-15. [Instancias Clave del Sistema Legal Argentino](#15-instancias-clave-del-sistema-legal-argentino)
-16. [Lineamientos para Implementación en Software](#16-lineamientos-para-implementación-en-software)
+1. [Introduction and Scope](#1-introduction-and-scope)
+2. [Hierarchy of Legal Sources](#2-hierarchy-of-legal-sources)
+3. [Legal Norm](#3-legal-norm)
+4. [Legal Subjects](#4-legal-subjects)
+5. [Legal Act and Legal Fact](#5-legal-act-and-legal-fact)
+6. [Legal Relationship and Subjective Rights](#6-legal-relationship-and-subjective-rights)
+7. [Criminal Law](#7-criminal-law)
+8. [Judicial Proceeding](#8-judicial-proceeding)
+9. [State Bodies and Judicial System](#9-state-bodies-and-judicial-system)
+10. [Labor Law and Social Security](#10-labor-law-and-social-security)
+11. [Family Law](#11-family-law)
+12. [Tax Law](#12-tax-law)
+13. [Administrative Law](#13-administrative-law)
+14. [Summary of Relationships Between Classes](#14-summary-of-relationships-between-classes)
+15. [Key Instances of the Argentine Legal System](#15-key-instances-of-the-argentine-legal-system)
+16. [Guidelines for Software Implementation](#16-guidelines-for-software-implementation)
 
 ---
 
-## 1. Introducción y Alcance
+## 1. Introduction and Scope
 
-Esta ontología define la estructura conceptual del sistema legal de la República Argentina, diseñada como base formal para el desarrollo de sistemas de software jurídicos. Establece las clases, propiedades, relaciones y restricciones que permiten representar, consultar y razonar sobre el ordenamiento jurídico argentino.
+This ontology defines the conceptual structure of the legal system of the Argentine Republic, designed as a formal foundation for the development of legal software systems. It establishes the classes, properties, relationships, and constraints that allow representing, querying, and reasoning over the Argentine legal order.
 
-### 1.1 Propósito
+### 1.1 Purpose
 
-- Proveer un modelo conceptual compartido y reutilizable del derecho argentino.
-- Facilitar la interoperabilidad entre sistemas de información jurídica.
-- Habilitar el razonamiento automatizado sobre normas, sujetos y relaciones legales.
-- Servir como base para motores de búsqueda semántica de legislación y jurisprudencia.
+- Provide a shared, reusable conceptual model of Argentine law.
+- Facilitate interoperability between legal information systems.
+- Enable automated reasoning over norms, subjects, and legal relationships.
+- Serve as a foundation for semantic search engines over legislation and case law.
 
-### 1.2 Alcance
+### 1.2 Scope
 
-La ontología cubre la totalidad del ordenamiento jurídico argentino, incluyendo:
+The ontology covers the entire Argentine legal order, including:
 
-- Derecho Constitucional
-- Derecho Civil y Comercial
-- Derecho Penal
-- Derecho Laboral y de la Seguridad Social
-- Derecho Administrativo
-- Derecho Procesal
-- Derecho de Familia
-- Derecho Tributario
+- Constitutional Law
+- Civil and Commercial Law
+- Criminal Law
+- Labor and Social Security Law
+- Administrative Law
+- Procedural Law
+- Family Law
+- Tax Law
 
-### 1.3 Convenciones de Nomenclatura
+### 1.3 Naming Conventions
 
-| Elemento | Convención | Ejemplo |
+| Element | Convention | Example |
 |---|---|---|
-| Clases | PascalCase | `PersonaHumana`, `NormaJuridica` |
-| Propiedades de objeto (relaciones) | camelCase con prefijo | `tieneArticulo`, `esDictadaPor` |
-| Propiedades de datos | camelCase descriptivo | `fechaSancion`, `numeroNorma` |
-| Instancias | camelCase o string | `"26.994"`, `"CCCN"` |
+| Classes | PascalCase | `NaturalPerson`, `LegalNorm` |
+| Object properties (relationships) | camelCase with prefix | `hasArticle`, `isEnactedBy` |
+| Data properties | descriptive camelCase | `enactmentDate`, `normNumber` |
+| Instances | camelCase or string | `"26.994"`, `"CCCN"` |
 
 ---
 
-## 2. Jerarquía de Fuentes del Derecho
+## 2. Hierarchy of Legal Sources
 
-El sistema jurídico argentino organiza sus fuentes según la **Pirámide de Kelsen**, reconocida por el artículo 31 de la Constitución Nacional.
+The Argentine legal system organizes its sources according to the **Kelsen Pyramid**, recognized by article 31 of the National Constitution.
 
-### 2.1 Clase: `FuenteDelDerecho`
+### 2.1 Class: `LegalSource`
 
-Clase raíz que representa cualquier fuente normativa reconocida por el ordenamiento argentino.
+Root class representing any normative source recognized by the Argentine legal order.
 
-| Propiedad | Tipo | Descripción |
+| Property | Type | Description |
 |---|---|---|
-| `nivelJerarquico` | `Integer (1-5)` | Posición en la pirámide normativa |
-| `denominacion` | `String` | Nombre oficial de la fuente |
-| `obligatoriedad` | `Enum {vinculante, orientadora}` | Fuerza normativa |
-| `ambitoTerritorial` | `Enum {nacional, provincial, municipal}` | Alcance geográfico |
+| `hierarchyLevel` | `Integer (1-5)` | Position in the normative pyramid |
+| `name` | `String` | Official name of the source |
+| `bindingForce` | `Enum {binding, persuasive}` | Normative force |
+| `territorialScope` | `Enum {national, provincial, municipal}` | Geographic reach |
 
-### 2.2 Subclases de `FuenteDelDerecho`
+### 2.2 Subclasses of `LegalSource`
 
-#### 2.2.1 `NormaConstitucional` — Nivel 1
+#### 2.2.1 `ConstitutionalNorm` — Level 1
 
-Norma suprema del ordenamiento. Incluye la Constitución Nacional (1853/60) y los Tratados con jerarquía constitucional (art. 75 inc. 22 CN).
+Supreme norm of the legal order. Includes the National Constitution (1853/60) and treaties with constitutional rank (art. 75 inc. 22 CN).
 
-- Constitución Nacional
-- Convención Americana sobre Derechos Humanos
-- Pacto Internacional de Derechos Civiles y Políticos
-- Convención sobre los Derechos del Niño
-- CEDAW (Convención sobre Eliminación de Discriminación contra la Mujer)
+- National Constitution
+- American Convention on Human Rights
+- International Covenant on Civil and Political Rights
+- Convention on the Rights of the Child
+- CEDAW (Convention on the Elimination of Discrimination against Women)
 
-#### 2.2.2 `TratadoInternacional` — Nivel 2
+#### 2.2.2 `InternationalTreaty` — Level 2
 
-Tratados internacionales sin jerarquía constitucional pero superiores a las leyes nacionales (art. 75 inc. 22 y 24 CN). Aprobados por el Congreso Nacional.
+International treaties without constitutional rank but superior to national laws (art. 75 inc. 22 and 24 CN). Approved by the National Congress.
 
-#### 2.2.3 `LeyNacional` — Nivel 3
+#### 2.2.3 `NationalLaw` — Level 3
 
-Normas dictadas por el Congreso de la Nación.
+Norms enacted by the National Congress.
 
-- **Ley ordinaria**: mayoría simple de ambas cámaras.
-- **Ley especial**: requiere mayorías calificadas.
-- **Código**: cuerpo normativo sistemático (CCCN, Código Penal, etc.).
+- **Ordinary law**: simple majority of both chambers.
+- **Special law**: requires qualified majorities.
+- **Code**: a systematic body of norms (CCCN, Criminal Code, etc.).
 
-#### 2.2.4 `DecretoLey` — Nivel 3
+#### 2.2.4 `DecreeLaw` — Level 3
 
-Normas con fuerza de ley dictadas por el Poder Ejecutivo en circunstancias excepcionales. Incluye DNU (art. 99 inc. 3 CN).
+Norms with the force of law issued by the Executive Branch in exceptional circumstances. Includes DNU (art. 99 inc. 3 CN).
 
-#### 2.2.5 `NormaProvincial` — Nivel 3-4
+#### 2.2.5 `ProvincialNorm` — Level 3-4
 
-Normas emanadas de las provincias en ejercicio de sus poderes reservados (art. 121 CN). Incluye constituciones provinciales, leyes provinciales y decretos provinciales.
+Norms issued by the provinces in the exercise of their reserved powers (art. 121 CN). Includes provincial constitutions, provincial laws, and provincial decrees.
 
-#### 2.2.6 `NormaMunicipal` — Nivel 4
+#### 2.2.6 `MunicipalNorm` — Level 4
 
-Normas dictadas por municipios en el marco de su autonomía (art. 123 CN).
+Norms issued by municipalities within their autonomy (art. 123 CN).
 
-- Ordenanza municipal
-- Resolución del Concejo Deliberante
-- Decreto del intendente
+- Municipal ordinance
+- Resolution of the Deliberative Council
+- Mayor's decree
 
-#### 2.2.7 `ActoAdministrativo` — Nivel 4-5
+#### 2.2.7 `AdministrativeAct` — Level 4-5
 
-Declaración unilateral de un órgano del Estado en ejercicio de función administrativa que produce efectos jurídicos directos e individuales (Ley 19.549).
+Unilateral declaration of a State body in the exercise of an administrative function that produces direct and individual legal effects (Ley 19.549).
 
-#### 2.2.8 `Jurisprudencia`
+#### 2.2.8 `CaseLaw`
 
-Conjunto de fallos y resoluciones de los tribunales. Los fallos plenarios son de aplicación obligatoria para los jueces inferiores del fuero.
+The body of rulings and decisions of the courts. En banc (plenary) rulings are mandatory for the lower judges of the jurisdiction.
 
-#### 2.2.9 `Costumbre`
+#### 2.2.9 `Custom`
 
-Práctica uniforme, constante y generalizada con convicción de obligatoriedad. Opera como fuente supletoria, especialmente en derecho comercial y de familia.
+Uniform, constant, and generalized practice with a conviction of obligatoriness. Operates as a supplementary source, especially in commercial and family law.
 
-#### 2.2.10 `Doctrina`
+#### 2.2.10 `Doctrine`
 
-Opiniones de juristas y académicos. Fuente orientadora sin fuerza vinculante directa.
+Opinions of jurists and academics. A persuasive source without direct binding force.
 
 ---
 
-## 3. Norma Jurídica
+## 3. Legal Norm
 
-La clase `NormaJuridica` representa cualquier disposición normativa concreta dentro del ordenamiento argentino.
+The `LegalNorm` class represents any concrete normative provision within the Argentine legal order.
 
-### 3.1 Propiedades de `NormaJuridica`
+### 3.1 Properties of `LegalNorm`
 
-| Propiedad | Tipo de Dato | Cardinalidad | Descripción |
+| Property | Data Type | Cardinality | Description |
 |---|---|---|---|
-| `numeroNorma` | `String` | 1..1 | Número oficial (ej. `"26.994"`) |
-| `denominacion` | `String` | 1..1 | Nombre completo de la norma |
-| `nombreComun` | `String` | 0..1 | Nombre coloquial (ej. `"Código Civil y Comercial"`) |
-| `fechaSancion` | `Date` | 0..1 | Fecha de sanción legislativa |
-| `fechaPromulgacion` | `Date` | 0..1 | Fecha de promulgación por el Ejecutivo |
-| `fechaPublicacion` | `Date` | 0..1 | Fecha en el Boletín Oficial |
-| `fechaVigencia` | `Date` | 0..1 | Fecha de entrada en vigor |
-| `estaVigente` | `Boolean` | 1..1 | Estado de vigencia actual |
-| `textoCompleto` | `String (URL)` | 0..1 | Enlace al texto oficial |
-| `ramaDelDerecho` | `Enum` | 1..N | Clasificación por rama jurídica |
-| `ambitoTerritorial` | `Enum` | 1..1 | Alcance geográfico de aplicación |
+| `normNumber` | `String` | 1..1 | Official number (e.g. `"26.994"`) |
+| `name` | `String` | 1..1 | Full name of the norm |
+| `commonName` | `String` | 0..1 | Colloquial name (e.g. `"Código Civil y Comercial"`) |
+| `enactmentDate` | `Date` | 0..1 | Legislative enactment date |
+| `promulgationDate` | `Date` | 0..1 | Date of promulgation by the Executive |
+| `publicationDate` | `Date` | 0..1 | Date in the Official Gazette |
+| `effectiveDate` | `Date` | 0..1 | Date of entry into force |
+| `isInForce` | `Boolean` | 1..1 | Current validity status |
+| `fullText` | `String (URL)` | 0..1 | Link to the official text |
+| `lawBranch` | `Enum` | 1..N | Classification by legal branch |
+| `territorialScope` | `Enum` | 1..1 | Geographic scope of application |
 
-### 3.2 Relaciones de `NormaJuridica`
+### 3.2 Relationships of `LegalNorm`
 
-| Relación | Dominio | Rango | Descripción |
+| Relationship | Domain | Range | Description |
 |---|---|---|---|
-| `modificaA` | `NormaJuridica` | `NormaJuridica` | Modifica parcial o totalmente a otra norma |
-| `derogaA` | `NormaJuridica` | `NormaJuridica` | Deroga expresa o tácitamente a otra norma |
-| `reglamentaA` | `NormaJuridica` | `NormaJuridica` | Norma inferior reglamenta a norma superior |
-| `complementaA` | `NormaJuridica` | `NormaJuridica` | Complementa sin derogar a otra norma |
-| `esDictadaPor` | `NormaJuridica` | `OrganoEstatal` | Órgano del Estado que dictó la norma |
-| `regulaA` | `NormaJuridica` | `InstitucionJuridica` | Institución jurídica que regula |
-| `esPublicadaEn` | `NormaJuridica` | `MedioOficialPublicacion` | Boletín o medio de publicación |
-| `tieneArticulo` | `NormaJuridica` | `Articulo` | Artículos que componen la norma |
+| `amends` | `LegalNorm` | `LegalNorm` | Partially or fully amends another norm |
+| `repeals` | `LegalNorm` | `LegalNorm` | Expressly or tacitly repeals another norm |
+| `regulates` | `LegalNorm` | `LegalNorm` | A lower norm regulates a higher norm |
+| `complements` | `LegalNorm` | `LegalNorm` | Complements another norm without repealing it |
+| `isEnactedBy` | `LegalNorm` | `StateBody` | State body that enacted the norm |
+| `governs` | `LegalNorm` | `LegalInstitution` | Legal institution it regulates |
+| `isPublishedIn` | `LegalNorm` | `OfficialPublicationMedium` | Gazette or publication medium |
+| `hasArticle` | `LegalNorm` | `Article` | Articles that make up the norm |
 
-### 3.3 Composición Interna: `Articulo`
+### 3.3 Internal Composition: `Article`
 
-Un artículo es la unidad estructural básica de una norma jurídica.
+An article is the basic structural unit of a legal norm.
 
-| Propiedad | Tipo | Descripción |
+| Property | Type | Description |
 |---|---|---|
-| `numeroArticulo` | `String` | Número o identificador del artículo |
-| `textoNormativo` | `String` | Contenido textual completo |
-| `esVigente` | `Boolean` | Si el artículo está vigente o fue derogado |
-| `tieneInciso` | `Inciso` | Subdivisiones del artículo |
-| `tienePárrafo` | `Párrafo` | Párrafos que lo componen |
+| `articleNumber` | `String` | Number or identifier of the article |
+| `normativeText` | `String` | Full textual content |
+| `isInForce` | `Boolean` | Whether the article is in force or was repealed |
+| `hasClause` | `Clause` | Subdivisions of the article |
+| `hasParagraph` | `Paragraph` | Paragraphs that compose it |
 
 ---
 
-## 4. Sujetos de Derecho
+## 4. Legal Subjects
 
-Los sujetos de derecho son aquellos a quienes el ordenamiento atribuye capacidad para ser titulares de derechos y obligaciones (arts. 19-50 CCCN).
+Legal subjects are those to whom the legal order attributes the capacity to hold rights and obligations (arts. 19-50 CCCN).
 
-### 4.1 Clase: `SujetoDeDeRecho` (raíz)
+### 4.1 Class: `LegalSubject` (root)
 
-| Propiedad | Tipo | Descripción |
+| Property | Type | Description |
 |---|---|---|
-| `identificador` | `String` | CUIT, CUIL, DNI o identificador único |
-| `domicilio` | `Domicilio` | Domicilio legal o real |
-| `tieneCapacidad` | `CapacidadJuridica` | Capacidad jurídica del sujeto |
+| `identifier` | `String` | CUIT, CUIL, DNI, or unique identifier |
+| `domicile` | `Domicile` | Legal or actual domicile |
+| `hasCapacity` | `LegalCapacity` | Legal capacity of the subject |
 
-### 4.2 `PersonaHumana`
+### 4.2 `NaturalPerson`
 
-Todo ser humano goza de la aptitud para ser titular de derechos desde la concepción (art. 19 CCCN). La existencia termina con la muerte.
+Every human being has the capacity to hold rights from conception (art. 19 CCCN). Existence ends with death.
 
-| Propiedad | Tipo | Descripción |
+| Property | Type | Description |
 |---|---|---|
-| `apellido` | `String` | Apellido/s de la persona |
-| `nombre` | `String` | Nombre/s de pila |
-| `fechaNacimiento` | `Date` | Fecha de nacimiento |
-| `fechaFallecimiento` | `Date?` | Fecha de defunción, si corresponde |
-| `numeroDNI` | `String` | Número de Documento Nacional de Identidad |
-| `CUIL` | `String` | Clave Única de Identificación Laboral |
-| `estadoCivil` | `Enum` | `soltero / casado / divorciado / viudo / unidoConvivencialmente` |
-| `nacionalidad` | `String` | Nacionalidad/es de la persona |
-| `domicilioReal` | `Domicilio` | Lugar donde reside habitualmente |
-| `domicilioLegal` | `Domicilio` | Domicilio legal establecido por la ley |
-| `tieneCapacidadDeEjercicio` | `Boolean` | Si tiene capacidad de ejercicio plena |
+| `lastName` | `String` | Last name(s) of the person |
+| `firstName` | `String` | First/given name(s) |
+| `birthDate` | `Date` | Date of birth |
+| `deathDate` | `Date?` | Date of death, if applicable |
+| `nationalIdNumber` | `String` | National Identity Document (DNI) number |
+| `CUIL` | `String` | Unique Labor Identification Code |
+| `maritalStatus` | `Enum` | `single / married / divorced / widowed / inCivilUnion` |
+| `nationality` | `String` | Nationality/ies of the person |
+| `actualDomicile` | `Domicile` | Place of habitual residence |
+| `legalDomicile` | `Domicile` | Legal domicile established by law |
+| `hasFullLegalCapacity` | `Boolean` | Whether they have full capacity to exercise rights |
 
-#### 4.2.1 Capacidad de Ejercicio
+#### 4.2.1 Capacity to Exercise Rights
 
-La capacidad de ejercicio es plena a los 18 años (mayoría de edad). Existen restricciones:
+Full capacity to exercise rights is reached at 18 (age of majority). There are restrictions:
 
-- **Menores de 13 años**: sin capacidad de ejercicio.
-- **Adolescentes (13-18)**: capacidad progresiva según el acto jurídico.
-- **Personas con capacidad restringida**: según sentencia judicial (art. 32 CCCN).
-- **Personas incapaces**: declaradas judicialmente.
+- **Under 13**: no capacity to exercise rights.
+- **Adolescents (13-18)**: progressive capacity depending on the legal act.
+- **Persons with restricted capacity**: per a court judgment (art. 32 CCCN).
+- **Incapable persons**: declared by a court.
 
-### 4.3 `PersonaJuridica`
+### 4.3 `LegalEntity`
 
-Entes a los cuales el ordenamiento les confiere aptitud para adquirir derechos y contraer obligaciones (art. 141 CCCN).
+Entities to which the legal order grants the capacity to acquire rights and incur obligations (art. 141 CCCN).
 
-| Propiedad | Tipo | Descripción |
+| Property | Type | Description |
 |---|---|---|
-| `denominacion` | `String` | Razón social o nombre |
-| `CUIT` | `String` | Clave Única de Identificación Tributaria |
-| `fechaConstitucion` | `Date` | Fecha de constitución o fundación |
-| `tipoPersonaJuridica` | `Enum` | `publica / privada` |
-| `objetoSocial` | `String` | Actividad o fin para el que fue creada |
-| `domicilioLegal` | `Domicilio` | Domicilio legal registrado |
-| `tieneOrganosGobierno` | `OrganoPersonaJuridica` | Órganos de administración y fiscalización |
-| `estaInscriptaEn` | `RegistroPublico` | Registro donde está inscripta |
+| `name` | `String` | Corporate name |
+| `CUIT` | `String` | Unique Tax Identification Code |
+| `incorporationDate` | `Date` | Date of incorporation or founding |
+| `legalEntityType` | `Enum` | `public / private` |
+| `corporatePurpose` | `String` | Activity or purpose for which it was created |
+| `legalDomicile` | `Domicile` | Registered legal domicile |
+| `hasGoverningBodies` | `LegalEntityBody` | Administration and oversight bodies |
+| `isRegisteredIn` | `PublicRegistry` | Registry where it is registered |
 
-#### 4.3.1 Personas Jurídicas Públicas
+#### 4.3.1 Public Legal Entities
 
-- Estado Nacional
-- Provincias
-- Ciudad Autónoma de Buenos Aires
-- Municipios
-- Entidades autárquicas (ANSES, ARCA, BCRA, etc.)
-- Universidades Nacionales
-- Iglesia Católica Apostólica Romana
+- National State
+- Provinces
+- Autonomous City of Buenos Aires
+- Municipalities
+- Autarkic entities (ANSES, ARCA, BCRA, etc.)
+- National Universities
+- Roman Catholic Apostolic Church
 
-#### 4.3.2 Personas Jurídicas Privadas
+#### 4.3.2 Private Legal Entities
 
-- **Sociedades** (SA, SRL, SAS, etc.) — Ley 19.550
-- **Asociaciones Civiles** — art. 168 CCCN
-- **Simples Asociaciones** — art. 187 CCCN
-- **Fundaciones** — Ley 19.836
-- **Mutuales** — Ley 20.321
-- **Cooperativas** — Ley 20.337
-- **Consorcios de Propiedad Horizontal**
-- **Fideicomisos** con personería jurídica
+- **Companies** (SA, SRL, SAS, etc.) — Ley 19.550
+- **Civil Associations** — art. 168 CCCN
+- **Simple Associations** — art. 187 CCCN
+- **Foundations** — Ley 19.836
+- **Mutual Societies** — Ley 20.321
+- **Cooperatives** — Ley 20.337
+- **Horizontal Property Consortia**
+- **Trusts** with legal personality
 
 ---
 
-## 5. Acto Jurídico y Hecho Jurídico
+## 5. Legal Act and Legal Fact
 
-### 5.1 `HechoJuridico`
+### 5.1 `LegalFact`
 
-Acontecimiento que produce el nacimiento, modificación o extinción de relaciones jurídicas (art. 257 CCCN).
+An event that produces the creation, modification, or extinction of legal relationships (art. 257 CCCN).
 
-| Subclase | Descripción | Ejemplo |
+| Subclass | Description | Example |
 |---|---|---|
-| `HechoNatural` | Producido por la naturaleza, sin intervención humana | Nacimiento, muerte, paso del tiempo |
-| `HechoHumanoVoluntario` | Acto humano con discernimiento, intención y libertad | Contratos, delitos dolosos |
-| `HechoHumanoInvoluntario` | Sin discernimiento o libertad plena | Actos del demente no declarado |
+| `NaturalFact` | Produced by nature, without human intervention | Birth, death, passage of time |
+| `VoluntaryHumanFact` | A human act with discernment, intention, and freedom | Contracts, intentional crimes |
+| `InvoluntaryHumanFact` | Without discernment or full freedom | Acts of an undeclared mentally incapacitated person |
 
-### 5.2 `ActoJuridico`
+### 5.2 `LegalAct`
 
-Acto voluntario lícito que tiene por fin inmediato la adquisición, modificación o extinción de relaciones jurídicas (art. 259 CCCN).
+A lawful voluntary act whose immediate purpose is the acquisition, modification, or extinction of legal relationships (art. 259 CCCN).
 
-| Propiedad | Tipo | Descripción |
+| Property | Type | Description |
 |---|---|---|
-| `fecha` | `Date` | Fecha de celebración del acto |
-| `lugar` | `String` | Lugar de celebración |
-| `esOneroso` | `Boolean` | Si tiene contraprestación económica |
-| `esCondicional` | `Boolean` | Si está sujeto a condición |
-| `esModal` | `Boolean` | Si tiene cargo o modo |
-| `requiereForma` | `TipoForma` | Forma requerida por la ley |
-| `esNulo` | `Boolean` | Si fue declarado nulo |
-| `causaDeNulidad` | `Enum` | Vicio que genera la nulidad |
+| `date` | `Date` | Date the act was executed |
+| `place` | `String` | Place of execution |
+| `isOnerous` | `Boolean` | Whether it has economic consideration |
+| `isConditional` | `Boolean` | Whether it is subject to a condition |
+| `isModal` | `Boolean` | Whether it has a charge or mode |
+| `requiredForm` | `FormType` | Form required by law |
+| `isVoid` | `Boolean` | Whether it was declared void |
+| `nullityCause` | `Enum` | Defect that generates the nullity |
 
-#### 5.2.1 Vicios del Acto Jurídico
+#### 5.2.1 Defects of the Legal Act
 
-| Vicio | Tipo de Nulidad | Norma |
+| Defect | Type of Nullity | Norm |
 |---|---|---|
-| Error esencial | Relativa | Art. 265-270 CCCN |
-| Dolo | Relativa | Art. 271-275 CCCN |
-| Violencia (fuerza/intimidación) | Relativa | Art. 276-278 CCCN |
-| Lesión | Relativa | Art. 332 CCCN |
-| Simulación | Absoluta o relativa | Art. 333-337 CCCN |
-| Fraude | Inoponibilidad | Art. 338-342 CCCN |
-| Objeto ilícito | Absoluta | Art. 279 CCCN |
-| Causa ilícita | Absoluta | Art. 281-282 CCCN |
+| Essential error | Relative | Art. 265-270 CCCN |
+| Fraud (dolo) | Relative | Art. 271-275 CCCN |
+| Violence (force/intimidation) | Relative | Art. 276-278 CCCN |
+| Injury (lesión) | Relative | Art. 332 CCCN |
+| Simulation | Absolute or relative | Art. 333-337 CCCN |
+| Fraud (against creditors) | Unenforceability | Art. 338-342 CCCN |
+| Unlawful object | Absolute | Art. 279 CCCN |
+| Unlawful cause | Absolute | Art. 281-282 CCCN |
 
-### 5.3 `Contrato`
+### 5.3 `Contract`
 
-Acto jurídico mediante el cual dos o más partes manifiestan su consentimiento para crear, regular, modificar, transferir o extinguir relaciones jurídicas patrimoniales (art. 957 CCCN).
+A legal act by which two or more parties express their consent to create, regulate, modify, transfer, or extinguish patrimonial legal relationships (art. 957 CCCN).
 
-| Propiedad | Tipo | Descripción |
+| Property | Type | Description |
 |---|---|---|
-| `tipoContrato` | `Enum` | Tipo de contrato según clasificación legal |
-| `partesContratantes` | `SujetoDeDeRecho[]` | Partes que celebran el contrato |
-| `objetoContractual` | `String` | Objeto del contrato |
-| `precioOContraprestacion` | `Decimal` | Valor económico pactado (si aplica) |
-| `plazo` | `Duration` | Duración o plazo del contrato |
-| `formaCelebracion` | `Enum` | `escrito / verbal / electrónico / escritura pública` |
-| `jurisdiccionAplicable` | `Jurisdiccion` | Jurisdicción para disputas |
-| `leyAplicable` | `NormaJuridica` | Ley que rige el contrato |
+| `contractType` | `Enum` | Type of contract per the legal classification |
+| `contractingParties` | `LegalSubject[]` | Parties that enter into the contract |
+| `contractObject` | `String` | Object of the contract |
+| `priceOrConsideration` | `Decimal` | Agreed economic value (if applicable) |
+| `term` | `Duration` | Duration or term of the contract |
+| `executionForm` | `Enum` | `written / verbal / electronic / public deed` |
+| `applicableJurisdiction` | `Jurisdiction` | Jurisdiction for disputes |
+| `applicableLaw` | `LegalNorm` | Law governing the contract |
 
-#### 5.3.1 Principales Tipos de Contrato (CCCN)
+#### 5.3.1 Main Contract Types (CCCN)
 
-| Contrato | Artículos CCCN | Características |
+| Contract | CCCN Articles | Characteristics |
 |---|---|---|
-| Compraventa | 1123-1169 | Transferencia de dominio a cambio de precio en dinero |
-| Permuta | 1172-1175 | Intercambio de cosas o derechos |
-| Locación | 1187-1250 | Uso y goce de cosa a cambio de precio |
-| Mandato | 1319-1334 | Gestión de negocios por cuenta del mandante |
-| Fianza | 1574-1598 | Garantía personal de obligación ajena |
-| Donación | 1542-1573 | Transferencia gratuita de cosa o derecho |
-| Mutuo | 1525-1532 | Préstamo de cosas fungibles |
-| Comodato | 1533-1541 | Préstamo de uso gratuito |
-| Cesión de derechos | 1614-1631 | Transmisión de derechos a un tercero |
-| Contrato de trabajo | Ley 20.744 | Relación laboral subordinada y dependiente |
-| Seguro | Ley 17.418 | Cobertura de riesgos a cambio de prima |
-| Franquicia | 1512-1524 | Licencia de marca y sistema de negocios |
+| Sale | 1123-1169 | Transfer of ownership in exchange for a price in money |
+| Barter | 1172-1175 | Exchange of things or rights |
+| Lease | 1187-1250 | Use and enjoyment of a thing in exchange for a price |
+| Mandate | 1319-1334 | Management of affairs on behalf of the principal |
+| Surety | 1574-1598 | Personal guarantee of another's obligation |
+| Donation | 1542-1573 | Free transfer of a thing or right |
+| Loan for consumption (Mutuo) | 1525-1532 | Loan of fungible things |
+| Loan for use (Comodato) | 1533-1541 | Free loan for use |
+| Assignment of rights | 1614-1631 | Transfer of rights to a third party |
+| Employment contract | Ley 20.744 | Subordinate, dependent employment relationship |
+| Insurance | Ley 17.418 | Risk coverage in exchange for a premium |
+| Franchise | 1512-1524 | License of a brand and business system |
 
 ---
 
-## 6. Relación Jurídica y Derechos Subjetivos
+## 6. Legal Relationship and Subjective Rights
 
-### 6.1 `RelacionJuridica`
+### 6.1 `LegalRelationship`
 
-Vínculo entre sujetos de derecho, reglado por el ordenamiento, que asigna a uno la posición de titular de un derecho y al otro la de obligado.
+A bond between legal subjects, governed by the legal order, that assigns one the position of holder of a right and the other that of the obligor.
 
-| Propiedad | Tipo | Descripción |
+| Property | Type | Description |
 |---|---|---|
-| `sujetoActivo` | `SujetoDeDeRecho` | Titular del derecho (acreedor, propietario) |
-| `sujetosPasivos` | `SujetoDeDeRecho[]` | Obligados (deudor, terceros) |
-| `objetoRelacion` | `String` | Bien, conducta o abstención sobre la que recae |
-| `fuenteRelacion` | `FuenteDelDerecho` | Norma o hecho que genera la relación |
-| `esPatrimonial` | `Boolean` | Si tiene contenido económico |
-| `esTransmisible` | `Boolean` | Si puede transmitirse a terceros |
+| `activeSubject` | `LegalSubject` | Holder of the right (creditor, owner) |
+| `passiveSubjects` | `LegalSubject[]` | Obligors (debtor, third parties) |
+| `relationshipObject` | `String` | Good, conduct, or abstention it falls upon |
+| `relationshipSource` | `LegalSource` | Norm or fact that generates the relationship |
+| `isPatrimonial` | `Boolean` | Whether it has economic content |
+| `isTransferable` | `Boolean` | Whether it can be transferred to third parties |
 
-### 6.2 Derechos Reales
+### 6.2 Real Rights (Rights in rem)
 
-Derechos que se ejercen sobre una cosa (art. 1882 CCCN). Son de número cerrado (**numerus clausus**).
+Rights exercised over a thing (art. 1882 CCCN). They are a closed set (**numerus clausus**).
 
-| Derecho Real | Arts. CCCN | Características |
+| Real Right | CCCN Arts. | Characteristics |
 |---|---|---|
-| Dominio | 1941-1982 | Derecho real más pleno: usar, gozar y disponer |
-| Condominio | 1983-2036 | Dominio de varios sobre una misma cosa |
-| Propiedad Horizontal | 2037-2072 | Dominio sobre unidades funcionales en edificios |
-| Conjuntos Inmobiliarios | 2073-2086 | Countries, barrios privados, parques industriales |
-| Tiempo Compartido | 2087-2102 | Uso periódico de inmueble o cosa mueble |
-| Cementerio Privado | 2103-2113 | Derecho sobre sepulturas |
-| Superficie | 2114-2128 | Derecho de plantar, forestar o construir sobre inmueble ajeno |
-| Usufructo | 2129-2153 | Uso y goce de cosa ajena sin alterar su sustancia |
-| Uso | 2154-2157 | Uso y goce limitado de cosa ajena |
-| Habitación | 2158-2161 | Derecho de morar en casa ajena |
-| Servidumbre | 2162-2183 | Carga sobre inmueble en beneficio de otro |
-| Hipoteca | 2205-2211 | Garantía real sobre inmueble sin desposesión |
-| Anticresis | 2212-2218 | Garantía real con entrega del inmueble al acreedor |
-| Prenda | 2219-2237 | Garantía real sobre cosas muebles |
+| Ownership | 1941-1982 | The fullest real right: use, enjoy, and dispose |
+| Co-ownership | 1983-2036 | Ownership by several over the same thing |
+| Horizontal Property | 2037-2072 | Ownership over functional units in buildings |
+| Real Estate Developments | 2073-2086 | Gated communities, private neighborhoods, industrial parks |
+| Timeshare | 2087-2102 | Periodic use of real estate or a movable thing |
+| Private Cemetery | 2103-2113 | Right over burial plots |
+| Surface | 2114-2128 | Right to plant, forest, or build on another's property |
+| Usufruct | 2129-2153 | Use and enjoyment of another's thing without altering its substance |
+| Use | 2154-2157 | Limited use and enjoyment of another's thing |
+| Habitation | 2158-2161 | Right to dwell in another's house |
+| Easement | 2162-2183 | Charge on real estate for the benefit of another |
+| Mortgage | 2205-2211 | Real guarantee over real estate without dispossession |
+| Antichresis | 2212-2218 | Real guarantee with delivery of the property to the creditor |
+| Pledge | 2219-2237 | Real guarantee over movable things |
 
-### 6.3 Derechos Personales / Obligaciones
+### 6.3 Personal Rights / Obligations
 
-La obligación es una relación jurídica en virtud de la cual el acreedor tiene el derecho a exigir al deudor una prestación (art. 724 CCCN).
+An obligation is a legal relationship by virtue of which the creditor has the right to demand a performance from the debtor (art. 724 CCCN).
 
-| Propiedad | Tipo | Descripción |
+| Property | Type | Description |
 |---|---|---|
-| `acreedor` | `SujetoDeDeRecho` | Sujeto activo de la obligación |
-| `deudor` | `SujetoDeDeRecho[]` | Sujeto/s pasivo/s |
-| `tipoPrestacion` | `Enum` | `dar / hacer / no hacer` |
-| `objetoPrestacion` | `String` | Descripción de la prestación debida |
-| `montoDeuda` | `Decimal` | Monto en pesos o moneda extranjera |
-| `tasaInteres` | `Decimal` | Tasa de interés aplicable |
-| `tipoInteres` | `Enum` | `compensatorio / moratorio / punitorio` |
-| `fechaVencimiento` | `Date` | Fecha de exigibilidad |
-| `estaExtinguida` | `Boolean` | Si la obligación fue cumplida o extinguida |
-| `causaExtincion` | `Enum` | Causa de extinción |
+| `creditor` | `LegalSubject` | Active subject of the obligation |
+| `debtor` | `LegalSubject[]` | Passive subject(s) |
+| `performanceType` | `Enum` | `give / do / not do` |
+| `performanceObject` | `String` | Description of the owed performance |
+| `debtAmount` | `Decimal` | Amount in pesos or foreign currency |
+| `interestRate` | `Decimal` | Applicable interest rate |
+| `interestType` | `Enum` | `compensatory / default / punitive` |
+| `dueDate` | `Date` | Date of enforceability |
+| `isExtinguished` | `Boolean` | Whether the obligation was fulfilled or extinguished |
+| `extinctionCause` | `Enum` | Cause of extinction |
 
-#### 6.3.1 Medios de Extinción de Obligaciones
+#### 6.3.1 Means of Extinction of Obligations
 
-- Pago (art. 865 CCCN)
-- Novación (art. 933 CCCN)
-- Compensación (art. 921 CCCN)
-- Confusión (art. 931 CCCN)
-- Renuncia (art. 944 CCCN)
-- Remisión de deuda (art. 950 CCCN)
-- Imposibilidad de cumplimiento (art. 955 CCCN)
-- Prescripción liberatoria (art. 2532 CCCN)
-- Transacción (art. 1641 CCCN)
+- Payment (art. 865 CCCN)
+- Novation (art. 933 CCCN)
+- Set-off (art. 921 CCCN)
+- Merger (art. 931 CCCN)
+- Waiver (art. 944 CCCN)
+- Debt remission (art. 950 CCCN)
+- Impossibility of performance (art. 955 CCCN)
+- Liberative prescription (art. 2532 CCCN)
+- Settlement (art. 1641 CCCN)
 
 ---
 
-## 7. Derecho Penal
+## 7. Criminal Law
 
-El derecho penal regula el *ius puniendi* del Estado, definiendo delitos, penas y garantías (Código Penal, Ley 11.179 y modificatorias).
+Criminal law governs the State's *ius puniendi*, defining crimes, penalties, and guarantees (Criminal Code, Ley 11.179 and amendments).
 
-### 7.1 Clase: `Delito`
+### 7.1 Class: `Crime`
 
-| Propiedad | Tipo | Descripción |
+| Property | Type | Description |
 |---|---|---|
-| `tipoDelito` | `Enum` | `doloso / culposo / preterintencional` |
-| `clasificacion` | `Enum` | `crimen / delito / contravención` |
-| `bienJuridicoProtegido` | `String` | Bien jurídico que protege la norma penal |
-| `esTentativa` | `Boolean` | Si es tentativa o delito consumado |
-| `esContinuado` | `Boolean` | Si es un delito continuado |
-| `articuloCodigo` | `String` | Artículo del Código Penal aplicable |
-| `penaMinima` | `Integer` | Pena mínima en meses o años |
-| `penaMaxima` | `Integer` | Pena máxima en meses o años |
-| `tipoPena` | `Enum` | `prisión / reclusión / multa / inhabilitación` |
-| `admiteEjecucionCondicional` | `Boolean` | Si puede ser dejada en suspenso |
-| `prescripcion` | `Integer` | Plazo de prescripción en años |
+| `crimeType` | `Enum` | `intentional / negligent / preterintentional` |
+| `classification` | `Enum` | `felony / misdemeanor / infraction` |
+| `protectedLegalInterest` | `String` | Legal interest the criminal norm protects |
+| `isAttempt` | `Boolean` | Whether it is an attempt or a completed crime |
+| `isContinuing` | `Boolean` | Whether it is a continuing crime |
+| `codeArticle` | `String` | Applicable Criminal Code article |
+| `minPenalty` | `Integer` | Minimum penalty in months or years |
+| `maxPenalty` | `Integer` | Maximum penalty in months or years |
+| `penaltyType` | `Enum` | `prison / reclusion / fine / disqualification` |
+| `allowsSuspendedSentence` | `Boolean` | Whether it can be suspended |
+| `prescription` | `Integer` | Prescription period in years |
 
-### 7.2 Clasificación de Delitos por Bien Jurídico
+### 7.2 Classification of Crimes by Legal Interest
 
-| Categoría | Ejemplos | Arts. CP |
+| Category | Examples | CP Arts. |
 |---|---|---|
-| Delitos contra las personas | Homicidio, lesiones, abandono | 79-108 |
-| Delitos contra el honor | Calumnia, injuria | 109-117 bis |
-| Delitos contra la integridad sexual | Abuso sexual, violación | 119-133 |
-| Delitos contra la libertad | Reducción a servidumbre, trata | 140-149 ter |
-| Delitos contra la propiedad | Hurto, robo, estafa, defraudación | 162-185 |
-| Delitos contra la seguridad pública | Incendio, estrago, piratería aérea | 186-213 bis |
-| Delitos contra el orden público | Sedición, asociación ilícita | 209-213 bis |
-| Delitos contra la administración pública | Cohecho, peculado, malversación | 237-281 bis |
-| Delitos contra la fe pública | Falsificación de documentos y moneda | 282-302 |
-| Delitos contra el orden económico | Lavado de activos (Ley 25.246) | 303-313 |
+| Crimes against persons | Homicide, injury, abandonment | 79-108 |
+| Crimes against honor | Slander, libel | 109-117 bis |
+| Crimes against sexual integrity | Sexual abuse, rape | 119-133 |
+| Crimes against freedom | Reduction to servitude, trafficking | 140-149 ter |
+| Crimes against property | Theft, robbery, fraud, embezzlement | 162-185 |
+| Crimes against public safety | Arson, devastation, air piracy | 186-213 bis |
+| Crimes against public order | Sedition, unlawful association | 209-213 bis |
+| Crimes against public administration | Bribery, peculation, malversation | 237-281 bis |
+| Crimes against public faith | Forgery of documents and currency | 282-302 |
+| Crimes against the economic order | Money laundering (Ley 25.246) | 303-313 |
 
-### 7.3 Clase: `Imputado`
+### 7.3 Class: `Defendant`
 
-Persona física sobre quien recae la persecución penal.
+A natural person against whom criminal prosecution is directed.
 
-| Propiedad | Tipo | Descripción |
+| Property | Type | Description |
 |---|---|---|
-| `esImputado` | `PersonaHumana` | Vinculación con la clase PersonaHumana |
-| `estadoProcesalPenal` | `Enum` | `imputado / procesado / sobreseído / condenado / absuelto` |
-| `medidasCautelares` | `MedidaCautelar[]` | Medidas restrictivas aplicadas |
-| `defensor` | `Abogado` | Abogado defensor designado o de oficio |
-| `tieneAntecedentes` | `Boolean` | Si registra condenas anteriores |
-| `esReincidente` | `Boolean` | Si califica como reincidente (art. 50 CP) |
+| `isDefendant` | `NaturalPerson` | Link to the NaturalPerson class |
+| `criminalProcessStatus` | `Enum` | `accused / indicted / dismissed / convicted / acquitted` |
+| `precautionaryMeasures` | `PrecautionaryMeasure[]` | Restrictive measures applied |
+| `defenseCounsel` | `Lawyer` | Appointed or public defense counsel |
+| `hasRecord` | `Boolean` | Whether they have prior convictions |
+| `isRepeatOffender` | `Boolean` | Whether they qualify as a repeat offender (art. 50 CP) |
 
-### 7.4 Clase: `Condena`
+### 7.4 Class: `Conviction`
 
-| Propiedad | Tipo | Descripción |
+| Property | Type | Description |
 |---|---|---|
-| `fechaCondena` | `Date` | Fecha de la sentencia condenatoria |
-| `tribunal` | `OrganoJudicial` | Tribunal que dictó la condena |
-| `penaImpuesta` | `String` | Descripción completa de la pena |
-| `duracionAnios` | `Integer` | Duración de la pena privativa de libertad |
-| `esCondicional` | `Boolean` | Si la ejecución está en suspenso |
-| `estaFirme` | `Boolean` | Si la condena está firme |
-| `fechaVencimiento` | `Date` | Fecha de cumplimiento de la pena |
-| `establecimientoPenitenciario` | `String` | Unidad carcelaria (si aplica) |
+| `convictionDate` | `Date` | Date of the convicting judgment |
+| `court` | `JudicialBody` | Court that issued the conviction |
+| `imposedPenalty` | `String` | Full description of the penalty |
+| `durationYears` | `Integer` | Duration of the custodial penalty |
+| `isSuspended` | `Boolean` | Whether enforcement is suspended |
+| `isFinal` | `Boolean` | Whether the conviction is final |
+| `endDate` | `Date` | Date of completion of the penalty |
+| `penitentiaryFacility` | `String` | Prison unit (if applicable) |
 
 ---
 
-## 8. Proceso Judicial
+## 8. Judicial Proceeding
 
-El proceso judicial es el conjunto de actos procesales ordenados que culminan en una decisión jurisdiccional. Está regulado por los Códigos Procesales de cada jurisdicción.
+The judicial proceeding is the set of ordered procedural acts that culminate in a jurisdictional decision. It is governed by the Procedural Codes of each jurisdiction.
 
-### 8.1 Clase: `Proceso`
+### 8.1 Class: `Proceeding`
 
-| Propiedad | Tipo | Descripción |
+| Property | Type | Description |
 |---|---|---|
-| `numeroExpediente` | `String` | Número de expediente judicial |
-| `caratula` | `String` | Denominación del proceso (partes y objeto) |
-| `tipoProcesal` | `Enum` | `civil / penal / laboral / contenciosoadmin / familia` |
-| `subtipoProceso` | `Enum` | `ordinario / sumarísimo / ejecutivo / amparo / etc.` |
-| `fechaInicio` | `Date` | Fecha de inicio o presentación de la demanda |
-| `estadoProceso` | `Enum` | `iniciado / en trámite / en sentencia / apelado / concluido` |
-| `jurisdiccion` | `Jurisdiccion` | Ámbito jurisdiccional (`federal / provincial / CABA`) |
-| `fuero` | `Enum` | `civil / penal / laboral / comercial / familia / contencioso` |
-| `tribunal` | `OrganoJudicial` | Juzgado o Tribunal interviniente |
-| `juez` | `Magistrado` | Juez a cargo del proceso |
-| `instancia` | `Enum` | `primera / segunda / tercera / extraordinaria` |
+| `caseFileNumber` | `String` | Court case file number |
+| `caption` | `String` | Designation of the proceeding (parties and object) |
+| `procedureType` | `Enum` | `civil / criminal / labor / administrativeLitigation / family` |
+| `procedureSubtype` | `Enum` | `ordinary / summary / enforcement / amparo / etc.` |
+| `startDate` | `Date` | Start date or filing of the complaint |
+| `proceedingStatus` | `Enum` | `initiated / in progress / awaiting judgment / appealed / concluded` |
+| `jurisdiction` | `Jurisdiction` | Jurisdictional scope (`federal / provincial / CABA`) |
+| `court venue` | `Enum` | `civil / criminal / labor / commercial / family / litigation` |
+| `court` | `JudicialBody` | Intervening court |
+| `judge` | `Judge` | Judge in charge of the proceeding |
+| `instance` | `Enum` | `first / second / third / extraordinary` |
 
-### 8.2 Partes Procesales
+### 8.2 Procedural Parties
 
-| Clase | Descripción | Relación |
+| Class | Description | Relationship |
 |---|---|---|
-| Actor/Demandante | Quien inicia la acción judicial | `tieneActor → SujetoDeDeRecho` |
-| Demandado | Contra quien se dirige la acción | `tieneDemandado → SujetoDeDeRecho` |
-| Tercero | Quien interviene sin ser parte original | `tieneIntervieniente → SujetoDeDeRecho` |
-| Querellante | Víctima que impulsa la acción penal | `tieneQuerellante → SujetoDeDeRecho` |
-| Ministerio Público Fiscal | Acusación pública en procesos penales | `tieneRepresentante → Fiscal` |
-| Defensor Oficial | Defensa en casos de incapacidad económica | `tieneDefensor → Abogado` |
+| Plaintiff/Claimant | Who initiates the judicial action | `hasPlaintiff → LegalSubject` |
+| Defendant | Against whom the action is directed | `hasDefendant → LegalSubject` |
+| Third party | Who intervenes without being an original party | `hasIntervenor → LegalSubject` |
+| Complainant | Victim who drives the criminal action | `hasComplainant → LegalSubject` |
+| Public Prosecutor's Office | Public accusation in criminal proceedings | `hasRepresentative → Prosecutor` |
+| Public Defender | Defense in cases of financial incapacity | `hasDefenseCounsel → Lawyer` |
 
-### 8.3 `ActoProcesal`
+### 8.3 `ProceduralAct`
 
-| Propiedad | Tipo | Descripción |
+| Property | Type | Description |
 |---|---|---|
-| `tipoActo` | `Enum` | `demanda / contestación / prueba / sentencia / recurso / etc.` |
-| `fechaActo` | `Date` | Fecha de realización del acto |
-| `realizadoPor` | `SujetoProcesal` | Quién realizó el acto |
-| `contenidoActo` | `String (URL)` | Texto o documento del acto procesal |
-| `esNotificado` | `Boolean` | Si fue notificado a las partes |
-| `fechaNotificacion` | `Date` | Fecha de notificación |
+| `actType` | `Enum` | `complaint / answer / evidence / judgment / appeal / etc.` |
+| `actDate` | `Date` | Date the act was performed |
+| `performedBy` | `ProceduralSubject` | Who performed the act |
+| `actContent` | `String (URL)` | Text or document of the procedural act |
+| `isNotified` | `Boolean` | Whether it was notified to the parties |
+| `notificationDate` | `Date` | Date of notification |
 
-### 8.4 `Sentencia`
+### 8.4 `Judgment`
 
-La sentencia es el acto procesal del juez que pone fin al proceso resolviendo el fondo de la controversia.
+The judgment is the procedural act of the judge that ends the proceeding by resolving the merits of the controversy.
 
-| Propiedad | Tipo | Descripción |
+| Property | Type | Description |
 |---|---|---|
-| `tipoSentencia` | `Enum` | `definitiva / interlocutoria / de mérito` |
-| `fechaDictado` | `Date` | Fecha de la sentencia |
-| `resultado` | `Enum` | `favorable / desfavorable / parcial` |
-| `estaFirme` | `Boolean` | Si está firme (no fue recurrida o venció plazo) |
-| `costas` | `Enum` | `al vencido / en el orden causado / sin costas` |
-| `tieneFundamentos` | `String` | Fundamentos jurídicos de la decisión |
-| `esApelable` | `Boolean` | Si admite recurso de apelación |
-| `recursoInterpuesto` | `Recurso` | Recurso interpuesto contra la sentencia |
+| `judgmentType` | `Enum` | `final / interlocutory / on the merits` |
+| `issueDate` | `Date` | Date of the judgment |
+| `outcome` | `Enum` | `favorable / unfavorable / partial` |
+| `isFinal` | `Boolean` | Whether it is final (not appealed or the term expired) |
+| `costs` | `Enum` | `on the loser / split / no costs` |
+| `hasReasoning` | `String` | Legal grounds of the decision |
+| `isAppealable` | `Boolean` | Whether it admits an appeal |
+| `filedAppeal` | `Appeal` | Appeal filed against the judgment |
 
-### 8.5 Recursos Procesales
+### 8.5 Procedural Remedies
 
-| Recurso | Tipo | Tribunal Competente |
+| Remedy | Type | Competent Court |
 |---|---|---|
-| Aclaratoria | Ordinario | Mismo tribunal que dictó la resolución |
-| Apelación | Ordinario | Cámara de Apelaciones |
-| Nulidad | Ordinario | Cámara de Apelaciones |
-| Casación | Extraordinario local | Tribunal Superior de Justicia provincial |
-| Inaplicabilidad de ley | Extraordinario local | Suprema Corte o TSJ provincial |
-| Recurso Extraordinario Federal (REF) | Extraordinario | Corte Suprema de Justicia de la Nación |
-| Queja por denegación | Extraordinario | Corte Suprema de Justicia de la Nación |
+| Clarification | Ordinary | Same court that issued the decision |
+| Appeal | Ordinary | Court of Appeals |
+| Nullity | Ordinary | Court of Appeals |
+| Cassation | Local extraordinary | Provincial Superior Court of Justice |
+| Inapplicability of law | Local extraordinary | Provincial Supreme Court or TSJ |
+| Federal Extraordinary Appeal (REF) | Extraordinary | Supreme Court of Justice of the Nation |
+| Complaint for denial | Extraordinary | Supreme Court of Justice of the Nation |
 
 ---
 
-## 9. Órganos del Estado y Sistema Judicial
+## 9. State Bodies and Judicial System
 
-### 9.1 Clase: `OrganoEstatal`
+### 9.1 Class: `StateBody`
 
-| Propiedad | Tipo | Descripción |
+| Property | Type | Description |
 |---|---|---|
-| `denominacion` | `String` | Nombre oficial del órgano |
-| `poderDelEstado` | `Enum` | `Legislativo / Ejecutivo / Judicial / Ministerio Público` |
-| `ambitoJurisdiccional` | `Enum` | `federal / provincial / municipal / CABA` |
-| `baseNormativa` | `NormaJuridica` | Norma que crea o regula el órgano |
-| `competencia` | `String` | Descripción de la competencia material |
+| `name` | `String` | Official name of the body |
+| `branchOfGovernment` | `Enum` | `Legislative / Executive / Judicial / Public Prosecution` |
+| `jurisdictionalScope` | `Enum` | `federal / provincial / municipal / CABA` |
+| `normativeBasis` | `LegalNorm` | Norm that creates or regulates the body |
+| `competence` | `String` | Description of the material competence |
 
-### 9.2 Sistema Judicial Federal
+### 9.2 Federal Judicial System
 
-| Órgano | Instancia | Competencia |
+| Body | Instance | Competence |
 |---|---|---|
-| Corte Suprema de Justicia | Suprema | Control constitucional, REF, instancia originaria |
-| Cámaras Federales de Apelaciones | Segunda | Recursos de apelación en materia federal |
-| Juzgados Federales | Primera | Civil, penal, contencioso-administrativo federal |
-| Cámara Nacional Electoral | Segunda | Materia electoral nacional |
-| Cámara Federal de Casación Penal | Tercera penal | Unificación de jurisprudencia penal federal |
-| Tribunales Orales Federales | Única penal | Juicio oral y público en materia penal federal |
+| Supreme Court of Justice | Supreme | Constitutional review, REF, original jurisdiction |
+| Federal Courts of Appeals | Second | Appeals in federal matters |
+| Federal Courts | First | Civil, criminal, federal administrative litigation |
+| National Electoral Court | Second | National electoral matters |
+| Federal Criminal Cassation Court | Third criminal | Unification of federal criminal case law |
+| Federal Oral Courts | Single criminal | Oral and public trial in federal criminal matters |
 
-### 9.3 Ministerio Público
+### 9.3 Public Prosecution
 
-| Órgano | Función |
+| Body | Function |
 |---|---|
-| Procurador General de la Nación | Máxima autoridad del Ministerio Público Fiscal |
-| Defensor General de la Nación | Máxima autoridad del Ministerio Público de la Defensa |
-| Fiscales | Ejercicio de la acción penal pública |
-| Defensores Oficiales | Defensa de imputados sin recursos económicos |
-| Asesores de Menores e Incapaces | Protección de intereses de niños e incapaces |
+| Attorney General of the Nation | Highest authority of the Public Prosecutor's Office |
+| General Public Defender of the Nation | Highest authority of the Public Defense |
+| Prosecutors | Exercise of the public criminal action |
+| Public Defenders | Defense of defendants without financial resources |
+| Advisors for Minors and Incapacitated Persons | Protection of the interests of children and incapacitated persons |
 
-### 9.4 Clase: `Magistrado`
+### 9.4 Class: `Judge`
 
-| Propiedad | Tipo | Descripción |
+| Property | Type | Description |
 |---|---|---|
-| `nombreCompleto` | `String` | Nombre completo del magistrado |
-| `cargo` | `Enum` | `juez / vocal / ministro / camarista / conjuez` |
-| `tribunal` | `OrganoJudicial` | Tribunal al que pertenece |
-| `fechaDesignacion` | `Date` | Fecha de designación |
-| `formaNombramiento` | `String` | Mecanismo de designación (JEM, concurso, etc.) |
-| `esVitalicio` | `Boolean` | Si ejerce con inamovilidad hasta los 75 años |
-| `especialidad` | `Enum` | `civil / penal / laboral / electoral / constitucional / etc.` |
+| `fullName` | `String` | Full name of the judge |
+| `position` | `Enum` | `judge / associate judge / justice / appellate judge / substitute judge` |
+| `court` | `JudicialBody` | Court they belong to |
+| `appointmentDate` | `Date` | Date of appointment |
+| `appointmentMethod` | `String` | Appointment mechanism (impeachment council, competition, etc.) |
+| `hasLifeTenure` | `Boolean` | Whether they serve with irremovability until age 75 |
+| `specialty` | `Enum` | `civil / criminal / labor / electoral / constitutional / etc.` |
 
 ---
 
-## 10. Derecho Laboral y Seguridad Social
+## 10. Labor Law and Social Security
 
-El derecho laboral argentino se rige por la Ley de Contrato de Trabajo (LCT, Ley 20.744) y sus modificatorias, con principios protectorios constitucionales (art. 14 bis CN).
+Argentine labor law is governed by the Employment Contract Law (LCT, Ley 20.744) and its amendments, with constitutional protective principles (art. 14 bis CN).
 
-### 10.1 Clase: `RelacionLaboral`
+### 10.1 Class: `EmploymentRelationship`
 
-| Propiedad | Tipo | Descripción |
+| Property | Type | Description |
 |---|---|---|
-| `empleador` | `SujetoDeDeRecho` | Persona humana o jurídica que emplea |
-| `trabajador` | `PersonaHumana` | Persona humana que presta el servicio |
-| `tipoContrato` | `Enum` | `indeterminado / plazo fijo / eventual / temporada / aprendizaje` |
-| `fechaInicio` | `Date` | Fecha de inicio de la relación laboral |
-| `fechaEgreso` | `Date?` | Fecha de extinción del vínculo |
-| `causaEgreso` | `Enum` | `despido sin causa / renuncia / mutuo acuerdo / justa causa / jubilación` |
-| `remuneracionBruta` | `Decimal` | Remuneración mensual bruta en pesos |
-| `categoriaConvenio` | `String` | Categoría según CCT aplicable |
-| `convenioColectivo` | `ConvenioColectivo` | CCT que rige la relación |
-| `jornada` | `Enum` | `tiempo completo / parcial / por turnos` |
-| `horasSemanales` | `Integer` | Horas semanales de trabajo |
-| `estaRegistrada` | `Boolean` | Si está registrada ante ARCA (ex AFIP) |
+| `employer` | `LegalSubject` | Natural or legal person who employs |
+| `employee` | `NaturalPerson` | Natural person who provides the service |
+| `contractType` | `Enum` | `indefinite / fixed-term / occasional / seasonal / apprenticeship` |
+| `startDate` | `Date` | Start date of the employment relationship |
+| `endDate` | `Date?` | Date of termination of the bond |
+| `terminationCause` | `Enum` | `dismissal without cause / resignation / mutual agreement / just cause / retirement` |
+| `grossSalary` | `Decimal` | Gross monthly salary in pesos |
+| `agreementCategory` | `String` | Category per the applicable CCT |
+| `collectiveAgreement` | `CollectiveBargainingAgreement` | CCT governing the relationship |
+| `workSchedule` | `Enum` | `full time / part time / shift` |
+| `weeklyHours` | `Integer` | Weekly working hours |
+| `isRegistered` | `Boolean` | Whether it is registered with ARCA (formerly AFIP) |
 
-### 10.2 Derechos del Trabajador
+### 10.2 Worker's Rights
 
-- **Jornada máxima**: 8 horas diarias / 48 horas semanales (Ley 11.544)
-- **Descanso semanal**: 35 horas corridas a partir del sábado (Ley 11.544)
-- **Vacaciones anuales pagas**: 14-35 días según antigüedad (art. 150 LCT)
-- **SAC (aguinaldo)**: 2 cuotas anuales en junio y diciembre (Ley 23.041)
-- **Licencia por maternidad**: 90 días (art. 177 LCT)
-- **Licencia por paternidad**: 15 días corridos (Ley 27.591)
-- **Indemnización por antigüedad**: 1 mes de sueldo por año trabajado (art. 245 LCT)
-- **Preaviso**: 15 días a 2 meses según antigüedad (art. 231 LCT)
+- **Maximum working day**: 8 hours daily / 48 hours weekly (Ley 11.544)
+- **Weekly rest**: 35 continuous hours starting Saturday (Ley 11.544)
+- **Paid annual vacation**: 14-35 days depending on seniority (art. 150 LCT)
+- **SAC (annual bonus)**: 2 annual installments in June and December (Ley 23.041)
+- **Maternity leave**: 90 days (art. 177 LCT)
+- **Paternity leave**: 15 continuous days (Ley 27.591)
+- **Seniority severance**: 1 month's salary per year worked (art. 245 LCT)
+- **Prior notice**: 15 days to 2 months depending on seniority (art. 231 LCT)
 
-### 10.3 Clase: `ConvenioColectivoTrabajo` (CCT)
+### 10.3 Class: `CollectiveBargainingAgreement` (CCT)
 
-| Propiedad | Tipo | Descripción |
+| Property | Type | Description |
 |---|---|---|
-| `numeroCCT` | `String` | Número identificatorio del convenio |
-| `actividadRama` | `String` | Actividad o sector que regula |
-| `sindicatoFirmante` | `String` | Sindicato/s signatario/s |
-| `camaraEmpresaria` | `String` | Cámara o representación empleadora |
-| `ambitoAplicacion` | `Enum` | `de actividad / de empresa / de oficio` |
-| `fechaHomologacion` | `Date` | Fecha de homologación por el MTEySS |
-| `vigencia` | `Date` | Fecha de vencimiento pactada |
+| `cctNumber` | `String` | Identifying number of the agreement |
+| `activitySector` | `String` | Activity or sector it regulates |
+| `signatoryUnion` | `String` | Signatory union(s) |
+| `employerChamber` | `String` | Employer chamber or representation |
+| `applicationScope` | `Enum` | `by activity / by company / by trade` |
+| `ratificationDate` | `Date` | Date of ratification by the MTEySS |
+| `validity` | `Date` | Agreed expiration date |
 
 ---
 
-## 11. Derecho de Familia
+## 11. Family Law
 
-El derecho de familia regula las relaciones derivadas del parentesco, matrimonio y unión convivencial (arts. 401-723 CCCN).
+Family law governs relationships arising from kinship, marriage, and civil union (arts. 401-723 CCCN).
 
-### 11.1 Clase: `VinculoFamiliar`
+### 11.1 Class: `FamilyBond`
 
-| Subclase | Descripción | Norma CCCN |
+| Subclass | Description | CCCN Norm |
 |---|---|---|
-| `Matrimonio` | Unión voluntaria de dos personas con vocación de permanencia | Art. 401-445 |
-| `UnionConvivencial` | Convivencia afectiva de pareja inscripta o acreditada | Art. 509-528 |
-| `Parentesco` | Vínculo jurídico por consanguinidad, afinidad o adopción | Art. 529-536 |
-| `Filiacion` | Vínculo jurídico entre padres e hijos | Art. 558-593 |
-| `Adopcion` | Acto jurídico que crea filiación por sentencia judicial | Art. 594-637 |
-| `ResponsabilidadParental` | Conjunto de derechos y deberes de los progenitores | Art. 638-704 |
+| `Marriage` | Voluntary union of two persons with a vocation of permanence | Art. 401-445 |
+| `CivilUnion` | Registered or proven affective cohabitation of a couple | Art. 509-528 |
+| `Kinship` | Legal bond by consanguinity, affinity, or adoption | Art. 529-536 |
+| `Filiation` | Legal bond between parents and children | Art. 558-593 |
+| `Adoption` | Legal act that creates filiation by court judgment | Art. 594-637 |
+| `ParentalResponsibility` | Set of rights and duties of the parents | Art. 638-704 |
 
-### 11.2 Clase: `Matrimonio`
+### 11.2 Class: `Marriage`
 
-| Propiedad | Tipo | Descripción |
+| Property | Type | Description |
 |---|---|---|
-| `conyuge1` | `PersonaHumana` | Primer cónyuge |
-| `conyuge2` | `PersonaHumana` | Segundo cónyuge |
-| `fechaCelebracion` | `Date` | Fecha del matrimonio civil |
-| `lugarCelebracion` | `String` | Registro Civil donde se celebró |
-| `regimen` | `Enum` | `comunidad de ganancias / separación de bienes` |
-| `estaDisuelto` | `Boolean` | Si el matrimonio fue disuelto |
-| `causaDisolucion` | `Enum` | `divorcio / fallecimiento / nulidad` |
-| `fechaDisolucion` | `Date?` | Fecha de la disolución |
+| `spouse1` | `NaturalPerson` | First spouse |
+| `spouse2` | `NaturalPerson` | Second spouse |
+| `celebrationDate` | `Date` | Date of the civil marriage |
+| `celebrationPlace` | `String` | Civil Registry where it was celebrated |
+| `regime` | `Enum` | `community of gains / separation of property` |
+| `isDissolved` | `Boolean` | Whether the marriage was dissolved |
+| `dissolutionCause` | `Enum` | `divorce / death / annulment` |
+| `dissolutionDate` | `Date?` | Date of dissolution |
 
 ---
 
-## 12. Derecho Tributario
+## 12. Tax Law
 
-El derecho tributario regula la potestad del Estado de exigir tributos (Ley 11.683 de Procedimiento Tributario y leyes especiales).
+Tax law governs the State's power to demand taxes (Ley 11.683 on Tax Procedure and special laws).
 
-### 12.1 Clase: `Tributo`
+### 12.1 Class: `Tax`
 
-| Propiedad | Tipo | Descripción |
+| Property | Type | Description |
 |---|---|---|
-| `denominacion` | `String` | Nombre del tributo |
-| `tipoTributo` | `Enum` | `impuesto / tasa / contribución especial` |
-| `nivelJurisdiccional` | `Enum` | `nacional / provincial / municipal` |
-| `organoRecaudador` | `OrganoEstatal` | Ente recaudador (ARCA, DGR provincial, etc.) |
-| `hechoImponible` | `String` | Hecho o situación que genera la obligación |
-| `sujetosPasivos` | `SujetoDeDeRecho[]` | Contribuyentes y responsables |
-| `baseImponible` | `String` | Base de cálculo del tributo |
-| `alicuota` | `Decimal` | Tasa o porcentaje aplicable |
-| `periodicidad` | `Enum` | `mensual / anual / único / por operación` |
-| `normaCreadora` | `NormaJuridica` | Ley que crea el tributo |
+| `name` | `String` | Name of the tax |
+| `taxType` | `Enum` | `tax / fee / special contribution` |
+| `jurisdictionalLevel` | `Enum` | `national / provincial / municipal` |
+| `collectingBody` | `StateBody` | Collecting entity (ARCA, provincial DGR, etc.) |
+| `taxableEvent` | `String` | Event or situation that generates the obligation |
+| `passiveSubjects` | `LegalSubject[]` | Taxpayers and responsible parties |
+| `taxableBase` | `String` | Calculation base of the tax |
+| `rate` | `Decimal` | Applicable rate or percentage |
+| `periodicity` | `Enum` | `monthly / annual / one-time / per transaction` |
+| `creatingNorm` | `LegalNorm` | Law that creates the tax |
 
-### 12.2 Principales Tributos Nacionales
+### 12.2 Main National Taxes
 
-| Tributo | Tipo | Alícuota General | Norma |
+| Tax | Type | General Rate | Norm |
 |---|---|---|---|
-| Impuesto a las Ganancias | Impuesto directo | Escala progresiva | Ley 20.628 |
-| IVA | Impuesto indirecto | 21% (general) | Ley 23.349 |
-| Bienes Personales | Impuesto directo | Variable según patrimonio | Ley 23.966 |
-| Impuesto a los Créditos y Débitos | Impuesto indirecto | 0,6% c/u | Ley 25.413 |
-| Derechos de Exportación | Impuesto al comercio | Variable por producto | Código Aduanero |
-| Aportes/Contrib. Seguridad Social | Contribución especial | 28% empleador + 17% empleado | Ley 24.241 |
+| Income Tax | Direct tax | Progressive scale | Ley 20.628 |
+| VAT | Indirect tax | 21% (general) | Ley 23.349 |
+| Personal Assets Tax | Direct tax | Variable by net worth | Ley 23.966 |
+| Tax on Credits and Debits | Indirect tax | 0.6% each | Ley 25.413 |
+| Export Duties | Trade tax | Variable by product | Customs Code |
+| Social Security Contributions | Special contribution | 28% employer + 17% employee | Ley 24.241 |
 
 ---
 
-## 13. Derecho Administrativo
+## 13. Administrative Law
 
-El derecho administrativo regula la organización y actividad de la Administración Pública (Ley 19.549 y sus reglamentos).
+Administrative law governs the organization and activity of the Public Administration (Ley 19.549 and its regulations).
 
-### 13.1 Clase: `ActoAdministrativo`
+### 13.1 Class: `AdministrativeAct`
 
-Declaración unilateral de un órgano del Estado en ejercicio de función administrativa que produce efectos jurídicos directos (art. 7 Ley 19.549).
+A unilateral declaration of a State body in the exercise of an administrative function that produces direct legal effects (art. 7 Ley 19.549).
 
-| Propiedad | Tipo | Descripción |
+| Property | Type | Description |
 |---|---|---|
-| `tipoActo` | `Enum` | `decreto / resolución / disposición / ordenanza / circular` |
-| `organoEmisor` | `OrganoEstatal` | Órgano que dictó el acto |
-| `fecha` | `Date` | Fecha de emisión |
-| `numeroActo` | `String` | Número identificatorio |
-| `destinatario` | `SujetoDeDeRecho` | A quien va dirigido (si es particular) |
-| `esRegulatorio` | `Boolean` | Si tiene efectos generales o particulares |
-| `estaMotivado` | `Boolean` | Si contiene motivación suficiente (art. 7 inc. e) |
-| `estaNotificado` | `Boolean` | Si fue notificado al interesado |
-| `esFirme` | `Boolean` | Si quedó firme (no fue recurrido) |
-| `estaEjecutoriado` | `Boolean` | Si fue ejecutado por la Administración |
-| `recursosDisponibles` | `Recurso[]` | Recursos administrativos disponibles |
+| `actType` | `Enum` | `decree / resolution / disposition / ordinance / circular` |
+| `issuingBody` | `StateBody` | Body that issued the act |
+| `date` | `Date` | Date of issuance |
+| `actNumber` | `String` | Identifying number |
+| `recipient` | `LegalSubject` | To whom it is addressed (if an individual) |
+| `isRegulatory` | `Boolean` | Whether it has general or individual effects |
+| `isReasoned` | `Boolean` | Whether it contains sufficient reasoning (art. 7 inc. e) |
+| `isNotified` | `Boolean` | Whether it was notified to the interested party |
+| `isFinal` | `Boolean` | Whether it became final (not appealed) |
+| `isEnforced` | `Boolean` | Whether it was executed by the Administration |
+| `availableRemedies` | `Remedy[]` | Available administrative remedies |
 
-### 13.2 Recursos Administrativos
+### 13.2 Administrative Remedies
 
-| Recurso | Plazo | Ante quien | Norma |
+| Remedy | Term | Before whom | Norm |
 |---|---|---|---|
-| Reconsideración | 10 días hábiles | Mismo órgano | Art. 84 Decreto 1759/72 |
-| Jerárquico | 15 días hábiles | Superior jerárquico | Art. 89 Decreto 1759/72 |
-| De alzada | 15 días hábiles | Ministerio competente | Art. 94 Decreto 1759/72 |
-| Queja | En cualquier momento | Superior por mora | Art. 71 Decreto 1759/72 |
+| Reconsideration | 10 business days | Same body | Art. 84 Decreto 1759/72 |
+| Hierarchical | 15 business days | Hierarchical superior | Art. 89 Decreto 1759/72 |
+| Appeal (alzada) | 15 business days | Competent Ministry | Art. 94 Decreto 1759/72 |
+| Complaint | At any time | Superior, for delay | Art. 71 Decreto 1759/72 |
 
-### 13.3 Contrato Administrativo y Servicio Público
+### 13.3 Administrative Contract and Public Service
 
-| Clase | Descripción | Norma principal |
+| Class | Description | Main norm |
 |---|---|---|
-| `ContratoAdministrativo` | Contrato celebrado por el Estado con particulares | Ley 13.064 y Ley 27.437 |
-| `LicitacionPublica` | Procedimiento de selección del contratista | Ley 27.437 |
-| `Concesion` | Delegación de gestión de servicio público a privado | Leyes especiales por sector |
-| `PermisoPrecario` | Habilitación provisional y revocable | Reglamentos sectoriales |
+| `AdministrativeContract` | Contract entered into by the State with private parties | Ley 13.064 and Ley 27.437 |
+| `PublicTender` | Procedure for selecting the contractor | Ley 27.437 |
+| `Concession` | Delegation of public service management to a private party | Special laws by sector |
+| `PrecariousPermit` | Provisional and revocable authorization | Sector regulations |
 
 ---
 
-## 14. Resumen de Relaciones entre Clases
+## 14. Summary of Relationships Between Classes
 
-Principales propiedades de objeto de la ontología, con dominio, rango y cardinalidad.
+Main object properties of the ontology, with domain, range, and cardinality.
 
-| Relación | Dominio | Rango | Cardinalidad |
+| Relationship | Domain | Range | Cardinality |
 |---|---|---|---|
-| `esDictadaPor` | `NormaJuridica` | `OrganoEstatal` | N:1 |
-| `modificaA` | `NormaJuridica` | `NormaJuridica` | N:N |
-| `derogaA` | `NormaJuridica` | `NormaJuridica` | N:N |
-| `reglamentaA` | `NormaJuridica` | `NormaJuridica` | N:N |
-| `tieneArticulo` | `NormaJuridica` | `Articulo` | 1:N |
-| `esParteEn` | `SujetoDeDeRecho` | `Proceso` | N:N |
-| `tieneDefensor` | `Proceso` | `Abogado` | N:1 |
-| `tieneJuez` | `Proceso` | `Magistrado` | N:1 |
-| `dictaSentencia` | `Magistrado` | `Sentencia` | 1:N |
-| `esCondenadoPor` | `Condena` | `Delito` | 1:N |
-| `tieneImputado` | `Proceso` | `Imputado` | 1:N |
-| `celebra` | `SujetoDeDeRecho` | `Contrato` | N:N |
-| `esAcreedorDe` | `SujetoDeDeRecho` | `Obligacion` | N:N |
-| `esDeudorDe` | `SujetoDeDeRecho` | `Obligacion` | N:N |
-| `tieneRelacionLaboral` | `PersonaHumana` | `RelacionLaboral` | 1:N |
-| `empleaA` | `SujetoDeDeRecho` | `RelacionLaboral` | 1:N |
-| `esCasadoCon` | `PersonaHumana` | `PersonaHumana` | 1:1 |
-| `tieneHijo` | `PersonaHumana` | `PersonaHumana` | 1:N |
-| `tributaEn` | `SujetoDeDeRecho` | `Tributo` | N:N |
-| `recurreContra` | `SujetoProcesal` | `ActoAdministrativo` | N:N |
+| `isEnactedBy` | `LegalNorm` | `StateBody` | N:1 |
+| `amends` | `LegalNorm` | `LegalNorm` | N:N |
+| `repeals` | `LegalNorm` | `LegalNorm` | N:N |
+| `regulates` | `LegalNorm` | `LegalNorm` | N:N |
+| `hasArticle` | `LegalNorm` | `Article` | 1:N |
+| `isPartyIn` | `LegalSubject` | `Proceeding` | N:N |
+| `hasDefenseCounsel` | `Proceeding` | `Lawyer` | N:1 |
+| `hasJudge` | `Proceeding` | `Judge` | N:1 |
+| `issuesJudgment` | `Judge` | `Judgment` | 1:N |
+| `isConvictedOf` | `Conviction` | `Crime` | 1:N |
+| `hasDefendant` | `Proceeding` | `Defendant` | 1:N |
+| `enters` | `LegalSubject` | `Contract` | N:N |
+| `isCreditorOf` | `LegalSubject` | `Obligation` | N:N |
+| `isDebtorOf` | `LegalSubject` | `Obligation` | N:N |
+| `hasEmploymentRelationship` | `NaturalPerson` | `EmploymentRelationship` | 1:N |
+| `employs` | `LegalSubject` | `EmploymentRelationship` | 1:N |
+| `isMarriedTo` | `NaturalPerson` | `NaturalPerson` | 1:1 |
+| `hasChild` | `NaturalPerson` | `NaturalPerson` | 1:N |
+| `paysTaxIn` | `LegalSubject` | `Tax` | N:N |
+| `appealsAgainst` | `ProceduralSubject` | `AdministrativeAct` | N:N |
 
 ---
 
-## 15. Instancias Clave del Sistema Legal Argentino
+## 15. Key Instances of the Argentine Legal System
 
-### 15.1 Normas Fundamentales
+### 15.1 Fundamental Norms
 
-| Norma | Número | Fecha Vigencia | Descripción |
+| Norm | Number | Effective Date | Description |
 |---|---|---|---|
-| Constitución Nacional | — | 01/05/1853 (reforma 1994) | Ley suprema de la Nación |
-| Código Civil y Comercial | 26.994 | 01/08/2015 | Régimen general de derecho privado |
-| Código Penal | 11.179 | 29/04/1922 (con reformas) | Delitos y penas |
-| Ley de Contrato de Trabajo | 20.744 | 20/09/1974 (con reformas) | Régimen laboral general |
-| Ley de Proc. Tributario | 11.683 | 12/01/1933 (con reformas) | Procedimiento ante ARCA/AFIP |
-| Ley de Proc. Administrativo | 19.549 | 03/04/1972 | Actos y recursos administrativos |
-| Ley General de Sociedades | 19.550 | 25/04/1972 (con reformas) | Tipos societarios |
-| Código Procesal Civil y Com. | 17.454 | 07/11/1967 (Fed./CABA) | Proceso civil federal |
-| Código Procesal Penal Federal | 27.063 | 10/12/2014 (impl. gradual) | Proceso penal acusatorio |
+| National Constitution | — | 01/05/1853 (1994 reform) | Supreme law of the Nation |
+| Civil and Commercial Code | 26.994 | 01/08/2015 | General private law regime |
+| Criminal Code | 11.179 | 29/04/1922 (with reforms) | Crimes and penalties |
+| Employment Contract Law | 20.744 | 20/09/1974 (with reforms) | General labor regime |
+| Tax Procedure Law | 11.683 | 12/01/1933 (with reforms) | Procedure before ARCA/AFIP |
+| Administrative Procedure Law | 19.549 | 03/04/1972 | Administrative acts and remedies |
+| General Companies Law | 19.550 | 25/04/1972 (with reforms) | Company types |
+| Civil and Commercial Procedure Code | 17.454 | 07/11/1967 (Fed./CABA) | Federal civil procedure |
+| Federal Criminal Procedure Code | 27.063 | 10/12/2014 (gradual impl.) | Adversarial criminal procedure |
 
-### 15.2 Organismos Clave
+### 15.2 Key Organizations
 
-| Organismo | Tipo | Función principal |
+| Organization | Type | Main function |
 |---|---|---|
-| ARCA (ex AFIP) | Ente autárquico nacional | Recaudación impositiva, aduanera y de seguridad social |
-| BCRA | Ente autárquico nacional | Regulación y supervisión del sistema financiero |
-| IGJ | Organismo desconcentrado | Registro y control de personas jurídicas |
-| INDEC | Organismo técnico | Estadísticas y censo |
-| ANSES | Ente autárquico nacional | Administración de jubilaciones, pensiones y asignaciones |
-| CNV | Ente autárquico nacional | Regulación del mercado de capitales |
-| Defensoría del Pueblo | Órgano independiente | Control de la administración pública, protección de derechos |
-| Ministerio Público Fiscal | Órgano extra-poder | Acción penal pública y defensa del interés general |
+| ARCA (formerly AFIP) | National autarkic entity | Tax, customs, and social security collection |
+| BCRA | National autarkic entity | Regulation and supervision of the financial system |
+| IGJ | Deconcentrated body | Registration and control of legal entities |
+| INDEC | Technical body | Statistics and census |
+| ANSES | National autarkic entity | Administration of pensions and allowances |
+| CNV | National autarkic entity | Regulation of the capital markets |
+| Ombudsman's Office | Independent body | Oversight of public administration, protection of rights |
+| Public Prosecutor's Office | Extra-branch body | Public criminal action and defense of the general interest |
 
 ---
 
-## 16. Lineamientos para Implementación en Software
+## 16. Guidelines for Software Implementation
 
-### 16.1 Modelo de Datos Recomendado
+### 16.1 Recommended Data Model
 
-| Caso de Uso | Tecnología Recomendada | Justificación |
+| Use Case | Recommended Technology | Rationale |
 |---|---|---|
-| Base de datos relacional | PostgreSQL | Integridad referencial, consultas complejas, soporte JSON |
-| Grafo de conocimiento | Neo4j / Apache Jena | Consultas de relaciones complejas (SPARQL/Cypher) |
-| Web Semántica | OWL 2 + RDF + SPARQL | Interoperabilidad y razonamiento automático |
-| Motor de búsqueda | Elasticsearch | Búsqueda de texto en normas y jurisprudencia |
-| API REST | FastAPI / Django REST | Exposición de la ontología a otros sistemas |
+| Relational database | PostgreSQL | Referential integrity, complex queries, JSON support |
+| Knowledge graph | Neo4j / Apache Jena | Complex relationship queries (SPARQL/Cypher) |
+| Semantic Web | OWL 2 + RDF + SPARQL | Interoperability and automatic reasoning |
+| Search engine | Elasticsearch | Full-text search over norms and case law |
+| REST API | FastAPI / Django REST | Exposing the ontology to other systems |
 
-### 16.2 Identificadores Únicos Recomendados
+### 16.2 Recommended Unique Identifiers
 
-- **Normas**: `{tipo}-{número}-{año}` — Ej: `LEY-26994-2014`
-- **Personas físicas**: DNI o CUIL — Ej: `20-12345678-4`
-- **Personas jurídicas**: CUIT — Ej: `30-70012345-9`
-- **Procesos judiciales**: `{jurisdicción}-{año}-{número}` — Ej: `CABA-2024-00123`
-- **Expedientes administrativos**: GDE o sistema de cada organismo
+- **Norms**: `{type}-{number}-{year}` — E.g.: `LEY-26994-2014`
+- **Natural persons**: DNI or CUIL — E.g.: `20-12345678-4`
+- **Legal entities**: CUIT — E.g.: `30-70012345-9`
+- **Judicial proceedings**: `{jurisdiction}-{year}-{number}` — E.g.: `CABA-2024-00123`
+- **Administrative files**: GDE or each organization's system
 
-### 16.3 Consideraciones de Seguridad y Privacidad
+### 16.3 Security and Privacy Considerations
 
-- Los datos personales están protegidos por la **Ley 25.326** de Protección de Datos Personales.
-- El tratamiento de datos sensibles (salud, filiación política, religión) requiere consentimiento expreso del titular.
-- Los sistemas deben registrarse ante la **Agencia de Acceso a la Información Pública (AAIP)**.
-- Los datos de procesos judiciales tienen acceso regulado por acordadas de la CSJN y legislación procesal.
-- Aplicar cifrado en reposo y en tránsito para datos personales y sensibles.
+- Personal data is protected by **Ley 25.326** on Personal Data Protection.
+- The processing of sensitive data (health, political affiliation, religion) requires the data subject's express consent.
+- Systems must be registered with the **Agency for Access to Public Information (AAIP)**.
+- Judicial proceeding data has access regulated by CSJN resolutions and procedural legislation.
+- Apply encryption at rest and in transit for personal and sensitive data.
 
-### 16.4 Actualización de la Ontología
+### 16.4 Ontology Updates
 
-El ordenamiento jurídico argentino es dinámico. Se recomienda:
+The Argentine legal order is dynamic. It is recommended to:
 
-- Monitorear el **Boletín Oficial** de la República Argentina (`boletinoficial.gob.ar`) para nuevas normas.
-- Suscribirse a las alertas de **InfoLEG** (`infoleg.gob.ar`) para modificaciones a leyes vigentes.
-- Implementar **versionado semántico** para la ontología (`MAJOR.MINOR.PATCH`).
-- Mantener un **registro de cambios** (changelog) con la norma que motivó cada actualización.
-- Definir un comité de actualización con abogados especialistas en cada rama del derecho.
+- Monitor the **Official Gazette** of the Argentine Republic (`boletinoficial.gob.ar`) for new norms.
+- Subscribe to **InfoLEG** alerts (`infoleg.gob.ar`) for amendments to current laws.
+- Implement **semantic versioning** for the ontology (`MAJOR.MINOR.PATCH`).
+- Maintain a **changelog** with the norm that motivated each update.
+- Define an update committee with lawyers specialized in each law branch.
 
 ---
 
-*Ontología del Sistema Legal Argentino — v1.0 — 2026*
+*Argentine Legal System Ontology — v1.0 — 2026*

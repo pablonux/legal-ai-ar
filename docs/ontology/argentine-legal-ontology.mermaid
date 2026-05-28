@@ -2,589 +2,589 @@ classDiagram
     direction TB
 
     %% ══════════════════════════════════════════
-    %% FUENTES DEL DERECHO
+    %% LEGAL SOURCES
     %% ══════════════════════════════════════════
 
-    class FuenteDelDerecho {
-        +String denominacion
-        +Integer nivelJerarquico
-        +Enum obligatoriedad
-        +Enum ambitoTerritorial
+    class LegalSource {
+        +String name
+        +Integer hierarchyLevel
+        +Enum bindingForce
+        +Enum territorialScope
     }
 
-    class NormaConstitucional {
-        +String tratadoOrigen
-        +Integer anioReforma
+    class ConstitutionalNorm {
+        +String sourceTreaty
+        +Integer reformYear
     }
 
-    class TratadoInternacional {
-        +Date fechaRatificacion
-        +String organismoInternacional
+    class InternationalTreaty {
+        +Date ratificationDate
+        +String internationalOrganization
     }
 
-    class NormaJuridica {
-        +String numeroNorma
-        +String denominacion
-        +String nombreComun
-        +Date fechaSancion
-        +Date fechaPromulgacion
-        +Date fechaPublicacion
-        +Date fechaVigencia
-        +Boolean estaVigente
-        +String textoCompleto
-        +Enum ramaDelDerecho
-        +Enum ambitoTerritorial
+    class LegalNorm {
+        +String normNumber
+        +String name
+        +String commonName
+        +Date enactmentDate
+        +Date promulgationDate
+        +Date publicationDate
+        +Date effectiveDate
+        +Boolean isInForce
+        +String fullText
+        +Enum lawBranch
+        +Enum territorialScope
     }
 
-    class LeyNacional {
-        +Enum tipoLey
-        +String camara
+    class NationalLaw {
+        +Enum lawType
+        +String chamber
     }
 
-    class DecretoLey {
-        +Boolean esDNU
-        +String motivacion
+    class DecreeLaw {
+        +Boolean isDNU
+        +String justification
     }
 
-    class NormaProvincial {
-        +String provincia
-        +Enum tipoNorma
+    class ProvincialNorm {
+        +String province
+        +Enum normType
     }
 
-    class NormaMunicipal {
-        +String municipio
-        +Enum tipoNorma
+    class MunicipalNorm {
+        +String municipality
+        +Enum normType
     }
 
-    class Jurisprudencia {
-        +Boolean esPlenario
-        +Boolean esVinculante
+    class CaseLaw {
+        +Boolean isEnBanc
+        +Boolean isBinding
     }
 
-    class Costumbre {
-        +String ambitoAplicacion
-        +Boolean estaConsolidada
+    class Custom {
+        +String applicationScope
+        +Boolean isConsolidated
     }
 
-    class Articulo {
-        +String numeroArticulo
-        +String textoNormativo
-        +Boolean esVigente
+    class Article {
+        +String articleNumber
+        +String normativeText
+        +Boolean isInForce
     }
 
-    class Inciso {
-        +String letra
-        +String texto
+    class Clause {
+        +String letter
+        +String text
     }
 
-    FuenteDelDerecho <|-- NormaConstitucional
-    FuenteDelDerecho <|-- TratadoInternacional
-    FuenteDelDerecho <|-- NormaJuridica
-    FuenteDelDerecho <|-- Jurisprudencia
-    FuenteDelDerecho <|-- Costumbre
-    NormaJuridica <|-- LeyNacional
-    NormaJuridica <|-- DecretoLey
-    NormaJuridica <|-- NormaProvincial
-    NormaJuridica <|-- NormaMunicipal
-    NormaJuridica "1" --> "N" Articulo : tieneArticulo
-    Articulo "1" --> "N" Inciso : tieneInciso
-    NormaJuridica "N" --> "N" NormaJuridica : modificaA
-    NormaJuridica "N" --> "N" NormaJuridica : derogaA
-    NormaJuridica "N" --> "N" NormaJuridica : reglamentaA
+    LegalSource <|-- ConstitutionalNorm
+    LegalSource <|-- InternationalTreaty
+    LegalSource <|-- LegalNorm
+    LegalSource <|-- CaseLaw
+    LegalSource <|-- Custom
+    LegalNorm <|-- NationalLaw
+    LegalNorm <|-- DecreeLaw
+    LegalNorm <|-- ProvincialNorm
+    LegalNorm <|-- MunicipalNorm
+    LegalNorm "1" --> "N" Article : hasArticle
+    Article "1" --> "N" Clause : hasClause
+    LegalNorm "N" --> "N" LegalNorm : amends
+    LegalNorm "N" --> "N" LegalNorm : repeals
+    LegalNorm "N" --> "N" LegalNorm : regulates
 
     %% ══════════════════════════════════════════
-    %% SUJETOS DE DERECHO
+    %% LEGAL SUBJECTS
     %% ══════════════════════════════════════════
 
-    class SujetoDeDeRecho {
-        +String identificador
-        +Domicilio domicilio
+    class LegalSubject {
+        +String identifier
+        +Domicile domicile
     }
 
-    class PersonaHumana {
-        +String apellido
-        +String nombre
-        +Date fechaNacimiento
-        +Date fechaFallecimiento
-        +String numeroDNI
+    class NaturalPerson {
+        +String lastName
+        +String firstName
+        +Date birthDate
+        +Date deathDate
+        +String nationalIdNumber
         +String CUIL
-        +Enum estadoCivil
-        +String nacionalidad
-        +Boolean tieneCapacidadDeEjercicio
+        +Enum maritalStatus
+        +String nationality
+        +Boolean hasFullLegalCapacity
     }
 
-    class PersonaJuridica {
-        +String denominacion
+    class LegalEntity {
+        +String name
         +String CUIT
-        +Date fechaConstitucion
-        +Enum tipoPersonaJuridica
-        +String objetoSocial
+        +Date incorporationDate
+        +Enum legalEntityType
+        +String corporatePurpose
     }
 
-    class PersonaJuridicaPublica {
-        +Enum nivelEstatal
+    class PublicLegalEntity {
+        +Enum stateLevel
     }
 
-    class PersonaJuridicaPrivada {
-        +Enum tipoSocietario
-        +String numeroInscripcion
+    class PrivateLegalEntity {
+        +Enum companyType
+        +String registrationNumber
     }
 
-    class Domicilio {
-        +String calle
-        +String numero
-        +String localidad
-        +String provincia
-        +String codigoPostal
-        +Enum tipoDomicilio
+    class Domicile {
+        +String street
+        +String number
+        +String locality
+        +String province
+        +String postalCode
+        +Enum domicileType
     }
 
-    class CapacidadJuridica {
-        +Boolean esPlena
-        +Enum restriccion
-        +String sentenciaJudicial
+    class LegalCapacity {
+        +Boolean isFull
+        +Enum restriction
+        +String courtJudgment
     }
 
-    SujetoDeDeRecho <|-- PersonaHumana
-    SujetoDeDeRecho <|-- PersonaJuridica
-    PersonaJuridica <|-- PersonaJuridicaPublica
-    PersonaJuridica <|-- PersonaJuridicaPrivada
-    SujetoDeDeRecho "1" --> "1" Domicilio : tieneDomicilio
-    SujetoDeDeRecho "1" --> "1" CapacidadJuridica : tieneCapacidad
+    LegalSubject <|-- NaturalPerson
+    LegalSubject <|-- LegalEntity
+    LegalEntity <|-- PublicLegalEntity
+    LegalEntity <|-- PrivateLegalEntity
+    LegalSubject "1" --> "1" Domicile : hasDomicile
+    LegalSubject "1" --> "1" LegalCapacity : hasCapacity
 
     %% ══════════════════════════════════════════
-    %% ACTOS Y HECHOS JURÍDICOS
+    %% LEGAL ACTS AND FACTS
     %% ══════════════════════════════════════════
 
-    class HechoJuridico {
-        +Date fecha
-        +String descripcion
-        +Enum tipoHecho
+    class LegalFact {
+        +Date date
+        +String description
+        +Enum factType
     }
 
-    class HechoNatural {
-        +String fenomeno
+    class NaturalFact {
+        +String phenomenon
     }
 
-    class HechoHumanoVoluntario {
-        +Boolean tieneDiscernimiento
-        +Boolean tieneIntencion
-        +Boolean tieneLibertad
+    class VoluntaryHumanFact {
+        +Boolean hasDiscernment
+        +Boolean hasIntention
+        +Boolean hasFreedom
     }
 
-    class ActoJuridico {
-        +Date fecha
-        +String lugar
-        +Boolean esOneroso
-        +Boolean esCondicional
-        +Boolean esModal
-        +Enum requiereForma
-        +Boolean esNulo
-        +Enum causaDeNulidad
+    class LegalAct {
+        +Date date
+        +String place
+        +Boolean isOnerous
+        +Boolean isConditional
+        +Boolean isModal
+        +Enum requiredForm
+        +Boolean isVoid
+        +Enum nullityCause
     }
 
-    class Contrato {
-        +Enum tipoContrato
-        +String objetoContractual
-        +Decimal precioOContraprestacion
-        +String plazo
-        +Enum formaCelebracion
+    class Contract {
+        +Enum contractType
+        +String contractObject
+        +Decimal priceOrConsideration
+        +String term
+        +Enum executionForm
     }
 
-    class VicioActoJuridico {
-        +Enum tipoVicio
-        +Enum tipoNulidad
-        +String normaAplicable
+    class LegalActDefect {
+        +Enum defectType
+        +Enum nullityType
+        +String applicableNorm
     }
 
-    HechoJuridico <|-- HechoNatural
-    HechoJuridico <|-- HechoHumanoVoluntario
-    HechoHumanoVoluntario <|-- ActoJuridico
-    ActoJuridico <|-- Contrato
-    ActoJuridico "1" --> "N" VicioActoJuridico : tieneVicio
-    Contrato "N" --> "N" SujetoDeDeRecho : celebra
+    LegalFact <|-- NaturalFact
+    LegalFact <|-- VoluntaryHumanFact
+    VoluntaryHumanFact <|-- LegalAct
+    LegalAct <|-- Contract
+    LegalAct "1" --> "N" LegalActDefect : hasDefect
+    Contract "N" --> "N" LegalSubject : enters
 
     %% ══════════════════════════════════════════
-    %% RELACIONES JURÍDICAS
+    %% LEGAL RELATIONSHIPS
     %% ══════════════════════════════════════════
 
-    class RelacionJuridica {
-        +String objetoRelacion
-        +Boolean esPatrimonial
-        +Boolean esTransmisible
+    class LegalRelationship {
+        +String relationshipObject
+        +Boolean isPatrimonial
+        +Boolean isTransferable
     }
 
-    class DerechoReal {
-        +Enum tipoDerechoReal
-        +String articuloCCCN
-        +Boolean esNumerusClausus
+    class RealRight {
+        +Enum realRightType
+        +String cccnArticle
+        +Boolean isNumerusClausus
     }
 
-    class Obligacion {
-        +Enum tipoPrestacion
-        +String objetoPrestacion
-        +Decimal montoDeuda
-        +Decimal tasaInteres
-        +Enum tipoInteres
-        +Date fechaVencimiento
-        +Boolean estaExtinguida
-        +Enum causaExtincion
+    class Obligation {
+        +Enum performanceType
+        +String performanceObject
+        +Decimal debtAmount
+        +Decimal interestRate
+        +Enum interestType
+        +Date dueDate
+        +Boolean isExtinguished
+        +Enum extinctionCause
     }
 
-    class Hipoteca {
-        +String datosInmueble
-        +Decimal montoGarantizado
+    class Mortgage {
+        +String propertyData
+        +Decimal guaranteedAmount
     }
 
-    class Prenda {
-        +String bienPrendado
-        +Decimal montoGarantizado
+    class Pledge {
+        +String pledgedAsset
+        +Decimal guaranteedAmount
     }
 
-    RelacionJuridica <|-- DerechoReal
-    RelacionJuridica <|-- Obligacion
-    DerechoReal <|-- Hipoteca
-    DerechoReal <|-- Prenda
-    RelacionJuridica "N" --> "1" SujetoDeDeRecho : sujetoActivo
-    RelacionJuridica "N" --> "N" SujetoDeDeRecho : sujetosPasivos
-    Obligacion "N" --> "1" Contrato : derivaDe
+    LegalRelationship <|-- RealRight
+    LegalRelationship <|-- Obligation
+    RealRight <|-- Mortgage
+    RealRight <|-- Pledge
+    LegalRelationship "N" --> "1" LegalSubject : activeSubject
+    LegalRelationship "N" --> "N" LegalSubject : passiveSubjects
+    Obligation "N" --> "1" Contract : derivesFrom
 
     %% ══════════════════════════════════════════
-    %% DERECHO PENAL
+    %% CRIMINAL LAW
     %% ══════════════════════════════════════════
 
-    class Delito {
-        +Enum tipoDelito
-        +Enum clasificacion
-        +String bienJuridicoProtegido
-        +Boolean esTentativa
-        +Boolean esContinuado
-        +String articuloCodigo
-        +Integer penaMinima
-        +Integer penaMaxima
-        +Enum tipoPena
-        +Boolean admiteEjecucionCondicional
-        +Integer prescripcion
+    class Crime {
+        +Enum crimeType
+        +Enum classification
+        +String protectedLegalInterest
+        +Boolean isAttempt
+        +Boolean isContinuing
+        +String codeArticle
+        +Integer minPenalty
+        +Integer maxPenalty
+        +Enum penaltyType
+        +Boolean allowsSuspendedSentence
+        +Integer prescription
     }
 
-    class Imputado {
-        +Enum estadoProcesalPenal
-        +Boolean tieneAntecedentes
-        +Boolean esReincidente
+    class Defendant {
+        +Enum criminalProcessStatus
+        +Boolean hasRecord
+        +Boolean isRepeatOffender
     }
 
-    class Condena {
-        +Date fechaCondena
-        +String penaImpuesta
-        +Integer duracionAnios
-        +Boolean esCondicional
-        +Boolean estaFirme
-        +Date fechaVencimiento
-        +String establecimientoPenitenciario
+    class Conviction {
+        +Date convictionDate
+        +String imposedPenalty
+        +Integer durationYears
+        +Boolean isSuspended
+        +Boolean isFinal
+        +Date endDate
+        +String penitentiaryFacility
     }
 
-    class MedidaCautelarPenal {
-        +Enum tipo
-        +Date fechaImposicion
-        +Date fechaVencimiento
+    class CriminalPrecautionaryMeasure {
+        +Enum type
+        +Date impositionDate
+        +Date endDate
     }
 
-    Imputado --> PersonaHumana : esPersona
-    Imputado "1" --> "N" Delito : esAcusadoDe
-    Imputado "1" --> "N" MedidaCautelarPenal : tieneMedida
-    Condena "N" --> "1" Imputado : recaeEn
-    Condena "N" --> "N" Delito : esCondenadoPor
+    Defendant --> NaturalPerson : isPerson
+    Defendant "1" --> "N" Crime : isAccusedOf
+    Defendant "1" --> "N" CriminalPrecautionaryMeasure : hasMeasure
+    Conviction "N" --> "1" Defendant : fallsOn
+    Conviction "N" --> "N" Crime : isConvictedOf
 
     %% ══════════════════════════════════════════
-    %% PROCESO JUDICIAL
+    %% JUDICIAL PROCEEDING
     %% ══════════════════════════════════════════
 
-    class Proceso {
-        +String numeroExpediente
-        +String caratula
-        +Enum tipoProcesal
-        +Enum subtipoProceso
-        +Date fechaInicio
-        +Enum estadoProceso
-        +Enum jurisdiccion
-        +Enum fuero
-        +Enum instancia
+    class Proceeding {
+        +String caseFileNumber
+        +String caption
+        +Enum procedureType
+        +Enum procedureSubtype
+        +Date startDate
+        +Enum proceedingStatus
+        +Enum jurisdiction
+        +Enum courtVenue
+        +Enum instance
     }
 
-    class ActoProcesal {
-        +Enum tipoActo
-        +Date fechaActo
-        +String contenidoActo
-        +Boolean esNotificado
-        +Date fechaNotificacion
+    class ProceduralAct {
+        +Enum actType
+        +Date actDate
+        +String actContent
+        +Boolean isNotified
+        +Date notificationDate
     }
 
-    class Sentencia {
-        +Enum tipoSentencia
-        +Date fechaDictado
-        +Enum resultado
-        +Boolean estaFirme
-        +Enum costas
-        +String fundamentos
-        +Boolean esApelable
+    class Judgment {
+        +Enum judgmentType
+        +Date issueDate
+        +Enum outcome
+        +Boolean isFinal
+        +Enum costs
+        +String reasoning
+        +Boolean isAppealable
     }
 
-    class Recurso {
-        +Enum tipoRecurso
-        +Date fechaInterposicion
-        +String fundamentosRecurso
-        +Enum estado
+    class Remedy {
+        +Enum remedyType
+        +Date filingDate
+        +String remedyGrounds
+        +Enum status
     }
 
-    class Abogado {
-        +String matricula
-        +String colegioProfesional
-        +Enum tipoAbogado
+    class Lawyer {
+        +String barLicense
+        +String barAssociation
+        +Enum lawyerType
     }
 
-    class Magistrado {
-        +String nombreCompleto
-        +Enum cargo
-        +Date fechaDesignacion
-        +Boolean esVitalicio
-        +Enum especialidad
+    class Judge {
+        +String fullName
+        +Enum position
+        +Date appointmentDate
+        +Boolean hasLifeTenure
+        +Enum specialty
     }
 
-    Proceso "N" --> "N" SujetoDeDeRecho : tienePartes
-    Proceso "N" --> "1" Magistrado : tieneJuez
-    Proceso "1" --> "N" ActoProcesal : contieneActo
-    Proceso "1" --> "N" Sentencia : culminaEn
-    Sentencia "1" --> "N" Recurso : admiteRecurso
-    Proceso "N" --> "N" Abogado : tieneLetrado
-    Proceso "N" --> "N" Delito : versaSobre
-    Proceso "N" --> "1" Imputado : tieneImputado
+    Proceeding "N" --> "N" LegalSubject : hasParties
+    Proceeding "N" --> "1" Judge : hasJudge
+    Proceeding "1" --> "N" ProceduralAct : containsAct
+    Proceeding "1" --> "N" Judgment : culminatesIn
+    Judgment "1" --> "N" Remedy : admitsRemedy
+    Proceeding "N" --> "N" Lawyer : hasCounsel
+    Proceeding "N" --> "N" Crime : concerns
+    Proceeding "N" --> "1" Defendant : hasDefendant
 
     %% ══════════════════════════════════════════
-    %% ÓRGANOS DEL ESTADO
+    %% STATE BODIES
     %% ══════════════════════════════════════════
 
-    class OrganoEstatal {
-        +String denominacion
-        +Enum poderDelEstado
-        +Enum ambitoJurisdiccional
-        +String competencia
+    class StateBody {
+        +String name
+        +Enum branchOfGovernment
+        +Enum jurisdictionalScope
+        +String competence
     }
 
-    class OrganoJudicial {
-        +Enum instancia
-        +Enum fuero
-        +String jurisdiccionTerritorial
+    class JudicialBody {
+        +Enum instance
+        +Enum courtVenue
+        +String territorialJurisdiction
     }
 
-    class OrganoLegislativo {
-        +Enum camara
-        +Integer numeroLegisladores
+    class LegislativeBody {
+        +Enum chamber
+        +Integer legislatorCount
     }
 
-    class OrganoEjecutivo {
-        +String titular
-        +Enum nivelGobierno
+    class ExecutiveBody {
+        +String head
+        +Enum governmentLevel
     }
 
-    class MinisterioPublico {
-        +Enum tipo
-        +String titular
+    class PublicProsecution {
+        +Enum type
+        +String head
     }
 
-    OrganoEstatal <|-- OrganoJudicial
-    OrganoEstatal <|-- OrganoLegislativo
-    OrganoEstatal <|-- OrganoEjecutivo
-    OrganoEstatal <|-- MinisterioPublico
-    OrganoJudicial "1" --> "N" Magistrado : tieneMagistrados
-    OrganoEjecutivo "1" --> "N" NormaJuridica : esDictadaPor
-    OrganoLegislativo "1" --> "N" LeyNacional : sanciona
-    MinisterioPublico "1" --> "N" Proceso : interviene
+    StateBody <|-- JudicialBody
+    StateBody <|-- LegislativeBody
+    StateBody <|-- ExecutiveBody
+    StateBody <|-- PublicProsecution
+    JudicialBody "1" --> "N" Judge : hasJudges
+    ExecutiveBody "1" --> "N" LegalNorm : isEnactedBy
+    LegislativeBody "1" --> "N" NationalLaw : enacts
+    PublicProsecution "1" --> "N" Proceeding : intervenes
 
     %% ══════════════════════════════════════════
-    %% DERECHO LABORAL
+    %% LABOR LAW
     %% ══════════════════════════════════════════
 
-    class RelacionLaboral {
-        +Enum tipoContrato
-        +Date fechaInicio
-        +Date fechaEgreso
-        +Enum causaEgreso
-        +Decimal remuneracionBruta
-        +String categoriaConvenio
-        +Enum jornada
-        +Integer horasSemanales
-        +Boolean estaRegistrada
+    class EmploymentRelationship {
+        +Enum contractType
+        +Date startDate
+        +Date endDate
+        +Enum terminationCause
+        +Decimal grossSalary
+        +String agreementCategory
+        +Enum workSchedule
+        +Integer weeklyHours
+        +Boolean isRegistered
     }
 
-    class ConvenioColectivoTrabajo {
-        +String numeroCCT
-        +String actividadRama
-        +String sindicatoFirmante
-        +String camaraEmpresaria
-        +Enum ambitoAplicacion
-        +Date fechaHomologacion
-        +Date vigencia
+    class CollectiveBargainingAgreement {
+        +String cctNumber
+        +String activitySector
+        +String signatoryUnion
+        +String employerChamber
+        +Enum applicationScope
+        +Date ratificationDate
+        +Date validity
     }
 
-    class Sindicato {
-        +String denominacion
-        +String personeriaGremial
-        +String ambitoRepresentacion
+    class Union {
+        +String name
+        +String unionStatus
+        +String representationScope
     }
 
-    RelacionLaboral "N" --> "1" PersonaHumana : trabajador
-    RelacionLaboral "N" --> "1" SujetoDeDeRecho : empleador
-    RelacionLaboral "N" --> "1" ConvenioColectivoTrabajo : seRigePor
-    ConvenioColectivoTrabajo "N" --> "N" Sindicato : esFirmadoPor
+    EmploymentRelationship "N" --> "1" NaturalPerson : employee
+    EmploymentRelationship "N" --> "1" LegalSubject : employer
+    EmploymentRelationship "N" --> "1" CollectiveBargainingAgreement : isGovernedBy
+    CollectiveBargainingAgreement "N" --> "N" Union : isSignedBy
 
     %% ══════════════════════════════════════════
-    %% DERECHO DE FAMILIA
+    %% FAMILY LAW
     %% ══════════════════════════════════════════
 
-    class VinculoFamiliar {
-        +Enum tipoVinculo
-        +Date fechaConstitucion
-        +Boolean estaVigente
+    class FamilyBond {
+        +Enum bondType
+        +Date incorporationDate
+        +Boolean isInForce
     }
 
-    class Matrimonio {
-        +Date fechaCelebracion
-        +String lugarCelebracion
-        +Enum regimen
-        +Boolean estaDisuelto
-        +Enum causaDisolucion
-        +Date fechaDisolucion
+    class Marriage {
+        +Date celebrationDate
+        +String celebrationPlace
+        +Enum regime
+        +Boolean isDissolved
+        +Enum dissolutionCause
+        +Date dissolutionDate
     }
 
-    class UnionConvivencial {
-        +Date fechaInicio
-        +Boolean estaInscripta
-        +String registroInscripcion
+    class CivilUnion {
+        +Date startDate
+        +Boolean isRegistered
+        +String registrationRegistry
     }
 
-    class Filiacion {
-        +Enum tipoFiliacion
-        +Boolean estaReconocida
+    class Filiation {
+        +Enum filiationType
+        +Boolean isAcknowledged
     }
 
-    class Adopcion {
-        +Enum tipoAdopcion
-        +Date fechaSentencia
-        +String tribunalAdoptante
+    class Adoption {
+        +Enum adoptionType
+        +Date judgmentDate
+        +String adoptingCourt
     }
 
-    class ResponsabilidadParental {
-        +Boolean esCuidadoCompartido
-        +Decimal cuotaAlimentaria
-        +String regimeenComunicacion
+    class ParentalResponsibility {
+        +Boolean isSharedCustody
+        +Decimal childSupport
+        +String visitationSchedule
     }
 
-    VinculoFamiliar <|-- Matrimonio
-    VinculoFamiliar <|-- UnionConvivencial
-    VinculoFamiliar <|-- Filiacion
-    VinculoFamiliar <|-- Adopcion
-    VinculoFamiliar <|-- ResponsabilidadParental
-    Matrimonio "N" --> "2" PersonaHumana : conyuge
-    UnionConvivencial "N" --> "2" PersonaHumana : conviviente
-    Filiacion "N" --> "1" PersonaHumana : progenitor
-    Filiacion "N" --> "1" PersonaHumana : hijo
-    Adopcion "N" --> "1" PersonaHumana : adoptado
-    ResponsabilidadParental "N" --> "N" PersonaHumana : progenitor
+    FamilyBond <|-- Marriage
+    FamilyBond <|-- CivilUnion
+    FamilyBond <|-- Filiation
+    FamilyBond <|-- Adoption
+    FamilyBond <|-- ParentalResponsibility
+    Marriage "N" --> "2" NaturalPerson : spouse
+    CivilUnion "N" --> "2" NaturalPerson : cohabitant
+    Filiation "N" --> "1" NaturalPerson : parent
+    Filiation "N" --> "1" NaturalPerson : child
+    Adoption "N" --> "1" NaturalPerson : adoptee
+    ParentalResponsibility "N" --> "N" NaturalPerson : parent
 
     %% ══════════════════════════════════════════
-    %% DERECHO TRIBUTARIO
+    %% TAX LAW
     %% ══════════════════════════════════════════
 
-    class Tributo {
-        +String denominacion
-        +Enum tipoTributo
-        +Enum nivelJurisdiccional
-        +String hechoImponible
-        +String baseImponible
-        +Decimal alicuota
-        +Enum periodicidad
+    class Tax {
+        +String name
+        +Enum taxType
+        +Enum jurisdictionalLevel
+        +String taxableEvent
+        +String taxableBase
+        +Decimal rate
+        +Enum periodicity
     }
 
-    class ObligacionTributaria {
-        +Date fechaVencimiento
-        +Decimal montoDeclarado
-        +Decimal montoPagado
-        +Boolean estaVencida
-        +Boolean estaImpugnada
+    class TaxObligation {
+        +Date dueDate
+        +Decimal declaredAmount
+        +Decimal paidAmount
+        +Boolean isOverdue
+        +Boolean isChallenged
     }
 
-    Tributo <|-- ImpuestoGanancias
-    Tributo <|-- IVA
-    Tributo <|-- BienesPersonales
+    Tax <|-- IncomeTax
+    Tax <|-- VAT
+    Tax <|-- PersonalAssetsTax
 
-    class ImpuestoGanancias {
-        +String leyAplicable
-        +Enum categoriaRenta
+    class IncomeTax {
+        +String applicableLaw
+        +Enum incomeCategory
     }
 
-    class IVA {
-        +Decimal alicuotaGeneral
-        +Decimal alicuotaReducida
+    class VAT {
+        +Decimal generalRate
+        +Decimal reducedRate
     }
 
-    class BienesPersonales {
-        +Decimal minimoNoImponible
+    class PersonalAssetsTax {
+        +Decimal taxFreeThreshold
     }
 
-    Tributo "N" --> "1" OrganoEstatal : organoRecaudador
-    Tributo "N" --> "1" NormaJuridica : normaCreadora
-    ObligacionTributaria "N" --> "1" Tributo : correspondeA
-    ObligacionTributaria "N" --> "1" SujetoDeDeRecho : esDeudorFiscal
+    Tax "N" --> "1" StateBody : collectingBody
+    Tax "N" --> "1" LegalNorm : creatingNorm
+    TaxObligation "N" --> "1" Tax : correspondsTo
+    TaxObligation "N" --> "1" LegalSubject : isTaxDebtor
 
     %% ══════════════════════════════════════════
-    %% DERECHO ADMINISTRATIVO
+    %% ADMINISTRATIVE LAW
     %% ══════════════════════════════════════════
 
-    class ActoAdministrativo {
-        +Enum tipoActo
-        +Date fecha
-        +String numeroActo
-        +Boolean esRegulatorio
-        +Boolean estaMotivado
-        +Boolean estaNotificado
-        +Boolean esFirme
-        +Boolean estaEjecutoriado
+    class AdministrativeAct {
+        +Enum actType
+        +Date date
+        +String actNumber
+        +Boolean isRegulatory
+        +Boolean isReasoned
+        +Boolean isNotified
+        +Boolean isFinal
+        +Boolean isEnforced
     }
 
-    class RecursoAdministrativo {
-        +Enum tipoRecurso
-        +Integer plazoHabiles
-        +Enum estado
-        +Date fechaInterposicion
+    class AdministrativeRemedy {
+        +Enum remedyType
+        +Integer businessDaysTerm
+        +Enum status
+        +Date filingDate
     }
 
-    class ContratoAdministrativo {
-        +Enum tipoContrato
-        +Decimal monto
-        +String objeto
-        +Date fechaAdjudicacion
+    class AdministrativeContract {
+        +Enum contractType
+        +Decimal amount
+        +String object
+        +Date awardDate
     }
 
-    class LicitacionPublica {
-        +String numeroExpediente
-        +Decimal presupuestoOficial
-        +Date fechaApertura
-        +String adjudicatario
+    class PublicTender {
+        +String caseFileNumber
+        +Decimal officialBudget
+        +Date openingDate
+        +String awardee
     }
 
-    ActoAdministrativo "N" --> "1" OrganoEstatal : organoEmisor
-    ActoAdministrativo "N" --> "1" SujetoDeDeRecho : destinatario
-    ActoAdministrativo "1" --> "N" RecursoAdministrativo : admiteRecurso
-    ContratoAdministrativo "N" --> "1" OrganoEstatal : contratante
-    ContratoAdministrativo "N" --> "1" SujetoDeDeRecho : contratado
-    LicitacionPublica "1" --> "1" ContratoAdministrativo : resultaEn
+    AdministrativeAct "N" --> "1" StateBody : issuingBody
+    AdministrativeAct "N" --> "1" LegalSubject : recipient
+    AdministrativeAct "1" --> "N" AdministrativeRemedy : admitsRemedy
+    AdministrativeContract "N" --> "1" StateBody : contractingBody
+    AdministrativeContract "N" --> "1" LegalSubject : contractor
+    PublicTender "1" --> "1" AdministrativeContract : resultsIn
 
     %% ══════════════════════════════════════════
-    %% RELACIONES TRANSVERSALES
+    %% CROSS-CUTTING RELATIONSHIPS
     %% ══════════════════════════════════════════
 
-    NormaJuridica "N" --> "1" OrganoEstatal : esDictadaPor
-    Proceso "N" --> "1" OrganoJudicial : tramitaEn
-    Sentencia "N" --> "1" OrganoJudicial : esDictadaPor
-    Magistrado "N" --> "1" OrganoJudicial : perteneceA
-    Condena "N" --> "1" OrganoJudicial : esDictadaPor
+    LegalNorm "N" --> "1" StateBody : isEnactedBy
+    Proceeding "N" --> "1" JudicialBody : isProcessedIn
+    Judgment "N" --> "1" JudicialBody : isIssuedBy
+    Judge "N" --> "1" JudicialBody : belongsTo
+    Conviction "N" --> "1" JudicialBody : isIssuedBy

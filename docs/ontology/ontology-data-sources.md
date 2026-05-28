@@ -1,325 +1,325 @@
-# Fuentes de Datos por Clase — Ontología Legal Argentina
+# Data Sources by Class — Argentine Legal Ontology
 
-> Para cada clase se indican las fuentes primarias (oficiales) y secundarias (agregadores/APIs) donde obtener los datos para poblar sus instancias y propiedades.
-
----
-
-## 1. Fuentes del Derecho y Normas
-
-### `NormaJuridica` / `LeyNacional` / `DecretoLey`
-
-| Propiedad | Fuente | URL / Sistema |
-|---|---|---|
-| `numeroNorma`, `denominacion`, `fechaSancion`, `fechaPromulgacion`, `fechaPublicacion`, `textoCompleto` | **InfoLEG** (base oficial del Ministerio de Justicia) | https://www.infoleg.gob.ar |
-| `fechaPublicacion`, texto oficial | **Boletín Oficial de la República Argentina** | https://www.boletinoficial.gob.ar |
-| Texto consolidado con modificaciones | **Sistema Argentino de Información Jurídica (SAIJ)** | https://www.saij.gob.ar |
-| `estaVigente`, historial de modificaciones | **InfoLEG** → sección "Normas que modifican" | https://www.infoleg.gob.ar |
-| Leyes aprobadas por el Congreso | **Honorable Cámara de Diputados** | https://www.diputados.gov.ar |
-| Leyes aprobadas por el Senado | **Honorable Senado de la Nación** | https://www.senado.gob.ar |
-| DNU y decretos del PEN | **Casa Rosada — Decretos** | https://www.casarosada.gob.ar |
-
-### `NormaProvincial` / `NormaMunicipal`
-
-| Propiedad | Fuente | URL / Sistema |
-|---|---|---|
-| Leyes y decretos provinciales | **Boletines Oficiales provinciales** (cada provincia tiene el suyo) | Ej: https://boletinoficial.ba.gov.ar (Bs. As.) |
-| Texto unificado por provincia | **SAIJ — Legislación provincial** | https://www.saij.gob.ar |
-| Ordenanzas municipales | **Sitios web de cada municipio** / Concejos Deliberantes | Variable por municipio |
-| Ordenanzas CABA | **Legislatura CABA** | https://www.legislatura.gov.ar |
-
-### `NormaConstitucional` / `TratadoInternacional`
-
-| Propiedad | Fuente | URL / Sistema |
-|---|---|---|
-| Texto Constitución Nacional | **InfoLEG**, **SAIJ**, sitio oficial del Congreso | https://www.infoleg.gob.ar |
-| Tratados con jerarquía constitucional | **Cancillería Argentina** | https://www.cancilleria.gob.ar |
-| Base de tratados internacionales | **ONU Treaty Collection** | https://treaties.un.org |
-| Tratados del sistema interamericano | **OEA** | https://www.oas.org/es/sla/ddi/tratados_multilaterales_interamericanos.asp |
-
-### `Articulo` / `Inciso`
-
-| Propiedad | Fuente | URL / Sistema |
-|---|---|---|
-| Texto de artículos | **InfoLEG** (versión con articulado) | https://www.infoleg.gob.ar |
-| Articulado con anotaciones | **SAIJ** | https://www.saij.gob.ar |
-| Artículos con historial de modificaciones | **Microjuris** (pago) | https://www.microjuris.com.ar |
-
-### `Jurisprudencia`
-
-| Propiedad | Fuente | URL / Sistema |
-|---|---|---|
-| Fallos de la CSJN | **Centro de Información Judicial (CIJ)** | https://www.cij.gov.ar |
-| Fallos de la CSJN históricos | **CSJN — Fallos** | https://sjconsulta.csjn.gov.ar |
-| Jurisprudencia provincial y nacional | **SAIJ — Jurisprudencia** | https://www.saij.gob.ar |
-| Bases de jurisprudencia comercial | **El Dial** (pago) | https://www.eldial.com |
-| Jurisprudencia laboral | **DT Online / La Ley** (pago) | https://laleyonline.com.ar |
-| Plenarios de Cámaras Nacionales | **Poder Judicial de la Nación** | https://www.pjn.gov.ar |
+> For each class, the primary (official) and secondary (aggregators/APIs) sources are indicated, from which to obtain the data to populate its instances and properties.
 
 ---
 
-## 2. Sujetos de Derecho
+## 1. Legal Sources and Norms
 
-### `PersonaHumana`
+### `LegalNorm` / `NationalLaw` / `DecreeLaw`
 
-| Propiedad | Fuente | URL / Sistema |
+| Property | Source | URL / System |
 |---|---|---|
-| `numeroDNI`, `apellido`, `nombre`, `fechaNacimiento`, `nacionalidad` | **RENAPER** (Registro Nacional de las Personas) | API oficial para organismos: https://www.argentina.gob.ar/renaper |
-| `CUIL` | **AFIP/ARCA — Consulta CUIL** | https://www.cuitonline.com / API ARCA |
-| `estadoCivil`, `domicilio` | **Registro Civil** (nacional o provincial) | Sistemas de cada provincia |
-| `fechaFallecimiento` | **RENAPER** / Registro Civil | https://www.argentina.gob.ar/renaper |
-| `tieneCapacidadDeEjercicio` (restricciones) | **Registro Nacional de Interdicciones** (RENACI) | Consulta judicial |
-| Datos de extranjeros | **Dirección Nacional de Migraciones** | https://www.migraciones.gov.ar |
+| `normNumber`, `name`, `enactmentDate`, `promulgationDate`, `publicationDate`, `fullText` | **InfoLEG** (official database of the Ministry of Justice) | https://www.infoleg.gob.ar |
+| `publicationDate`, official text | **Official Gazette of the Argentine Republic** | https://www.boletinoficial.gob.ar |
+| Consolidated text with amendments | **Sistema Argentino de Información Jurídica (SAIJ)** | https://www.saij.gob.ar |
+| `isInForce`, amendment history | **InfoLEG** → "Normas que modifican" section | https://www.infoleg.gob.ar |
+| Laws approved by Congress | **Chamber of Deputies** | https://www.diputados.gov.ar |
+| Laws approved by the Senate | **Senate of the Nation** | https://www.senado.gob.ar |
+| DNU and Executive decrees | **Casa Rosada — Decrees** | https://www.casarosada.gob.ar |
 
-### `PersonaJuridica` (Privada)
+### `ProvincialNorm` / `MunicipalNorm`
 
-| Propiedad | Fuente | URL / Sistema |
+| Property | Source | URL / System |
 |---|---|---|
-| `denominacion`, `CUIT`, `fechaConstitucion`, `objetoSocial`, `estaInscriptaEn` | **IGJ** (Inspección General de Justicia) — para CABA y sociedades nacionales | https://www.igj.gov.ar |
-| Sociedades en provincias | **Registros Públicos de Comercio provinciales** | Variable por provincia |
-| `CUIT`, datos fiscales | **ARCA (ex AFIP) — Consulta pública** | https://www.afip.gob.ar/cuitverificacion |
-| Cooperativas | **INAES** (Instituto Nacional de Asociativismo) | https://www.inaes.gob.ar |
-| Mutuales | **INAES** | https://www.inaes.gob.ar |
-| Fundaciones | **IGJ** | https://www.igj.gov.ar |
-| Personas jurídicas extranjeras | **IGJ** — Sección sociedades extranjeras | https://www.igj.gov.ar |
+| Provincial laws and decrees | **Provincial Official Gazettes** (each province has its own) | E.g.: https://boletinoficial.ba.gov.ar (Bs. As.) |
+| Unified text by province | **SAIJ — Provincial legislation** | https://www.saij.gob.ar |
+| Municipal ordinances | **Each municipality's websites** / Deliberative Councils | Varies by municipality |
+| CABA ordinances | **CABA Legislature** | https://www.legislatura.gov.ar |
 
-### `PersonaJuridica` (Pública)
+### `ConstitutionalNorm` / `InternationalTreaty`
 
-| Propiedad | Fuente | URL / Sistema |
+| Property | Source | URL / System |
 |---|---|---|
-| Organismos nacionales | **Argentina.gob.ar — Organismos** | https://www.argentina.gob.ar/organismos |
-| Empresas y entes del Estado | **FONAFE / Secretaría de Hacienda** | https://www.argentina.gob.ar |
-| Universidades nacionales | **SPU** (Secretaría de Políticas Universitarias) | https://www.argentina.gob.ar/educacion/universidades |
-| Municipios | **INDEC — Municipios** | https://www.indec.gob.ar |
+| National Constitution text | **InfoLEG**, **SAIJ**, official Congress site | https://www.infoleg.gob.ar |
+| Treaties with constitutional rank | **Argentine Foreign Ministry** | https://www.cancilleria.gob.ar |
+| International treaties database | **UN Treaty Collection** | https://treaties.un.org |
+| Inter-American system treaties | **OAS** | https://www.oas.org/es/sla/ddi/tratados_multilaterales_interamericanos.asp |
 
-### `Domicilio`
+### `Article` / `Clause`
 
-| Propiedad | Fuente | URL / Sistema |
+| Property | Source | URL / System |
 |---|---|---|
-| Nomenclador de calles y localidades | **INDEC — Unidades Geoestadísticas** | https://www.indec.gob.ar |
-| Geolocalización y validación | **API de Normalización de Direcciones (georef)** | https://apis.datos.gob.ar/georef |
-| Códigos postales | **Correo Argentino** | https://www.correoargentino.com.ar/codigo-postal |
+| Article text | **InfoLEG** (version with articles) | https://www.infoleg.gob.ar |
+| Articles with annotations | **SAIJ** | https://www.saij.gob.ar |
+| Articles with amendment history | **Microjuris** (paid) | https://www.microjuris.com.ar |
+
+### `CaseLaw`
+
+| Property | Source | URL / System |
+|---|---|---|
+| CSJN rulings | **Centro de Información Judicial (CIJ)** | https://www.cij.gov.ar |
+| Historical CSJN rulings | **CSJN — Fallos** | https://sjconsulta.csjn.gov.ar |
+| Provincial and national case law | **SAIJ — Case law** | https://www.saij.gob.ar |
+| Commercial case law databases | **El Dial** (paid) | https://www.eldial.com |
+| Labor case law | **DT Online / La Ley** (paid) | https://laleyonline.com.ar |
+| En banc rulings of National Courts | **Judiciary of the Nation** | https://www.pjn.gov.ar |
 
 ---
 
-## 3. Contratos y Actos Jurídicos
+## 2. Legal Subjects
 
-### `Contrato` / `ActoJuridico`
+### `NaturalPerson`
 
-| Propiedad | Fuente | URL / Sistema |
+| Property | Source | URL / System |
 |---|---|---|
-| Contratos con el Estado | **Portal de Compras del Estado (COMPR.AR)** | https://www.argentinacompra.gov.ar |
-| Contratos registrados (escrituras) | **Registro de la Propiedad Inmueble** (cada provincia) | Variable |
-| Contratos laborales | **AFIP/ARCA — Sistema de Altas Tempranas (SIAT)** | https://serviciosweb.afip.gob.ar |
-| Contratos de seguro | **SSN** (Superintendencia de Seguros de la Nación) | https://www.ssn.gob.ar |
-| Contratos de locación (declarados) | **AFIP/ARCA — RELI** (Registro de Locaciones de Inmuebles) | https://www.afip.gob.ar |
-| Escrituras y actos notariales | **Colegios de Escribanos** (cada provincia) | Ej: https://www.colegio-escribanos.org.ar (CABA) |
+| `nationalIdNumber`, `lastName`, `firstName`, `birthDate`, `nationality` | **RENAPER** (National Registry of Persons) | Official API for agencies: https://www.argentina.gob.ar/renaper |
+| `CUIL` | **AFIP/ARCA — CUIL lookup** | https://www.cuitonline.com / ARCA API |
+| `maritalStatus`, `domicile` | **Civil Registry** (national or provincial) | Each province's systems |
+| `deathDate` | **RENAPER** / Civil Registry | https://www.argentina.gob.ar/renaper |
+| `hasFullLegalCapacity` (restrictions) | **National Registry of Interdictions** (RENACI) | Judicial lookup |
+| Foreigners' data | **National Directorate of Migration** | https://www.migraciones.gov.ar |
 
-### `DerechoReal` / `Hipoteca` / `Prenda`
+### `LegalEntity` (Private)
 
-| Propiedad | Fuente | URL / Sistema |
+| Property | Source | URL / System |
 |---|---|---|
-| Dominio e hipotecas sobre inmuebles | **Registro de la Propiedad Inmueble** (por provincia) | Variable por provincia |
-| Prendas sobre automotores | **Registro Nacional de la Propiedad del Automotor (RNPA)** | https://www.dnrpa.gov.ar |
-| Prenda con registro | **Registro Nacional de Créditos Prendarios** | https://www.dnrpa.gov.ar |
-| Buques | **Prefectura Naval Argentina** | https://www.prefecturanaval.gob.ar |
-| Aeronaves | **ANAC** (Administración Nacional de Aviación Civil) | https://www.anac.gob.ar |
+| `name`, `CUIT`, `incorporationDate`, `corporatePurpose`, `isRegisteredIn` | **IGJ** (Inspección General de Justicia) — for CABA and national companies | https://www.igj.gov.ar |
+| Companies in provinces | **Provincial Public Trade Registries** | Varies by province |
+| `CUIT`, tax data | **ARCA (formerly AFIP) — Public lookup** | https://www.afip.gob.ar/cuitverificacion |
+| Cooperatives | **INAES** (National Institute of Associativism) | https://www.inaes.gob.ar |
+| Mutual societies | **INAES** | https://www.inaes.gob.ar |
+| Foundations | **IGJ** | https://www.igj.gov.ar |
+| Foreign legal entities | **IGJ** — Foreign companies section | https://www.igj.gov.ar |
+
+### `LegalEntity` (Public)
+
+| Property | Source | URL / System |
+|---|---|---|
+| National agencies | **Argentina.gob.ar — Organizations** | https://www.argentina.gob.ar/organismos |
+| State companies and entities | **FONAFE / Treasury Secretariat** | https://www.argentina.gob.ar |
+| National universities | **SPU** (Secretariat of University Policies) | https://www.argentina.gob.ar/educacion/universidades |
+| Municipalities | **INDEC — Municipalities** | https://www.indec.gob.ar |
+
+### `Domicile`
+
+| Property | Source | URL / System |
+|---|---|---|
+| Street and locality gazetteer | **INDEC — Geostatistical Units** | https://www.indec.gob.ar |
+| Geolocation and validation | **Address Normalization API (georef)** | https://apis.datos.gob.ar/georef |
+| Postal codes | **Correo Argentino** | https://www.correoargentino.com.ar/codigo-postal |
 
 ---
 
-## 4. Derecho Penal
+## 3. Contracts and Legal Acts
 
-### `Delito`
+### `Contract` / `LegalAct`
 
-| Propiedad | Fuente | URL / Sistema |
+| Property | Source | URL / System |
 |---|---|---|
-| `articuloCodigo`, `tipoPena`, `penaMinima`, `penaMaxima` | **Código Penal** (InfoLEG) | https://www.infoleg.gob.ar/infolegInternet/anexos/15000-19999/16546/texact.htm |
-| Leyes penales especiales | **InfoLEG** | https://www.infoleg.gob.ar |
-| Estadísticas de delitos | **SNIC** (Sistema Nacional de Información Criminal) | https://www.argentina.gob.ar/seguridad/snic |
+| Contracts with the State | **State Procurement Portal (COMPR.AR)** | https://www.argentinacompra.gov.ar |
+| Registered contracts (deeds) | **Real Estate Registry** (each province) | Varies |
+| Employment contracts | **AFIP/ARCA — Early Registration System (SIAT)** | https://serviciosweb.afip.gob.ar |
+| Insurance contracts | **SSN** (Superintendence of Insurance) | https://www.ssn.gob.ar |
+| Lease contracts (declared) | **AFIP/ARCA — RELI** (Registry of Real Estate Leases) | https://www.afip.gob.ar |
+| Deeds and notarial acts | **Notary Associations** (each province) | E.g.: https://www.colegio-escribanos.org.ar (CABA) |
 
-### `Imputado` / `Condena`
+### `RealRight` / `Mortgage` / `Pledge`
 
-| Propiedad | Fuente | URL / Sistema |
+| Property | Source | URL / System |
 |---|---|---|
-| `estadoProcesalPenal`, datos del proceso | **Sistema de Gestión Judicial** (cada jurisdicción) | Variable (MEJ, Lex100, etc.) |
-| Antecedentes penales | **Registro Nacional de Reincidencia** | https://www.argentina.gob.ar/justicia/reincidencia |
-| Personas privadas de libertad | **Servicio Penitenciario Federal** | https://www.spf.gob.ar |
-| Servicios penitenciarios provinciales | Cada Servicio Penitenciario provincial | Variable |
-| Condenas firmes | **CIJ — Fallos** / sistema de gestión judicial | https://www.cij.gov.ar |
-
-### `MedidaCautelarPenal`
-
-| Propiedad | Fuente | URL / Sistema |
-|---|---|---|
-| Órdenes de restricción y detenciones | **Sistema de Gestión Judicial** | Variable por jurisdicción |
-| Inhibiciones e interdicciones | **RENACI** (Registro Nacional de Interdicciones) | Consulta judicial |
+| Ownership and mortgages on real estate | **Real Estate Registry** (by province) | Varies by province |
+| Pledges on vehicles | **National Registry of Vehicle Ownership (RNPA)** | https://www.dnrpa.gov.ar |
+| Registered pledge | **National Registry of Pledge Credits** | https://www.dnrpa.gov.ar |
+| Vessels | **Argentine Naval Prefecture** | https://www.prefecturanaval.gob.ar |
+| Aircraft | **ANAC** (National Civil Aviation Administration) | https://www.anac.gob.ar |
 
 ---
 
-## 5. Proceso Judicial
+## 4. Criminal Law
 
-### `Proceso` / `ActoProcesal` / `Sentencia`
+### `Crime`
 
-| Propiedad | Fuente | URL / Sistema |
+| Property | Source | URL / System |
 |---|---|---|
-| `numeroExpediente`, `caratula`, `estadoProceso`, `fechaInicio` | **Sistema de Consulta de Causas (PJN)** | https://www.pjn.gov.ar |
-| Causas de la CSJN | **CSJN — Sistema de Consulta** | https://sjconsulta.csjn.gov.ar |
-| Causas en CABA | **Poder Judicial CABA** | https://www.jusbaires.gov.ar |
-| Causas provinciales | Sistemas de consulta de cada provincia | Variable |
-| Expedientes digitales (GDE) | **GDE** (Gestión Documental Electrónica) | Para organismos habilitados |
-| Notificaciones electrónicas | **Sistema de Notificaciones Electrónicas (SINOE)** | https://notificaciones.scba.gov.ar (Bs. As.) |
+| `codeArticle`, `penaltyType`, `minPenalty`, `maxPenalty` | **Criminal Code** (InfoLEG) | https://www.infoleg.gob.ar/infolegInternet/anexos/15000-19999/16546/texact.htm |
+| Special criminal laws | **InfoLEG** | https://www.infoleg.gob.ar |
+| Crime statistics | **SNIC** (National Criminal Information System) | https://www.argentina.gob.ar/seguridad/snic |
 
-### `Recurso`
+### `Defendant` / `Conviction`
 
-| Propiedad | Fuente | URL / Sistema |
+| Property | Source | URL / System |
 |---|---|---|
-| Recursos ante la CSJN | **CSJN — Mesa de Entradas** / sistema de consulta | https://sjconsulta.csjn.gov.ar |
-| Recursos provinciales | Sistema de gestión de cada jurisdicción | Variable |
+| `criminalProcessStatus`, proceeding data | **Judicial Case Management System** (each jurisdiction) | Varies (MEJ, Lex100, etc.) |
+| Criminal record | **National Recidivism Registry** | https://www.argentina.gob.ar/justicia/reincidencia |
+| Persons deprived of liberty | **Federal Penitentiary Service** | https://www.spf.gob.ar |
+| Provincial penitentiary services | Each provincial Penitentiary Service | Varies |
+| Final convictions | **CIJ — Fallos** / judicial case management system | https://www.cij.gov.ar |
 
-### `Magistrado` / `Abogado`
+### `CriminalPrecautionaryMeasure`
 
-| Propiedad | Fuente | URL / Sistema |
+| Property | Source | URL / System |
 |---|---|---|
-| `nombreCompleto`, `cargo`, `tribunal`, `fechaDesignacion` | **CIJ — Magistrados** | https://www.cij.gov.ar |
-| Designaciones y concursos | **Consejo de la Magistratura de la Nación** | https://www.consejomagistratura.gov.ar |
-| Magistrados provinciales | Consejos de la Magistratura provinciales | Variable |
-| `matricula` del abogado | **Colegio de Abogados** (por jurisdicción) | Ej: https://www.cabiabilogados.org.ar (CABA) |
+| Restraining orders and detentions | **Judicial Case Management System** | Varies by jurisdiction |
+| Inhibitions and interdictions | **RENACI** (National Registry of Interdictions) | Judicial lookup |
 
 ---
 
-## 6. Órganos del Estado
+## 5. Judicial Proceeding
 
-### `OrganoEstatal` / `OrganoJudicial` / `OrganoLegislativo` / `OrganoEjecutivo`
+### `Proceeding` / `ProceduralAct` / `Judgment`
 
-| Propiedad | Fuente | URL / Sistema |
+| Property | Source | URL / System |
 |---|---|---|
-| Organismos nacionales | **Argentina.gob.ar** | https://www.argentina.gob.ar/organismos |
-| Estructura orgánica del PEN | **Jefatura de Gabinete de Ministros** | https://www.argentina.gob.ar/jefatura |
-| Estructura del Poder Judicial | **CIJ — Mapa Judicial** | https://www.cij.gov.ar |
-| Estructura del Congreso | **Cámara de Diputados / Senado** | https://www.diputados.gov.ar / https://www.senado.gob.ar |
-| Organismos provinciales | Sitios oficiales de cada provincia | Variable |
+| `caseFileNumber`, `caption`, `proceedingStatus`, `startDate` | **Case Lookup System (PJN)** | https://www.pjn.gov.ar |
+| CSJN cases | **CSJN — Lookup System** | https://sjconsulta.csjn.gov.ar |
+| CABA cases | **CABA Judiciary** | https://www.jusbaires.gov.ar |
+| Provincial cases | Each province's lookup systems | Varies |
+| Digital case files (GDE) | **GDE** (Electronic Document Management) | For authorized agencies |
+| Electronic notifications | **Electronic Notification System (SINOE)** | https://notificaciones.scba.gov.ar (Bs. As.) |
 
-### `MinisterioPublico`
+### `Remedy`
 
-| Propiedad | Fuente | URL / Sistema |
+| Property | Source | URL / System |
 |---|---|---|
-| Fiscalías y fiscales | **Ministerio Público Fiscal** | https://www.mpf.gov.ar |
-| Defensorías | **Ministerio Público de la Defensa** | https://www.mpd.gov.ar |
-| Asesorías de menores | **Ministerio Público de la Defensa** | https://www.mpd.gov.ar |
+| Remedies before the CSJN | **CSJN — Filing Desk** / lookup system | https://sjconsulta.csjn.gov.ar |
+| Provincial remedies | Each jurisdiction's management system | Varies |
+
+### `Judge` / `Lawyer`
+
+| Property | Source | URL / System |
+|---|---|---|
+| `fullName`, `position`, `court`, `appointmentDate` | **CIJ — Magistrates** | https://www.cij.gov.ar |
+| Appointments and competitions | **National Council of the Magistracy** | https://www.consejomagistratura.gov.ar |
+| Provincial magistrates | Provincial Councils of the Magistracy | Varies |
+| Lawyer's `barLicense` | **Bar Association** (by jurisdiction) | E.g.: https://www.cabiabilogados.org.ar (CABA) |
 
 ---
 
-## 7. Derecho Laboral
+## 6. State Bodies
 
-### `RelacionLaboral`
+### `StateBody` / `JudicialBody` / `LegislativeBody` / `ExecutiveBody`
 
-| Propiedad | Fuente | URL / Sistema |
+| Property | Source | URL / System |
 |---|---|---|
-| `fechaInicio`, `remuneracionBruta`, `estaRegistrada`, `tipoContrato` | **AFIP/ARCA — Mi Simplificación (SIAT)** | https://serviciosweb.afip.gob.ar |
-| Altas y bajas de empleados | **AFIP/ARCA — Relaciones Laborales** | https://www.afip.gob.ar |
-| Denuncias laborales y fiscalización | **AFIP/ARCA — Blanqueo Laboral** | https://www.afip.gob.ar |
-| Disputas y causas laborales | **Cámara Nacional de Apelaciones del Trabajo (CNAT)** | https://www.pjn.gov.ar |
-| Accidentes de trabajo | **SRT** (Superintendencia de Riesgos del Trabajo) | https://www.srt.gob.ar |
+| National agencies | **Argentina.gob.ar** | https://www.argentina.gob.ar/organismos |
+| Executive Branch organizational structure | **Chief of the Cabinet of Ministers** | https://www.argentina.gob.ar/jefatura |
+| Judiciary structure | **CIJ — Judicial Map** | https://www.cij.gov.ar |
+| Congress structure | **Chamber of Deputies / Senate** | https://www.diputados.gov.ar / https://www.senado.gob.ar |
+| Provincial agencies | Official sites of each province | Varies |
 
-### `ConvenioColectivoTrabajo` (CCT)
+### `PublicProsecution`
 
-| Propiedad | Fuente | URL / Sistema |
+| Property | Source | URL / System |
 |---|---|---|
-| `numeroCCT`, `actividadRama`, `sindicatoFirmante`, `fechaHomologacion` | **MTEySS — Convenios Colectivos** | https://www.argentina.gob.ar/trabajo/relacioneslaborales/convenioscolectivos |
-| Texto completo de CCTs | **InfoLEG** (CCTs homologados) | https://www.infoleg.gob.ar |
-| Paritarias y actualizaciones salariales | **MTEySS** | https://www.argentina.gob.ar/trabajo |
-
-### `Sindicato`
-
-| Propiedad | Fuente | URL / Sistema |
-|---|---|---|
-| `denominacion`, `personeriaGremial`, `ambitoRepresentacion` | **MTEySS — Registro Sindical** | https://www.argentina.gob.ar/trabajo/sindicatos |
+| Prosecutor's offices and prosecutors | **Public Prosecutor's Office** | https://www.mpf.gov.ar |
+| Public defender's offices | **Public Defense** | https://www.mpd.gov.ar |
+| Advisors for minors | **Public Defense** | https://www.mpd.gov.ar |
 
 ---
 
-## 8. Derecho de Familia
+## 7. Labor Law
 
-### `Matrimonio` / `UnionConvivencial`
+### `EmploymentRelationship`
 
-| Propiedad | Fuente | URL / Sistema |
+| Property | Source | URL / System |
 |---|---|---|
-| `fechaCelebracion`, `conyuge1`, `conyuge2`, `regimen`, `estaDisuelto` | **Registro Civil** (nacional o provincial) | Variable por provincia |
-| Actas de matrimonio | **RENAPER** (para consultas con habilitación) | https://www.argentina.gob.ar/renaper |
-| Uniones convivenciales inscriptas | **Registro Civil** de cada jurisdicción | Variable |
-| Divorcio y disolución | **Sistema de Gestión Judicial** | Variable |
+| `startDate`, `grossSalary`, `isRegistered`, `contractType` | **AFIP/ARCA — Mi Simplificación (SIAT)** | https://serviciosweb.afip.gob.ar |
+| Employee hirings and terminations | **AFIP/ARCA — Labor Relations** | https://www.afip.gob.ar |
+| Labor complaints and oversight | **AFIP/ARCA — Labor Formalization** | https://www.afip.gob.ar |
+| Labor disputes and cases | **National Labor Court of Appeals (CNAT)** | https://www.pjn.gov.ar |
+| Workplace accidents | **SRT** (Superintendence of Work Risks) | https://www.srt.gob.ar |
 
-### `Filiacion` / `Adopcion`
+### `CollectiveBargainingAgreement` (CCT)
 
-| Propiedad | Fuente | URL / Sistema |
+| Property | Source | URL / System |
 |---|---|---|
-| Reconocimiento de hijos | **Registro Civil** | Variable por provincia |
-| Partidas de nacimiento | **RENAPER** | https://www.argentina.gob.ar/renaper |
-| Sentencias de adopción | **Sistema de Gestión Judicial** | Variable |
-| Registro de adoptantes | **RUAGA** (Registro Único de Aspirantes a Guarda con Fines Adoptivos) | https://www.argentina.gob.ar/justicia/ruaga |
+| `cctNumber`, `activitySector`, `signatoryUnion`, `ratificationDate` | **MTEySS — Collective Agreements** | https://www.argentina.gob.ar/trabajo/relacioneslaborales/convenioscolectivos |
+| Full text of CCTs | **InfoLEG** (ratified CCTs) | https://www.infoleg.gob.ar |
+| Wage negotiations and salary updates | **MTEySS** | https://www.argentina.gob.ar/trabajo |
 
-### `ResponsabilidadParental`
+### `Union`
 
-| Propiedad | Fuente | URL / Sistema |
+| Property | Source | URL / System |
 |---|---|---|
-| Acuerdos de cuota alimentaria | **Sistema de Gestión Judicial** | Variable |
-| Registro de deudores alimentarios | **Registro de Deudores Alimentarios** (por provincia) | Ej: https://www.scba.gov.ar (Bs. As.) |
+| `name`, `unionStatus`, `representationScope` | **MTEySS — Union Registry** | https://www.argentina.gob.ar/trabajo/sindicatos |
 
 ---
 
-## 9. Derecho Tributario
+## 8. Family Law
 
-### `Tributo` / `ObligacionTributaria`
+### `Marriage` / `CivilUnion`
 
-| Propiedad | Fuente | URL / Sistema |
+| Property | Source | URL / System |
 |---|---|---|
-| `hechoImponible`, `alicuota`, `periodicidad`, `normaCreadora` | **ARCA (ex AFIP) — Normativa** | https://www.afip.gob.ar/normativa |
-| Alícuotas de IVA, Ganancias, etc. | **InfoLEG** + **ARCA** | https://www.infoleg.gob.ar |
-| `montoDeclarado`, `montoPagado` | **ARCA — Cuentas Tributarias** (con clave fiscal) | https://www.afip.gob.ar |
-| Deuda tributaria y planes de pago | **ARCA — Mis Facilidades** | https://www.afip.gob.ar |
-| Tributos provinciales | **AGIP** (CABA), **ARBA** (Bs. As.) y organismos provinciales | Variable |
-| Estadísticas de recaudación | **ARCA — Estadísticas** | https://www.afip.gob.ar/institucional/estudios |
+| `celebrationDate`, `spouse1`, `spouse2`, `regime`, `isDissolved` | **Civil Registry** (national or provincial) | Varies by province |
+| Marriage certificates | **RENAPER** (for authorized lookups) | https://www.argentina.gob.ar/renaper |
+| Registered civil unions | **Civil Registry** of each jurisdiction | Varies |
+| Divorce and dissolution | **Judicial Case Management System** | Varies |
+
+### `Filiation` / `Adoption`
+
+| Property | Source | URL / System |
+|---|---|---|
+| Acknowledgment of children | **Civil Registry** | Varies by province |
+| Birth certificates | **RENAPER** | https://www.argentina.gob.ar/renaper |
+| Adoption judgments | **Judicial Case Management System** | Varies |
+| Registry of adopters | **RUAGA** (Single Registry of Adoption Guardianship Applicants) | https://www.argentina.gob.ar/justicia/ruaga |
+
+### `ParentalResponsibility`
+
+| Property | Source | URL / System |
+|---|---|---|
+| Child support agreements | **Judicial Case Management System** | Varies |
+| Registry of support debtors | **Registry of Support Debtors** (by province) | E.g.: https://www.scba.gov.ar (Bs. As.) |
 
 ---
 
-## 10. Derecho Administrativo
+## 9. Tax Law
 
-### `ActoAdministrativo`
+### `Tax` / `TaxObligation`
 
-| Propiedad | Fuente | URL / Sistema |
+| Property | Source | URL / System |
 |---|---|---|
-| Decretos y resoluciones nacionales | **Boletín Oficial** | https://www.boletinoficial.gob.ar |
-| Expedientes administrativos nacionales | **GDE** (Gestión Documental Electrónica) | Para organismos habilitados |
-| Consulta pública de expedientes | **TrackiAR / Seguimiento de trámites** | https://www.argentina.gob.ar/tramites |
-| Actos provinciales | Boletines Oficiales provinciales | Variable |
-
-### `ContratoAdministrativo` / `LicitacionPublica`
-
-| Propiedad | Fuente | URL / Sistema |
-|---|---|---|
-| Licitaciones y contrataciones nacionales | **COMPR.AR** (Portal de Compras del Estado) | https://www.argentinacompra.gov.ar |
-| Contratos de obra pública | **Dirección Nacional de Vialidad / MOP** | https://www.argentina.gob.ar/obras-publicas |
-| Concesiones de servicios públicos | **ENRE, ENARGAS, ORSNA** (según sector) | Variable por regulador |
-| Contrataciones provinciales | Portales de compras provinciales | Variable |
-| Declaraciones juradas de funcionarios | **OA** (Oficina Anticorrupción) | https://www.argentina.gob.ar/anticorrupcion |
+| `taxableEvent`, `rate`, `periodicity`, `creatingNorm` | **ARCA (formerly AFIP) — Regulations** | https://www.afip.gob.ar/normativa |
+| VAT, Income Tax rates, etc. | **InfoLEG** + **ARCA** | https://www.infoleg.gob.ar |
+| `declaredAmount`, `paidAmount` | **ARCA — Tax Accounts** (with tax key) | https://www.afip.gob.ar |
+| Tax debt and payment plans | **ARCA — Mis Facilidades** | https://www.afip.gob.ar |
+| Provincial taxes | **AGIP** (CABA), **ARBA** (Bs. As.) and provincial agencies | Varies |
+| Collection statistics | **ARCA — Statistics** | https://www.afip.gob.ar/institucional/estudios |
 
 ---
 
-## Fuentes Transversales y Agregadores
+## 10. Administrative Law
 
-Estas fuentes son útiles para múltiples clases de la ontología.
+### `AdministrativeAct`
 
-| Fuente | Clases que nutre | URL |
+| Property | Source | URL / System |
 |---|---|---|
-| **InfoLEG** | NormaJuridica, Articulo, CCT, Tributo | https://www.infoleg.gob.ar |
-| **SAIJ** | NormaJuridica, Jurisprudencia, Doctrina | https://www.saij.gob.ar |
-| **Boletín Oficial** | NormaJuridica, ActoAdministrativo | https://www.boletinoficial.gob.ar |
-| **CIJ** | OrganoJudicial, Magistrado, Sentencia, Proceso | https://www.cij.gov.ar |
-| **ARCA (ex AFIP)** | PersonaHumana, PersonaJuridica, RelacionLaboral, Tributo | https://www.afip.gob.ar |
-| **RENAPER** | PersonaHumana, Domicilio, Matrimonio, Filiacion | https://www.argentina.gob.ar/renaper |
-| **APIs datos.gob.ar** | Domicilio, OrganoEstatal, estadísticas | https://datos.gob.ar |
-| **Microjuris** (pago) | Jurisprudencia, NormaJuridica | https://www.microjuris.com.ar |
-| **La Ley Online** (pago) | Jurisprudencia, Doctrina, NormaJuridica | https://laleyonline.com.ar |
-| **El Dial** (pago) | Jurisprudencia, NormaJuridica | https://www.eldial.com |
+| National decrees and resolutions | **Official Gazette** | https://www.boletinoficial.gob.ar |
+| National administrative files | **GDE** (Electronic Document Management) | For authorized agencies |
+| Public file lookup | **TrackiAR / Procedure tracking** | https://www.argentina.gob.ar/tramites |
+| Provincial acts | Provincial Official Gazettes | Varies |
+
+### `AdministrativeContract` / `PublicTender`
+
+| Property | Source | URL / System |
+|---|---|---|
+| National tenders and procurements | **COMPR.AR** (State Procurement Portal) | https://www.argentinacompra.gov.ar |
+| Public works contracts | **National Highway Directorate / MOP** | https://www.argentina.gob.ar/obras-publicas |
+| Public service concessions | **ENRE, ENARGAS, ORSNA** (by sector) | Varies by regulator |
+| Provincial procurements | Provincial procurement portals | Varies |
+| Officials' sworn statements | **OA** (Anti-Corruption Office) | https://www.argentina.gob.ar/anticorrupcion |
 
 ---
 
-*Ontología del Sistema Legal Argentino — Fuentes de datos — v1.0 — 2026*
+## Cross-Cutting Sources and Aggregators
+
+These sources are useful for multiple ontology classes.
+
+| Source | Classes it feeds | URL |
+|---|---|---|
+| **InfoLEG** | LegalNorm, Article, CCT, Tax | https://www.infoleg.gob.ar |
+| **SAIJ** | LegalNorm, CaseLaw, Doctrine | https://www.saij.gob.ar |
+| **Official Gazette** | LegalNorm, AdministrativeAct | https://www.boletinoficial.gob.ar |
+| **CIJ** | JudicialBody, Judge, Judgment, Proceeding | https://www.cij.gov.ar |
+| **ARCA (formerly AFIP)** | NaturalPerson, LegalEntity, EmploymentRelationship, Tax | https://www.afip.gob.ar |
+| **RENAPER** | NaturalPerson, Domicile, Marriage, Filiation | https://www.argentina.gob.ar/renaper |
+| **datos.gob.ar APIs** | Domicile, StateBody, statistics | https://datos.gob.ar |
+| **Microjuris** (paid) | CaseLaw, LegalNorm | https://www.microjuris.com.ar |
+| **La Ley Online** (paid) | CaseLaw, Doctrine, LegalNorm | https://laleyonline.com.ar |
+| **El Dial** (paid) | CaseLaw, LegalNorm | https://www.eldial.com |
+
+---
+
+*Argentine Legal System Ontology — Data sources — v1.0 — 2026*
