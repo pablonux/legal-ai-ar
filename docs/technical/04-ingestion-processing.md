@@ -1,46 +1,48 @@
-# 04 — Ingesta & Procesamiento de Documentos
+# 04 — Document Ingestion & Processing
 
-> **Proyecto:** Legal Ai Ar | **Categoría:** Document Ingestion & Processing
-> **Estado:** Parcialmente definido (pipeline de 7 pasos en F00-W01)
-> **Última actualización:** Mayo 2026
-
----
-
-## 1. Descripción
-
-La KB legal se alimenta de documentos no estructurados y semi-estructurados provenientes de fuentes oficiales argentinas (SAIJ, InfoLEG, Boletín Oficial) y carga manual. El pipeline de ingesta transforma estos documentos en datos estructurados, enriquecidos con metadata, embeddings y relaciones en el grafo legal.
-
-Este documento define las técnicas de enriquecimiento que van más allá del pipeline base de 7 pasos ya definido en F00-W01: clasificación automática, NER legal, metadata enrichment con LLM, deduplicación y validación de calidad.
+> **Project:** Legal Ai Ar | **Category:** Document Ingestion & Processing
+> **Status:** Partially defined (7-step pipeline in F00-W01)
+> **Last updated:** May 2026
 
 ---
 
-## 2. Decisiones Técnicas
+## 1. Description
 
-### 2.1 Extracción de texto
+The legal KB is fed by unstructured and semi-structured documents from official Argentine sources (SAIJ, InfoLEG, Official Gazette) and manual upload. The ingestion pipeline transforms these documents into structured data, enriched with metadata, embeddings, and relationships in the legal graph.
 
-| Alternativa | Pros | Contras | Decisión |
+This document defines the enrichment techniques that go beyond the base 7-step pipeline already defined in F00-W01: automatic classification, legal NER, LLM metadata enrichment, deduplication, and quality validation.
+
+---
+
+## 2. Technical Decisions
+
+### 2.1 Text extraction
+
+| Alternative | Pros | Cons | Decision |
 |---|---|---|---|
-| **Regex + HTML parsing** | Rápido. Sin costo. Funciona para fuentes web bien estructuradas. | Frágil: se rompe si cambia el HTML. No sirve para PDFs. | Para fuentes web (SAIJ, InfoLEG) |
-| **Azure Document Intelligence** | OCR de alta calidad. Extrae tablas, estructura. Detecta layout. Soporta PDFs escaneados. | Costo por página ($1.50/1000 páginas). Latencia ~5s por página. | **Elegido para PDFs** |
-| **Apache Tika** | Open source. Soporta muchos formatos. | Menor calidad OCR. Sin detección de layout. Sin extracción de tablas. | Descartado |
-| **PyMuPDF / pdfplumber** | Rápido. Gratis. Bueno para PDFs nativos (no escaneados). | No hace OCR. No detecta tablas complejas. No disponible en .NET nativo. | Fallback para PDFs simples |
+| **Regex + HTML parsing** | Fast. No cost. Works for well-structured web sources. | Fragile: breaks if the HTML changes. Useless for PDFs. | For web sources (SAIJ, InfoLEG) |
+| **Azure Document Intelligence** | High-quality OCR. Extracts tables, structure. Detects layout. Supports scanned PDFs. | Cost per page ($1.50/1000 pages). Latency ~5s per page. | **Chosen for PDFs** |
+| **Apache Tika** | Open source. Supports many formats. | Lower OCR quality. No layout detection. No table extraction. | Discarded |
+| **PyMuPDF / pdfplumber** | Fast. Free. Good for native (non-scanned) PDFs. | No OCR. Does not detect complex tables. Not natively available in .NET. | Fallback for simple PDFs |
 
-**Decisión:** Fuentes web con HTML parsing + regex (SAIJ, InfoLEG tienen estructura estable). PDFs con Azure Document Intelligence (Boletín Oficial, documentos manuales, escritos judiciales escaneados).
+**Decision:** Web sources with HTML parsing + regex (SAIJ, InfoLEG have a stable structure). PDFs with Azure Document Intelligence (Official Gazette, manual documents, scanned court filings).
 
-### 2.2 Metadata Enrichment con LLM
+### 2.2 LLM Metadata Enrichment
 
-| Alternativa | Pros | Contras | Decisión |
+| Alternative | Pros | Cons | Decision |
 |---|---|---|---|
-| **Metadata manual** | Precisa. Controlada. | No escala. Requiere operador humano para cada documento. | Solo para correcciones |
-| **Regex + heurísticas** | Rápido. Gratis. Determinístico. | Frágil para texto no estandarizado. No entiende contexto. | Primera capa |
-| **LLM enrichment (GPT-4o-mini)** | Entiende contexto. Extrae metadata compleja (tema, rama, voces). Maneja texto no estandarizado. | Costo por documento. Posible error del LLM. | **Elegido como segunda capa** |
-| **Modelo NER fine-tuned** | Rápido en inferencia. Especializado. Sin costo de API. | Requiere datos de entrenamiento. Costo de fine-tuning. Mantenimiento del modelo. | Evaluado para futuro |
+| **Manual metadata** | Precise. Controlled. | Does not scale. Requires a human operator for each document. | Only for corrections |
+| **Regex + heuristics** | Fast. Free. Deterministic. | Fragile for non-standard text. Does not understand context. | First layer |
+| **LLM enrichment (GPT-4o-mini)** | Understands context. Extracts complex metadata (topic, branch, keywords). Handles non-standard text. | Cost per document. Possible LLM error. | **Chosen as the second layer** |
+| **Fine-tuned NER model** | Fast at inference. Specialized. No API cost. | Requires training data. Fine-tuning cost. Model maintenance. | Evaluated for the future |
 
-**Decisión en capas:**
-1. **Capa 1 — Regex/heurísticas:** Extraer campos estructurados obvios (número de ley, fecha, órgano emisor) del HTML/metadata de la fuente
-2. **Capa 2 — LLM enrichment:** Para campos que requieren comprensión (rama del derecho, voces temáticas, sumario, clasificación)
+**Layered decision:**
+1. **Layer 1 — Regex/heuristics:** Extract obvious structured fields (law number, date, issuing body) from the source's HTML/metadata
+2. **Layer 2 — LLM enrichment:** For fields requiring comprehension (law branch, topic keywords, headnote, classification)
 
-### 2.3 Prompt de enrichment
+### 2.3 Enrichment prompt
+
+> The prompt instructions stay in Spanish (LLM prompt content); the output JSON keys are in English to match the data model.
 
 ```yaml
 # prompts/ingestion/metadata_enrichment.yaml
@@ -49,227 +51,227 @@ model: gpt-4o-mini
 temperature: 0.0
 
 system_prompt: |
-  Sos un clasificador de documentos legales argentinos. Tu tarea es extraer 
+  Sos un clasificador de documentos legales argentinos. Tu tarea es extraer
   metadata estructurada del siguiente documento.
 
   Respondé SOLO con el JSON solicitado, sin texto adicional.
 
 user_template: |
   DOCUMENTO:
-  Tipo: {tipo_documento}
-  Texto (primeros 2000 chars): {texto_truncado}
+  Tipo: {document_type}
+  Texto (primeros 2000 chars): {truncated_text}
 
   Extraé la siguiente metadata en JSON:
   {
-    "ramaDelDerecho": "civil|penal|laboral|comercial|administrativo|constitucional|tributario|procesal|ambiental|otro",
-    "subrama": "string - especificación dentro de la rama",
-    "vocesTematicas": ["string", "string", "..."], // 3-8 voces temáticas (descriptores)
-    "sumario": "string - resumen de 2-3 oraciones del contenido",
-    "entidadesMencionadas": ["string"], // organismos, tribunales, empresas mencionadas
-    "normasReferenciadas": [
-      { "tipo": "ley|decreto|resolución", "numero": "string", "articulos": ["string"] }
+    "lawBranch": "civil|penal|laboral|comercial|administrativo|constitucional|tributario|procesal|ambiental|otro",
+    "subBranch": "string - especificación dentro de la rama",
+    "topicKeywords": ["string", "string", "..."], // 3-8 voces temáticas (descriptores)
+    "summary": "string - resumen de 2-3 oraciones del contenido",
+    "mentionedEntities": ["string"], // organismos, tribunales, empresas mencionadas
+    "referencedNorms": [
+      { "type": "ley|decreto|resolución", "number": "string", "articles": ["string"] }
     ],
-    "jurisdiccion": "nacional|provincial|caba|municipal",
-    "provincia": "string|null",
-    "relevancia": "alta|media|baja" // relevancia para práctica jurídica general
+    "jurisdiction": "nacional|provincial|caba|municipal",
+    "province": "string|null",
+    "relevance": "alta|media|baja" // relevancia para práctica jurídica general
   }
 ```
 
-### 2.4 NER Legal (Named Entity Recognition)
+### 2.4 Legal NER (Named Entity Recognition)
 
-| Entidad | Ejemplos | Método de extracción |
+| Entity | Examples | Extraction method |
 |---|---|---|
-| **Norma** | "Ley 20.744", "Decreto 1694/06", "Resolución 34/2024" | Regex: `(Ley\|Decreto\|Resolución)\s+[\d.]+(/\d+)?` + LLM para variantes |
-| **Artículo** | "art. 245", "artículo 14 bis", "arts. 232 a 235" | Regex: `art[íi]?culo?s?\s*\.?\s*[\d]+` + LLM para rangos |
-| **Tribunal** | "CSJN", "Cámara Nacional de Apelaciones del Trabajo", "Juzgado Nac. Civil 42" | LLM (demasiadas variantes para regex) |
-| **Magistrado** | "Dr. Lorenzetti", "Juez Maqueda" | LLM |
-| **Fecha legal** | "B.O. 15/03/2024", "vigente desde el 1° de enero de 2025" | Regex + LLM |
-| **Jurisdicción** | "jurisdicción nacional", "provincia de Buenos Aires" | LLM |
-| **Parte procesal** | "González, Juan c/ OSDE s/ amparo" | Regex para carátulas: `\w+ c/ \w+ s/ \w+` |
+| **Norm** | "Ley 20.744", "Decreto 1694/06", "Resolución 34/2024" | Regex: `(Ley\|Decreto\|Resolución)\s+[\d.]+(/\d+)?` + LLM for variants |
+| **Article** | "art. 245", "artículo 14 bis", "arts. 232 a 235" | Regex: `art[íi]?culo?s?\s*\.?\s*[\d]+` + LLM for ranges |
+| **Court** | "CSJN", "Cámara Nacional de Apelaciones del Trabajo", "Juzgado Nac. Civil 42" | LLM (too many variants for regex) |
+| **Judge** | "Dr. Lorenzetti", "Juez Maqueda" | LLM |
+| **Legal date** | "B.O. 15/03/2024", "vigente desde el 1° de enero de 2025" | Regex + LLM |
+| **Jurisdiction** | "jurisdicción nacional", "provincia de Buenos Aires" | LLM |
+| **Procedural party** | "González, Juan c/ OSDE s/ amparo" | Regex for captions: `\w+ c/ \w+ s/ \w+` |
 
-### 2.5 Clasificación automática
+### 2.5 Automatic classification
 
 ```mermaid
 flowchart TB
-    DOC[Documento<br/>ingestado] --> R1{Regex:<br/>¿Tiene Nro Ley?}
-    R1 -->|Sí| NORMA[Tipo: Norma]
-    R1 -->|No| R2{Regex:<br/>¿Tiene carátula<br/>c/ ... s/ ?}
-    R2 -->|Sí| JURISP[Tipo: Jurisprudencia]
+    DOC[Ingested<br/>document] --> R1{Regex:<br/>Has a Law No.?}
+    R1 -->|Yes| NORMA[Type: Norm]
+    R1 -->|No| R2{Regex:<br/>Has a caption<br/>c/ ... s/ ?}
+    R2 -->|Yes| JURISP[Type: Case law]
     R2 -->|No| LLM_C[LLM Classifier]
-    
-    NORMA --> LLM_E[LLM Enrichment<br/>rama, voces, sumario]
+
+    NORMA --> LLM_E[LLM Enrichment<br/>branch, keywords, summary]
     JURISP --> LLM_E
-    LLM_C -->|doctrina| DOCT[Tipo: Doctrina]
-    LLM_C -->|norma| NORMA
-    LLM_C -->|fallo| JURISP
-    
-    LLM_E --> VALID[Validación<br/>de calidad]
+    LLM_C -->|doctrine| DOCT[Type: Doctrine]
+    LLM_C -->|norm| NORMA
+    LLM_C -->|ruling| JURISP
+
+    LLM_E --> VALID[Quality<br/>validation]
 ```
 
 ---
 
-## 3. Deduplicación y Consolidación
+## 3. Deduplication and Consolidation
 
-### 3.1 Estrategia
+### 3.1 Strategy
 
-| Escenario | Cómo se detecta | Acción |
+| Scenario | How it is detected | Action |
 |---|---|---|
-| **Norma exacta duplicada** | Mismo número de ley + mismo órgano emisor | Mantener la más reciente, marcar duplicado |
-| **Versión modificada** | Mismo número, distinta fecha. O referencia explícita "modifícase el art. X de la Ley Y" | Crear edge `Modifica` en el grafo. Marcar artículos afectados como modificados. Mantener ambas versiones con flag de vigencia |
-| **Texto consolidado** | InfoLEG provee texto consolidado; SAIJ provee texto original | Preferir texto consolidado. Guardar original como respaldo en Blob |
-| **Fallo duplicado** | Misma carátula + mismo tribunal + misma fecha | Merge: mantener el registro más completo |
-| **Near-duplicate** | Embedding similarity > 0.95 + metadata similar | Flag para revisión humana |
+| **Exact duplicate norm** | Same law number + same issuing body | Keep the most recent, mark as duplicate |
+| **Amended version** | Same number, different date. Or an explicit reference "modifícase el art. X de la Ley Y" | Create an `Amends` edge in the graph. Mark affected articles as amended. Keep both versions with a validity flag |
+| **Consolidated text** | InfoLEG provides consolidated text; SAIJ provides original text | Prefer consolidated text. Keep the original as a backup in Blob |
+| **Duplicate ruling** | Same caption + same court + same date | Merge: keep the most complete record |
+| **Near-duplicate** | Embedding similarity > 0.95 + similar metadata | Flag for human review |
 
 ### 3.2 Dedup pipeline
 
 ```mermaid
 flowchart LR
-    NEW[Doc nuevo] --> HASH[Hash<br/>exacto]
-    HASH -->|Match| DUP1[Duplicado exacto<br/>→ descartar]
-    HASH -->|No match| META[Match<br/>por metadata]
-    META -->|Mismo Nro + Tipo| VER[¿Es nueva<br/>versión?]
-    VER -->|Sí| UPDATE[Actualizar<br/>+ edge Modifica]
+    NEW[New doc] --> HASH[Exact<br/>hash]
+    HASH -->|Match| DUP1[Exact duplicate<br/>→ discard]
+    HASH -->|No match| META[Match<br/>by metadata]
+    META -->|Same No. + Type| VER[Is it a new<br/>version?]
+    VER -->|Yes| UPDATE[Update<br/>+ Amends edge]
     VER -->|No| SIM[Embedding<br/>similarity]
     META -->|No match| SIM
-    SIM -->|> 0.95| REVIEW[Flag para<br/>revisión humana]
-    SIM -->|≤ 0.95| INSERT[Insertar<br/>como nuevo]
+    SIM -->|> 0.95| REVIEW[Flag for<br/>human review]
+    SIM -->|≤ 0.95| INSERT[Insert<br/>as new]
 ```
 
 ---
 
-## 4. Validación de Calidad Post-Ingesta
+## 4. Post-Ingestion Quality Validation
 
-### 4.1 Checks automáticos
+### 4.1 Automatic checks
 
-| Check | Qué valida | Acción si falla |
+| Check | What it validates | Action if it fails |
 |---|---|---|
-| **Completitud de metadata** | ¿Tiene tipo, número, fecha, rama, vigencia? | Enviar a cola de enriquecimiento |
-| **Texto mínimo** | ¿El texto extraído tiene > 100 caracteres? | Flag como posible error de OCR |
-| **Consistencia de fechas** | ¿La fecha de publicación es plausible? (no futura, no anterior a 1853) | Flag para revisión |
-| **Embedding generado** | ¿Se generó el embedding correctamente? | Reintentar. Si falla 3 veces → dead letter queue |
-| **Relaciones detectadas** | ¿El graph builder encontró al menos 1 relación? | OK si es norma originaria. Warning si es fallo sin normas citadas |
-| **Formato de citación** | ¿Las normas referenciadas tienen formato válido? | Normalizar con regex |
-| **Vigencia coherente** | Si está marcada como vigente, ¿no hay edge de Deroga apuntando a ella? | Reconciliar con el grafo |
+| **Metadata completeness** | Does it have type, number, date, branch, validity? | Send to the enrichment queue |
+| **Minimum text** | Does the extracted text have > 100 characters? | Flag as a possible OCR error |
+| **Date consistency** | Is the publication date plausible? (not in the future, not before 1853) | Flag for review |
+| **Embedding generated** | Was the embedding generated correctly? | Retry. If it fails 3 times → dead letter queue |
+| **Detected relationships** | Did the graph builder find at least 1 relationship? | OK if it is an original norm. Warning if it is a ruling with no cited norms |
+| **Citation format** | Do the referenced norms have a valid format? | Normalize with regex |
+| **Coherent validity** | If marked as in force, is there no `Repeals` edge pointing to it? | Reconcile with the graph |
 
-### 4.2 Score de calidad
+### 4.2 Quality score
 
 ```
-score_calidad = (
-    0.25 * completitud_metadata +     # 0-1: campos obligatorios presentes
-    0.20 * calidad_texto +             # 0-1: largo suficiente, sin basura OCR
-    0.20 * embedding_generado +        # 0 o 1
-    0.15 * relaciones_detectadas +     # 0-1: al menos 1 relación
-    0.10 * consistencia_fechas +       # 0 o 1
-    0.10 * vigencia_coherente          # 0 o 1
+quality_score = (
+    0.25 * metadata_completeness +     # 0-1: required fields present
+    0.20 * text_quality +              # 0-1: long enough, no OCR garbage
+    0.20 * embedding_generated +       # 0 or 1
+    0.15 * detected_relationships +    # 0-1: at least 1 relationship
+    0.10 * date_consistency +          # 0 or 1
+    0.10 * coherent_validity           # 0 or 1
 )
 
-# Threshold: score < 0.6 → cola de revisión humana
+# Threshold: score < 0.6 → human review queue
 ```
 
 ---
 
-## 5. Versionado de Documentos
+## 5. Document Versioning
 
-### 5.1 Estrategia de versionado legal
+### 5.1 Legal versioning strategy
 
-En el derecho argentino, las normas se modifican frecuentemente pero el texto original tiene valor histórico (para saber qué ley regía en una fecha determinada). La estrategia de versionado debe soportar consultas temporales.
+In Argentine law, norms are amended frequently but the original text has historical value (to know which law was in force on a given date). The versioning strategy must support temporal queries.
 
-| Campo | Tipo | Propósito |
+| Field | Type | Purpose |
 |---|---|---|
-| `VersionId` | INT | Identificador único de la versión |
-| `NormaId` | INT FK | Norma a la que pertenece |
-| `TextoVersion` | NVARCHAR(MAX) | Texto de esta versión |
-| `FechaVigenciaDesde` | DATE | Desde cuándo rige esta versión |
-| `FechaVigenciaHasta` | DATE NULL | Hasta cuándo rigió (NULL = vigente) |
-| `NormaModificadoraId` | INT FK NULL | Qué norma generó esta versión |
-| `UrlBlobOriginal` | NVARCHAR(500) | Link al documento original en Blob |
+| `VersionId` | INT | Unique identifier of the version |
+| `LegalNormId` | INT FK | Norm it belongs to |
+| `VersionText` | NVARCHAR(MAX) | Text of this version |
+| `ValidFrom` | DATE | From when this version is in force |
+| `ValidTo` | DATE NULL | Until when it was in force (NULL = in force) |
+| `AmendingNormId` | INT FK NULL | Which norm produced this version |
+| `OriginalBlobUrl` | NVARCHAR(500) | Link to the original document in Blob |
 
-### 5.2 Consulta temporal
+### 5.2 Temporal query
 
 ```sql
--- ¿Qué decía el art. 245 de la LCT en 2003? (antes de la Ley 25.877)
-SELECT av.TextoVersion, av.FechaVigenciaDesde, av.FechaVigenciaHasta
-FROM ArticuloVersion av
-JOIN Articulo a ON av.ArticuloId = a.Id
-JOIN NormaJuridica n ON a.NormaId = n.Id
-WHERE n.NumeroNorma = '20744'
-  AND a.NumeroArticulo = '245'
-  AND av.FechaVigenciaDesde <= '2003-06-15'
-  AND (av.FechaVigenciaHasta IS NULL OR av.FechaVigenciaHasta > '2003-06-15');
+-- What did art. 245 of the LCT say in 2003? (before Ley 25.877)
+SELECT av.VersionText, av.ValidFrom, av.ValidTo
+FROM ArticleVersion av
+JOIN Article a ON av.ArticleId = a.Id
+JOIN LegalNorm n ON a.LegalNormId = n.Id
+WHERE n.NormNumber = '20744'
+  AND a.ArticleNumber = '245'
+  AND av.ValidFrom <= '2003-06-15'
+  AND (av.ValidTo IS NULL OR av.ValidTo > '2003-06-15');
 ```
 
 ---
 
-## 6. Ejemplo Concreto: Ingesta del Boletín Oficial
+## 6. Concrete Example: Official Gazette ingestion
 
-**Documento:** Ley 27.742 (Ley Bases y Puntos de Partida para la Libertad de los Argentinos)
+**Document:** Ley 27.742 (Ley Bases y Puntos de Partida para la Libertad de los Argentinos)
 
-### Pipeline completo
+### Full pipeline
 
 ```
-1. RECOLECTAR:
-   Timer Trigger (diario 8am) → scrape boletinoficial.gob.ar
-   Detecta nueva publicación: Ley 27.742 del 08/07/2024
-   Descarga HTML → queue-raw-documents
+1. COLLECT:
+   Timer Trigger (daily 8am) → scrape boletinoficial.gob.ar
+   Detects new publication: Ley 27.742 of 08/07/2024
+   Downloads HTML → queue-raw-documents
 
-2. PARSEAR:
-   HTML parsing → extrae texto articulado
-   Regex: "LEY N° 27.742" → tipo=ley, numero=27742
-   Regex: fecha de publicación → 08/07/2024
-   Detecta 238 artículos → parsea cada uno
+2. PARSE:
+   HTML parsing → extracts the articulated text
+   Regex: "LEY N° 27.742" → type=ley, number=27742
+   Regex: publication date → 08/07/2024
+   Detects 238 articles → parses each one
 
-3. ENRIQUECER (LLM):
-   GPT-4o-mini analiza primeros 2000 chars:
-   → rama: "administrativo, laboral, comercial" (multidisciplinaria)
-   → voces: ["reforma del estado", "desregulación", "empleo público", "privatizaciones"]
-   → sumario: "Ley ómnibus de reforma del estado que modifica múltiples normas..."
-   → normasReferenciadas: [Ley 20.744, Ley 24.013, Ley 11.683, ...]
+3. ENRICH (LLM):
+   GPT-4o-mini analyzes the first 2000 chars:
+   → branch: "administrativo, laboral, comercial" (multidisciplinary)
+   → keywords: ["reforma del estado", "desregulación", "empleo público", "privatizaciones"]
+   → summary: "Ley ómnibus de reforma del estado que modifica múltiples normas..."
+   → referencedNorms: [Ley 20.744, Ley 24.013, Ley 11.683, ...]
 
-4. CLASIFICAR:
-   NER detecta: 47 normas referenciadas, 12 organismos, 238 artículos
-   Clasificación: norma nacional, multiple ramas, alta relevancia
+4. CLASSIFY:
+   NER detects: 47 referenced norms, 12 organizations, 238 articles
+   Classification: national norm, multiple branches, high relevance
 
-5. DEDUPLICAR:
-   Hash check: no existe versión previa
-   Metadata check: no hay Ley 27.742 en la DB
-   → Insertar como nueva
+5. DEDUPLICATE:
+   Hash check: no previous version exists
+   Metadata check: there is no Ley 27.742 in the DB
+   → Insert as new
 
-6. ALMACENAR + EMBEBER:
-   SQL insert: 1 NormaJuridica + 238 Articulo + 15 Inciso
-   Blob: PDF original
-   Embeddings: 238 chunks (1 por artículo) con contextual retrieval
-   AI Search: push a idx-normas + idx-articulos
+6. STORE + EMBED:
+   SQL insert: 1 LegalNorm + 238 Article + 15 Clause
+   Blob: original PDF
+   Embeddings: 238 chunks (1 per article) with contextual retrieval
+   AI Search: push to idx-legal-norms + idx-articles
 
-7. GRAFIFICAR:
-   Graph Builder analiza texto → detecta 47 edges:
-   - "Modifícase el art. 245 de la Ley 20.744" → edge Modifica
-   - "Derógase la Ley 14.250 en lo pertinente" → edge Deroga
+7. GRAPH:
+   The Graph Builder analyzes the text → detects 47 edges:
+   - "Modifícase el art. 245 de la Ley 20.744" → Amends edge
+   - "Derógase la Ley 14.250 en lo pertinente" → Repeals edge
    - etc.
 
-8. VALIDAR:
-   Score de calidad: 0.92 (todos los checks pasan)
-   238/238 embeddings generados ✓
-   47/47 relaciones creadas ✓
+8. VALIDATE:
+   Quality score: 0.92 (all checks pass)
+   238/238 embeddings generated ✓
+   47/47 relationships created ✓
 ```
 
 ---
 
-## 7. Ítems Pendientes de Definición
+## 7. Items Pending Definition
 
-- [ ] Definir parsers específicos por fuente (SAIJ HTML, InfoLEG HTML, BO PDF)
-- [ ] Implementar prompt de metadata enrichment y calibrar con 50 documentos de prueba
-- [ ] Definir el listado completo de entidades NER a extraer
-- [ ] Implementar dedup pipeline con hash + metadata + embedding similarity
-- [ ] Crear tabla ArticuloVersion para versionado temporal
-- [ ] Definir threshold de score de calidad y política de dead letter queue
-- [ ] Diseñar UI de administración de ingesta (cola, errores, estadísticas)
-- [ ] Definir política de re-ingesta periódica (¿semanal? ¿mensual?) para actualizar vigencias
-- [ ] Evaluar Azure Document Intelligence vs alternativas open source para OCR
-- [ ] Crear tests de integración para cada parser de fuente
+- [ ] Define source-specific parsers (SAIJ HTML, InfoLEG HTML, Official Gazette PDF)
+- [ ] Implement the metadata enrichment prompt and calibrate it with 50 test documents
+- [ ] Define the full list of NER entities to extract
+- [ ] Implement the dedup pipeline with hash + metadata + embedding similarity
+- [ ] Create the ArticleVersion table for temporal versioning
+- [ ] Define the quality-score threshold and the dead letter queue policy
+- [ ] Design an ingestion administration UI (queue, errors, statistics)
+- [ ] Define the periodic re-ingestion policy (weekly? monthly?) to update validity
+- [ ] Evaluate Azure Document Intelligence vs open source alternatives for OCR
+- [ ] Create integration tests for each source parser
 
 ---
 
-## 8. Referencias
+## 8. References
 
 - [Azure Document Intelligence](https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/)
 - [Azure Functions — Queue Trigger](https://learn.microsoft.com/en-us/azure/azure-functions/functions-bindings-storage-queue-trigger)
@@ -279,4 +281,4 @@ WHERE n.NumeroNorma = '20744'
 
 ---
 
-*04 — Ingesta & Procesamiento de Documentos — Legal Ai Ar*
+*04 — Document Ingestion & Processing — Legal Ai Ar*
