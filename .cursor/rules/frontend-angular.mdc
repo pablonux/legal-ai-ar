@@ -1,0 +1,33 @@
+---
+description: Frontend Angular code conventions. Applies when working with frontend TypeScript/HTML files.
+globs:
+  - mvp/frontend/**/*.ts
+  - mvp/frontend/**/*.html
+  - mvp/frontend/**/*.scss
+---
+
+# Frontend Angular — Conventions
+
+## Architecture
+
+- Angular 19 with standalone components (NO NgModules)
+- Features lazy-loaded by route
+- Singleton services in `core/`
+- Shared components in `shared/`
+- Signals for reactive state
+
+## Frontend stack
+
+- Tailwind CSS 4 for styling
+- Cytoscape.js for graph visualization
+- SSE (Server-Sent Events) for agent chat streaming
+
+## Language rule (strict)
+
+- **Everything in English**: code (variables, methods, classes, components, services), file names, routes, comments, technical documentation.
+- **Spanish only for**: end-user facing content (UI labels, error messages, tooltips, placeholder text, user-visible strings).
+- Example: component is `LegalNormListComponent`, route is `/legal-norms`, but the template shows "Normas Legales".
+
+## Reminder
+
+- Do not create code directly unless the user requests it

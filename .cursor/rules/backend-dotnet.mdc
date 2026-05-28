@@ -1,0 +1,44 @@
+---
+description: Backend .NET code conventions. Applies when working with backend C# files.
+globs:
+  - mvp/backend/**/*.cs
+  - mvp/backend/**/*.csproj
+---
+
+# Backend .NET — Conventions
+
+## Architecture
+
+- 4-layer Clean Architecture: Core → Application → Infrastructure → Api
+- Core does NOT reference any other project
+- Project names: `LegalAiAr.{Layer}` (Api, Application, Core, Infrastructure, Agents, AgentEvals)
+
+## Patterns
+
+- CQRS with MediatR in Application
+- Minimal API in Api (NO Controllers)
+- Central Package Management via `Directory.Packages.props`
+- Tests with xUnit + NSubstitute + FluentAssertions
+
+## Azure naming
+
+- Resources: `{service}-legal-ai-ar-{environment}` (e.g., `sql-legal-ai-ar-dev`)
+- Database: `LegalAiAr`
+- Storage containers: kebab-case
+
+## Entities
+
+- Entities live in `LegalAiAr.Core/Entities/`
+- Follow the ontology model in `docs/ontology/argentine-legal-ontology.md`
+- Use `Guid` as the ID type
+- Include `CreatedAt` and `UpdatedAt` on every entity
+
+## Language rule (strict)
+
+- **Everything in English**: code (variables, methods, classes, interfaces, enums), file names, tables, indexes, storage, URLs, endpoints, DTOs, domain entities, commits, technical documentation, code comments.
+- **Spanish only for**: end-user facing messages in the app (UI labels, error messages, tooltips, user-visible content).
+- Example: class is `LegalNorm`, table is `LegalNorms`, endpoint is `/api/legal-norms`, but the UI label says "Normas Legales".
+
+## Reminder
+
+- Do not create code directly unless the user requests it

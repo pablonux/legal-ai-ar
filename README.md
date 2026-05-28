@@ -1,310 +1,159 @@
-# Legal AI AR
+# Legal Ai Ar
 
-Internal legal AI platform for Argentine law firms. Automates the ingestion of judicial rulings from public sources, indexes them in a hybrid Knowledge Base and exposes them through semantic search and RAG jurisprudential chat.
+> Legal Knowledge Base with AI Agents
+
+Legal Ai Ar is a system that centralizes access to legislation, case law, and legal doctrine of the Argentine legal system, combining a multidimensional knowledge base with specialized AI agents. It is designed to reduce legal research time from hours to minutes and to eliminate missed procedural deadlines.
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|------------|
+| **Frontend** | Angular 19 (standalone components) · PwC AppKit 4 · Tailwind CSS 4 · Cytoscape.js |
+| **Backend** | .NET 10 · Clean Architecture (4 layers) · Minimal API · EF Core 10 |
+| **AI / RAG** | Azure OpenAI (GPT-5o, GPT-5o-mini) · Semantic Kernel · text-embedding-3-large (3072d) |
+| **Data** | Azure SQL (relational + Graph Tables) · Azure AI Search (hybrid search) · Azure Blob Storage |
+| **Messaging** | Azure Storage Queues · Azure SignalR Service |
+| **Hosting** | Azure App Service |
+
+---
+
+## Overall Architecture
+
+The system is composed of three major blocks:
+
+**1. Legal information sources** — Automated crawlers that collect documents from CSJN (Sumarios, Acuerdos, Fallos Destacados), SAIJ (Case Law, Legislation), and the Official Gazette (Boletín Oficial). Each source implements a strategy pattern (`IDiscoverStrategy`) to adapt to its particular structure.
+
+**2. Multidimensional knowledge base** — Documents go through a 6-stage ingestion pipeline (Discovery → Fetch → Parse → Enrichment → Persist → Index) that transforms them into a 44-entity relational data model, semantic vectors in AI Search (3 indexes), and a legal graph with community detection. Contextual Retrieval enriches each chunk with LLM-generated context at ingestion time.
+
+**3. SPA application** — Angular frontend with ~15 functional views enabling semantic search, chat with AI agents (SSE streaming + tool calling), graph exploration (Cytoscape), case file and deadline management, and an administrative panel to control the ingestion pipeline.
+
+---
+
+## AI and RAG Capabilities
+
+| Capability | Description |
+|------------|-------------|
+| **Hybrid Search** | BM25 + vectors (3072d) with Reciprocal Rank Fusion over 3 indexes in AI Search |
+| **Contextual Retrieval** | Each chunk is enriched with LLM-generated context at ingestion time |
+| **Tool Calling** | 13 tools available to the agent (legal norm search, rulings, graphs, communities, etc.) |
+| **SSE Streaming** | Typed events: `text`, `tool_start`, `tool_end`, `validation`, `done` |
+| **Input Guardrails** | 2 layers: rule-based + LLM classifier |
+| **Output Guardrails** | Citation validation against the database |
+| **Query Preprocessing** | GPT-5o-mini + expansion with the SAIJ thesaurus |
+| **Community Detection** | Union-Find + clustering by law branch with LLM summarization |
+
+---
+
+## Ingestion Pipeline
+
+```
+Discoverer → Fetcher → Parser → Enrichment → Persister → Indexer
+    ↓           ↓         ↓          ↓            ↓           ↓
+ Discovers   Downloads  Extracts  Enriches     Persists    Generates
+ docs from   PDFs/HTML  text +    with GPT-5o   to Azure   embeddings,
+ sources     with cache metadata  -mini (NER,   SQL via    indexes in AI
+             in Blob              metadata,     EF Core    Search, resolves
+                                  classific.)              citations, extracts
+                                                           mentions
+```
+
+Each stage communicates via Azure Storage Queues (5 queues). It includes a DLQ with an admin UI for retries and `DocumentStageLog` for full pipeline tracking.
+
+---
+
+## Roadmap
+
+The project evolves from a mature MVP (~78% reusable code) through 5 releases:
+
+| Release | Name | Focus | Duration |
+|---------|------|-------|----------|
+| **R0.0** | Preparation | Restructure monorepo, add missing entities, code quality | 2 weeks |
+| **R1.0** | Foundation | Auth, dashboard, search, legal norm/case law detail, basic chat, graph | 6 weeks |
+| **R2.0** | Agents | Semantic Kernel, 3 specialized agents, case files, deadlines, calendar, eval | 6 weeks |
+| **R3.0** | Risk | Legal risk analysis, report generation, operational reports | 4 weeks |
+| **R4.0** | Operations | Observability (OpenTelemetry), advanced alerts, PWA, model versioning | 4 weeks |
+
+### Specialized Agents (R2.0)
+
+- **Regulatory Agent** — Queries about current legislation, validity verification, repeal chains
+- **Case Law Agent** — Search and analysis of rulings, precedent identification, case law trends
+- **Procedural Agent** — Queries about case files and deadlines, business-day calculation, due-date alerts
+
+Orchestrated by a Hybrid Router (embedding similarity + LLM fallback) on Semantic Kernel with the ReAct pattern.
+
+---
+
+## Repository Structure
+
+```
+legal-ai-ar/
+├── backend/
+│   ├── src/
+│   │   ├── api/
+│   │   │   ├── LegalAiAr.Api/          # ASP.NET Core (Controllers → Minimal API)
+│   │   │   └── LegalAiAr.Application/  # CQRS, handlers, services
+│   │   ├── shared/
+│   │   │   ├── LegalAiAr.Core/         # Entities, enums, interfaces
+│   │   │   └── LegalAiAr.Infrastructure/ # EF Core, Azure services, AI
+│   │   ├── workers/                     # 6 BackgroundService workers
+│   │   └── tools/                       # 10 auxiliary CLI tools
+│   ├── tests/                           # 8 test projects (xUnit + NSubstitute)
+│   ├── LegalAiAr.sln
+│   ├── Directory.Packages.props         # Central Package Management
+│   └── global.json                      # .NET 10
+├── frontend/
+│   └── src/
+│       └── app/
+│           ├── core/                    # Auth, interceptors, singleton services
+│           ├── features/                # Lazy-loaded feature modules
+│           └── shared/                  # Common components, pipes, directives
+└── docs/
+    ├── roadmap/                          # Project planning
+    │   ├── features.md                  # Full roadmap (v2.0)
+    │   └── gap-analysis-mvp-vs-plan.md  # MVP vs. plan analysis
+    ├── technical/                        # 9 technical documents
+    │   ├── 01-rag-retrieval.md
+    │   ├── 02-agentic-architecture.md
+    │   ├── 03-prompt-engineering.md
+    │   ├── 04-ingestion-processing.md
+    │   ├── 05-ai-quality-evaluation.md
+    │   ├── 06-ai-security-compliance.md
+    │   ├── 07-observability-llmops.md
+    │   ├── 08-legal-ai-ux.md
+    │   └── 09-data-knowledge-management.md
+    └── ontology/                       # Legal domain model
+        ├── argentine-legal-ontology.md
+        ├── argentine-legal-ontology.mermaid
+        └── ontology-data-sources.md
+```
 
 ---
 
 ## Documentation
 
-| Document | Location |
-|---|---|
-| Technical architecture | [`docs/architecture/legal-ai-ar-architecture.md`](docs/architecture/legal-ai-ar-architecture.md) |
-| C4 diagrams (context, container, component) | [`docs/architecture/c4-diagrams.md`](docs/architecture/c4-diagrams.md) |
-| Development specifications | [`docs/architecture/legal-ai-ar-specs.md`](docs/architecture/legal-ai-ar-specs.md) |
-| Roadmap | [`docs/roadmap/ROADMAP.md`](docs/roadmap/ROADMAP.md) |
-| Design (T-00 deliverables) | [`docs/design/`](docs/design/) |
-| **App design guidelines (PwC)** | [`docs/mockups/legal-ai-ar-pwc-design-guidelines.md`](docs/mockups/legal-ai-ar-pwc-design-guidelines.md) |
-| **UI mockups (HTML)** | [`docs/mockups/index.html`](docs/mockups/index.html) |
-| Agent prompts | [`docs/prompts/cursor/`](docs/prompts/cursor/) |
+| Document | Description |
+|----------|-------------|
+| [Features Roadmap](docs/roadmap/features.md) | Full plan of releases, features, endpoints, KPIs, and tech stack |
+| [Gap Analysis MVP vs Plan](docs/roadmap/gap-analysis-mvp-vs-plan.md) | Detailed comparison of the existing MVP vs. the plan, with an evolution strategy |
+| [Argentine Legal Ontology](docs/ontology/argentine-legal-ontology.md) | Formal specification of the Argentine legal domain (classes, properties, relationships) |
+| [Data Sources by Class](docs/ontology/ontology-data-sources.md) | Primary and secondary sources to populate each ontology class |
+| [RAG & Retrieval](docs/technical/01-rag-retrieval.md) | Hybrid Search, GraphRAG, Contextual Retrieval, re-ranking, evaluation |
+| [Agentic Architecture](docs/technical/02-agentic-architecture.md) | Multi-agent, semantic router, tool calling, reasoning, memory, guardrails |
+| [Prompt Engineering](docs/technical/03-prompt-engineering.md) | Versioned templates, system prompts, few-shot, structured output |
+| [Ingestion & Processing](docs/technical/04-ingestion-processing.md) | Metadata enrichment, classification, legal NER, deduplication, versioning |
+| [AI Quality & Evaluation](docs/technical/05-ai-quality-evaluation.md) | Golden set, metrics, LLM-as-judge, HITL feedback, regression testing |
+| [Security & Compliance](docs/technical/06-ai-security-compliance.md) | Content filtering, PII, data residency, attorney-client privilege |
+| [Observability & LLMOps](docs/technical/07-observability-llmops.md) | Distributed tracing, token usage, semantic caching, circuit breaker |
+| [Legal AI UX](docs/technical/08-legal-ai-ux.md) | Streaming, inline citation, confidence scores, feedback loops |
+| [Data & Knowledge Management](docs/technical/09-data-knowledge-management.md) | Taxonomy, temporal versioning, graph maintenance, data lineage |
 
 ---
 
-## Index
-
-- [Overview](#overview)
-- [Tech stack](#tech-stack)
-- [Architecture](#architecture)
-- [Ingestion pipeline](#ingestion-pipeline)
-- [Data model](#data-model)
-- [API](#api)
-- [Frontend](#frontend)
-- [Infrastructure](#infrastructure)
-- [Development phases](#development-phases)
-- [Architecture decisions](#architecture-decisions)
-
----
-
-## Overview
-
-Legal AI AR enables firm lawyers to:
-
-- **Search rulings** in natural language over an indexed jurisprudence base
-- **Query a RAG chat** that answers legal questions citing specific rulings
-- **Explore relationships** between rulings, judges, laws and thematic voices via graph
-- **Manage the ingestion pipeline** from the panel integrated in the same application
-
-### Supported data sources
-
-| Source | Strategy | Phase |
-|---|---|---|
-| CSJN — Corte Suprema de Justicia de la Nación | API-first (`sjconsulta.csjn.gov.ar`) | Phase 1 |
-| SAIJ — Sistema Argentino de Información Jurídica | HTML + PDF (partial metadata in HTML, full text in PDF) | Phase 2 |
-| PJN — Poder Judicial de la Nación | HTML + PDF (basic metadata in HTML) | Phase 2 |
-| SCBA — Suprema Corte de Buenos Aires | HTML + PDF (basic metadata in HTML) | Phase 2 |
-
----
-
-## Tech stack
-
-| Layer | Technology |
-|---|---|
-| Backend API | ASP.NET Core |
-| Frontend | Angular (single SPA — includes admin panel) |
-| Workers | .NET — Azure Container Apps |
-| Messaging | Azure Storage Queues (Phase 1; same Storage Account as Blob) |
-| Relational database | Azure SQL Database |
-| Semantic search | Azure AI Search |
-| File storage | Azure Blob Storage |
-| Relationship graph | Azure SQL — Citations table + recursive CTEs (Phase 1) |
-| Identity | Azure Entra ID (SSO with Microsoft 365) |
-| Embeddings | Azure OpenAI — `text-embedding-3-large` (3072 dims) |
-| LLM | Azure OpenAI — `gpt-4o` (enrichment + RAG chat) |
-| PDF parsing | PdfPig |
-
----
-
-## Architecture
-
-```
-Ingestion pipeline (Storage Queues)
-────────────────────────────────
-Admin / Scheduler
-       │
-       ▼
- queue-crawler    ──► CrawlerWorker  (consume; downloads from CSJN, SAIJ, PJN, SCBA)
-       │
-       ▼
- queue-parser     ──► ParserWorker
-       │
-       ▼
- queue-enrichment ──► EnrichmentWorker
-       │
-       ▼
- queue-indexer    ──► IndexerWorker  ──► Knowledge Base
-                                         (Azure SQL, Blob, AI Search)
-
-User interfaces
-───────────────
-Angular SPA  ◄──── ASP.NET Core API ◄──── Knowledge Base
-(includes /admin/* routes)
-```
-
-### Workers
-
-| Worker | Trigger | Responsibility |
-|---|---|---|
-| `CrawlerWorker` | Manual from Admin (Phase 1) / cron (Phase 2) | Discovers new documents in each source. Detects duplicates by SHA-256. |
-| `ParserWorker` | KEDA — `queue-parser` | For CSJN: consumes REST endpoints + downloads PDF. For other sources: HTML scraping + PDF. Normalizes text. |
-| `EnrichmentWorker` | KEDA — `queue-enrichment` | For CSJN: extracts with GPT-4o only missing fields (judges, statutes). For other sources: full enrichment. |
-| `IndexerWorker` | KEDA — `queue-indexer` | Persists in Azure SQL, Blob Storage, Azure AI Search. Generates embeddings. Resolves retroactive citations. Graph in SQL (Citations table). |
-
-Each worker scales to 0 instances when its queue is empty (consumption plan). With Storage Queues, the DLQ must be implemented manually (queue `queue-{name}-dlq`) if required.
-
----
-
-## Ingestion pipeline
-
-### CSJN flow (API-first)
-
-CSJN has two phases:
-
-1. **Discovery** — The CrawlerWorker uses Selenium (headless browser) to navigate `sjconsulta.csjn.gov.ar`, filter by date range, and paginate results. Pure HTTP search does not work with the current portal. Discovery yields `idAnalisis` and document ID (`Codigo`) per ruling.
-
-2. **Metadata and PDF** — Once IDs are known, the pipeline consumes REST endpoints before processing the PDF, minimizing GPT-4o usage:
-
-```
-GET abrirAnalisis       → caseTitle, jurisdiction, resourceType, rulingDirection
-GET getAllDocumentos     → document list for download
-GET getSumariosAnalisis → structured keywords + holding
-GET getCitas            → citations to other rulings with summaryId
-GET getCitantes         → rulings that cite this document
-GET PDF                 → full text (PdfPig + normalization)
-
-GPT-4o only for: signing judges · cited statutes · citation classification
-```
-
-### SAIJ / PJN / SCBA flow (HTML + PDF)
-
-```
-HTML scraping → basic metadata
-PDF download  → PdfPig → normalization
-GPT-4o        → full enrichment (judges, statutes, keywords, summary, holding, citations)
-```
-
-### Citations between rulings
-
-Citations are resolved retroactively: when a new ruling is indexed, the `IndexerWorker` searches in `Citations` for previous rulings that cited it with `TargetRulingId = null` and completes the link. The graph is in the Citations table (queries via recursive CTEs).
-
----
-
-## Data model
-
-### Azure SQL — main tables
-
-| Table | Description |
-|---|---|
-| `Sources` | Source catalog (CSJN, SAIJ, PJN, SCBA) |
-| `Rulings` | Indexed rulings with full metadata |
-| `Courts` | Courts |
-| `Judges` | Judges |
-| `RulingJudges` | Judge participation in rulings (signatory, dissent, majority) |
-| `Keywords` | Thematic voices (CSJN thesaurus + extracted by GPT-4o) |
-| `RulingKeywords` | Rulings ↔ keywords association |
-| `Statutes` | Cited laws and decrees |
-| `RulingStatutes` | Rulings ↔ statutes association with specific articles |
-| `Citations` | Citations between rulings with type (`UPHOLDS`, `OVERRULES`, `DISTINGUISHES`, `CITES`) |
-| `CrawlerConfigs` | Configuration and status of each crawler per source |
-| `IngestionJobs` *(Phase 1)* | Crawl execution log for traceability |
-
-### Graph — relationships (Phase 1: SQL)
-
-Model in tables: `Citations` (SourceRulingId, TargetRulingId, CitationType), `RulingJudges`, `RulingKeywords`, `RulingStatutes`. Timeline and ranking queries via recursive CTEs. Phase 2: evaluate Neo4j.
-
-### Azure AI Search — indexes
-
-| Index | Use |
-|---|---|
-| `rulings-by-ruling` | Ruling-level semantic search (embedding over `summary + holding`) |
-| `rulings-by-chunk` | Chunk-level semantic search (512-token chunks, overlap 50) |
-
----
-
-## API
-
-Base URL: `/api`. All routes are relative to base `/api`.
-
-### Main endpoints
-
-| Method | Route | Description |
-|---|---|---|
-| `POST` | `/api/rulings/search` | Hybrid semantic search (vector + keyword) with filters |
-| `GET` | `/api/rulings/{id}` | Full ruling details |
-| `GET` | `/api/rulings/{id}/related` | Related rulings by semantic similarity |
-| `POST` | `/api/chat` | RAG jurisprudential chat — responds with SSE streaming |
-| `GET` | `/api/health` | Health check |
-
-### Admin endpoints
-
-| Method | Route | Description |
-|---|---|---|
-| `GET` | `/api/admin/pipeline/status` | Pipeline status per source |
-| `GET` | `/api/admin/jobs` | Active, completed and failed jobs |
-| `GET` | `/api/admin/crawlers` | Status of all crawlers |
-| `GET` | `/api/admin/crawlers/{sourceId}` | Configuration and status of a specific crawler |
-| `POST` | `/api/admin/crawlers/{sourceId}/run` | Trigger manual crawl (`incremental` or `full`) |
-| `PATCH` | `/api/admin/crawlers/{sourceId}` | Enable / disable source |
-| `GET` | `/api/admin/dlq` | Dead Letter Queue per queue |
-| `POST` | `/api/admin/dlq/{queue}/{id}/requeue` | Requeue failed message |
-| `GET` | `/api/admin/users` | User list |
-| `POST` | `/api/admin/users` | Create user |
-| `PUT` | `/api/admin/users/{id}` | Update user / change role |
-| `DELETE` | `/api/admin/users/{id}` | Deactivate user |
-
-### RAG chat flow
-
-```
-User query
-  → embedding (text-embedding-3-large)
-  → hybrid search in Azure AI Search (chunks + rulings)
-  → context construction with relevant fragments
-  → GPT-4o with legal prompt
-  → response with explicit ruling citations
-  → SSE streaming to client
-```
-
----
-
-## Frontend
-
-Angular SPA with two sections:
-
-### Main routes
-
-| Route | Component | Description |
-|---|---|---|
-| `/buscar` | `SearchHomeComponent` | Natural language semantic search |
-| `/buscar/resultados` | `SearchResultsComponent` | Results with relevant fragments |
-| `/fallos/:id` | `RulingDetailComponent` | Full ruling details |
-| `/chat` | `ChatViewComponent` | RAG jurisprudential chat |
-
-### Admin routes
-
-| Route | Component | Description |
-|---|---|---|
-| `/admin` | `DashboardComponent` | Pipeline status |
-| `/admin/crawlers` | `CrawlersComponent` | Crawler management and manual trigger |
-| `/admin/jobs` | `JobsComponent` | Active, completed and failed jobs |
-| `/admin/dlq` | `DeadLetterQueueComponent` | Dead Letter Queue per queue |
-| `/admin/users` | `UsersComponent` | User CRUD |
-
-### Authentication
-
-Login via Microsoft Entra ID (MSAL Angular). Phase 1: all authenticated users have full access. Phase 2: `RoleGuard` introduced with roles `admin`, `lawyer` and `viewer`.
-
----
-
-## Infrastructure
-
-| Component | Azure Service | Phase 1 Tier |
-|---|---|---|
-| Database | Azure SQL Database | General Purpose 2 vCores (serverless) |
-| Search | Azure AI Search | Basic |
-| Files | Azure Blob Storage | LRS Standard |
-| Messaging | Azure Storage Queues | 4 queues (same Storage Account as Blob) |
-| Identity | Azure Entra ID | Microsoft 365 (already available) |
-| API hosting | Azure App Service | B2 |
-| SPA hosting | Azure Static Web Apps | Free / Standard |
-| Workers | Azure Container Apps | Consumption plan (crawler/parser: 0.5 vCPU, 1GB RAM; enrichment/indexer: 1 vCPU, 2GB RAM) |
-| Graph | Azure SQL (Citations, CTEs) | Included in SQL |
-
----
-
-## Development phases
-
-### Phase 1 — MVP
-CSJN crawler (manual trigger) · Parser + Enrichment + Indexer · Complete Knowledge Base · Semantic search · RAG chat · Entra ID auth · Admin panel integrated in SPA
-
-### Phase 2
-SAIJ, PJN and SCBA crawlers · Automatic scheduling (cron) · User roles (`admin`, `lawyer`, `viewer`) · Ingestion traceability (`IngestionJobs`) · PJN/SCBA PDF quality validation
-
-### Phase 3
-Interactive visual graph · Jurisprudential timeline · Analytics dashboard · Notifications of relevant new rulings
-
-### Phase 4
-Law and decree ingestion · Judge profiles · Legal doctrine · Multi-type search
-
----
-
-## Architecture decisions
-
-| ID | Decision |
-|---|---|
-| ADR-001 | Cloud stack: Azure |
-| ADR-002 | Chunking: 512 tokens, overlap 50, two index levels |
-| ADR-003 | Auth: Entra ID. Phase 1 no roles, Phase 2 with roles from Entra ID groups |
-| ADR-004 | Graph: Phase 1 in SQL (Citations, CTEs). Phase 2: evaluate Neo4j |
-| ADR-005 | Total immutability. SHA-256 deduplication |
-| ADR-006 | Single-tenant |
-| ADR-007 | PDF parsing: PdfPig without Azure Document Intelligence in Phase 1 (post-extraction normalization) |
-| ADR-008 | CSJN pipeline: API-first, GPT-4o only for gap-filling |
-| ADR-009 | Messaging: Storage Queues (Phase 1), 4 queues per worker |
-| ADR-010 | Worker hosting: Azure Container Apps consumption plan with KEDA |
-| ADR-011 | Crawler triggers: manual in Phase 1, cron in Phase 2 |
-| ADR-012 | Admin UI integrated in Angular SPA under `/admin/*` (no separate MVC project) |
-| ADR-013 | Phase 1 roles: all authenticated users are admin (no role guards) |
-
----
-
-> Full detail of each ADR: `docs/architecture/legal-ai-ar-architecture.md` section 2.
-
-> Complete technical documentation: `docs/architecture/legal-ai-ar-architecture.md` · Specifications: `docs/architecture/legal-ai-ar-specs.md` · Roadmap: `docs/roadmap/ROADMAP.md`
+## Requirements
+
+- .NET 10 SDK
+- Node.js 20+ and Angular CLI 19
+- Azure subscription with: SQL Database, AI Search, OpenAI Service, Storage Account, App Service
+- Azure Entra ID (authentication)

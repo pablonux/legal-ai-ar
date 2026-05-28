@@ -1,0 +1,590 @@
+classDiagram
+    direction TB
+
+    %% ══════════════════════════════════════════
+    %% FUENTES DEL DERECHO
+    %% ══════════════════════════════════════════
+
+    class FuenteDelDerecho {
+        +String denominacion
+        +Integer nivelJerarquico
+        +Enum obligatoriedad
+        +Enum ambitoTerritorial
+    }
+
+    class NormaConstitucional {
+        +String tratadoOrigen
+        +Integer anioReforma
+    }
+
+    class TratadoInternacional {
+        +Date fechaRatificacion
+        +String organismoInternacional
+    }
+
+    class NormaJuridica {
+        +String numeroNorma
+        +String denominacion
+        +String nombreComun
+        +Date fechaSancion
+        +Date fechaPromulgacion
+        +Date fechaPublicacion
+        +Date fechaVigencia
+        +Boolean estaVigente
+        +String textoCompleto
+        +Enum ramaDelDerecho
+        +Enum ambitoTerritorial
+    }
+
+    class LeyNacional {
+        +Enum tipoLey
+        +String camara
+    }
+
+    class DecretoLey {
+        +Boolean esDNU
+        +String motivacion
+    }
+
+    class NormaProvincial {
+        +String provincia
+        +Enum tipoNorma
+    }
+
+    class NormaMunicipal {
+        +String municipio
+        +Enum tipoNorma
+    }
+
+    class Jurisprudencia {
+        +Boolean esPlenario
+        +Boolean esVinculante
+    }
+
+    class Costumbre {
+        +String ambitoAplicacion
+        +Boolean estaConsolidada
+    }
+
+    class Articulo {
+        +String numeroArticulo
+        +String textoNormativo
+        +Boolean esVigente
+    }
+
+    class Inciso {
+        +String letra
+        +String texto
+    }
+
+    FuenteDelDerecho <|-- NormaConstitucional
+    FuenteDelDerecho <|-- TratadoInternacional
+    FuenteDelDerecho <|-- NormaJuridica
+    FuenteDelDerecho <|-- Jurisprudencia
+    FuenteDelDerecho <|-- Costumbre
+    NormaJuridica <|-- LeyNacional
+    NormaJuridica <|-- DecretoLey
+    NormaJuridica <|-- NormaProvincial
+    NormaJuridica <|-- NormaMunicipal
+    NormaJuridica "1" --> "N" Articulo : tieneArticulo
+    Articulo "1" --> "N" Inciso : tieneInciso
+    NormaJuridica "N" --> "N" NormaJuridica : modificaA
+    NormaJuridica "N" --> "N" NormaJuridica : derogaA
+    NormaJuridica "N" --> "N" NormaJuridica : reglamentaA
+
+    %% ══════════════════════════════════════════
+    %% SUJETOS DE DERECHO
+    %% ══════════════════════════════════════════
+
+    class SujetoDeDeRecho {
+        +String identificador
+        +Domicilio domicilio
+    }
+
+    class PersonaHumana {
+        +String apellido
+        +String nombre
+        +Date fechaNacimiento
+        +Date fechaFallecimiento
+        +String numeroDNI
+        +String CUIL
+        +Enum estadoCivil
+        +String nacionalidad
+        +Boolean tieneCapacidadDeEjercicio
+    }
+
+    class PersonaJuridica {
+        +String denominacion
+        +String CUIT
+        +Date fechaConstitucion
+        +Enum tipoPersonaJuridica
+        +String objetoSocial
+    }
+
+    class PersonaJuridicaPublica {
+        +Enum nivelEstatal
+    }
+
+    class PersonaJuridicaPrivada {
+        +Enum tipoSocietario
+        +String numeroInscripcion
+    }
+
+    class Domicilio {
+        +String calle
+        +String numero
+        +String localidad
+        +String provincia
+        +String codigoPostal
+        +Enum tipoDomicilio
+    }
+
+    class CapacidadJuridica {
+        +Boolean esPlena
+        +Enum restriccion
+        +String sentenciaJudicial
+    }
+
+    SujetoDeDeRecho <|-- PersonaHumana
+    SujetoDeDeRecho <|-- PersonaJuridica
+    PersonaJuridica <|-- PersonaJuridicaPublica
+    PersonaJuridica <|-- PersonaJuridicaPrivada
+    SujetoDeDeRecho "1" --> "1" Domicilio : tieneDomicilio
+    SujetoDeDeRecho "1" --> "1" CapacidadJuridica : tieneCapacidad
+
+    %% ══════════════════════════════════════════
+    %% ACTOS Y HECHOS JURÍDICOS
+    %% ══════════════════════════════════════════
+
+    class HechoJuridico {
+        +Date fecha
+        +String descripcion
+        +Enum tipoHecho
+    }
+
+    class HechoNatural {
+        +String fenomeno
+    }
+
+    class HechoHumanoVoluntario {
+        +Boolean tieneDiscernimiento
+        +Boolean tieneIntencion
+        +Boolean tieneLibertad
+    }
+
+    class ActoJuridico {
+        +Date fecha
+        +String lugar
+        +Boolean esOneroso
+        +Boolean esCondicional
+        +Boolean esModal
+        +Enum requiereForma
+        +Boolean esNulo
+        +Enum causaDeNulidad
+    }
+
+    class Contrato {
+        +Enum tipoContrato
+        +String objetoContractual
+        +Decimal precioOContraprestacion
+        +String plazo
+        +Enum formaCelebracion
+    }
+
+    class VicioActoJuridico {
+        +Enum tipoVicio
+        +Enum tipoNulidad
+        +String normaAplicable
+    }
+
+    HechoJuridico <|-- HechoNatural
+    HechoJuridico <|-- HechoHumanoVoluntario
+    HechoHumanoVoluntario <|-- ActoJuridico
+    ActoJuridico <|-- Contrato
+    ActoJuridico "1" --> "N" VicioActoJuridico : tieneVicio
+    Contrato "N" --> "N" SujetoDeDeRecho : celebra
+
+    %% ══════════════════════════════════════════
+    %% RELACIONES JURÍDICAS
+    %% ══════════════════════════════════════════
+
+    class RelacionJuridica {
+        +String objetoRelacion
+        +Boolean esPatrimonial
+        +Boolean esTransmisible
+    }
+
+    class DerechoReal {
+        +Enum tipoDerechoReal
+        +String articuloCCCN
+        +Boolean esNumerusClausus
+    }
+
+    class Obligacion {
+        +Enum tipoPrestacion
+        +String objetoPrestacion
+        +Decimal montoDeuda
+        +Decimal tasaInteres
+        +Enum tipoInteres
+        +Date fechaVencimiento
+        +Boolean estaExtinguida
+        +Enum causaExtincion
+    }
+
+    class Hipoteca {
+        +String datosInmueble
+        +Decimal montoGarantizado
+    }
+
+    class Prenda {
+        +String bienPrendado
+        +Decimal montoGarantizado
+    }
+
+    RelacionJuridica <|-- DerechoReal
+    RelacionJuridica <|-- Obligacion
+    DerechoReal <|-- Hipoteca
+    DerechoReal <|-- Prenda
+    RelacionJuridica "N" --> "1" SujetoDeDeRecho : sujetoActivo
+    RelacionJuridica "N" --> "N" SujetoDeDeRecho : sujetosPasivos
+    Obligacion "N" --> "1" Contrato : derivaDe
+
+    %% ══════════════════════════════════════════
+    %% DERECHO PENAL
+    %% ══════════════════════════════════════════
+
+    class Delito {
+        +Enum tipoDelito
+        +Enum clasificacion
+        +String bienJuridicoProtegido
+        +Boolean esTentativa
+        +Boolean esContinuado
+        +String articuloCodigo
+        +Integer penaMinima
+        +Integer penaMaxima
+        +Enum tipoPena
+        +Boolean admiteEjecucionCondicional
+        +Integer prescripcion
+    }
+
+    class Imputado {
+        +Enum estadoProcesalPenal
+        +Boolean tieneAntecedentes
+        +Boolean esReincidente
+    }
+
+    class Condena {
+        +Date fechaCondena
+        +String penaImpuesta
+        +Integer duracionAnios
+        +Boolean esCondicional
+        +Boolean estaFirme
+        +Date fechaVencimiento
+        +String establecimientoPenitenciario
+    }
+
+    class MedidaCautelarPenal {
+        +Enum tipo
+        +Date fechaImposicion
+        +Date fechaVencimiento
+    }
+
+    Imputado --> PersonaHumana : esPersona
+    Imputado "1" --> "N" Delito : esAcusadoDe
+    Imputado "1" --> "N" MedidaCautelarPenal : tieneMedida
+    Condena "N" --> "1" Imputado : recaeEn
+    Condena "N" --> "N" Delito : esCondenadoPor
+
+    %% ══════════════════════════════════════════
+    %% PROCESO JUDICIAL
+    %% ══════════════════════════════════════════
+
+    class Proceso {
+        +String numeroExpediente
+        +String caratula
+        +Enum tipoProcesal
+        +Enum subtipoProceso
+        +Date fechaInicio
+        +Enum estadoProceso
+        +Enum jurisdiccion
+        +Enum fuero
+        +Enum instancia
+    }
+
+    class ActoProcesal {
+        +Enum tipoActo
+        +Date fechaActo
+        +String contenidoActo
+        +Boolean esNotificado
+        +Date fechaNotificacion
+    }
+
+    class Sentencia {
+        +Enum tipoSentencia
+        +Date fechaDictado
+        +Enum resultado
+        +Boolean estaFirme
+        +Enum costas
+        +String fundamentos
+        +Boolean esApelable
+    }
+
+    class Recurso {
+        +Enum tipoRecurso
+        +Date fechaInterposicion
+        +String fundamentosRecurso
+        +Enum estado
+    }
+
+    class Abogado {
+        +String matricula
+        +String colegioProfesional
+        +Enum tipoAbogado
+    }
+
+    class Magistrado {
+        +String nombreCompleto
+        +Enum cargo
+        +Date fechaDesignacion
+        +Boolean esVitalicio
+        +Enum especialidad
+    }
+
+    Proceso "N" --> "N" SujetoDeDeRecho : tienePartes
+    Proceso "N" --> "1" Magistrado : tieneJuez
+    Proceso "1" --> "N" ActoProcesal : contieneActo
+    Proceso "1" --> "N" Sentencia : culminaEn
+    Sentencia "1" --> "N" Recurso : admiteRecurso
+    Proceso "N" --> "N" Abogado : tieneLetrado
+    Proceso "N" --> "N" Delito : versaSobre
+    Proceso "N" --> "1" Imputado : tieneImputado
+
+    %% ══════════════════════════════════════════
+    %% ÓRGANOS DEL ESTADO
+    %% ══════════════════════════════════════════
+
+    class OrganoEstatal {
+        +String denominacion
+        +Enum poderDelEstado
+        +Enum ambitoJurisdiccional
+        +String competencia
+    }
+
+    class OrganoJudicial {
+        +Enum instancia
+        +Enum fuero
+        +String jurisdiccionTerritorial
+    }
+
+    class OrganoLegislativo {
+        +Enum camara
+        +Integer numeroLegisladores
+    }
+
+    class OrganoEjecutivo {
+        +String titular
+        +Enum nivelGobierno
+    }
+
+    class MinisterioPublico {
+        +Enum tipo
+        +String titular
+    }
+
+    OrganoEstatal <|-- OrganoJudicial
+    OrganoEstatal <|-- OrganoLegislativo
+    OrganoEstatal <|-- OrganoEjecutivo
+    OrganoEstatal <|-- MinisterioPublico
+    OrganoJudicial "1" --> "N" Magistrado : tieneMagistrados
+    OrganoEjecutivo "1" --> "N" NormaJuridica : esDictadaPor
+    OrganoLegislativo "1" --> "N" LeyNacional : sanciona
+    MinisterioPublico "1" --> "N" Proceso : interviene
+
+    %% ══════════════════════════════════════════
+    %% DERECHO LABORAL
+    %% ══════════════════════════════════════════
+
+    class RelacionLaboral {
+        +Enum tipoContrato
+        +Date fechaInicio
+        +Date fechaEgreso
+        +Enum causaEgreso
+        +Decimal remuneracionBruta
+        +String categoriaConvenio
+        +Enum jornada
+        +Integer horasSemanales
+        +Boolean estaRegistrada
+    }
+
+    class ConvenioColectivoTrabajo {
+        +String numeroCCT
+        +String actividadRama
+        +String sindicatoFirmante
+        +String camaraEmpresaria
+        +Enum ambitoAplicacion
+        +Date fechaHomologacion
+        +Date vigencia
+    }
+
+    class Sindicato {
+        +String denominacion
+        +String personeriaGremial
+        +String ambitoRepresentacion
+    }
+
+    RelacionLaboral "N" --> "1" PersonaHumana : trabajador
+    RelacionLaboral "N" --> "1" SujetoDeDeRecho : empleador
+    RelacionLaboral "N" --> "1" ConvenioColectivoTrabajo : seRigePor
+    ConvenioColectivoTrabajo "N" --> "N" Sindicato : esFirmadoPor
+
+    %% ══════════════════════════════════════════
+    %% DERECHO DE FAMILIA
+    %% ══════════════════════════════════════════
+
+    class VinculoFamiliar {
+        +Enum tipoVinculo
+        +Date fechaConstitucion
+        +Boolean estaVigente
+    }
+
+    class Matrimonio {
+        +Date fechaCelebracion
+        +String lugarCelebracion
+        +Enum regimen
+        +Boolean estaDisuelto
+        +Enum causaDisolucion
+        +Date fechaDisolucion
+    }
+
+    class UnionConvivencial {
+        +Date fechaInicio
+        +Boolean estaInscripta
+        +String registroInscripcion
+    }
+
+    class Filiacion {
+        +Enum tipoFiliacion
+        +Boolean estaReconocida
+    }
+
+    class Adopcion {
+        +Enum tipoAdopcion
+        +Date fechaSentencia
+        +String tribunalAdoptante
+    }
+
+    class ResponsabilidadParental {
+        +Boolean esCuidadoCompartido
+        +Decimal cuotaAlimentaria
+        +String regimeenComunicacion
+    }
+
+    VinculoFamiliar <|-- Matrimonio
+    VinculoFamiliar <|-- UnionConvivencial
+    VinculoFamiliar <|-- Filiacion
+    VinculoFamiliar <|-- Adopcion
+    VinculoFamiliar <|-- ResponsabilidadParental
+    Matrimonio "N" --> "2" PersonaHumana : conyuge
+    UnionConvivencial "N" --> "2" PersonaHumana : conviviente
+    Filiacion "N" --> "1" PersonaHumana : progenitor
+    Filiacion "N" --> "1" PersonaHumana : hijo
+    Adopcion "N" --> "1" PersonaHumana : adoptado
+    ResponsabilidadParental "N" --> "N" PersonaHumana : progenitor
+
+    %% ══════════════════════════════════════════
+    %% DERECHO TRIBUTARIO
+    %% ══════════════════════════════════════════
+
+    class Tributo {
+        +String denominacion
+        +Enum tipoTributo
+        +Enum nivelJurisdiccional
+        +String hechoImponible
+        +String baseImponible
+        +Decimal alicuota
+        +Enum periodicidad
+    }
+
+    class ObligacionTributaria {
+        +Date fechaVencimiento
+        +Decimal montoDeclarado
+        +Decimal montoPagado
+        +Boolean estaVencida
+        +Boolean estaImpugnada
+    }
+
+    Tributo <|-- ImpuestoGanancias
+    Tributo <|-- IVA
+    Tributo <|-- BienesPersonales
+
+    class ImpuestoGanancias {
+        +String leyAplicable
+        +Enum categoriaRenta
+    }
+
+    class IVA {
+        +Decimal alicuotaGeneral
+        +Decimal alicuotaReducida
+    }
+
+    class BienesPersonales {
+        +Decimal minimoNoImponible
+    }
+
+    Tributo "N" --> "1" OrganoEstatal : organoRecaudador
+    Tributo "N" --> "1" NormaJuridica : normaCreadora
+    ObligacionTributaria "N" --> "1" Tributo : correspondeA
+    ObligacionTributaria "N" --> "1" SujetoDeDeRecho : esDeudorFiscal
+
+    %% ══════════════════════════════════════════
+    %% DERECHO ADMINISTRATIVO
+    %% ══════════════════════════════════════════
+
+    class ActoAdministrativo {
+        +Enum tipoActo
+        +Date fecha
+        +String numeroActo
+        +Boolean esRegulatorio
+        +Boolean estaMotivado
+        +Boolean estaNotificado
+        +Boolean esFirme
+        +Boolean estaEjecutoriado
+    }
+
+    class RecursoAdministrativo {
+        +Enum tipoRecurso
+        +Integer plazoHabiles
+        +Enum estado
+        +Date fechaInterposicion
+    }
+
+    class ContratoAdministrativo {
+        +Enum tipoContrato
+        +Decimal monto
+        +String objeto
+        +Date fechaAdjudicacion
+    }
+
+    class LicitacionPublica {
+        +String numeroExpediente
+        +Decimal presupuestoOficial
+        +Date fechaApertura
+        +String adjudicatario
+    }
+
+    ActoAdministrativo "N" --> "1" OrganoEstatal : organoEmisor
+    ActoAdministrativo "N" --> "1" SujetoDeDeRecho : destinatario
+    ActoAdministrativo "1" --> "N" RecursoAdministrativo : admiteRecurso
+    ContratoAdministrativo "N" --> "1" OrganoEstatal : contratante
+    ContratoAdministrativo "N" --> "1" SujetoDeDeRecho : contratado
+    LicitacionPublica "1" --> "1" ContratoAdministrativo : resultaEn
+
+    %% ══════════════════════════════════════════
+    %% RELACIONES TRANSVERSALES
+    %% ══════════════════════════════════════════
+
+    NormaJuridica "N" --> "1" OrganoEstatal : esDictadaPor
+    Proceso "N" --> "1" OrganoJudicial : tramitaEn
+    Sentencia "N" --> "1" OrganoJudicial : esDictadaPor
+    Magistrado "N" --> "1" OrganoJudicial : perteneceA
+    Condena "N" --> "1" OrganoJudicial : esDictadaPor

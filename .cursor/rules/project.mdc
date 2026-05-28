@@ -1,0 +1,81 @@
+---
+description: General rules for the Legal Ai Ar project. Always apply.
+globs:
+alwaysApply: true
+---
+
+# Legal Ai Ar — Project Instructions
+
+## Identity
+
+Legal Ai Ar is a Legal Knowledge Base system with AI Agents for the Argentine legal domain. It centralizes legislation, case law, and legal doctrine, combining hybrid search (BM25 + vectors) with specialized agents built on Semantic Kernel.
+
+## Tech stack
+
+- **Frontend**: Angular 19 (standalone components), Tailwind CSS 4, Cytoscape.js
+- **Backend**: .NET 10, Clean Architecture (4 layers), Minimal API, EF Core 10
+- **AI/RAG**: Azure OpenAI (GPT-5o, GPT-5o-mini), Semantic Kernel, text-embedding-3-large (3072d)
+- **Data**: Azure SQL (relational + Graph Tables), Azure AI Search (hybrid search), Azure Blob Storage
+- **Messaging**: Azure Storage Queues, Azure SignalR Service
+- **Hosting**: Azure App Service
+- **CI/CD**: GitHub Actions
+
+## Monorepo structure
+
+```
+legal-ai-ar/
+├── mvp/                          # Existing MVP code
+│   ├── backend/
+│   │   ├── src/
+│   │   │   ├── api/
+│   │   │   │   ├── LegalAiAr.Api/           # ASP.NET Core 10 (Minimal API)
+│   │   │   │   └── LegalAiAr.Application/   # CQRS, handlers, services
+│   │   │   ├── shared/
+│   │   │   │   ├── LegalAiAr.Core/          # Entities, enums, interfaces
+│   │   │   │   └── LegalAiAr.Infrastructure/ # EF Core, Azure services, AI
+│   │   │   ├── workers/                      # 6 BackgroundService workers
+│   │   │   └── tools/                        # 10 auxiliary CLI tools
+│   │   ├── tests/                            # 8 test projects (xUnit + NSubstitute)
+│   │   ├── LegalAiAr.sln
+│   │   ├── Directory.Packages.props          # Central Package Management
+│   │   └── global.json                       # .NET 10
+│   └── frontend/                             # Angular 19 SPA
+├── docs/
+│   ├── roadmap/                              # Features, work items, backlog
+│   ├── technical/                            # 9 technical documents
+│   └── ontology/                             # Legal domain model
+└── README.md
+```
+
+## Releases
+
+| Release | Name | Status |
+|---------|------|--------|
+| R0.0 | Preparation | In progress |
+| R1.0 | Foundation | Pending |
+| R2.0 | Agents | Pending |
+| R3.0 | Risk | Pending |
+| R4.0 | Operations | Pending |
+
+## Mandatory rules
+
+1. **Do not touch code directly**: NEVER create, edit, or delete source code files unless the user explicitly requests it. Instead, indicate which file to create or modify, in which path, and provide the code for the user to place. Correct example: "Create the `LegalNormService.cs` class in `mvp/backend/src/api/LegalAiAr.Application/Services/` with the following code: ..."
+2. **Language rule (strict)**:
+   - **Everything in English**: code (variables, methods, classes, interfaces, enums), file names, components, tables, indexes, storage, repos, URLs, endpoints, DTOs, domain entities, commits, technical documentation, work items, code comments.
+   - **Spanish only for**: end-user facing messages in the app (UI labels, error messages, tooltips, user-visible content).
+   - **Two exceptions kept in Spanish**: the agents' YAML prompt content and the mockup labels.
+   - **Dev chat**: can be in Spanish or English.
+   - Example: class is `LegalNorm`, table is `LegalNorms`, endpoint is `/api/legal-norms`, but the UI label says "Normas Legales".
+3. **Monorepo**: the project uses a single repository `legal-ai-ar`; never create separate repos.
+4. **Naming consistency**: use "Legal Ai Ar" (display name) or "LegalAiAr" (.NET namespace). NEVER use "LegalKB".
+5. **New projects to add**: `LegalAiAr.Agents` (Semantic Kernel) in `src/shared/` and `LegalAiAr.AgentEvals` in `tests/`.
+6. **Infrastructure**: CI/CD, IaC (Bicep), Azure Key Vault, Docker are managed outside the feature roadmap.
+
+## Reference documentation
+
+Before generating code or work items, consult:
+
+- `docs/roadmap/features.md` — Full roadmap with features, endpoints, and KPIs
+- `docs/roadmap/gap-analysis-mvp-vs-plan.md` — MVP vs. plan
+- `docs/technical/` — Technical decisions (RAG, agents, prompts, ingestion, eval, security, observability, UX, data)
+- `docs/ontology/` — Argentine legal domain model

@@ -1,0 +1,37 @@
+---
+description: Conventions for creating and editing roadmap work items. Applies when working with roadmap documentation files.
+globs:
+  - docs/roadmap/**/*.md
+---
+
+# Work Items — Conventions
+
+## Template
+
+Each work item follows the standard template. See `docs/roadmap/F00 - Development Environment and Structure/F00 - W01 - Comprehensive Documentation.md` as a reference example.
+
+## Required structure
+
+1. Header with Feature, Release, Sprint, Type, Priority, Estimate, Assignable to
+2. Description (1-3 paragraphs)
+3. Tasks with checkboxes grouped by logical section
+4. Relevant technical sections (endpoints, DTOs, diagrams)
+5. Acceptance Criteria with checkboxes
+6. Dependencies (Blocks / Prerequisites)
+7. Italic footer: `*{ID} - {Title} — Legal Ai Ar*`
+
+## Location
+
+- Folder: `docs/roadmap/F{XX} - {Feature Name}/`
+- File: `F{XX} - W{YY} - {Title}.md`
+- Sequential numbering (check the last existing W)
+
+## Language rule
+
+- Work item content must be written in **English** (titles, descriptions, tasks, acceptance criteria, technical sections).
+- Only end-user facing UI strings referenced within work items stay in Spanish.
+
+## Consult before generating
+
+- `docs/roadmap/features.md` for feature and release context
+- Existing work items of the same feature to keep consistency
