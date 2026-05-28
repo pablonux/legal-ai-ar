@@ -32,10 +32,11 @@ Most of the core capabilities Legal Ai Ar plans already exist in some form in th
 | LLM | GPT-4o | GPT-4o | None |
 | Blob | Azure Blob Storage | Azure Blob Storage | None |
 | PDF Parsing | PdfPig | Azure Document Intelligence | Medium — PdfPig works but does no OCR |
-| Auth | Entra ID (custom JWT) | Entra ID (MSAL) | Low |
-| Secrets | appsettings / env vars | Azure Key Vault | Medium |
-| CI/CD | GitHub Actions (CI + CD staging) | GitHub Actions (4 environments) | Medium |
-| IaC | None | Azure Bicep | **High** — does not exist |
+| Auth | Platform Entra SSO via `id_token` cookie (`Auth:Platform`) | Same — platform `id_token` cookie (no MSAL) | None — already implemented |
+| Hosting | GCaaS (Knative/Istio Helm) + Azure App Service/Static Web Apps (staging) | Same dual model | None — see `docs/deployment/github-delivery.md` / `gcaas-hosting.md` |
+| Secrets | GCaaS: HashiCorp Vault; Azure staging: GitHub Actions secrets | Vault (GCaaS) + GitHub secrets (staging); Azure Key Vault optional | Low |
+| CI/CD | GitHub Actions: CI (backend) + CD (API + SPA to Azure staging) | Same; extend worker deploy + prod promotion | Medium |
+| IaC | `mvp/infra/scripts/*.ps1` + GCaaS Helm chart | Azure Bicep (optional) + existing Helm | Medium |
 | Observability | None | OpenTelemetry + App Insights | **High** — does not exist |
 | Testing | xUnit + NSubstitute | xUnit + Moq + FluentAssertions | Low — same framework |
 | Mediator | Custom IMediator | MediatR | Low — direct replacement |

@@ -69,7 +69,8 @@ legal-ai-ar/
 3. **Monorepo**: the project uses a single repository `legal-ai-ar`; never create separate repos.
 4. **Naming consistency**: use "Legal Ai Ar" (display name) or "LegalAiAr" (.NET namespace). NEVER use "LegalKB".
 5. **New projects to add**: `LegalAiAr.Agents` (Semantic Kernel) in `src/shared/` and `LegalAiAr.AgentEvals` in `tests/`.
-6. **Infrastructure**: CI/CD, IaC (Bicep), Azure Key Vault, Docker are managed outside the feature roadmap.
+6. **Infrastructure & delivery**: CI/CD and IaC are operated by the delivery track (documented + tracked, not application features). Two delivery paths: GitHub Actions → Azure staging (API + SPA) and GCaaS Helm/Knative → corporate production. See `docs/deployment/github-delivery.md`, `docs/deployment/gcaas-hosting.md`, features.md §2.3, feature FT05.
+7. **Authentication**: production auth is platform-managed Entra SSO on GCaaS — the platform issues an `id_token` HTTP-only cookie; the API validates it (`Auth:Platform`). Do NOT use MSAL, app-owned `/login`, or Bearer tokens; the SPA uses `withCredentials`. See `docs/deployment/gcaas-hosting.md`.
 
 ## Reference documentation
 
@@ -79,3 +80,4 @@ Before generating code or work items, consult:
 - `docs/roadmap/gap-analysis-mvp-vs-plan.md` — MVP vs. plan
 - `docs/technical/` — Technical decisions (RAG, agents, prompts, ingestion, eval, security, observability, UX, data)
 - `docs/ontology/` — Argentine legal domain model
+- `docs/deployment/github-delivery.md` + `docs/deployment/gcaas-hosting.md` — Delivery and hosting (GitHub CI/CD to Azure staging; GCaaS Knative/Helm + platform Entra auth)

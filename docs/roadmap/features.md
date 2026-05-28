@@ -1,241 +1,258 @@
-# Legal Ai Ar — Roadmap de Features
+# Legal Ai Ar — Features Roadmap
 
-> Sistema de Knowledge Base Legal con Agentes IA para Estudio Jurídico Argentino
+> Legal Knowledge Base system with AI Agents for an Argentine law firm
 >
 > **Stack:** Angular 19 (SPA) + .NET 10 + Azure (SQL, AI Search, OpenAI, Functions, Storage)
 >
-> **Usuarios:** Abogados (acceso completo) · Administrativos (gestión operativa)
+> **Users:** Lawyers (full access) · Administrative staff (operational management)
 >
-> **Base:** Evolución del MVP `legal-ai-ar` (~78% código reutilizable)
+> **Base:** Evolution of the `legal-ai-ar` MVP (~78% reusable code)
 >
-> **Versión del documento:** 2.0 — Mayo 2026
+> **Document version:** 2.0 — May 2026
 
 ---
 
-## Índice
+## Index
 
-0. [Release 0.0 — Fase 0: Migración MVP y Entorno](#0-release-00--fase-0-migración-mvp-y-entorno)
-1. [MVP Baseline — Qué ya existe](#1-mvp-baseline--qué-ya-existe)
-2. [Visión General de la Aplicación](#2-visión-general-de-la-aplicación)
-3. [Arquitectura del Frontend](#3-arquitectura-del-frontend)
-4. [Módulos y Features por Release](#4-módulos-y-features-por-release)
+0. [Release 0.0 — Phase 0: MVP Migration and Environment](#0-release-00--phase-0-mvp-migration-and-environment)
+1. [MVP Baseline — What already exists](#1-mvp-baseline--what-already-exists)
+2. [Application Overview](#2-application-overview)
+3. [Frontend Architecture](#3-frontend-architecture)
+4. [Modules and Features by Release](#4-modules-and-features-by-release)
 5. [Feature Details — Release 1.0](#5-feature-details--release-10)
 6. [Feature Details — Release 2.0](#6-feature-details--release-20)
 7. [Feature Details — Release 3.0](#7-feature-details--release-30)
 8. [Feature Details — Release 4.0](#8-feature-details--release-40)
-9. [Features Transversales](#9-features-transversales)
-10. [Stack Técnico Detallado](#10-stack-técnico-detallado)
-11. [Matriz de Permisos por Rol](#11-matriz-de-permisos-por-rol)
-12. [API Endpoints por Módulo](#12-api-endpoints-por-módulo)
-13. [KPIs y Métricas de Éxito](#13-kpis-y-métricas-de-éxito)
+9. [Cross-Cutting Features](#9-cross-cutting-features)
+10. [Detailed Tech Stack](#10-detailed-tech-stack)
+11. [Permissions Matrix by Role](#11-permissions-matrix-by-role)
+12. [API Endpoints by Module](#12-api-endpoints-by-module)
+13. [KPIs and Success Metrics](#13-kpis-and-success-metrics)
 
 ---
 
-## 0. Release 0.0 — Fase 0: Migración MVP y Entorno
+## 0. Release 0.0 — Phase 0: MVP Migration and Environment
 
-> **Sprint:** S00 (Pre-desarrollo) | **Equipo:** 1 Backend + 1 Frontend | **Bloqueante para todo el proyecto**
+> **Sprint:** S00 (Pre-development) | **Team:** 1 Backend + 1 Frontend | **Blocking for the whole project**
 
-### F00 — Migración del MVP y Estructura de Desarrollo
+### F00 — MVP Migration and Development Structure
 
-El MVP `legal-ai-ar` es una base sólida con ~16.000 archivos de código funcional. La Fase 0 evoluciona el monorepo existente, incorpora la documentación del proyecto y prepara el modelo de datos para las nuevas funcionalidades. Los aspectos de infraestructura (CI/CD, IaC, secrets, contenedores) se gestionan por fuera de este roadmap.
+The `legal-ai-ar` MVP is a solid base with ~16,000 functional code files. Phase 0 evolves the existing monorepo, incorporates the project documentation, and prepares the data model for the new functionality. Infrastructure aspects (CI/CD, IaC, secrets, containers) are managed outside this roadmap.
 
-| ID | Work Item | Tipo | Asignado a | Estimación |
-|----|-----------|------|------------|------------|
-| F00-W01 | Documentación Integral | doc | Tech Lead | 5 SP |
-| F00-W02 | Reestructurar monorepo: agregar `docs/`, proyecto `Agents`, scaffolding | backend | Dev Backend | 5 SP |
-| F00-W03 | Agregar entidades faltantes al modelo de datos (migraciones EF Core) | backend | Dev Backend | 5 SP |
-| F00-W04 | Incorporar entidades del MVP no planificadas (Vote, Sumario, etc.) | backend | Dev Backend | 3 SP |
-| F00-W05 | Configuración Calidad de Código (analyzers, formatting, pre-commit) | devops | Ambos | 3 SP |
-| F00-W06 | Onboarding Guide y documentación de migración | doc | Cualquiera | 2 SP |
+| ID | Work Item | Type | Assigned to | Estimate |
+|----|-----------|------|-------------|----------|
+| F00-W01 | Comprehensive Documentation | doc | Tech Lead | 5 SP |
+| F00-W02 | Restructure monorepo: add `docs/`, `Agents` project, scaffolding | backend | Backend Dev | 5 SP |
+| F00-W03 | Add missing entities to the data model (EF Core migrations) | backend | Backend Dev | 5 SP |
+| F00-W04 | Incorporate unplanned MVP entities (Vote, Sumario, etc.) | backend | Backend Dev | 3 SP |
+| F00-W05 | Code Quality Configuration (analyzers, formatting, pre-commit) | devops | Both | 3 SP |
+| F00-W06 | Onboarding Guide and migration documentation | doc | Anyone | 2 SP |
 
-**Total:** 23 story points | **Duración estimada:** 1 sprint (2 semanas)
+**Total:** 23 story points | **Estimated duration:** 1 sprint (2 weeks)
 
-> **Nota:** CI/CD, IaC (Bicep), Azure Key Vault, branching strategy y contenedores de desarrollo se gestionan por fuera de este roadmap.
+> **Note:** CI/CD, IaC (Bicep), Azure Key Vault, branching strategy, and dev containers are managed outside this roadmap.
 
-#### F00-W03 — Entidades nuevas a agregar
+#### F00-W03 — New entities to add
 
-| Entidad | Propósito | Requerida para |
-|---------|-----------|----------------|
-| `Inciso` | Granularidad sub-artículo para RAG | R1.0 — Detalle de Artículo |
-| `ArticuloVersion` | Versionado temporal de artículos (SQL Temporal Tables) | R1.0 — Historial de modificaciones |
-| `Conversacion` + `MensajeChat` | Persistencia de conversaciones de chat | R1.0 — Chat básico |
-| `PromptTemplate` | Prompt Registry en SQL para templates dinámicos | R2.0 — Agentes especializados |
-| `FeedbackRespuesta` | Feedback thumbs up/down por respuesta de agente | R2.0 — Feedback |
-| `Movimiento` | Timeline de eventos procesales en expedientes | R2.0 — Gestión de expedientes |
-| `Plazo` | Plazos procesales con cálculo de días hábiles | R2.0 — Gestión de plazos |
-| `UsuarioPreferencias` | Preferencias del usuario (rama, alertas, tema) | R2.0 — Personalización |
-| `TaxonomiaLegal` | Taxonomía controlada (extiende ThesaurusTerm) | R1.0 — Clasificación |
-| `AnalisisRiesgo` | Persistencia de análisis de riesgo generados | R3.0 — Análisis de riesgo |
+| Entity | Purpose | Required for |
+|--------|---------|--------------|
+| `Clause` | Sub-article granularity for RAG | R1.0 — Article Detail |
+| `ArticleVersion` | Temporal versioning of articles (SQL Temporal Tables) | R1.0 — Amendment history |
+| `Conversation` + `ChatMessage` | Chat conversation persistence | R1.0 — Basic chat |
+| `PromptTemplate` | Prompt Registry in SQL for dynamic templates | R2.0 — Specialized agents |
+| `ResponseFeedback` | Thumbs up/down feedback per agent answer | R2.0 — Feedback |
+| `Movement` | Procedural event timeline in case files | R2.0 — Case file management |
+| `Deadline` | Procedural deadlines with business-day calculation | R2.0 — Deadline management |
+| `UserPreferences` | User preferences (branch, alerts, theme) | R2.0 — Personalization |
+| `LegalTaxonomy` | Controlled taxonomy (extends ThesaurusTerm) | R1.0 — Classification |
+| `RiskAnalysis` | Persistence of generated risk analyses | R3.0 — Risk analysis |
 
-#### F00-W04 — Entidades del MVP a incorporar al plan Legal Ai Ar
+#### F00-W04 — MVP entities to incorporate into the Legal Ai Ar plan
 
-El MVP tiene entidades valiosas que no estaban planificadas originalmente:
+The MVP has valuable entities that were not originally planned:
 
-| Entidad MVP | Valor | Acción |
-|-------------|-------|--------|
-| `Vote` (votos de magistrados) | Alto — posición de cada juez en fallos | Incorporar al modelo |
-| `ProsecutorOpinion` (dictamen fiscal) | Medio — relevante para penal y administrativo | Incorporar al modelo |
-| `Sumario` (headnotes doctrinarios) | Alto — mejora RAG al separar sumario de fallo completo | Incorporar al modelo |
-| `GraphCommunity` + `CommunityMembership` | Alto — resúmenes de líneas jurisprudenciales | Incorporar al modelo |
-| `CrawlerConfig` (config por fuente) | Alto — gestión de crawlers desde UI admin | Incorporar al modelo |
-| `EmbeddingConfig` (config de modelos) | Medio — cambiar modelo/dimensiones sin deploy | Incorporar al modelo |
-| `FieldProvenance` (provenance por campo) | Alto — trazabilidad más granular que DataProvenance | Adoptar en lugar de DataProvenance |
-| `ChunkEntityMention` | Alto — entidades mencionadas en cada chunk para RAG | Incorporar al modelo |
+| MVP Entity | Value | Action |
+|------------|-------|--------|
+| `Vote` (judges' votes) | High — each judge's position in rulings | Incorporate into the model |
+| `ProsecutorOpinion` (prosecutor opinion) | Medium — relevant for criminal and administrative law | Incorporate into the model |
+| `Sumario` (doctrinal headnotes) | High — improves RAG by separating headnote from the full ruling | Incorporate into the model |
+| `GraphCommunity` + `CommunityMembership` | High — case law line summaries | Incorporate into the model |
+| `CrawlerConfig` (per-source config) | High — crawler management from the admin UI | Incorporate into the model |
+| `EmbeddingConfig` (model config) | Medium — change model/dimensions without a deploy | Incorporate into the model |
+| `FieldProvenance` (per-field provenance) | High — more granular traceability than DataProvenance | Adopt instead of DataProvenance |
+| `ChunkEntityMention` | High — entities mentioned in each chunk for RAG | Incorporate into the model |
 
-### Decisiones Técnicas de Fase 0
+### Phase 0 Technical Decisions
 
-| Decisión | Elección |
+| Decision | Choice |
 |---|---|
-| Estrategia | Evolucionar MVP in-place, no reescribir (~78% reutilizable) |
-| Estructura de repo | Monorepo existente `legal-ai-ar` (`/backend` + `/frontend` + `/docs`) |
-| Backend | .NET 10 LTS, Clean Architecture 4 capas, Minimal API (refactor gradual desde Controllers) |
-| Frontend | Angular 19 standalone, PwC AppKit 4 (ya configurado en MVP) |
-| DB Strategy | Code-First EF Core (migrar esquema MVP + nuevas entidades) |
-| Testing Backend | xUnit + NSubstitute (ya en MVP) + FluentAssertions |
-| Testing Frontend | Jest + Angular Testing Library + Playwright (E2E) |
-| Mediator | Custom IMediator del MVP (evaluar migración a MediatR en R2.0) |
+| Strategy | Evolve the MVP in-place, do not rewrite (~78% reusable) |
+| Repo structure | Existing `legal-ai-ar` monorepo (`/backend` + `/frontend` + `/docs`) |
+| Backend | .NET 10 LTS, 4-layer Clean Architecture, Minimal API (gradual refactor from Controllers) |
+| Frontend | Angular 19 standalone, PwC AppKit 4 (already configured in the MVP) |
+| DB Strategy | Code-First EF Core (migrate MVP schema + new entities) |
+| Backend Testing | xUnit + NSubstitute (already in the MVP) + FluentAssertions |
+| Frontend Testing | Jest + Angular Testing Library + Playwright (E2E) |
+| Mediator | The MVP's custom IMediator (evaluate migration to MediatR in R2.0) |
 
 ---
 
-## 1. MVP Baseline — Qué ya existe
+## 1. MVP Baseline — What already exists
 
-> El MVP `legal-ai-ar` es un proyecto sorprendentemente maduro con un pipeline de ingesta de 6 etapas, chat agéntico con tool calling y 13 herramientas, búsqueda híbrida, detección de comunidades en grafo, tesauro SAIJ integrado, y un frontend Angular completo con ~15 vistas funcionales.
+> The `legal-ai-ar` MVP is a surprisingly mature project with a 6-stage ingestion pipeline, agentic chat with tool calling and 13 tools, hybrid search, graph community detection, an integrated SAIJ thesaurus, and a complete Angular frontend with ~15 functional views.
 
-### 1.1 Pipeline de Ingesta (funcional — reutilizar tal cual)
+### 1.1 Ingestion Pipeline (functional — reuse as-is)
 
-| Stage | Componente | Descripción |
-|-------|------------|-------------|
-| 1 | **Discoverer** | Descubre documentos en fuentes con strategy pattern (`IDiscoverStrategy`) |
-| 2 | **Fetcher** | Descarga PDFs/HTML con cache en Blob Storage |
-| 3 | **Parser** | Extrae texto + metadata (PdfPig para PDFs, regex para HTML) |
-| 4 | **Enrichment** | LLM enrichment con GPT-4o-mini (metadata, NER, clasificación) |
-| 5 | **Persister** | Persiste entidades en Azure SQL vía EF Core |
-| 6 | **Indexer** | Genera embeddings, indexa en AI Search, resuelve citas, extrae menciones |
+| Stage | Component | Description |
+|-------|-----------|-------------|
+| 1 | **Discoverer** | Discovers documents in sources with a strategy pattern (`IDiscoverStrategy`) |
+| 2 | **Fetcher** | Downloads PDFs/HTML with a Blob Storage cache |
+| 3 | **Parser** | Extracts text + metadata (PdfPig for PDFs, regex for HTML) |
+| 4 | **Enrichment** | LLM enrichment with GPT-4o-mini (metadata, NER, classification) |
+| 5 | **Persister** | Persists entities to Azure SQL via EF Core |
+| 6 | **Indexer** | Generates embeddings, indexes in AI Search, resolves citations, extracts mentions |
 
-Fuentes implementadas: CSJN (Sumarios, Acuerdos, Fallos Destacados), SAIJ (Jurisprudencia, Legislación).
+Implemented sources: CSJN (Sumarios, Acuerdos, Fallos Destacados), SAIJ (Case law, Legislation).
 
-Componentes de soporte: 5 Azure Storage Queues entre stages, DLQ con UI admin, external download cache, DocumentStageLog para tracking, Contextual Retrieval en ingesta, Community Detection (Union-Find) + Summarization (LLM).
+Support components: 5 Azure Storage Queues between stages, DLQ with an admin UI, external download cache, DocumentStageLog for tracking, Contextual Retrieval at ingestion, Community Detection (Union-Find) + Summarization (LLM).
 
-### 1.2 Modelo de Datos (44 entidades + 30 enums)
+### 1.2 Data Model (44 entities + 30 enums)
 
-Entidades core reutilizables: `Statute`, `Ruling`, `Person`, `Court`, `JudicialOffice`, `Citation` (6 tipos), `NormRelation` (4 tipos), `ThesaurusTerm` + `ThesaurusRelation`, `LegalDoctrine`, `JudicialProceeding`, `Vote`, `ProsecutorOpinion`, `Sumario`, `Keyword`, `LegalRepresentation`, `GraphCommunity`, `CommunityMembership`, `FieldProvenance`, `ChunkEntityMention`, `CrawlerConfig`, `EmbeddingConfig`, `DocumentStageLog`.
+Reusable core entities: `Statute`, `Ruling`, `Person`, `Court`, `JudicialOffice`, `Citation` (6 types), `NormRelation` (4 types), `ThesaurusTerm` + `ThesaurusRelation`, `LegalDoctrine`, `JudicialProceeding`, `Vote`, `ProsecutorOpinion`, `Sumario`, `Keyword`, `LegalRepresentation`, `GraphCommunity`, `CommunityMembership`, `FieldProvenance`, `ChunkEntityMention`, `CrawlerConfig`, `EmbeddingConfig`, `DocumentStageLog`.
 
-### 1.3 AI / RAG / Chat (funcional — evolucionar)
+### 1.3 AI / RAG / Chat (functional — evolve)
 
-| Capacidad | Estado | Notas |
-|-----------|--------|-------|
-| Hybrid Search (BM25 + vector) | ✅ Implementado | 3 índices: rulings, chunks, statutes |
-| Contextual Retrieval | ✅ Implementado | Contexto por chunk generado en ingesta |
-| Tool Calling (13 herramientas) | ✅ Implementado | 1 agente genérico con function calling |
-| SSE Streaming | ✅ Implementado | Eventos: text, tool_start, tool_end, validation, done |
-| Input Guardrails | ✅ Implementado | 2 capas: rule-based + LLM classifier |
-| Output Guardrails | ✅ Implementado | Validación de citas contra DB |
-| Query Preprocessing | ✅ Implementado | GPT-4o-mini + expansión con tesauro SAIJ |
-| Community Detection | ✅ Implementado | Union-Find + clustering por rama legal |
-| Community Summarization | ✅ Implementado | Sumarios generados por LLM |
+| Capability | Status | Notes |
+|------------|--------|-------|
+| Hybrid Search (BM25 + vector) | ✅ Implemented | 3 indexes: rulings, chunks, statutes |
+| Contextual Retrieval | ✅ Implemented | Per-chunk context generated at ingestion |
+| Tool Calling (13 tools) | ✅ Implemented | 1 generic agent with function calling |
+| SSE Streaming | ✅ Implemented | Events: text, tool_start, tool_end, validation, done |
+| Input Guardrails | ✅ Implemented | 2 layers: rule-based + LLM classifier |
+| Output Guardrails | ✅ Implemented | Citation validation against the DB |
+| Query Preprocessing | ✅ Implemented | GPT-4o-mini + expansion with the SAIJ thesaurus |
+| Community Detection | ✅ Implemented | Union-Find + clustering by law branch |
+| Community Summarization | ✅ Implemented | LLM-generated summaries |
 
-### 1.4 Frontend (Angular — ~15 vistas funcionales)
+### 1.4 Frontend (Angular — ~15 functional views)
 
-| Vista MVP | Cobertura Legal Ai Ar | Feature |
-|-----------|-------------------|---------|
+> The view names (`estadisticas`, `ordenamiento`, etc.) are the MVP's actual route identifiers and are kept as-is.
+
+| MVP View | Legal Ai Ar Coverage | Feature |
+|----------|----------------------|---------|
 | Login + guard + interceptor | 90% | F01 Auth |
 | `estadisticas` — KB stats | 70% | F02 Dashboard |
-| `ordenamiento` — statutes list + detail | 80% | F03/F05 Búsqueda + Detalle Normas |
-| `jurisprudencia` — search + results + detail | **95%** | F04 Búsqueda Jurisprudencia |
-| `asistente` — chat con SSE streaming | **90%** | F08 Chat |
-| `procesos` — proceeding list + detail | 60% | F12 Expedientes (solo lectura) |
-| `explorador` — graph explorer (Cytoscape) | **90%** | F21 Grafo Legal |
+| `ordenamiento` — statutes list + detail | 80% | F03/F05 Legal Norm Search + Detail |
+| `jurisprudencia` — search + results + detail | **95%** | F04 Case Law Search |
+| `asistente` — chat with SSE streaming | **90%** | F08 Chat |
+| `procesos` — proceeding list + detail | 60% | F12 Case Files (read-only) |
+| `explorador` — graph explorer (Cytoscape) | **90%** | F21 Legal Graph |
 | Command palette (Ctrl+K) | **80%** | FT02 Omnisearch |
-| `admin/*` — jobs, DLQ, reprocess, workers | **95%** | F19 Admin Ingesta |
-| `organismos`, `sujetos`, `vocabulario` | 70% | Vistas auxiliares |
-| `ontologia` | 60% | Vista de ontología |
+| `admin/*` — jobs, DLQ, reprocess, workers | **95%** | F19 Ingestion Admin |
+| `organismos`, `sujetos`, `vocabulario` | 70% | Auxiliary views |
+| `ontologia` | 60% | Ontology view |
 
-### 1.5 Lo que NO existe en el MVP (gaps principales)
+### 1.5 What does NOT exist in the MVP (main gaps)
 
-| Gap | Impacto | Release |
-|-----|---------|---------|
-| Semantic Kernel (usa OpenAI SDK directo) | Alto — rewrite capa de agentes | R2.0 |
-| 3 agentes especializados (1 genérico actual) | Alto — routing, prompts dedicados | R2.0 |
-| Prompt Registry (prompts hardcoded en C#) | Alto — gestión dinámica de prompts | R2.0 |
-| Evaluación (golden set, LLM-as-judge) | Alto — sin framework de calidad | R2.0 |
-| Feedback loop (thumbs up/down) | Medio — sin mejora continua | R2.0 |
-| Persistencia de conversaciones | Alto — chat stateless | R1.0 |
-| LLM Re-ranking | Medio — solo ranking por score | R2.0 |
-| Confidence score por respuesta | Medio — sin indicador de confianza | R2.0 |
-| Semantic caching | Medio — sin cache semántico | R2.0 |
-| Gestión de plazos / calendario | Alto — feature core nuevo | R2.0 |
-| Análisis de riesgo | Alto — feature de R3.0 | R3.0 |
-| Observabilidad (OpenTelemetry) | Alto — sin tracing ni métricas | R4.0 |
-
----
-
-## 2. Visión General de la Aplicación
-
-Legal Ai Ar es una aplicación SPA (Single Page Application) que combina una knowledge base del sistema legal argentino con un sistema de agentes IA especializados. Permite a abogados y personal administrativo buscar legislación y jurisprudencia, gestionar expedientes y plazos, consultar agentes IA y generar análisis de riesgo legal.
-
-### 2.1 Objetivos del Producto
-
-- Centralizar el acceso a normas, jurisprudencia y doctrina del ordenamiento jurídico argentino.
-- Reducir el tiempo de búsqueda legal de horas a minutos mediante búsqueda semántica e IA.
-- Eliminar la pérdida de plazos procesales con alertas y seguimiento automatizado.
-- Proveer análisis de riesgo legal basado en datos para mejorar la toma de decisiones.
-- Generar documentos e informes legales de forma automatizada.
-
-### 2.2 Roles de Usuario
-
-| Rol | Descripción | Acceso |
-|-----|-------------|--------|
-| **Abogado** | Profesional del estudio con acceso completo a todas las funcionalidades | Búsqueda, agentes IA, expedientes, análisis de riesgo, informes, configuración de alertas |
-| **Administrativo** | Personal de soporte con acceso a gestión operativa | Expedientes, plazos, notificaciones, calendario, generación de reportes operativos |
+| Gap | Impact | Release |
+|-----|--------|---------|
+| Semantic Kernel (uses the OpenAI SDK directly) | High — rewrite of the agent layer | R2.0 |
+| 3 specialized agents (1 generic currently) | High — routing, dedicated prompts | R2.0 |
+| Prompt Registry (prompts hardcoded in C#) | High — dynamic prompt management | R2.0 |
+| Evaluation (golden set, LLM-as-judge) | High — no quality framework | R2.0 |
+| Feedback loop (thumbs up/down) | Medium — no continuous improvement | R2.0 |
+| Conversation persistence | High — stateless chat | R1.0 |
+| LLM Re-ranking | Medium — ranking by score only | R2.0 |
+| Per-answer confidence score | Medium — no confidence indicator | R2.0 |
+| Semantic caching | Medium — no semantic cache | R2.0 |
+| Deadline / calendar management | High — new core feature | R2.0 |
+| Risk analysis | High — R3.0 feature | R3.0 |
+| Observability (OpenTelemetry) | High — no tracing or metrics | R4.0 |
 
 ---
 
-## 3. Arquitectura del Frontend
+## 2. Application Overview
+
+Legal Ai Ar is a SPA (Single Page Application) that combines a knowledge base of the Argentine legal system with a system of specialized AI agents. It allows lawyers and administrative staff to search legislation and case law, manage case files and deadlines, consult AI agents, and generate legal risk analyses.
+
+### 2.1 Product Objectives
+
+- Centralize access to norms, case law, and doctrine of the Argentine legal order.
+- Reduce legal research time from hours to minutes through semantic search and AI.
+- Eliminate missed procedural deadlines with automated alerts and tracking.
+- Provide data-driven legal risk analysis to improve decision-making.
+- Generate legal documents and reports automatically.
+
+### 2.2 User Roles
+
+| Role | Description | Access |
+|------|-------------|--------|
+| **Lawyer** | A firm professional with full access to all functionality | Search, AI agents, case files, risk analysis, reports, alert configuration |
+| **Administrative** | Support staff with access to operational management | Case files, deadlines, notifications, calendar, operational report generation |
+
+### 2.3 Deployment and Hosting Model
+
+The project uses **two complementary delivery paths** that may share the same Azure data services (SQL, Blob, AI Search, OpenAI) but differ in compute and identity. Full references: [`github-delivery.md`](../deployment/github-delivery.md) and [`gcaas-hosting.md`](../deployment/gcaas-hosting.md).
+
+| Aspect | GitHub → Azure staging | GCaaS (corporate production) |
+|--------|------------------------|------------------------------|
+| Trigger | Merge to `main` → GitHub Actions (`ci.yml`, `cd.yml`) | PwC GCaaS Helm / platform pipeline (chart in `mvp/deployment/`) |
+| Compute | Azure App Service (API, staging slot) + Azure Static Web Apps (SPA) | Knative services (API + SPA containers) behind Istio |
+| Identity | Same API with `usePlatformCredentials: false` (no platform cookies) | Entra SSO via Envoy; `id_token` HTTP-only cookie |
+| Secrets | GitHub Actions secrets (`AZURE_CREDENTIALS`, SWA token) | HashiCorp Vault keys mapped into the release |
+| SPA build config | `staging` | `development` / `production` (Angular) |
+| Observability | Application Insights | Optional Datadog via platform labels |
+
+GitHub Actions **does not deploy to GCaaS**; GCaaS releases use their own Helm pipeline. This delivery/hosting work is tracked in feature **FT05 — Delivery and Hosting**.
+
+---
+
+## 3. Frontend Architecture
 
 ### 3.1 Angular 19 SPA
 
-| Aspecto | Decisión | MVP |
-|---------|----------|-----|
-| **Framework** | Angular 19 con standalone components (sin NgModules) | ✅ Ya en MVP |
-| **State Management** | Angular Signals + NgRx Signal Store para estado global | Parcial — agregar Signal Store |
-| **Routing** | Lazy loading por feature module con `loadComponent()` | ✅ Ya en MVP |
-| **UI Library** | PwC AppKit 4 + Tailwind CSS 4 para layout | ✅ Ya en MVP (parcial) |
-| **Formularios** | Reactive Forms con tipado estricto (Typed Forms) | ✅ Ya en MVP |
-| **HTTP** | `HttpClient` con interceptors funcionales para auth y error handling | ✅ Ya en MVP |
-| **Real-time** | SignalR client para notificaciones push y respuestas de agentes | Agregar |
-| **Auth** | MSAL Angular (Microsoft Authentication Library) con Entra ID | Parcial — migrar de JWT custom |
-| **i18n** | Español (AR) como idioma único, con soporte preparado para expansión | ✅ |
-| **Testing** | Jest (unit) + Playwright (e2e) | Parcial — agregar Playwright |
-| **Build** | esbuild (default en Angular 19), SSG para landing page | ✅ |
+| Aspect | Decision | MVP |
+|--------|----------|-----|
+| **Framework** | Angular 19 with standalone components (no NgModules) | ✅ Already in MVP |
+| **State Management** | Angular Signals + NgRx Signal Store for global state | Partial — add Signal Store |
+| **Routing** | Lazy loading per feature module with `loadComponent()` | ✅ Already in MVP |
+| **UI Library** | PwC AppKit 4 + Tailwind CSS 4 for layout | ✅ Already in MVP (partial) |
+| **Forms** | Reactive Forms with strict typing (Typed Forms) | ✅ Already in MVP |
+| **HTTP** | `HttpClient` with functional interceptors for auth and error handling | ✅ Already in MVP |
+| **Real-time** | SignalR client for push notifications and agent responses | Add |
+| **Auth** | Platform Entra SSO via `id_token` cookie (`withCredentials`); no MSAL, no `/login` | ✅ Already in MVP (`auth.service`, interceptors) |
+| **i18n** | Spanish (AR) as the single language, with support prepared for expansion | ✅ |
+| **Testing** | Jest (unit) + Playwright (e2e) | Partial — add Playwright |
+| **Build** | esbuild (default in Angular 19), SSG for the landing page | ✅ |
 
-### 3.2 Estructura del Proyecto Angular
+### 3.2 Angular Project Structure
 
 ```
 src/
 ├── app/
-│   ├── core/                      # Servicios singleton, guards, interceptors
-│   │   ├── auth/                  # AuthService, AuthGuard, MSAL config
+│   ├── core/                      # Singleton services, guards, interceptors
+│   │   ├── auth/                  # AuthService, AuthGuard, platform session config
 │   │   ├── interceptors/          # AuthInterceptor, ErrorInterceptor, LoadingInterceptor
 │   │   ├── services/              # ApiService, SignalRService, NotificationService
-│   │   └── models/                # Interfaces y tipos compartidos
-│   ├── shared/                    # Componentes reutilizables, pipes, directivas
+│   │   └── models/                # Shared interfaces and types
+│   ├── shared/                    # Reusable components, pipes, directives
 │   │   ├── components/            # SearchBar, DataTable, AlertBadge, ConfirmDialog
-│   │   ├── pipes/                 # FechaLegalPipe, TruncatePipe, HighlightPipe
+│   │   ├── pipes/                 # LegalDatePipe, TruncatePipe, HighlightPipe
 │   │   └── directives/            # RoleDirective, TooltipDirective
 │   ├── features/                  # Feature modules (lazy loaded)
-│   │   ├── dashboard/             # Dashboard principal
-│   │   ├── busqueda/              # Búsqueda de normas y jurisprudencia
-│   │   ├── expedientes/           # Gestión de expedientes y causas
-│   │   ├── agentes/               # Chat con agentes IA
-│   │   ├── riesgo/                # Análisis de riesgo legal
-│   │   ├── calendario/            # Calendario de plazos y vencimientos
-│   │   ├── informes/              # Generación de informes y reportes
-│   │   ├── normas/                # Explorador de normas (detalle, grafo)
-│   │   ├── grafo/                 # Explorador de grafo legal
-│   │   ├── admin/                 # Administración (usuarios, config, ingesta)
-│   │   └── alertas/               # Centro de notificaciones y alertas
+│   │   ├── dashboard/             # Main dashboard
+│   │   ├── search/                # Legal norm and case law search
+│   │   ├── case-files/            # Case file and proceeding management
+│   │   ├── agents/                # AI agent chat
+│   │   ├── risk/                  # Legal risk analysis
+│   │   ├── calendar/              # Deadline and due-date calendar
+│   │   ├── reports/               # Report and document generation
+│   │   ├── legal-norms/           # Legal norm explorer (detail, graph)
+│   │   ├── graph/                 # Legal graph explorer
+│   │   ├── admin/                 # Administration (users, config, ingestion)
+│   │   └── alerts/                # Notification and alert center
 │   ├── layout/                    # Shell, sidebar, navbar, footer
-│   └── app.config.ts              # Configuración standalone
+│   └── app.config.ts              # Standalone configuration
 ├── assets/
 ├── environments/
 └── styles/                        # Tailwind config, themes, variables
@@ -243,680 +260,709 @@ src/
 
 ---
 
-## 4. Módulos y Features por Release
+## 4. Modules and Features by Release
 
 ### Release Map
 
-| Release | Nombre | Semanas | Foco | Estrategia |
-|---------|--------|---------|------|------------|
-| **0.0** | Preparación | S00 (2 sem) | Reestructurar repo + modelo de datos | Docs + entidades nuevas + calidad de código |
-| **1.0** | Foundation | S01-S06 (6 sem) | Búsqueda + Chat básico + Grafo | Evolucionar MVP existente |
-| **2.0** | Agents | S07-S12 (6 sem) | Agentes IA + Expedientes + Plazos | SK + agentes especializados + case mgmt |
-| **3.0** | Risk | S13-S16 (4 sem) | Análisis de riesgo + Informes | Features nuevas sobre base de agentes |
-| **4.0** | Operations | S17-S20 (4 sem) | Observabilidad + Alertas + PWA | Ops, monitoreo, hardening |
+| Release | Name | Weeks | Focus | Strategy |
+|---------|------|-------|-------|----------|
+| **0.0** | Preparation | S00 (2 wks) | Restructure repo + data model | Docs + new entities + code quality |
+| **1.0** | Foundation | S01-S06 (6 wks) | Search + Basic chat + Graph | Evolve the existing MVP |
+| **2.0** | Agents | S07-S12 (6 wks) | AI agents + Case files + Deadlines | SK + specialized agents + case mgmt |
+| **3.0** | Risk | S13-S16 (4 wks) | Risk analysis + Reports | New features on top of the agent base |
+| **4.0** | Operations | S17-S20 (4 wks) | Observability + Alerts + PWA | Ops, monitoring, hardening |
 
-> **Nota:** La existencia del MVP reduce R1.0 de 8 a 6 semanas. Muchas features de R1.0 tienen 70-95% de cobertura del MVP y solo requieren evolución, no desarrollo desde cero.
+> **Note:** The existence of the MVP reduces R1.0 from 8 to 6 weeks. Many R1.0 features have 70-95% MVP coverage and only require evolution, not development from scratch.
 
-### Feature por Release (con cobertura MVP)
+### Feature by Release (with MVP coverage)
 
-| ID | Feature | Release | MVP | Acción |
+| ID | Feature | Release | MVP | Action |
 |----|---------|---------|-----|--------|
-| F01 | Autenticación y Autorización | 1.0 | 90% | Evolucionar: JWT custom → MSAL |
-| F02 | Dashboard Principal | 1.0 | 70% | Evolucionar: stats → widgets personalizados |
-| F03 | Búsqueda de Normas | 1.0 | 80% | Evolucionar: agregar scoring profile, facets |
-| F04 | Búsqueda de Jurisprudencia | 1.0 | **95%** | Polish: ya casi completa |
-| F05 | Detalle de Norma | 1.0 | 80% | Evolucionar: agregar timeline de modificaciones |
-| F06 | Detalle de Artículo | 1.0 | 0% | **Nuevo**: vista standalone con incisos |
-| F07 | Novedades Normativas | 1.0 | 0% | **Nuevo**: feed + suscripción por rama |
-| F08 | Chat con Agentes IA (básico) | **1.0** | **90%** | Evolucionar: agregar persistencia + citación mejorada |
-| F21 | Explorador de Grafo Legal | **1.0** | **90%** | Polish: ya funcional con Cytoscape |
-| F09 | Agente Normativo | 2.0 | 0% | **Nuevo**: plugin SK especializado |
-| F10 | Agente Jurisprudencial | 2.0 | 0% | **Nuevo**: plugin SK especializado |
-| F11 | Agente Procesal | 2.0 | 0% | **Nuevo**: plugin SK especializado |
-| F12 | Gestión de Expedientes | 2.0 | 60% | Evolucionar: agregar CRUD, movimientos, docs |
-| F13 | Gestión de Plazos | 2.0 | 0% | **Nuevo**: cálculo hábiles + alertas |
-| F14 | Calendario Legal | 2.0 | 0% | **Nuevo**: FullCalendar |
-| F19 | Administración de Usuarios | **2.0** | 70% | Evolucionar: agregar roles, auditoría |
-| F22 | Feedback y Mejora de Agentes | **2.0** | 0% | **Nuevo**: thumbs + correcciones |
-| F15 | Análisis de Riesgo Legal | 3.0 | 0% | **Nuevo**: agente de riesgo |
-| F16 | Historial de Análisis de Riesgo | 3.0 | 0% | **Nuevo**: re-análisis |
-| F17 | Generación de Informes Legales | 3.0 | 0% | **Nuevo**: .docx desde templates |
-| F18 | Reportes Operativos | 3.0 | 30% | Evolucionar: stats → charts + export |
-| F20 | Configuración de Alertas Avanzadas | 4.0 | 0% | **Nuevo**: wizard + email |
-| F23 | Modo Offline (PWA) | 4.0 | 0% | **Nuevo**: service worker |
+| F01 | Authentication and Authorization | 1.0 | 90% | Reconcile: platform Entra `id_token` cookie (no MSAL) |
+| F02 | Main Dashboard | 1.0 | 70% | Evolve: stats → personalized widgets |
+| F03 | Legal Norm Search | 1.0 | 80% | Evolve: add scoring profile, facets |
+| F04 | Case Law Search | 1.0 | **95%** | Polish: almost complete |
+| F05 | Legal Norm Detail | 1.0 | 80% | Evolve: add amendment timeline |
+| F06 | Article Detail | 1.0 | 0% | **New**: standalone view with clauses |
+| F07 | Regulatory Updates | 1.0 | 0% | **New**: feed + subscription by branch |
+| F08 | AI Agent Chat (basic) | **1.0** | **90%** | Evolve: add persistence + improved citation |
+| F21 | Legal Graph Explorer | **1.0** | **90%** | Polish: already functional with Cytoscape |
+| F09 | Regulatory Agent | 2.0 | 0% | **New**: specialized SK plugin |
+| F10 | Case Law Agent | 2.0 | 0% | **New**: specialized SK plugin |
+| F11 | Procedural Agent | 2.0 | 0% | **New**: specialized SK plugin |
+| F12 | Case File Management | 2.0 | 60% | Evolve: add CRUD, movements, docs |
+| F13 | Deadline Management | 2.0 | 0% | **New**: business-day calculation + alerts |
+| F14 | Legal Calendar | 2.0 | 0% | **New**: FullCalendar |
+| F19 | User Administration | **2.0** | 70% | Evolve: add roles, audit |
+| F22 | Agent Feedback and Improvement | **2.0** | 0% | **New**: thumbs + corrections |
+| F15 | Legal Risk Analysis | 3.0 | 0% | **New**: risk agent |
+| F16 | Risk Analysis History | 3.0 | 0% | **New**: re-analysis |
+| F17 | Legal Report Generation | 3.0 | 0% | **New**: .docx from templates |
+| F18 | Operational Reports | 3.0 | 30% | Evolve: stats → charts + export |
+| F20 | Advanced Alert Configuration | 4.0 | 0% | **New**: wizard + email |
+| F23 | PWA Offline Mode | 4.0 | 0% | **New**: service worker |
+| FT05 | Delivery and Hosting (GitHub + GCaaS) | Cross-cutting | 70% | Document + reconcile: GitHub CI/CD to Azure staging, GCaaS Helm/Knative, platform auth, Vault |
 
 ---
 
 ## 5. Feature Details — Release 1.0
 
-> **Foundation** — Evolución del MVP: búsqueda inteligente + chat básico + grafo
+> **Foundation** — MVP evolution: smart search + basic chat + graph
 >
-> **Estrategia:** La mayoría de features en este release ya existen en el MVP con 70-95% de cobertura. El trabajo es de evolución, polish y agregado de funcionalidades faltantes — no de desarrollo desde cero.
+> **Strategy:** Most features in this release already exist in the MVP with 70-95% coverage. The work is evolution, polish, and adding missing functionality — not development from scratch.
 
-### F1.1 — Autenticación y Autorización
+### F1.1 — Authentication and Authorization
 
-| Campo | Detalle |
-|-------|---------|
-| **MVP** | 🟢 90% — Login funcional con JWT custom, guards de ruta, interceptor de auth |
-| **Delta** | Migrar de JWT custom a MSAL Angular + Microsoft.Identity.Web. Agregar role claims desde Entra ID. |
-| **Descripción** | Login con Microsoft Entra ID. Soporte para roles Abogado y Administrativo. Guards de ruta por rol. |
-| **Backend** | .NET 10 Minimal API con Microsoft.Identity.Web. JWT validation. Role claims desde Entra ID. |
-| **Frontend** | MSAL Angular 4.x. Reutilizar `AuthInterceptor` y `AuthGuard` del MVP, adaptar a MSAL. |
-| **Aceptación** | Login SSO funcional. Rutas protegidas por rol. Token refresh automático. Logout limpio. |
+> **Auth model (corrected):** Production runs on **GCaaS** with platform-managed Microsoft Entra SSO. The platform (Envoy) issues an **`id_token` HTTP-only cookie**; the API validates that cookie's JWT (`Auth:Platform`). There is **no MSAL in the SPA, no `/login` route, and no Bearer tokens** — the SPA sends `withCredentials: true` and refreshes the platform session periodically. The MVP already implements this (`PlatformAuthenticationHandler`, `Auth:Platform`). Azure staging (GitHub CD) runs the same API with `usePlatformCredentials: false`. See [`gcaas-hosting.md`](../deployment/gcaas-hosting.md).
 
-### F1.2 — Dashboard Principal
+| Field | Detail |
+|-------|--------|
+| **MVP** | 🟢 90% — Platform auth implemented: `id_token` cookie validation, `Auth:Platform` (TenantId/ValidAudience), dev identity injection, route guards, error interceptor (401 → session gate) |
+| **Delta** | Finalize role mapping (Entra/platform roles → app roles Lawyer/Administrative), `sesion-requerida` gate polish, and session-refresh hardening. **Do not** add MSAL or app-owned login — the platform owns the SSO flow. |
+| **Description** | Authentication via GCaaS platform Entra SSO. The API authorizes only requests bearing a valid `id_token` cookie. Lawyer and Administrative roles from JWT claims. Route guards by role. |
+| **Backend** | .NET 10. `PlatformAuthenticationHandler` validates the `id_token` JWT against Entra OIDC metadata (issuer/audience from Vault `TenantId` + `ValidAudience`). `PlatformRoleResolver` maps claims → app role. No custom login endpoints. |
+| **Frontend** | Reuse the MVP's `auth.service.ts` (`bootstrapSession()` → `GET /api/auth/me`), `platformCredentialsInterceptor` (`withCredentials`), `startGcaasSessionRefresh()`, `AuthGuard`, and the `sesion-requerida` SSO gate. No MSAL. |
+| **Acceptance** | `GET /api/auth/me` returns 200 with a valid session cookie and 401 without. Routes protected by role. Session refresh runs (~45 min). Logout redirects to the platform logout URL. |
 
-| Campo | Detalle |
-|-------|---------|
-| **MVP** | 🟡 70% — Vista `estadisticas` con stats de la KB (conteos, gráficos básicos) |
-| **Delta** | Transformar stats en dashboard personalizado por rol con widgets: plazos, búsquedas recientes, alertas, novedades. |
-| **Descripción** | Vista principal post-login con resumen de actividad: plazos próximos a vencer, últimas búsquedas, expedientes activos, alertas pendientes, novedades normativas. |
-| **Componentes** | `DashboardComponent` con widgets: `PlazosWidgetComponent`, `BusquedasRecientesComponent`, `AlertasWidgetComponent`, `NovedadesNormativasComponent`. |
-| **Backend** | Endpoint agregador: `GET /api/dashboard` que consolida data de múltiples servicios. |
-| **Diferencial por rol** | Abogado: todos los widgets + acceso a agentes IA. Administrativo: plazos, expedientes, calendario. |
+### F1.2 — Main Dashboard
 
-### F1.3 — Búsqueda de Normas
+| Field | Detail |
+|-------|--------|
+| **MVP** | 🟡 70% — `estadisticas` view with KB stats (counts, basic charts) |
+| **Delta** | Transform stats into a per-role personalized dashboard with widgets: deadlines, recent searches, alerts, updates. |
+| **Description** | Main post-login view with an activity summary: upcoming deadlines, recent searches, active case files, pending alerts, regulatory updates. |
+| **Components** | `DashboardComponent` with widgets: `DeadlinesWidgetComponent`, `RecentSearchesComponent`, `AlertsWidgetComponent`, `RegulatoryUpdatesComponent`. |
+| **Backend** | Aggregator endpoint: `GET /api/dashboard` that consolidates data from multiple services. |
+| **Role differentiation** | Lawyer: all widgets + access to AI agents. Administrative: deadlines, case files, calendar. |
 
-| Campo | Detalle |
-|-------|---------|
-| **MVP** | 🟡 80% — Vista `ordenamiento` con listado y detalle de statutes, búsqueda híbrida funcional |
-| **Delta** | Agregar scoring profile con boost por vigencia/jerarquía. Agregar facets dinámicos. Mejorar highlighting. |
-| **Descripción** | Buscador semántico de legislación argentina. Búsqueda por texto libre (lenguaje natural), filtros por rama del derecho, jurisdicción, vigencia, tipo de norma, rango de fechas. Resultados con highlighting y snippets relevantes. |
-| **Backend** | `POST /api/buscar/normas` → Azure AI Search (hybrid: BM25 + vectores). Scoring profile con boost por vigencia y jerarquía normativa. Facets para filtros dinámicos. |
-| **Frontend** | Evolucionar `SearchBarComponent` del MVP: agregar autocompletado con debounce 300ms. Agregar `FiltrosLateralesComponent` con facet counts. Mejorar cards de resultado con highlight. |
-| **Aceptación** | Búsqueda en < 2 segundos. Resultados relevantes en top 5. Filtros funcionales con conteo. Paginación con 20 resultados/página. |
+### F1.3 — Legal Norm Search
 
-### F1.4 — Búsqueda de Jurisprudencia
+| Field | Detail |
+|-------|--------|
+| **MVP** | 🟡 80% — `ordenamiento` view with statutes list and detail, functional hybrid search |
+| **Delta** | Add a scoring profile with boost by validity/hierarchy. Add dynamic facets. Improve highlighting. |
+| **Description** | Semantic search of Argentine legislation. Free-text search (natural language), filters by law branch, jurisdiction, validity, norm type, date range. Results with highlighting and relevant snippets. |
+| **Backend** | `POST /api/search/legal-norms` → Azure AI Search (hybrid: BM25 + vectors). Scoring profile with boost by validity and normative hierarchy. Facets for dynamic filters. |
+| **Frontend** | Evolve the MVP's `SearchBarComponent`: add autocomplete with a 300ms debounce. Add `SidebarFiltersComponent` with facet counts. Improve result cards with highlight. |
+| **Acceptance** | Search in < 2 seconds. Relevant results in the top 5. Functional filters with counts. Pagination with 20 results/page. |
 
-| Campo | Detalle |
-|-------|---------|
-| **MVP** | 🟢 **95%** — Vista `jurisprudencia` con search, results, detail casi completa |
-| **Delta** | Mínimo: agregar filtro por voces (descriptores temáticos) y chips de artículos citados clickeables. |
-| **Descripción** | Buscador semántico de fallos judiciales. Búsqueda por texto libre, tribunal, fuero, fecha, voces (descriptores temáticos). Vista de resultado con extracto del fallo y artículos interpretados. |
-| **Backend** | Reutilizar endpoints existentes. Agregar relación con artículos via SQL Graph (Edge `interpretaArticulo`). |
-| **Frontend** | Reutilizar `BusquedaJurisprudenciaComponent`. Agregar filtros: voces (ThesaurusTerm), instancia. Card de resultado: agregar chips de artículos citados clickeables. |
-| **Aceptación** | Búsqueda < 2 seg. Links a artículos interpretados funcionales. Filtro por tribunal con autocompletado. |
+### F1.4 — Case Law Search
 
-### F1.5 — Detalle de Norma
+| Field | Detail |
+|-------|--------|
+| **MVP** | 🟢 **95%** — `jurisprudencia` view with search, results, detail almost complete |
+| **Delta** | Minimal: add a filter by keywords (topic descriptors) and clickable cited-article chips. |
+| **Description** | Semantic search of court rulings. Free-text search, court, venue, date, keywords (topic descriptors). Result view with a ruling excerpt and interpreted articles. |
+| **Backend** | Reuse the existing endpoints. Add a relationship with articles via SQL Graph (Edge `interpretsArticle`). |
+| **Frontend** | Reuse `CaseLawSearchComponent`. Add filters: keywords (ThesaurusTerm), instance. Result card: add clickable cited-article chips. |
+| **Acceptance** | Search < 2 sec. Functional links to interpreted articles. Filter by court with autocomplete. |
 
-| Campo | Detalle |
-|-------|---------|
-| **MVP** | 🟡 80% — Vista `ordenamiento/:id` con detalle de statute, articulado básico |
-| **Delta** | Agregar tabs (Info, Articulado, Historial, Grafo). Agregar timeline de modificaciones. Mejorar grafo de relaciones. |
-| **Descripción** | Vista completa de una norma jurídica: metadata, articulado navegable, historial de modificaciones, normas relacionadas (grafo visual). |
-| **Backend** | Reutilizar `GET /api/normas/{id}`. Agregar `GET /api/normas/{id}/grafo` → SQL Graph MATCH query. `GET /api/normas/{id}/articulos` con paginación. `GET /api/normas/{id}/historial`. |
-| **Frontend** | Evolucionar detalle a `NormaDetalleComponent` con tabs: Info General, Articulado (virtual scroll), Historial de Modificaciones (timeline), Grafo de Relaciones (reutilizar Cytoscape del explorador MVP). |
-| **Aceptación** | Articulado renderiza correctamente. Grafo muestra relaciones hasta 2 niveles. Links entre normas funcionales. |
+### F1.5 — Legal Norm Detail
 
-### F1.6 — Detalle de Artículo
+| Field | Detail |
+|-------|--------|
+| **MVP** | 🟡 80% — `ordenamiento/:id` view with statute detail, basic articles |
+| **Delta** | Add tabs (Info, Articles, History, Graph). Add an amendment timeline. Improve the relationship graph. |
+| **Description** | Complete view of a legal norm: metadata, navigable articles, amendment history, related norms (visual graph). |
+| **Backend** | Reuse `GET /api/legal-norms/{id}`. Add `GET /api/legal-norms/{id}/graph` → SQL Graph MATCH query. `GET /api/legal-norms/{id}/articles` with pagination. `GET /api/legal-norms/{id}/history`. |
+| **Frontend** | Evolve the detail into `LegalNormDetailComponent` with tabs: General Info, Articles (virtual scroll), Amendment History (timeline), Relationship Graph (reuse the MVP explorer's Cytoscape). |
+| **Acceptance** | Articles render correctly. The graph shows relationships up to 2 levels. Functional links between norms. |
 
-| Campo | Detalle |
-|-------|---------|
-| **MVP** | 🔴 0% — Artículos solo existen como string dentro de normas, no como vista standalone |
-| **Delta** | Feature completamente nuevo. Requiere entidad `Inciso` (F00-W03). |
-| **Descripción** | Vista de un artículo específico con: texto normativo, incisos, jurisprudencia que lo interpreta, historial de modificaciones del artículo. |
-| **Backend** | `GET /api/articulos/{id}` → SQL. `GET /api/articulos/{id}/jurisprudencia` → SQL Graph MATCH (Jurisprudencia→interpretaArticulo→Articulo). |
-| **Frontend** | `ArticuloDetalleComponent` con secciones: texto vigente, incisos (expandibles), panel lateral con fallos que lo interpretan (ordenados por relevancia y fecha). |
-| **Aceptación** | Texto normativo legible. Lista de jurisprudencia relacionada con links funcionales. |
+### F1.6 — Article Detail
 
-### F1.7 — Novedades Normativas
+| Field | Detail |
+|-------|--------|
+| **MVP** | 🔴 0% — Articles only exist as a string inside norms, not as a standalone view |
+| **Delta** | Completely new feature. Requires the `Clause` entity (F00-W03). |
+| **Description** | View of a specific article with: normative text, clauses, case law that interprets it, the article's amendment history. |
+| **Backend** | `GET /api/articles/{id}` → SQL. `GET /api/articles/{id}/case-law` → SQL Graph MATCH (CaseLaw→interpretsArticle→Article). |
+| **Frontend** | `ArticleDetailComponent` with sections: text in force, clauses (expandable), a side panel with rulings that interpret it (sorted by relevance and date). |
+| **Acceptance** | Readable normative text. List of related case law with functional links. |
 
-| Campo | Detalle |
-|-------|---------|
-| **MVP** | 🔴 0% — No existe feed de novedades |
-| **Delta** | Feature completamente nuevo. Puede reutilizar pipeline de ingesta del MVP para detectar nuevas normas. |
-| **Descripción** | Feed cronológico de nuevas normas y modificaciones detectadas por el pipeline de ingesta. Filtrable por rama del derecho. Suscripción a alertas por tema. |
-| **Backend** | Azure Functions Timer Trigger scrapea Boletín Oficial cada 6hs. `GET /api/novedades?rama=penal&desde=2026-03-01`. SignalR push para novedades en tiempo real. |
-| **Frontend** | `NovedadesComponent` con feed tipo timeline. Cada item muestra: tipo (nueva/modificación/derogación), norma afectada, resumen, fecha. Botón "Suscribirse" por rama. |
-| **Aceptación** | Novedades del día visibles en < 6 horas desde publicación en Boletín Oficial. Push notifications funcionales. |
+### F1.7 — Regulatory Updates
 
-### F1.8 — Chat Básico con Agente IA
+| Field | Detail |
+|-------|--------|
+| **MVP** | 🔴 0% — No updates feed exists |
+| **Delta** | Completely new feature. Can reuse the MVP's ingestion pipeline to detect new norms. |
+| **Description** | Chronological feed of new norms and amendments detected by the ingestion pipeline. Filterable by law branch. Subscription to topic alerts. |
+| **Backend** | An Azure Functions Timer Trigger scrapes the Official Gazette every 6h. `GET /api/updates?branch=criminal&from=2026-03-01`. SignalR push for real-time updates. |
+| **Frontend** | `RegulatoryUpdatesComponent` with a timeline feed. Each item shows: type (new/amendment/repeal), affected norm, summary, date. "Subscribe" button by branch. |
+| **Acceptance** | The day's updates visible in < 6 hours from publication in the Official Gazette. Functional push notifications. |
 
-| Campo | Detalle |
-|-------|---------|
-| **MVP** | 🟢 **90%** — Vista `asistente` con chat funcional: SSE streaming, tool calling (13 tools), input guardrails, output validation |
-| **Delta** | Agregar persistencia de conversaciones (Conversacion + MensajeChat). Mejorar citación inline con links directos. Agregar historial de conversaciones. Mantener agente genérico actual (la especialización viene en R2.0). |
-| **Descripción** | Interfaz de chat para interactuar con el agente IA genérico. Respuestas con streaming, citación de fuentes y validación. Historial de conversaciones persistente. |
-| **Backend** | Reutilizar `AzureOpenAiAgentChatService` y `ChatQueryHandler` del MVP. Agregar tablas `Conversacion` + `MensajeChat`. Mantener SSE streaming existente. Mejorar formato de citaciones en respuesta. |
-| **Frontend** | Reutilizar `AsistenteComponent` del MVP. Agregar: panel lateral de historial de conversaciones, panel de fuentes citadas con links clickeables, botón "Copiar" por mensaje. |
-| **UX** | Streaming de respuesta (ya funcional). Fuentes como chips al final de cada respuesta. |
-| **Aceptación** | Respuesta comienza a renderizar en < 3 seg. Fuentes siempre presentes y clickeables. Historial persistente entre sesiones. |
-| **Rol** | Solo Abogados |
+### F1.8 — Basic Chat with AI Agent
 
-### F1.9 — Explorador de Grafo Legal
+| Field | Detail |
+|-------|--------|
+| **MVP** | 🟢 **90%** — `asistente` view with functional chat: SSE streaming, tool calling (13 tools), input guardrails, output validation |
+| **Delta** | Add conversation persistence (Conversation + ChatMessage). Improve inline citation with direct links. Add conversation history. Keep the current generic agent (specialization comes in R2.0). |
+| **Description** | Chat interface to interact with the generic AI agent. Answers with streaming, source citation, and validation. Persistent conversation history. |
+| **Backend** | Reuse the MVP's `AzureOpenAiAgentChatService` and `ChatQueryHandler`. Add the `Conversation` + `ChatMessage` tables. Keep the existing SSE streaming. Improve the citation format in the answer. |
+| **Frontend** | Reuse the MVP's `AsistenteComponent`. Add: a side panel for conversation history, a cited-sources panel with clickable links, a per-message "Copy" button. |
+| **UX** | Response streaming (already functional). Sources as chips at the end of each answer. |
+| **Acceptance** | The answer starts rendering in < 3 sec. Sources always present and clickable. Persistent history across sessions. |
+| **Role** | Lawyers only |
 
-| Campo | Detalle |
-|-------|---------|
-| **MVP** | 🟢 **90%** — Vista `explorador` con Cytoscape.js funcional, SQL Graph queries, panel lateral |
-| **Delta** | Agregar filtros por tipo de relación. Mejorar panel de detalle del nodo. Agregar profundidad configurable. Conectar con detalle de norma/fallo. |
-| **Descripción** | Visualización interactiva del grafo de relaciones legales. Navegar relaciones entre normas, artículos, jurisprudencia, órganos. Zoom, pan, filtros por tipo de relación, expansión de nodos on-click. |
-| **Backend** | Reutilizar `SqlGraphService` del MVP. Agregar `GET /api/grafo/explorar?nodoId=LEY-26994&profundidad=2&relaciones=modificaA,derogaA`. |
-| **Frontend** | Reutilizar `ExploradorComponent` con Cytoscape del MVP. Agregar: filtros por tipo de relación (checkboxes), slider de profundidad, links desde nodo a detalle de norma/fallo. |
-| **Aceptación** | Renderiza grafos de hasta 200 nodos fluido. Zoom/pan funcional. Click en nodo muestra detalle. Filtros por tipo de relación. |
-| **Rol** | Solo Abogados |
+### F1.9 — Legal Graph Explorer
+
+| Field | Detail |
+|-------|--------|
+| **MVP** | 🟢 **90%** — `explorador` view with functional Cytoscape.js, SQL Graph queries, side panel |
+| **Delta** | Add filters by relationship type. Improve the node detail panel. Add configurable depth. Connect to the norm/ruling detail. |
+| **Description** | Interactive visualization of the legal relationship graph. Navigate relationships between norms, articles, case law, bodies. Zoom, pan, filters by relationship type, on-click node expansion. |
+| **Backend** | Reuse the MVP's `SqlGraphService`. Add `GET /api/graph/explore?nodeId=LEY-26994&depth=2&relations=amends,repeals`. |
+| **Frontend** | Reuse the MVP's `ExploradorComponent` with Cytoscape. Add: filters by relationship type (checkboxes), depth slider, links from a node to the norm/ruling detail. |
+| **Acceptance** | Renders graphs of up to 200 nodes smoothly. Functional zoom/pan. Clicking a node shows detail. Filters by relationship type. |
+| **Role** | Lawyers only |
 
 ---
 
 ## 6. Feature Details — Release 2.0
 
-> **Agents** — Migración a Semantic Kernel, agentes especializados, gestión de expedientes y plazos
+> **Agents** — Migration to Semantic Kernel, specialized agents, case file and deadline management
 >
-> **Estrategia:** Este es el release con mayor trabajo nuevo. Se reemplaza el agente genérico del MVP por 3 agentes especializados orquestados con Semantic Kernel, y se agregan las funcionalidades de gestión de casos (expedientes, plazos, calendario).
+> **Strategy:** This is the release with the most new work. The MVP's generic agent is replaced by 3 specialized agents orchestrated with Semantic Kernel, and case management functionality (case files, deadlines, calendar) is added.
 
-### F2.1 — Migración a Semantic Kernel + Agentes Especializados
+### F2.1 — Migration to Semantic Kernel + Specialized Agents
 
-| Campo | Detalle |
-|-------|---------|
-| **MVP** | 🔴 0% — MVP usa Azure OpenAI SDK directo con `AzureOpenAiAgentChatService` |
-| **Delta** | Rewrite completo de la capa de agentes: reemplazar OpenAI SDK por Semantic Kernel, crear 3 plugins especializados, implementar router híbrido, migrar las 13 tools existentes a [KernelFunction]. |
-| **Descripción** | Migrar la orquestación de agentes de OpenAI SDK directo a Semantic Kernel. Implementar router híbrido (semántico + LLM) para derivar consultas al agente adecuado. Implementar patrón ReAct para reasoning multi-paso. |
-| **Backend** | Semantic Kernel con plugins tipados en C#. Router de 2 capas: embedding similarity (fast path, confianza > 0.85) + LLM router (fallback). Orchestrator pattern para consultas multi-agente. |
-| **Componentes nuevos** | `SemanticKernelOrchestrator`, `HybridRouter`, `AgentMemoryService` (short-term SQL + working SK + long-term preferences). |
-| **Aceptación** | Router clasifica correctamente > 90% de consultas. Agentes usan ReAct para consultas complejas. Latencia equivalente o menor al MVP. |
+| Field | Detail |
+|-------|--------|
+| **MVP** | 🔴 0% — The MVP uses the Azure OpenAI SDK directly with `AzureOpenAiAgentChatService` |
+| **Delta** | Complete rewrite of the agent layer: replace the OpenAI SDK with Semantic Kernel, create 3 specialized plugins, implement a hybrid router, migrate the 13 existing tools to [KernelFunction]. |
+| **Description** | Migrate the agent orchestration from the direct OpenAI SDK to Semantic Kernel. Implement a hybrid router (semantic + LLM) to route queries to the appropriate agent. Implement the ReAct pattern for multi-step reasoning. |
+| **Backend** | Semantic Kernel with typed plugins in C#. A 2-layer router: embedding similarity (fast path, confidence > 0.85) + LLM router (fallback). Orchestrator pattern for multi-agent queries. |
+| **New components** | `SemanticKernelOrchestrator`, `HybridRouter`, `AgentMemoryService` (short-term SQL + working SK + long-term preferences). |
+| **Acceptance** | The router correctly classifies > 90% of queries. Agents use ReAct for complex queries. Latency equal to or lower than the MVP. |
 
-### F2.2 — Agente Normativo (integrado en chat)
+### F2.2 — Regulatory Agent (integrated into chat)
 
-| Campo | Detalle |
-|-------|---------|
-| **MVP** | Parcial — las tools `SearchStatutes`, `GetStatuteDetail`, `CheckNormRelations` existen pero en agente genérico |
-| **Delta** | Crear plugin `AgenteNormativoPlugin` con system prompt especializado. Migrar tools relevantes del MVP. Agregar `VerificarVigencia()`, `CadenaDerogaciones()`. |
-| **Descripción** | Responde consultas sobre legislación vigente. Ejemplos: "¿Cuál es el plazo de prescripción para un reclamo laboral?", "¿Qué artículos del CCCN regulan la locación?", "¿La ley 27.742 modificó el régimen de despido?". |
-| **Backend** | Semantic Kernel plugin `AgenteNormativoPlugin` con functions: `BuscarNorma()`, `VerificarVigencia()`, `ObtenerArticulo()`, `RastrearModificaciones()`, `CadenaDerogaciones()`. Usa AI Search + SQL Graph. |
-| **Aceptación** | Respuestas con cita de artículos específicos. Detecta correctamente si una norma fue derogada o modificada. |
+| Field | Detail |
+|-------|--------|
+| **MVP** | Partial — the `SearchStatutes`, `GetStatuteDetail`, `CheckNormRelations` tools exist but in the generic agent |
+| **Delta** | Create a `RegulatoryAgentPlugin` with a specialized system prompt. Migrate relevant MVP tools. Add `CheckValidity()`, `RepealChain()`. |
+| **Description** | Answers queries about current legislation. Examples: "What is the statute of limitations for a labor claim?", "Which CCCN articles regulate leases?", "Did Ley 27.742 amend the dismissal regime?". |
+| **Backend** | Semantic Kernel plugin `RegulatoryAgentPlugin` with functions: `SearchLegalNorm()`, `CheckValidity()`, `GetArticle()`, `TraceAmendments()`, `RepealChain()`. Uses AI Search + SQL Graph. |
+| **Acceptance** | Answers cite specific articles. Correctly detects whether a norm was repealed or amended. |
 
-### F2.3 — Agente Jurisprudencial (integrado en chat)
+### F2.3 — Case Law Agent (integrated into chat)
 
-| Campo | Detalle |
-|-------|---------|
-| **MVP** | Parcial — tools `SearchRulings`, `GetRulingDetail`, `SearchChunks`, `GetCommunityInfo` existen en agente genérico |
-| **Delta** | Crear plugin `AgenteJurisprudencialPlugin`. Migrar tools. Agregar `AnalizarDoctrina()`, `TendenciaJurisprudencial()`. |
-| **Descripción** | Busca y analiza fallos judiciales. Ejemplos: "¿Qué dice la CSJN sobre el despido discriminatorio?", "Precedentes recientes sobre responsabilidad médica en CABA". |
-| **Backend** | Plugin `AgenteJurisprudencialPlugin` con: `BuscarFallo()`, `AnalizarDoctrina()`, `IdentificarPrecedentes()`, `TendenciaJurisprudencial()`. RAG sobre AI Search. Graph traversal para relación fallo→artículo. |
-| **Aceptación** | Cita fallos con carátula, tribunal y fecha. Distingue ratio decidendi de obiter dictum. Identifica tendencia (favorable/desfavorable). |
+| Field | Detail |
+|-------|--------|
+| **MVP** | Partial — the `SearchRulings`, `GetRulingDetail`, `SearchChunks`, `GetCommunityInfo` tools exist in the generic agent |
+| **Delta** | Create a `CaseLawAgentPlugin`. Migrate tools. Add `AnalyzeDoctrine()`, `CaseLawTrend()`. |
+| **Description** | Searches and analyzes court rulings. Examples: "What does the CSJN say about discriminatory dismissal?", "Recent precedents on medical liability in CABA". |
+| **Backend** | `CaseLawAgentPlugin` with: `SearchRuling()`, `AnalyzeDoctrine()`, `IdentifyPrecedents()`, `CaseLawTrend()`. RAG over AI Search. Graph traversal for the ruling→article relationship. |
+| **Acceptance** | Cites rulings with caption, court, and date. Distinguishes ratio decidendi from obiter dictum. Identifies the trend (favorable/unfavorable). |
 
-### F2.4 — Agente Procesal (integrado en chat)
+### F2.4 — Procedural Agent (integrated into chat)
 
-| Campo | Detalle |
-|-------|---------|
-| **MVP** | 🔴 0% — No hay tools procesales en el agente genérico |
-| **Delta** | Feature completamente nuevo. Requiere entidades `Movimiento` y `Plazo` (F00-W03). |
-| **Descripción** | Consultas sobre expedientes y plazos. Ejemplos: "¿Cuánto falta para que venza el plazo de contestación en el expediente 12345?", "Listame las causas con vencimientos esta semana". |
-| **Backend** | Plugin `AgenteProcesalPlugin` con: `ConsultarExpediente()`, `CalcularPlazo()`, `AlertarVencimiento()`, `ListarCausasActivas()`. Consulta Azure SQL. Motor de cálculo de días hábiles. Calendario de feriados nacionales y judiciales. |
-| **Aceptación** | Cálculo correcto de plazos hábiles (excluye fines de semana y feriados nacionales). Alertas funcionales. |
-| **Rol** | Abogados y Administrativos |
+| Field | Detail |
+|-------|--------|
+| **MVP** | 🔴 0% — There are no procedural tools in the generic agent |
+| **Delta** | Completely new feature. Requires the `Movement` and `Deadline` entities (F00-W03). |
+| **Description** | Queries about case files and deadlines. Examples: "How long until the answer deadline expires in case file 12345?", "List the cases with due dates this week". |
+| **Backend** | `ProceduralAgentPlugin` with: `GetCaseFile()`, `CalculateDeadline()`, `AlertDueDate()`, `ListActiveCases()`. Queries Azure SQL. A business-day calculation engine. National and court holidays calendar. |
+| **Acceptance** | Correct business-day calculation (excludes weekends and national holidays). Functional alerts. |
+| **Role** | Lawyers and Administrative |
 
-### F2.5 — Prompt Registry y Gestión de Prompts
+### F2.5 — Prompt Registry and Prompt Management
 
-| Campo | Detalle |
-|-------|---------|
-| **MVP** | 🔴 0% — Prompts hardcoded en clases C# (`ChatSystemPrompt`, `ChunkContextualizationPrompt`, etc.) |
-| **Delta** | Feature completamente nuevo. Requiere entidad `PromptTemplate` (F00-W03). |
-| **Descripción** | Sistema híbrido de gestión de prompts: YAML files para system prompts base (versionados en Git) + tabla SQL `PromptTemplate` para templates dinámicos con A/B testing. |
-| **Backend** | `PromptTemplate` en Azure SQL con: nombre, versión, contenido, variables, modelo target, activo/inactivo, métricas de performance. API: `GET/PUT /api/admin/prompts`. |
-| **Frontend** | Vista admin de prompts: listado, editor con preview, toggle A/B, métricas de performance por versión. |
-| **Aceptación** | Prompts editables sin deploy. A/B testing funcional. Rollback a versión anterior en < 1 minuto. |
+| Field | Detail |
+|-------|--------|
+| **MVP** | 🔴 0% — Prompts hardcoded in C# classes (`ChatSystemPrompt`, `ChunkContextualizationPrompt`, etc.) |
+| **Delta** | Completely new feature. Requires the `PromptTemplate` entity (F00-W03). |
+| **Description** | Hybrid prompt management system: YAML files for base system prompts (versioned in Git) + a SQL `PromptTemplate` table for dynamic templates with A/B testing. |
+| **Backend** | `PromptTemplate` in Azure SQL with: name, version, content, variables, target model, active/inactive, performance metrics. API: `GET/PUT /api/admin/prompts`. |
+| **Frontend** | Admin prompts view: list, editor with preview, A/B toggle, per-version performance metrics. |
+| **Acceptance** | Prompts editable without a deploy. Functional A/B testing. Rollback to a previous version in < 1 minute. |
 
-### F2.6 — Evaluación y Calidad de IA
+### F2.6 — AI Evaluation and Quality
 
-| Campo | Detalle |
-|-------|---------|
-| **MVP** | 🔴 0% — Sin framework de evaluación |
-| **Delta** | Feature completamente nuevo. |
-| **Descripción** | Pipeline de evaluación de calidad de las respuestas de agentes: golden set de 200 queries, LLM-as-judge para scoring automático, regression testing en CI, drift monitoring. |
-| **Backend** | Golden set en JSON (200 queries con respuestas esperadas, distribución por rama). LLM-as-judge (GPT-4o evalúa respuestas contra criterios). Pipeline CI: `dotnet test` ejecuta eval en cada PR. Métricas: Recall@10, MRR, faithfulness, citation accuracy. |
-| **Aceptación** | Golden set completo (200 queries). LLM-as-judge calibrado (Cohen's Kappa ≥ 0.75 vs. humano). Regression test en CI pasa en < 5 minutos. |
+| Field | Detail |
+|-------|--------|
+| **MVP** | 🔴 0% — No evaluation framework |
+| **Delta** | Completely new feature. |
+| **Description** | A quality evaluation pipeline for agent answers: a golden set of 200 queries, LLM-as-judge for automatic scoring, regression testing in CI, drift monitoring. |
+| **Backend** | Golden set in JSON (200 queries with expected answers, distribution by branch). LLM-as-judge (GPT-4o evaluates answers against criteria). CI pipeline: `dotnet test` runs the eval on each PR. Metrics: Recall@10, MRR, faithfulness, citation accuracy. |
+| **Acceptance** | Complete golden set (200 queries). Calibrated LLM-as-judge (Cohen's Kappa ≥ 0.75 vs human). Regression test in CI passes in < 5 minutes. |
 
-### F2.7 — Gestión de Expedientes
+### F2.7 — Case File Management
 
-| Campo | Detalle |
-|-------|---------|
-| **MVP** | 🟡 60% — Vista `procesos` con listado y detalle de JudicialProceeding (solo lectura) |
-| **Delta** | Agregar CRUD completo, movimientos (timeline), documentos adjuntos (Blob), vinculación con plazos. Requiere entidad `Movimiento` (F00-W03). |
-| **Descripción** | CRUD de expedientes judiciales y administrativos del estudio. Cada expediente tiene: número, carátula, fuero, juzgado, estado, partes, abogado responsable, documentos adjuntos, historial de movimientos. |
-| **Backend** | CRUD: `GET/POST/PUT/DELETE /api/expedientes`. Búsqueda con filtros: `GET /api/expedientes?fuero=laboral&estado=en_tramite&abogado=jperez`. Subrecursos: `/api/expedientes/{id}/movimientos`, `/api/expedientes/{id}/documentos`. |
-| **Frontend** | Evolucionar vista `procesos` del MVP a `ExpedientesListComponent` con DataTable (sort, filter, paginación). Agregar `ExpedienteDetalleComponent` con tabs: Información, Movimientos (timeline), Documentos (upload/download), Plazos, Notas. `ExpedienteFormComponent` para alta/edición. |
-| **Aceptación** | CRUD completo. Búsqueda por cualquier campo. Upload de documentos a Blob Storage. Timeline de movimientos cronológico. |
-| **Rol** | Abogados (CRUD completo) · Administrativos (lectura + alta de movimientos) |
+| Field | Detail |
+|-------|--------|
+| **MVP** | 🟡 60% — `procesos` view with JudicialProceeding list and detail (read-only) |
+| **Delta** | Add full CRUD, movements (timeline), attached documents (Blob), linking with deadlines. Requires the `Movement` entity (F00-W03). |
+| **Description** | CRUD of the firm's judicial and administrative case files. Each case file has: number, caption, venue, court, status, parties, responsible lawyer, attached documents, movement history. |
+| **Backend** | CRUD: `GET/POST/PUT/DELETE /api/case-files`. Search with filters: `GET /api/case-files?courtVenue=labor&status=in_progress&lawyer=jperez`. Subresources: `/api/case-files/{id}/movements`, `/api/case-files/{id}/documents`. |
+| **Frontend** | Evolve the MVP's `procesos` view into `CaseFileListComponent` with a DataTable (sort, filter, pagination). Add `CaseFileDetailComponent` with tabs: Information, Movements (timeline), Documents (upload/download), Deadlines, Notes. `CaseFileFormComponent` for create/edit. |
+| **Acceptance** | Full CRUD. Search by any field. Document upload to Blob Storage. Chronological movement timeline. |
+| **Role** | Lawyers (full CRUD) · Administrative (read + add movements) |
 
-### F2.8 — Gestión de Plazos
+### F2.8 — Deadline Management
 
-| Campo | Detalle |
-|-------|---------|
-| **MVP** | 🔴 0% — No existe gestión de plazos |
-| **Delta** | Feature completamente nuevo. Requiere entidad `Plazo` (F00-W03). |
-| **Descripción** | Registro y seguimiento de plazos procesales vinculados a expedientes. Cálculo automático de días hábiles. Alertas configurables (X días antes del vencimiento). Estados: pendiente, próximo a vencer, vencido, cumplido. |
-| **Backend** | CRUD `/api/plazos`. Cálculo de hábiles con calendario de feriados nacionales y judiciales (Azure SQL). Azure Functions Timer Trigger diario evalúa plazos y genera alertas via Storage Queue → SignalR push. |
-| **Frontend** | `PlazosListComponent` con filtros por estado y urgencia. Badges de color: verde (>5 días), amarillo (2-5 días), rojo (<2 días), gris (cumplido). `PlazoFormComponent` con date pickers y cálculo automático de hábiles. |
-| **Aceptación** | Cálculo correcto de hábiles. Alertas push 72hs, 48hs y 24hs antes del vencimiento. Feriados judiciales contemplados. |
-| **Rol** | Abogados y Administrativos |
+| Field | Detail |
+|-------|--------|
+| **MVP** | 🔴 0% — No deadline management exists |
+| **Delta** | Completely new feature. Requires the `Deadline` entity (F00-W03). |
+| **Description** | Registration and tracking of procedural deadlines linked to case files. Automatic business-day calculation. Configurable alerts (X days before the due date). Statuses: pending, due soon, overdue, fulfilled. |
+| **Backend** | CRUD `/api/deadlines`. Business-day calculation with a national and court holidays calendar (Azure SQL). A daily Azure Functions Timer Trigger evaluates deadlines and generates alerts via Storage Queue → SignalR push. |
+| **Frontend** | `DeadlineListComponent` with filters by status and urgency. Color badges: green (>5 days), yellow (2-5 days), red (<2 days), gray (fulfilled). `DeadlineFormComponent` with date pickers and automatic business-day calculation. |
+| **Acceptance** | Correct business-day calculation. Push alerts 72h, 48h, and 24h before the due date. Court holidays accounted for. |
+| **Role** | Lawyers and Administrative |
 
-### F2.9 — Calendario Legal
+### F2.9 — Legal Calendar
 
-| Campo | Detalle |
-|-------|---------|
-| **MVP** | 🔴 0% — No existe vista calendario |
-| **Delta** | Feature completamente nuevo. |
-| **Descripción** | Vista calendario (mes/semana/día) con todos los plazos, audiencias y vencimientos del estudio. Filtros por abogado, fuero, expediente. |
-| **Backend** | `GET /api/calendario?desde=2026-04-01&hasta=2026-04-30&abogado=all`. Agrega plazos, audiencias y fechas de expedientes. |
-| **Frontend** | `CalendarioComponent` con FullCalendar (Angular wrapper). Eventos color-coded por tipo. Click en evento abre detalle del plazo/expediente. Drag & drop para reprogramar audiencias. |
-| **Aceptación** | Visualización correcta de eventos. Filtros funcionales. Navegación mes/semana/día fluida. |
-| **Rol** | Abogados y Administrativos |
+| Field | Detail |
+|-------|--------|
+| **MVP** | 🔴 0% — No calendar view exists |
+| **Delta** | Completely new feature. |
+| **Description** | Calendar view (month/week/day) with all the firm's deadlines, hearings, and due dates. Filters by lawyer, venue, case file. |
+| **Backend** | `GET /api/calendar?from=2026-04-01&to=2026-04-30&lawyer=all`. Aggregates deadlines, hearings, and case file dates. |
+| **Frontend** | `CalendarComponent` with FullCalendar (Angular wrapper). Color-coded events by type. Clicking an event opens the deadline/case file detail. Drag & drop to reschedule hearings. |
+| **Acceptance** | Correct event visualization. Functional filters. Smooth month/week/day navigation. |
+| **Role** | Lawyers and Administrative |
 
-### F2.10 — Administración de Usuarios
+### F2.10 — User Administration
 
-| Campo | Detalle |
-|-------|---------|
-| **MVP** | 🟡 70% — Vista `admin/users` con listado, panel admin de ingesta (DLQ, jobs, workers) al 95% |
-| **Delta** | Agregar gestión de roles y permisos por módulo. Agregar auditoría de acceso. Mantener panel admin de ingesta del MVP. |
-| **Descripción** | Gestión de usuarios del sistema: asignación de rol, permisos por módulo, auditoría de acceso. Panel admin de ingesta (heredado del MVP). |
-| **Backend** | Entra ID para identidades. Azure SQL para permisos custom. `GET/POST/PUT /api/admin/usuarios`. Audit log en Azure SQL. Reutilizar endpoints admin de ingesta del MVP. |
-| **Frontend** | Evolucionar `AdminUsuariosComponent` del MVP. Agregar: formulario de edición de rol y permisos, log de auditoría con filtros. Mantener panel admin de ingesta (DLQ, jobs, reprocess). |
-| **Rol** | Solo Abogados con permiso de admin |
+| Field | Detail |
+|-------|--------|
+| **MVP** | 🟡 70% — `admin/users` view with a list, ingestion admin panel (DLQ, jobs, workers) at 95% |
+| **Delta** | Add role and per-module permission management. Add access auditing. Keep the MVP's ingestion admin panel. |
+| **Description** | System user management: role assignment, per-module permissions, access auditing. Ingestion admin panel (inherited from the MVP). |
+| **Backend** | Entra ID for identities. Azure SQL for custom permissions. `GET/POST/PUT /api/admin/users`. Audit log in Azure SQL. Reuse the MVP's ingestion admin endpoints. |
+| **Frontend** | Evolve the MVP's `AdminUsuariosComponent`. Add: a role and permission editing form, an audit log with filters. Keep the ingestion admin panel (DLQ, jobs, reprocess). |
+| **Role** | Lawyers with admin permission only |
 
-### F2.11 — Feedback y Mejora de Agentes
+### F2.11 — Agent Feedback and Improvement
 
-| Campo | Detalle |
-|-------|---------|
-| **MVP** | 🔴 0% — Sin sistema de feedback |
-| **Delta** | Feature completamente nuevo. Requiere entidad `FeedbackRespuesta` (F00-W03). |
-| **Descripción** | Sistema de feedback para calificar respuestas de agentes: thumbs up/down, corrección de respuesta, rating de utilidad de fuentes. Los datos alimentan mejora continua de prompts y scoring. |
-| **Backend** | `POST /api/feedback` con: conversationId, messageId, rating, corrección. Azure Functions batch job semanal analiza feedback. |
-| **Frontend** | Botones de thumbs up/down en cada respuesta del agente. Modal de feedback detallado. Dashboard de feedback para admins. |
-| **Aceptación** | Feedback registrado sin fricción (1 click). Dashboard con métricas de satisfacción. Tasa de thumbs up > 80% como target. |
+| Field | Detail |
+|-------|--------|
+| **MVP** | 🔴 0% — No feedback system |
+| **Delta** | Completely new feature. Requires the `ResponseFeedback` entity (F00-W03). |
+| **Description** | A feedback system to rate agent answers: thumbs up/down, answer correction, source-usefulness rating. The data feeds continuous improvement of prompts and scoring. |
+| **Backend** | `POST /api/feedback` with: conversationId, messageId, rating, correction. A weekly Azure Functions batch job analyzes feedback. |
+| **Frontend** | Thumbs up/down buttons on each agent answer. Detailed feedback modal. Feedback dashboard for admins. |
+| **Acceptance** | Frictionless feedback recording (1 click). Dashboard with satisfaction metrics. Thumbs up rate > 80% as a target. |
 
 ---
 
 ## 7. Feature Details — Release 3.0
 
-> **Risk** — Análisis de riesgo + Informes automatizados
+> **Risk** — Risk analysis + automated reports
 >
-> **Estrategia:** Features completamente nuevos que se construyen sobre la infraestructura de agentes de R2.0.
+> **Strategy:** Completely new features built on top of the R2.0 agent infrastructure.
 
-### F3.1 — Análisis de Riesgo Legal
+### F3.1 — Legal Risk Analysis
 
-| Campo | Detalle |
-|-------|---------|
-| **MVP** | 🔴 0% — No existe |
-| **Descripción** | El usuario describe un caso o situación legal y el sistema genera un análisis de riesgo estructurado. Incluye: evaluación normativa, jurisprudencia favorable/desfavorable, factores de riesgo, probabilidad de éxito estimada, recomendaciones. |
-| **Backend** | `POST /api/riesgo/analizar` → Semantic Kernel `AgenteRiesgoPlugin`. Combina outputs de agentes normativo y jurisprudencial. Genera JSON estructurado con scores. Persiste análisis en Azure SQL. |
-| **Frontend** | `RiesgoAnalisisComponent` con: formulario de ingreso del caso (textarea + selección de rama/jurisdicción), vista de resultado con secciones colapsables (normativa, jurisprudencia, factores, score), gauge visual de probabilidad de éxito, botón "Generar informe .docx". |
-| **Aceptación** | Análisis generado en < 30 seg. Score de riesgo coherente con jurisprudencia citada. Informe exportable. |
-| **Rol** | Solo Abogados |
+| Field | Detail |
+|-------|--------|
+| **MVP** | 🔴 0% — Does not exist |
+| **Description** | The user describes a legal case or situation and the system generates a structured risk analysis. Includes: normative assessment, favorable/unfavorable case law, risk factors, estimated probability of success, recommendations. |
+| **Backend** | `POST /api/risk/analyze` → Semantic Kernel `RiskAgentPlugin`. Combines outputs from the regulatory and case law agents. Generates structured JSON with scores. Persists the analysis in Azure SQL. |
+| **Frontend** | `RiskAnalysisComponent` with: a case input form (textarea + branch/jurisdiction selection), a result view with collapsible sections (normative, case law, factors, score), a visual gauge of the probability of success, a "Generate .docx report" button. |
+| **Acceptance** | Analysis generated in < 30 sec. Risk score consistent with the cited case law. Exportable report. |
+| **Role** | Lawyers only |
 
-### F3.2 — Historial de Análisis de Riesgo
+### F3.2 — Risk Analysis History
 
-| Campo | Detalle |
-|-------|---------|
-| **MVP** | 🔴 0% — No existe |
-| **Descripción** | Listado de todos los análisis de riesgo generados por el estudio. Filtrable por rama, fecha, abogado, score de riesgo. Permite re-ejecutar un análisis con datos actualizados. |
-| **Backend** | `GET /api/riesgo/historial?rama=laboral&desde=2026-01-01`. Almacenados en Azure SQL con snapshot de las fuentes usadas. |
-| **Frontend** | `RiesgoHistorialComponent` con DataTable. Columnas: fecha, caso (resumen), rama, score, abogado. Click abre el análisis completo. Botón "Re-analizar" ejecuta nuevo análisis con KB actualizada. |
-| **Aceptación** | Historial paginado y filtrable. Re-análisis funcional con diff visual vs. análisis anterior. |
+| Field | Detail |
+|-------|--------|
+| **MVP** | 🔴 0% — Does not exist |
+| **Description** | List of all risk analyses generated by the firm. Filterable by branch, date, lawyer, risk score. Allows re-running an analysis with updated data. |
+| **Backend** | `GET /api/risk/history?branch=labor&from=2026-01-01`. Stored in Azure SQL with a snapshot of the sources used. |
+| **Frontend** | `RiskHistoryComponent` with a DataTable. Columns: date, case (summary), branch, score, lawyer. Clicking opens the full analysis. A "Re-analyze" button runs a new analysis with the updated KB. |
+| **Acceptance** | Paginated and filterable history. Functional re-analysis with a visual diff vs the previous analysis. |
 
-### F3.3 — Generación de Informes Legales
+### F3.3 — Legal Report Generation
 
-| Campo | Detalle |
-|-------|---------|
-| **MVP** | 🔴 0% — No existe |
-| **Descripción** | Generación automatizada de documentos .docx a partir de templates: informes de riesgo, dictámenes, resúmenes de jurisprudencia, memos legales. Los agentes IA completan el contenido y el sistema genera el documento formateado. |
-| **Backend** | `POST /api/informes/generar` con body: `{tipo, datos, expedienteId?}`. Backend usa DocumentFormat.OpenXml (.NET) para generar .docx desde templates almacenados en Blob Storage. Output guardado en Blob Storage. |
-| **Frontend** | `InformesGenerarComponent` con: selector de tipo de informe, formulario dinámico según tipo, preview (rendering del .docx en iframe o PDF viewer), botón de descarga. `InformesListComponent` con historial de informes generados. |
-| **Aceptación** | .docx generado correctamente con formato profesional. Preview funcional. Descarga directa. |
-| **Rol** | Abogados (todos los tipos) · Administrativos (solo reportes operativos) |
+| Field | Detail |
+|-------|--------|
+| **MVP** | 🔴 0% — Does not exist |
+| **Description** | Automated generation of .docx documents from templates: risk reports, opinions, case law summaries, legal memos. The AI agents complete the content and the system generates the formatted document. |
+| **Backend** | `POST /api/legal-reports/generate` with body: `{type, data, caseFileId?}`. The backend uses DocumentFormat.OpenXml (.NET) to generate the .docx from templates stored in Blob Storage. Output saved in Blob Storage. |
+| **Frontend** | `ReportGenerateComponent` with: a report type selector, a dynamic form by type, a preview (rendering the .docx in an iframe or PDF viewer), a download button. `ReportListComponent` with a history of generated reports. |
+| **Acceptance** | .docx generated correctly with professional formatting. Functional preview. Direct download. |
+| **Role** | Lawyers (all types) · Administrative (operational reports only) |
 
-### F3.4 — Reportes Operativos
+### F3.4 — Operational Reports
 
-| Campo | Detalle |
-|-------|---------|
-| **MVP** | 🟡 30% — Vista `estadisticas` con conteos y stats básicos de la KB |
-| **Delta** | Transformar en dashboards completos con gráficos interactivos, filtros y exportación. |
-| **Descripción** | Dashboards y reportes de gestión del estudio: cantidad de expedientes por estado, plazos vencidos, carga de trabajo por abogado, tiempo promedio de resolución, estadísticas de uso de agentes IA. |
-| **Backend** | `GET /api/reportes/expedientes-por-estado`, `/api/reportes/plazos-vencidos`, `/api/reportes/carga-por-abogado`. Queries agregadas sobre Azure SQL. |
-| **Frontend** | `ReportesComponent` con gráficos: barras (expedientes por fuero), pie (estados), line (evolución mensual), heatmap (carga por abogado/semana). Librería: ngx-charts o Chart.js. Exportar a PDF/Excel. |
-| **Aceptación** | Gráficos renderizados correctamente. Datos consistentes con la base. Export funcional. |
-| **Rol** | Abogados y Administrativos |
+| Field | Detail |
+|-------|--------|
+| **MVP** | 🟡 30% — `estadisticas` view with counts and basic KB stats |
+| **Delta** | Transform into complete dashboards with interactive charts, filters, and export. |
+| **Description** | Firm management dashboards and reports: number of case files by status, overdue deadlines, workload by lawyer, average resolution time, AI agent usage statistics. |
+| **Backend** | `GET /api/reports/case-files-by-status`, `/api/reports/overdue-deadlines`, `/api/reports/workload-by-lawyer`. Aggregate queries over Azure SQL. |
+| **Frontend** | `ReportsComponent` with charts: bars (case files by venue), pie (statuses), line (monthly trend), heatmap (workload by lawyer/week). Library: ngx-charts or Chart.js. Export to PDF/Excel. |
+| **Acceptance** | Charts rendered correctly. Data consistent with the database. Functional export. |
+| **Role** | Lawyers and Administrative |
 
 ---
 
 ## 8. Feature Details — Release 4.0
 
-> **Operations** — Observabilidad, alertas avanzadas, hardening
+> **Operations** — Observability, advanced alerts, hardening
 >
-> **Estrategia:** Foco en operación productiva: observabilidad completa, alertas configurables, PWA, y migración gradual de workers a Azure Functions.
+> **Strategy:** Focus on production operation: full observability, configurable alerts, PWA, and gradual migration of workers to Azure Functions.
 
-### F4.1 — Observabilidad y LLMOps
+### F4.1 — Observability and LLMOps
 
-| Campo | Detalle |
-|-------|---------|
-| **MVP** | 🔴 0% — Sin observabilidad |
-| **Descripción** | Implementar stack completo de observabilidad: OpenTelemetry para distributed tracing, Application Insights para métricas y alertas, telemetría custom para LLM (tokens, latencia, costos), semantic caching, circuit breaker con Polly. |
-| **Backend** | OpenTelemetry SDK → Application Insights exporter. Custom counters: `llm.tokens.input`, `llm.tokens.output`, `llm.latency_ms`, `llm.cost_usd`. Semantic cache con TTL por tipo de consulta. Circuit breaker (Polly v8) para Azure OpenAI. |
-| **Dashboards** | 6 paneles: Request Overview, LLM Performance, RAG Quality, Pipeline Health, Cost Tracking, Error Analysis. |
-| **Alertas** | 6 alertas: latencia P95 > 10s, error rate > 5%, costo diario > umbral, circuit breaker open, feedback negativo > 15%, drift en métricas de eval. |
-| **Aceptación** | Tracing end-to-end funcional (request → agente → tool → search → response). Dashboard de costos actualizado en < 1 hora. Circuit breaker protege contra downtime de Azure OpenAI. |
+| Field | Detail |
+|-------|--------|
+| **MVP** | 🔴 0% — No observability |
+| **Description** | Implement a complete observability stack: OpenTelemetry for distributed tracing, Application Insights for metrics and alerts, custom telemetry for LLM (tokens, latency, costs), semantic caching, circuit breaker with Polly. |
+| **Backend** | OpenTelemetry SDK → Application Insights exporter. Custom counters: `llm.tokens.input`, `llm.tokens.output`, `llm.latency_ms`, `llm.cost_usd`. Semantic cache with TTL per query type. Circuit breaker (Polly v8) for Azure OpenAI. |
+| **Dashboards** | 6 panels: Request Overview, LLM Performance, RAG Quality, Pipeline Health, Cost Tracking, Error Analysis. |
+| **Alerts** | 6 alerts: P95 latency > 10s, error rate > 5%, daily cost > threshold, circuit breaker open, negative feedback > 15%, drift in eval metrics. |
+| **Acceptance** | End-to-end tracing functional (request → agent → tool → search → response). Cost dashboard updated in < 1 hour. Circuit breaker protects against Azure OpenAI downtime. |
 
-### F4.2 — Configuración de Alertas Avanzadas
+### F4.2 — Advanced Alert Configuration
 
-| Campo | Detalle |
-|-------|---------|
-| **MVP** | 🔴 0% — No existe |
-| **Descripción** | Los usuarios configuran alertas personalizadas: cambios normativos en ramas específicas, vencimientos de expedientes asignados, nuevos fallos de tribunales de interés, cambios de estado en causas. |
-| **Backend** | CRUD `/api/alertas/configuracion`. Azure Functions evalúa condiciones y genera notificaciones via Storage Queue → SignalR. Opciones de canal: push in-app, email. |
-| **Frontend** | `AlertasConfigComponent` con wizard: selección de tipo de alerta, configuración de condiciones (rama, tribunal, expediente), canal de notificación, frecuencia. `AlertasCentroComponent` con inbox de alertas (leídas/no leídas, archivadas). |
-| **Aceptación** | Alertas generadas dentro de los 30 minutos del evento trigger. Inbox funcional con mark as read. Email delivery funcional. |
+| Field | Detail |
+|-------|--------|
+| **MVP** | 🔴 0% — Does not exist |
+| **Description** | Users configure custom alerts: regulatory changes in specific branches, due dates of assigned case files, new rulings from courts of interest, status changes in cases. |
+| **Backend** | CRUD `/api/alerts/configuration`. Azure Functions evaluate conditions and generate notifications via Storage Queue → SignalR. Channel options: in-app push, email. |
+| **Frontend** | `AlertConfigComponent` with a wizard: alert type selection, condition configuration (branch, court, case file), notification channel, frequency. `AlertCenterComponent` with an alert inbox (read/unread, archived). |
+| **Acceptance** | Alerts generated within 30 minutes of the trigger event. Functional inbox with mark as read. Functional email delivery. |
 
-### F4.3 — Modo Offline (PWA)
+### F4.3 — PWA Offline Mode
 
-| Campo | Detalle |
-|-------|---------|
-| **MVP** | 🔴 0% — No existe |
-| **Descripción** | Service worker para funcionalidad offline limitada: acceso a normas previamente consultadas, expedientes en caché, plazos del día. Sincronización al reconectar. |
-| **Backend** | API soporta ETags y caching headers. Manifest.json para PWA. |
-| **Frontend** | Angular PWA con `@angular/service-worker`. Cache strategy: network-first para datos, cache-first para assets. IndexedDB para normas y expedientes favoritos. |
-| **Aceptación** | Acceso offline a últimas 50 normas consultadas y expedientes activos. Sync al reconectar sin pérdida de datos. |
+| Field | Detail |
+|-------|--------|
+| **MVP** | 🔴 0% — Does not exist |
+| **Description** | Service worker for limited offline functionality: access to previously consulted norms, cached case files, the day's deadlines. Sync on reconnect. |
+| **Backend** | The API supports ETags and caching headers. Manifest.json for the PWA. |
+| **Frontend** | Angular PWA with `@angular/service-worker`. Cache strategy: network-first for data, cache-first for assets. IndexedDB for favorite norms and case files. |
+| **Acceptance** | Offline access to the last 50 consulted norms and active case files. Sync on reconnect with no data loss. |
 
-### F4.4 — Migración Gradual a Azure Functions
+### F4.4 — Gradual Migration to Azure Functions
 
-| Campo | Detalle |
-|-------|---------|
-| **MVP** | Los workers actuales son BackgroundService (polling queues) en el proceso del API |
-| **Delta** | Evaluar y migrar selectivamente workers a Azure Functions (event-driven, consumption plan). |
-| **Descripción** | Los 5 workers del pipeline de ingesta (Discoverer, Fetcher, Parser, Enrichment, Indexer) actualmente corren como BackgroundService. Migrar a Azure Functions permite scaling independiente, pago por ejecución, y triggers nativos de Storage Queue. |
-| **Backend** | Azure Functions .NET 10 isolated worker. Queue triggers reemplazan polling. Mantener strategy pattern por fuente. Timer trigger para Boletín Oficial. |
-| **Criterio** | Solo migrar si el volumen de ingesta justifica el overhead de Functions. Si el volumen es bajo, los BackgroundService del MVP son suficientes. |
+| Field | Detail |
+|-------|--------|
+| **MVP** | The current workers are BackgroundServices (queue polling) in the API process |
+| **Delta** | Evaluate and selectively migrate workers to Azure Functions (event-driven, consumption plan). |
+| **Description** | The 5 ingestion pipeline workers (Discoverer, Fetcher, Parser, Enrichment, Indexer) currently run as BackgroundServices. Migrating to Azure Functions enables independent scaling, pay-per-execution, and native Storage Queue triggers. |
+| **Backend** | Azure Functions .NET 10 isolated worker. Queue triggers replace polling. Keep the strategy pattern per source. Timer trigger for the Official Gazette. |
+| **Criterion** | Only migrate if the ingestion volume justifies the Functions overhead. If the volume is low, the MVP's BackgroundServices are sufficient. |
 
-### F4.5 — Model Versioning y Canary Deploys
+### F4.5 — Model Versioning and Canary Deploys
 
-| Campo | Detalle |
-|-------|---------|
-| **MVP** | 🔴 0% — No existe |
-| **Descripción** | Versionado de modelos y prompts con canary deploys: 10% tráfico a nueva versión → evaluar métricas → ramp up o rollback automático. |
-| **Backend** | `ModelVersionConfig` en SQL. Feature flags para routing de tráfico. Métricas A/B comparativas automáticas. |
-| **Aceptación** | Canary deploy funcional. Rollback automático si métricas degradan > 10%. Tiempo de rollback < 5 minutos. |
-
----
-
-## 9. Features Transversales
-
-Estas features aplican a toda la aplicación y se implementan progresivamente:
-
-### FT.1 — Notificaciones en Tiempo Real
-
-| Campo | Detalle |
-|-------|---------|
-| **MVP** | 🔴 0% — No existe como sistema de notificaciones de usuario |
-| **Delta** | Implementar SignalR para notificaciones de usuario: plazos, novedades normativas, alertas. |
-| **Descripción** | Sistema de notificaciones push in-app via SignalR. Badge en navbar con conteo de no leídas. Toast notifications para eventos urgentes (plazos < 24hs). |
-| **Backend** | Azure SignalR Service. Hub: `NotificacionHub` con métodos `EnviarAlerta()`, `ActualizarEstado()`. Azure Functions publica en Storage Queue → worker lee y pushea via SignalR. |
-| **Frontend** | `NotificacionService` (singleton) mantiene conexión SignalR. `NotificacionBadgeComponent` en navbar. `ToastComponent` para alertas urgentes. `NotificacionCentroComponent` con listado completo. |
-| **Implementación** | R1.0: infraestructura base SignalR. R2.0: notificaciones de plazos. R4.0: alertas avanzadas configurables. |
-
-### FT.2 — Búsqueda Global (Omnisearch)
-
-| Campo | Detalle |
-|-------|---------|
-| **MVP** | 🟢 **80%** — Command palette (Ctrl+K) funcional con búsqueda multi-tipo |
-| **Delta** | Agregar búsqueda en expedientes y conversaciones. Mejorar agrupación de resultados. |
-| **Descripción** | Buscador unificado accesible con `Ctrl+K` desde cualquier vista. Busca simultáneamente en normas, jurisprudencia, expedientes y conversaciones con agentes. Resultados agrupados por tipo. |
-| **Backend** | Reutilizar command palette del MVP. Agregar `GET /api/buscar/global?q=despido+sin+causa` → AI Search multi-index query + Azure SQL para expedientes. |
-| **Frontend** | Evolucionar `OmnisearchComponent` del MVP. Agregar grupo de resultados: Expedientes, Conversaciones. Mantener keyboard navigation existente. |
-| **Implementación** | R1.0: polish (ya funcional). R2.0: agregar expedientes y conversaciones. |
-
-### FT.3 — Tema y Accesibilidad
-
-| Campo | Detalle |
-|-------|---------|
-| **MVP** | 🟡 Parcial — PwC AppKit 4 parcialmente configurado |
-| **Descripción** | Soporte para tema claro/oscuro. Cumplimiento WCAG 2.1 AA. Responsive design (desktop-first, funcional en tablet). |
-| **Frontend** | Angular Material theming con CSS custom properties. `prefers-color-scheme` detection. Focus visible, ARIA labels, semantic HTML. Breakpoints: desktop (>1200px), tablet (768-1200px). |
-| **Implementación** | Progresivo a lo largo de todos los releases. |
-
-### FT.4 — Auditoría y Logging
-
-| Campo | Detalle |
-|-------|---------|
-| **MVP** | 🟡 Parcial — `DocumentStageLog` para tracking de pipeline, logging básico |
-| **Delta** | Agregar middleware de auditoría para acciones de usuario. Application Insights para telemetría técnica. |
-| **Descripción** | Registro de todas las acciones significativas: búsquedas realizadas, expedientes consultados, documentos descargados, análisis de riesgo generados. Compliance con Ley 25.326 de datos personales. |
-| **Backend** | Middleware de auditoría en .NET 10. Eventos escritos en Azure SQL (tabla AuditLog). Application Insights para telemetría técnica. Retención: 2 años operativo, 5 años archivo en Blob Storage (cool tier). |
-| **Implementación** | R1.0: middleware base + Application Insights. R4.0: dashboard de auditoría completo. |
+| Field | Detail |
+|-------|--------|
+| **MVP** | 🔴 0% — Does not exist |
+| **Description** | Model and prompt versioning with canary deploys: 10% traffic to a new version → evaluate metrics → ramp up or automatic rollback. |
+| **Backend** | `ModelVersionConfig` in SQL. Feature flags for traffic routing. Automatic comparative A/B metrics. |
+| **Acceptance** | Functional canary deploy. Automatic rollback if metrics degrade > 10%. Rollback time < 5 minutes. |
 
 ---
 
-## 10. Stack Técnico Detallado
+## 9. Cross-Cutting Features
+
+These features apply to the whole application and are implemented progressively:
+
+### FT.1 — Real-Time Notifications
+
+| Field | Detail |
+|-------|--------|
+| **MVP** | 🔴 0% — Does not exist as a user notification system |
+| **Delta** | Implement SignalR for user notifications: deadlines, regulatory updates, alerts. |
+| **Description** | In-app push notification system via SignalR. A navbar badge with the unread count. Toast notifications for urgent events (deadlines < 24h). |
+| **Backend** | Azure SignalR Service. Hub: `NotificationHub` with methods `SendAlert()`, `UpdateStatus()`. Azure Functions publish to a Storage Queue → a worker reads and pushes via SignalR. |
+| **Frontend** | `NotificationService` (singleton) maintains the SignalR connection. `NotificationBadgeComponent` in the navbar. `ToastComponent` for urgent alerts. `NotificationCenterComponent` with the full list. |
+| **Implementation** | R1.0: base SignalR infrastructure. R2.0: deadline notifications. R4.0: configurable advanced alerts. |
+
+### FT.2 — Global Search (Omnisearch)
+
+| Field | Detail |
+|-------|--------|
+| **MVP** | 🟢 **80%** — Functional command palette (Ctrl+K) with multi-type search |
+| **Delta** | Add search in case files and conversations. Improve result grouping. |
+| **Description** | A unified search accessible with `Ctrl+K` from any view. Searches simultaneously across norms, case law, case files, and agent conversations. Results grouped by type. |
+| **Backend** | Reuse the MVP's command palette. Add `GET /api/search/global?q=despido+sin+causa` → AI Search multi-index query + Azure SQL for case files. |
+| **Frontend** | Evolve the MVP's `OmnisearchComponent`. Add a result group: Case Files, Conversations. Keep the existing keyboard navigation. |
+| **Implementation** | R1.0: polish (already functional). R2.0: add case files and conversations. |
+
+### FT.3 — Theme and Accessibility
+
+| Field | Detail |
+|-------|--------|
+| **MVP** | 🟡 Partial — PwC AppKit 4 partially configured |
+| **Description** | Support for light/dark theme. WCAG 2.1 AA compliance. Responsive design (desktop-first, functional on tablet). |
+| **Frontend** | Angular Material theming with CSS custom properties. `prefers-color-scheme` detection. Focus visible, ARIA labels, semantic HTML. Breakpoints: desktop (>1200px), tablet (768-1200px). |
+| **Implementation** | Progressive across all releases. |
+
+### FT.4 — Audit and Logging
+
+| Field | Detail |
+|-------|--------|
+| **MVP** | 🟡 Partial — `DocumentStageLog` for pipeline tracking, basic logging |
+| **Delta** | Add audit middleware for user actions. Application Insights for technical telemetry. |
+| **Description** | Recording of all significant actions: searches performed, case files consulted, documents downloaded, risk analyses generated. Compliance with Ley 25.326 on personal data. |
+| **Backend** | Audit middleware in .NET 10. Events written to Azure SQL (AuditLog table). Application Insights for technical telemetry. Retention: 2 years operational, 5 years archived in Blob Storage (cool tier). |
+| **Implementation** | R1.0: base middleware + Application Insights. R4.0: complete audit dashboard. |
+
+### FT.5 — Delivery and Hosting (GitHub + GCaaS)
+
+| Field | Detail |
+|-------|--------|
+| **MVP** | 🟢 70% — `ci.yml` + `cd.yml` deploy API + SPA to **Azure staging**; GCaaS Helm chart (`mvp/deployment/`) with Knative, Istio, Vault, platform Entra auth already implemented |
+| **Delta** | Document and reconcile the dual delivery model; complete the GCaaS production verification/rollback runbook; align worker deploy and production promotion (the implemented `cd.yml` covers API + SPA staging only). |
+| **Description** | Two complementary paths (see §2.3): GitHub Actions → Azure staging, and GCaaS Helm → corporate production with Entra SSO (`id_token` cookie) and Vault secrets. Both can share the same Azure data services. |
+| **References** | [`github-delivery.md`](../deployment/github-delivery.md), [`gcaas-hosting.md`](../deployment/gcaas-hosting.md) |
+| **Work items** | See backlog: FT05-W01..W06 (CI, CD to Azure staging, GCaaS Helm/Knative, platform auth, Vault secrets, verification + rollback). |
+| **Note** | This complements the "infrastructure managed outside the feature roadmap" stance: it is documented and tracked, but CI/CD and IaC remain operated by the delivery track, not as application features. |
+
+---
+
+## 10. Detailed Tech Stack
 
 ### Frontend
 
-| Tecnología | Versión | Uso | MVP |
+| Technology | Version | Use | MVP |
 |------------|---------|-----|-----|
-| Angular | 19.x | Framework SPA | ✅ |
-| PwC AppKit 4 | latest | UI Library + guidelines | ✅ Parcial |
-| Tailwind CSS | 4.x | Utility-first CSS | Agregar |
-| NgRx Signal Store | 19.x | State management con signals | Agregar |
-| SignalR Client | 9.x | Real-time notifications | Agregar |
-| MSAL Angular | 4.x | Autenticación Entra ID | Migrar desde JWT custom |
-| ngx-markdown | latest | Rendering de markdown (respuestas agentes) | Agregar |
-| Cytoscape.js | 3.x | Visualización de grafos | ✅ |
-| FullCalendar | 6.x | Componente calendario | Agregar (R2.0) |
-| ngx-charts / Chart.js | latest | Gráficos de reportes | Agregar (R3.0) |
+| Angular | 19.x | SPA framework | ✅ |
+| PwC AppKit 4 | latest | UI Library + guidelines | ✅ Partial |
+| Tailwind CSS | 4.x | Utility-first CSS | Add |
+| NgRx Signal Store | 19.x | State management with signals | Add |
+| SignalR Client | 9.x | Real-time notifications | Add |
+| Platform session (GCaaS) | — | Entra SSO via `id_token` cookie + `withCredentials` (no MSAL) | ✅ In MVP (auth.service, interceptors) |
+| ngx-markdown | latest | Markdown rendering (agent answers) | Add |
+| Cytoscape.js | 3.x | Graph visualization | ✅ |
+| FullCalendar | 6.x | Calendar component | Add (R2.0) |
+| ngx-charts / Chart.js | latest | Report charts | Add (R3.0) |
 | Jest | 30.x | Unit testing | ✅ |
-| Playwright | latest | E2E testing | Migrar desde tests actuales |
+| Playwright | latest | E2E testing | Migrate from current tests |
 
 ### Backend
 
-| Tecnología | Versión | Uso | MVP |
+| Technology | Version | Use | MVP |
 |------------|---------|-----|-----|
 | .NET | 10 (LTS) | Runtime | ✅ |
-| ASP.NET Core | 10 | Minimal API (refactor gradual desde Controllers) | ✅ Controllers |
+| ASP.NET Core | 10 | Minimal API (gradual refactor from Controllers) | ✅ Controllers |
 | Entity Framework Core | 10 | ORM + SQL Graph mapping | ✅ |
-| Semantic Kernel | latest | Orquestación de agentes IA (R2.0) | Reemplaza OpenAI SDK |
-| Azure Functions | .NET 10 isolated | ETL, jobs, triggers (R4.0 — evaluar) | Workers como BackgroundService |
-| Microsoft.Identity.Web | latest | Auth con Entra ID | Migrar desde JWT custom |
-| DocumentFormat.OpenXml | latest | Generación de .docx (R3.0) | Agregar |
-| Polly | 8.x | Retry + Circuit breaker | ✅ (solo retry) |
-| FluentValidation | 12.x | Validación de requests | ✅ |
-| PdfPig | 0.1.x | PDF parsing | ✅ (evaluar migración a Azure Doc Intelligence) |
-| SharpToken | 2.x | Tokenización para prompts | ✅ |
+| Semantic Kernel | latest | AI agent orchestration (R2.0) | Replaces OpenAI SDK |
+| Azure Functions | .NET 10 isolated | ETL, jobs, triggers (R4.0 — evaluate) | Workers as BackgroundService |
+| Platform auth (`Auth:Platform`) | — | `id_token` cookie JWT validation against Entra OIDC (custom `PlatformAuthenticationHandler`) | ✅ In MVP |
+| DocumentFormat.OpenXml | latest | .docx generation (R3.0) | Add |
+| Polly | 8.x | Retry + Circuit breaker | ✅ (retry only) |
+| FluentValidation | 12.x | Request validation | ✅ |
+| PdfPig | 0.1.x | PDF parsing | ✅ (evaluate migration to Azure Doc Intelligence) |
+| SharpToken | 2.x | Tokenization for prompts | ✅ |
 | xUnit + NSubstitute | latest | Testing | ✅ |
-| Custom IMediator | — | CQRS pattern | ✅ (evaluar MediatR en R2.0) |
+| Custom IMediator | — | CQRS pattern | ✅ (evaluate MediatR in R2.0) |
 
 ### Azure Services
 
-| Servicio | Uso | MVP | Fase |
-|----------|-----|-----|------|
-| Azure SQL Database | Datos relacionales + Graph Tables | ✅ | Existente |
-| Azure AI Search | Búsqueda híbrida (BM25 + vectores) | ✅ (3 índices) | Existente |
-| Azure OpenAI Service | Embeddings (3072d) + LLM (GPT-4o, GPT-4o-mini) | ✅ | Existente |
-| Azure Storage | Blobs (documentos) + Queues (5 colas de pipeline) | ✅ | Existente |
-| Azure Functions | ETL triggers, timer jobs | ❌ | R4.0 (evaluar) |
-| Azure App Service | Hosting API + SPA Angular | ✅ | Existente |
-| Application Insights | Monitoreo y telemetría | ❌ | R1.0 básico, R4.0 completo |
-| Azure SignalR Service | Notificaciones push | Agregar | R1.0 |
+| Service | Use | MVP | Phase |
+|---------|-----|-----|-------|
+| Azure SQL Database | Relational data + Graph Tables | ✅ | Existing |
+| Azure AI Search | Hybrid search (BM25 + vectors) | ✅ (3 indexes) | Existing |
+| Azure OpenAI Service | Embeddings (3072d) + LLM (GPT-4o, GPT-4o-mini) | ✅ | Existing |
+| Azure Storage | Blobs (documents) + Queues (5 pipeline queues) | ✅ | Existing |
+| Azure Functions | ETL triggers, timer jobs | ❌ | R4.0 (evaluate) |
+| Azure App Service | Hosting API + Angular SPA | ✅ | Existing |
+| Application Insights | Monitoring and telemetry | ❌ | R1.0 basic, R4.0 complete |
+| Azure SignalR Service | Push notifications | Add | R1.0 |
+
+### Platform and Hosting (GCaaS — corporate production)
+
+See [`gcaas-hosting.md`](../deployment/gcaas-hosting.md). Images are built by the GCaaS platform, not by GitHub Actions.
+
+| Component | Use | MVP | Notes |
+|-----------|-----|-----|-------|
+| GCaaS (PwC) | Corporate Kubernetes hosting platform | ✅ Helm chart in `mvp/deployment/` | Knative + Istio + Envoy |
+| Knative | Serverless container runtime for API + SPA | ✅ `templates/ksvc.yaml` | `backend` (port 8080), `frontend` (port 8081) |
+| Istio VirtualServices | Ingress routing (legacy host + Entra host) | ✅ | `*-vs-entra` when `authentication.entra: true` |
+| Microsoft Entra ID (Envoy) | Platform SSO → `id_token` cookie | ✅ | API validates the cookie JWT |
+| HashiCorp Vault | Secret store mapped into the release | ✅ `templates/secrets.yaml` | `Azure*__*`, `Auth__Platform__*` keys |
+| Helm | GCaaS deployment packaging | ✅ `mvp/deployment/` | `Chart.yaml`, `values.yaml`, templates |
+| Azure Static Web Apps | SPA hosting (GitHub CD staging path) | Add | Deployed by `cd.yml` |
+| Datadog | Optional observability via platform labels | Optional | `gcaas_datadog_enabled` |
 
 ---
 
-## 11. Matriz de Permisos por Rol
+## 11. Permissions Matrix by Role
 
-| Feature | Abogado | Administrativo |
-|---------|:-------:|:--------------:|
-| Dashboard | Completo | Sin widget de agentes IA |
-| Búsqueda de normas | Completo | Completo |
-| Búsqueda de jurisprudencia | Completo | Solo lectura |
-| Detalle de norma/artículo | Completo | Completo |
-| Chat con agentes IA | Completo | Sin acceso |
-| Explorador de grafo | Completo | Sin acceso |
-| Gestión de expedientes | CRUD completo | Lectura + alta movimientos |
-| Gestión de plazos | CRUD completo | CRUD completo |
-| Calendario legal | Completo | Completo |
-| Análisis de riesgo | Completo | Sin acceso |
-| Generación de informes | Todos los tipos | Solo reportes operativos |
-| Reportes operativos | Completo | Completo |
-| Alertas configurables | Completo | Solo plazos y expedientes |
-| Administración de usuarios | Solo con permiso admin | Sin acceso |
-| Administración de ingesta | Solo con permiso admin | Sin acceso |
-| Feedback de agentes | Completo | Sin acceso |
+| Feature | Lawyer | Administrative |
+|---------|:------:|:--------------:|
+| Dashboard | Full | No AI agents widget |
+| Legal norm search | Full | Full |
+| Case law search | Full | Read-only |
+| Norm/article detail | Full | Full |
+| AI agent chat | Full | No access |
+| Graph explorer | Full | No access |
+| Case file management | Full CRUD | Read + add movements |
+| Deadline management | Full CRUD | Full CRUD |
+| Legal calendar | Full | Full |
+| Risk analysis | Full | No access |
+| Report generation | All types | Operational reports only |
+| Operational reports | Full | Full |
+| Configurable alerts | Full | Deadlines and case files only |
+| User administration | With admin permission only | No access |
+| Ingestion administration | With admin permission only | No access |
+| Agent feedback | Full | No access |
 
 ---
 
-## 12. API Endpoints por Módulo
+## 12. API Endpoints by Module
 
 ### Auth
 
-| Método | Endpoint | Descripción |
+| Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/api/auth/me` | Perfil del usuario autenticado |
-| GET | `/api/auth/permisos` | Permisos del usuario actual |
+| GET | `/api/auth/me` | Authenticated user's profile |
+| GET | `/api/auth/permissions` | Current user's permissions |
 
 ### Dashboard
 
-| Método | Endpoint | Descripción |
+| Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/api/dashboard` | Datos agregados del dashboard |
-| GET | `/api/dashboard/novedades` | Últimas novedades normativas |
+| GET | `/api/dashboard` | Aggregated dashboard data |
+| GET | `/api/dashboard/updates` | Latest regulatory updates |
 
-### Búsqueda
+### Search
 
-| Método | Endpoint | Descripción |
+| Method | Endpoint | Description |
 |--------|----------|-------------|
-| POST | `/api/buscar/normas` | Búsqueda semántica de normas |
-| POST | `/api/buscar/jurisprudencia` | Búsqueda semántica de fallos |
-| GET | `/api/buscar/global` | Omnisearch unificado |
-| GET | `/api/buscar/sugerencias` | Autocompletado de búsqueda |
+| POST | `/api/search/legal-norms` | Semantic search of norms |
+| POST | `/api/search/case-law` | Semantic search of rulings |
+| GET | `/api/search/global` | Unified omnisearch |
+| GET | `/api/search/suggestions` | Search autocomplete |
 
-### Normas
+### Legal Norms
 
-| Método | Endpoint | Descripción |
+| Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/api/normas/{id}` | Detalle de norma |
-| GET | `/api/normas/{id}/articulos` | Articulado de la norma |
-| GET | `/api/normas/{id}/grafo` | Grafo de relaciones |
-| GET | `/api/normas/{id}/historial` | Historial de modificaciones |
-| GET | `/api/articulos/{id}` | Detalle de artículo |
-| GET | `/api/articulos/{id}/jurisprudencia` | Jurisprudencia relacionada |
+| GET | `/api/legal-norms/{id}` | Norm detail |
+| GET | `/api/legal-norms/{id}/articles` | Norm's articles |
+| GET | `/api/legal-norms/{id}/graph` | Relationship graph |
+| GET | `/api/legal-norms/{id}/history` | Amendment history |
+| GET | `/api/articles/{id}` | Article detail |
+| GET | `/api/articles/{id}/case-law` | Related case law |
 
-### Grafo
+### Graph
 
-| Método | Endpoint | Descripción |
+| Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/api/grafo/explorar` | Explorar grafo desde nodo con profundidad |
-| GET | `/api/grafo/comunidades` | Listar comunidades detectadas |
-| GET | `/api/grafo/comunidades/{id}` | Detalle de comunidad con sumario |
+| GET | `/api/graph/explore` | Explore the graph from a node with depth |
+| GET | `/api/graph/communities` | List detected communities |
+| GET | `/api/graph/communities/{id}` | Community detail with summary |
 
-### Agentes IA
+### AI Agents
 
-| Método | Endpoint | Descripción |
+| Method | Endpoint | Description |
 |--------|----------|-------------|
-| POST | `/api/agentes/chat` | Enviar mensaje al agente (SSE streaming) |
-| GET | `/api/agentes/conversaciones` | Historial de conversaciones |
-| GET | `/api/agentes/conversaciones/{id}` | Detalle de conversación |
-| DELETE | `/api/agentes/conversaciones/{id}` | Eliminar conversación |
+| POST | `/api/agents/chat` | Send a message to the agent (SSE streaming) |
+| GET | `/api/agents/conversations` | Conversation history |
+| GET | `/api/agents/conversations/{id}` | Conversation detail |
+| DELETE | `/api/agents/conversations/{id}` | Delete conversation |
 
-### Expedientes
+### Case Files
 
-| Método | Endpoint | Descripción |
+| Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/api/expedientes` | Listar expedientes (con filtros) |
-| POST | `/api/expedientes` | Crear expediente |
-| GET | `/api/expedientes/{id}` | Detalle de expediente |
-| PUT | `/api/expedientes/{id}` | Actualizar expediente |
-| DELETE | `/api/expedientes/{id}` | Eliminar expediente |
-| GET | `/api/expedientes/{id}/movimientos` | Movimientos del expediente |
-| POST | `/api/expedientes/{id}/movimientos` | Registrar movimiento |
-| GET | `/api/expedientes/{id}/documentos` | Documentos adjuntos |
-| POST | `/api/expedientes/{id}/documentos` | Subir documento |
+| GET | `/api/case-files` | List case files (with filters) |
+| POST | `/api/case-files` | Create case file |
+| GET | `/api/case-files/{id}` | Case file detail |
+| PUT | `/api/case-files/{id}` | Update case file |
+| DELETE | `/api/case-files/{id}` | Delete case file |
+| GET | `/api/case-files/{id}/movements` | Case file movements |
+| POST | `/api/case-files/{id}/movements` | Record a movement |
+| GET | `/api/case-files/{id}/documents` | Attached documents |
+| POST | `/api/case-files/{id}/documents` | Upload a document |
 
-### Plazos
+### Deadlines
 
-| Método | Endpoint | Descripción |
+| Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/api/plazos` | Listar plazos (con filtros) |
-| POST | `/api/plazos` | Crear plazo |
-| PUT | `/api/plazos/{id}` | Actualizar plazo |
-| PUT | `/api/plazos/{id}/cumplir` | Marcar plazo como cumplido |
-| GET | `/api/plazos/proximos` | Plazos próximos a vencer |
+| GET | `/api/deadlines` | List deadlines (with filters) |
+| POST | `/api/deadlines` | Create deadline |
+| PUT | `/api/deadlines/{id}` | Update deadline |
+| PUT | `/api/deadlines/{id}/complete` | Mark deadline as fulfilled |
+| GET | `/api/deadlines/upcoming` | Deadlines due soon |
 
-### Calendario
+### Calendar
 
-| Método | Endpoint | Descripción |
+| Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/api/calendario` | Eventos en rango de fechas |
+| GET | `/api/calendar` | Events in a date range |
 
-### Análisis de Riesgo
+### Risk Analysis
 
-| Método | Endpoint | Descripción |
+| Method | Endpoint | Description |
 |--------|----------|-------------|
-| POST | `/api/riesgo/analizar` | Generar análisis de riesgo |
-| GET | `/api/riesgo/historial` | Historial de análisis |
-| GET | `/api/riesgo/{id}` | Detalle de análisis |
-| POST | `/api/riesgo/{id}/re-analizar` | Re-ejecutar con datos actuales |
+| POST | `/api/risk/analyze` | Generate a risk analysis |
+| GET | `/api/risk/history` | Analysis history |
+| GET | `/api/risk/{id}` | Analysis detail |
+| POST | `/api/risk/{id}/re-analyze` | Re-run with current data |
 
-### Informes
+### Reports (legal documents)
 
-| Método | Endpoint | Descripción |
+| Method | Endpoint | Description |
 |--------|----------|-------------|
-| POST | `/api/informes/generar` | Generar informe .docx |
-| GET | `/api/informes` | Historial de informes |
-| GET | `/api/informes/{id}/descargar` | Descargar informe |
+| POST | `/api/legal-reports/generate` | Generate a .docx report |
+| GET | `/api/legal-reports` | Report history |
+| GET | `/api/legal-reports/{id}/download` | Download a report |
 
-### Reportes
+### Operational Reports
 
-| Método | Endpoint | Descripción |
+| Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/api/reportes/expedientes-por-estado` | Expedientes agrupados por estado |
-| GET | `/api/reportes/plazos-vencidos` | Plazos vencidos por período |
-| GET | `/api/reportes/carga-por-abogado` | Carga de trabajo por abogado |
-| GET | `/api/reportes/uso-agentes` | Estadísticas de uso de agentes IA |
+| GET | `/api/reports/case-files-by-status` | Case files grouped by status |
+| GET | `/api/reports/overdue-deadlines` | Overdue deadlines by period |
+| GET | `/api/reports/workload-by-lawyer` | Workload by lawyer |
+| GET | `/api/reports/agent-usage` | AI agent usage statistics |
 
-### Alertas
+### Alerts
 
-| Método | Endpoint | Descripción |
+| Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/api/alertas` | Alertas del usuario (inbox) |
-| PUT | `/api/alertas/{id}/leer` | Marcar alerta como leída |
-| GET | `/api/alertas/configuracion` | Configuraciones de alertas |
-| POST | `/api/alertas/configuracion` | Crear configuración de alerta |
-| PUT | `/api/alertas/configuracion/{id}` | Actualizar configuración |
-| DELETE | `/api/alertas/configuracion/{id}` | Eliminar configuración |
+| GET | `/api/alerts` | User's alerts (inbox) |
+| PUT | `/api/alerts/{id}/read` | Mark an alert as read |
+| GET | `/api/alerts/configuration` | Alert configurations |
+| POST | `/api/alerts/configuration` | Create an alert configuration |
+| PUT | `/api/alerts/configuration/{id}` | Update a configuration |
+| DELETE | `/api/alerts/configuration/{id}` | Delete a configuration |
 
 ### Admin
 
-| Método | Endpoint | Descripción |
+| Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/api/admin/usuarios` | Listar usuarios |
-| PUT | `/api/admin/usuarios/{id}/rol` | Cambiar rol de usuario |
-| GET | `/api/admin/auditoria` | Log de auditoría |
-| GET | `/api/admin/feedback` | Dashboard de feedback de agentes |
-| GET | `/api/admin/prompts` | Listar prompt templates |
-| PUT | `/api/admin/prompts/{id}` | Actualizar prompt template |
-| GET | `/api/admin/ingesta/jobs` | Estado de jobs de ingesta |
-| GET | `/api/admin/ingesta/dlq` | Dead letter queue |
-| POST | `/api/admin/ingesta/dlq/{id}/retry` | Reintentar documento fallido |
+| GET | `/api/admin/users` | List users |
+| PUT | `/api/admin/users/{id}/role` | Change a user's role |
+| GET | `/api/admin/audit` | Audit log |
+| GET | `/api/admin/feedback` | Agent feedback dashboard |
+| GET | `/api/admin/prompts` | List prompt templates |
+| PUT | `/api/admin/prompts/{id}` | Update a prompt template |
+| GET | `/api/admin/ingestion/jobs` | Ingestion job status |
+| GET | `/api/admin/ingestion/dlq` | Dead letter queue |
+| POST | `/api/admin/ingestion/dlq/{id}/retry` | Retry a failed document |
 
 ### Feedback
 
-| Método | Endpoint | Descripción |
+| Method | Endpoint | Description |
 |--------|----------|-------------|
-| POST | `/api/feedback` | Enviar feedback de respuesta de agente |
+| POST | `/api/feedback` | Send feedback on an agent answer |
 
 ---
 
-## 13. KPIs y Métricas de Éxito
+## 13. KPIs and Success Metrics
 
-| KPI | Target | Medición |
-|-----|--------|----------|
-| Tiempo promedio de búsqueda legal | < 2 minutos (vs. 30+ min manual) | Application Insights: duración de sesiones de búsqueda |
-| Plazos vencidos sin justificación | 0 por mes | Azure SQL: plazos con estado "vencido" sin flag de cumplido |
-| Satisfacción con agentes IA | > 80% thumbs up | Tabla FeedbackRespuesta: ratio positivos/total |
-| Precisión de análisis de riesgo | > 70% concordancia con resultado real | Feedback de abogados post-resolución de caso |
-| Adopción del sistema | > 90% usuarios activos semanales | Application Insights: usuarios únicos/semana vs. total |
-| Uptime del sistema | > 99.5% | Azure Monitor: disponibilidad del App Service |
-| Tiempo de respuesta de agentes | < 5 seg hasta primer token | Application Insights: latencia de `/api/agentes/chat` |
-| Normas actualizadas | < 24hs desde publicación en Boletín Oficial | Delta entre fechaPublicacion y fechaIngesta en Azure SQL |
-| Reutilización de código MVP | > 75% | Archivos migrados vs. totales |
-| Cobertura de golden set | > 90% Recall@10 | Pipeline de evaluación en CI |
-| Costo mensual de LLM | < $500/mes | Telemetría custom en Application Insights |
+| KPI | Target | Measurement |
+|-----|--------|-------------|
+| Average legal research time | < 2 minutes (vs. 30+ min manual) | Application Insights: duration of search sessions |
+| Missed deadlines without justification | 0 per month | Azure SQL: deadlines with "overdue" status and no fulfilled flag |
+| Satisfaction with AI agents | > 80% thumbs up | ResponseFeedback table: positive/total ratio |
+| Risk analysis precision | > 70% agreement with the actual outcome | Lawyer feedback after case resolution |
+| System adoption | > 90% weekly active users | Application Insights: unique users/week vs total |
+| System uptime | > 99.5% | Azure Monitor: App Service availability |
+| Agent response time | < 5 sec to first token | Application Insights: latency of `/api/agents/chat` |
+| Updated norms | < 24h from publication in the Official Gazette | Delta between publicationDate and ingestionDate in Azure SQL |
+| MVP code reuse | > 75% | Migrated files vs total |
+| Golden set coverage | > 90% Recall@10 | Evaluation pipeline in CI |
+| Monthly LLM cost | < $500/month | Custom telemetry in Application Insights |
 
 ---
 
-*Legal Ai Ar — Roadmap de Features — v2.0 — Mayo 2026*
-*Basado en evolución del MVP `legal-ai-ar` — ~78% código reutilizable*
+*Legal Ai Ar — Features Roadmap — v2.0 — May 2026*
+*Based on the evolution of the `legal-ai-ar` MVP — ~78% reusable code*

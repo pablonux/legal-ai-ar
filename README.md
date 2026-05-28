@@ -149,6 +149,15 @@ legal-ai-ar/
 | [Legal AI UX](docs/technical/08-legal-ai-ux.md) | Streaming, inline citation, confidence scores, feedback loops |
 | [Data & Knowledge Management](docs/technical/09-data-knowledge-management.md) | Taxonomy, temporal versioning, graph maintenance, data lineage |
 
+### Delivery & Hosting
+
+| Document | Description |
+|----------|-------------|
+| [GitHub Delivery](docs/deployment/github-delivery.md) | Source control, CI quality gates, CD to Azure staging (API + SPA) |
+| [GCaaS Hosting](docs/deployment/gcaas-hosting.md) | PwC corporate hosting: Knative/Istio Helm deploy, Entra SSO (`id_token` cookie), Vault secrets, session model |
+
+> Both delivery paths and the platform auth model are summarized in [features.md §2.3](docs/roadmap/features.md) and tracked as feature **FT05 — Delivery and Hosting**.
+
 ---
 
 ## Requirements

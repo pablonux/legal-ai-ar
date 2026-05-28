@@ -89,6 +89,7 @@ Before generating code or work items, consult:
 - `docs/roadmap/gap-analysis-mvp-vs-plan.md` — What exists in the MVP vs. what is missing
 - `docs/technical/` — Technical decisions on RAG, agents, prompts, ingestion, evaluation, security, observability, UX, and data management
 - `docs/ontology/` — Argentine legal domain model (classes, properties, relationships, sources)
+- `docs/deployment/github-delivery.md` and `docs/deployment/gcaas-hosting.md` — Delivery and hosting: GitHub CI/CD to Azure staging, and GCaaS (Knative/Istio/Helm) corporate hosting with platform Entra auth
 
 ## Important rules
 
@@ -103,4 +104,5 @@ Before generating code or work items, consult:
 - **Work items**: each work item follows the project's standard template (see `docs/roadmap/F00*/F00 - W01*` as an example). Work item content must be in English.
 - **Consistency**: when referring to the project use "Legal Ai Ar" (display name) or "LegalAiAr" (.NET namespace); never "LegalKB".
 - **New projects to add**: `LegalAiAr.Agents` (Semantic Kernel) in `src/shared/` and `LegalAiAr.AgentEvals` in `tests/`.
-- **Infrastructure**: CI/CD, IaC (Bicep), Azure Key Vault, Docker are managed outside the feature roadmap.
+- **Infrastructure & delivery**: CI/CD and IaC are operated by the delivery track, not as application features, but they ARE documented and tracked. There are **two delivery paths**: (1) GitHub Actions → Azure staging (API + SPA), and (2) GCaaS Helm/Knative → corporate production. See `docs/deployment/github-delivery.md` and `docs/deployment/gcaas-hosting.md`, summarized in `docs/roadmap/features.md` §2.3 and feature **FT05**.
+- **Authentication (important)**: production auth is platform-managed Entra SSO on GCaaS — the platform issues an **`id_token` HTTP-only cookie** and the API validates it (`Auth:Platform`). Do NOT propose MSAL in the SPA, app-owned `/login` endpoints, or Bearer tokens; the SPA uses `withCredentials`. See `docs/deployment/gcaas-hosting.md`.
