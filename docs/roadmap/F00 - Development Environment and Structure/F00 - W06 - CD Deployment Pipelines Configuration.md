@@ -1,37 +1,37 @@
-# F00 - W06 - Configuración CD - Pipelines de Deploy
+# F00 - W06 - CD Deployment Pipelines Configuration
 
-> **Feature:** F00 - Entorno y Estructura de Desarrollo
+> **Feature:** F00 - Development Environment and Structure
 > **Release:** 0.0 | **Sprint:** S00
-> **Tipo:** devops | **Prioridad:** Alta
-> **Estimación:** 5 story points
-> **Asignable a:** Dev Backend
+> **Type:** devops | **Priority:** High
+> **Estimate:** 5 story points
+> **Assignable to:** Backend Dev
 
 ---
 
-## Descripción
+## Description
 
-Configurar los pipelines de Continuous Deployment (CD) en GitHub Actions para los 4 ambientes: DEV (automático), QA, STAGING y PROD (manuales con aprobaciones). Incluye deploy de backend a App Service, frontend a Static Web App, y ejecución de migraciones EF Core.
-
----
-
-## Tareas
-
-- [ ] Crear Service Principal en Azure para GitHub Actions
-- [ ] Configurar GitHub Secrets con credenciales Azure (AZURE_CREDENTIALS, AZURE_SUBSCRIPTION_ID)
-- [ ] Crear `.github/workflows/cd-dev.yml` (auto-deploy en push a main)
-- [ ] Crear `.github/workflows/cd-qa.yml` (manual con 1 aprobación)
-- [ ] Crear `.github/workflows/cd-staging.yml` (manual con 1 aprobación)
-- [ ] Crear `.github/workflows/cd-prod.yml` (manual con 2 aprobaciones)
-- [ ] Configurar GitHub Environments con protection rules y reviewers
-- [ ] Implementar step de migración EF Core en cada pipeline
-- [ ] Implementar smoke tests post-deploy (health check)
-- [ ] Configurar notificaciones de deploy (GitHub + opcional Slack/Teams)
-- [ ] Verificar deploy completo al ambiente DEV
-- [ ] Documentar proceso de promoción entre ambientes
+Configure the Continuous Deployment (CD) pipelines in GitHub Actions for the 4 environments: DEV (automatic), QA, STAGING, and PROD (manual with approvals). Includes deploying the backend to App Service, the frontend to a Static Web App, and running EF Core migrations.
 
 ---
 
-## Pipeline CD DEV (automático)
+## Tasks
+
+- [ ] Create a Service Principal in Azure for GitHub Actions
+- [ ] Configure GitHub Secrets with Azure credentials (AZURE_CREDENTIALS, AZURE_SUBSCRIPTION_ID)
+- [ ] Create `.github/workflows/cd-dev.yml` (auto-deploy on push to main)
+- [ ] Create `.github/workflows/cd-qa.yml` (manual with 1 approval)
+- [ ] Create `.github/workflows/cd-staging.yml` (manual with 1 approval)
+- [ ] Create `.github/workflows/cd-prod.yml` (manual with 2 approvals)
+- [ ] Configure GitHub Environments with protection rules and reviewers
+- [ ] Implement an EF Core migration step in each pipeline
+- [ ] Implement post-deploy smoke tests (health check)
+- [ ] Configure deploy notifications (GitHub + optional Slack/Teams)
+- [ ] Verify a complete deploy to the DEV environment
+- [ ] Document the promotion process between environments
+
+---
+
+## DEV CD Pipeline (automatic)
 
 ```yaml
 # .github/workflows/cd-dev.yml
@@ -128,14 +128,14 @@ jobs:
 
 | Environment | Protection Rules | Reviewers |
 |---|---|---|
-| `dev` | Ninguna (auto-deploy) | — |
+| `dev` | None (auto-deploy) | — |
 | `qa` | Required reviewers | Tech Lead |
 | `staging` | Required reviewers + wait timer (5 min) | Tech Lead |
 | `prod` | Required reviewers + wait timer (15 min) | Tech Lead + Product Owner |
 
 ---
 
-## Flujo de Promoción
+## Promotion Flow
 
 ```mermaid
 sequenceDiagram
@@ -145,59 +145,59 @@ sequenceDiagram
     participant STG_ENV as Staging Env
     participant PROD_ENV as Prod Env
 
-    DEV->>GH: Push a main
-    GH->>GH: CI pasa ✅
+    DEV->>GH: Push to main
+    GH->>GH: CI passes ✅
     GH->>GH: CD Dev auto-deploy
-    Note over GH: Deploy automático
+    Note over GH: Automatic deploy
 
-    DEV->>GH: Trigger manual cd-qa
-    GH->>GH: Esperar aprobación (Tech Lead)
-    GH->>QA_ENV: Deploy a QA
-    Note over QA_ENV: Testing formal
+    DEV->>GH: Manual trigger cd-qa
+    GH->>GH: Wait for approval (Tech Lead)
+    GH->>QA_ENV: Deploy to QA
+    Note over QA_ENV: Formal testing
 
-    DEV->>GH: Trigger manual cd-staging
-    GH->>GH: Esperar aprobación (Tech Lead)
-    GH->>STG_ENV: Deploy a Staging
+    DEV->>GH: Manual trigger cd-staging
+    GH->>GH: Wait for approval (Tech Lead)
+    GH->>STG_ENV: Deploy to Staging
     Note over STG_ENV: Demo / UAT
 
-    DEV->>GH: Trigger manual cd-prod
-    GH->>GH: Esperar aprobación (TL + PO)
-    GH->>PROD_ENV: Deploy a Prod
+    DEV->>GH: Manual trigger cd-prod
+    GH->>GH: Wait for approval (TL + PO)
+    GH->>PROD_ENV: Deploy to Prod
     Note over PROD_ENV: Live 🚀
 ```
 
 ---
 
-## GitHub Secrets Requeridos
+## Required GitHub Secrets
 
-| Secret | Scope | Descripción |
+| Secret | Scope | Description |
 |---|---|---|
-| `AZURE_CREDENTIALS_DEV` | Environment: dev | Service Principal JSON para DEV |
-| `AZURE_CREDENTIALS_QA` | Environment: qa | Service Principal JSON para QA |
-| `AZURE_CREDENTIALS_STAGING` | Environment: staging | Service Principal JSON para STAGING |
-| `AZURE_CREDENTIALS_PROD` | Environment: prod | Service Principal JSON para PROD |
-| `SQL_CONNECTION_{ENV}` | Por ambiente | Connection string de Azure SQL |
-| `SWA_TOKEN_{ENV}` | Por ambiente | Token de Static Web App |
+| `AZURE_CREDENTIALS_DEV` | Environment: dev | Service Principal JSON for DEV |
+| `AZURE_CREDENTIALS_QA` | Environment: qa | Service Principal JSON for QA |
+| `AZURE_CREDENTIALS_STAGING` | Environment: staging | Service Principal JSON for STAGING |
+| `AZURE_CREDENTIALS_PROD` | Environment: prod | Service Principal JSON for PROD |
+| `SQL_CONNECTION_{ENV}` | Per environment | Azure SQL connection string |
+| `SWA_TOKEN_{ENV}` | Per environment | Static Web App token |
 
 ---
 
-## Criterios de Aceptación
+## Acceptance Criteria
 
-- [ ] Push a `main` que pasa CI dispara auto-deploy a DEV
-- [ ] El backend se despliega correctamente a App Service DEV
-- [ ] Las migraciones EF Core se ejecutan en DEV sin errores
-- [ ] El frontend se despliega correctamente a Static Web App DEV
-- [ ] El smoke test valida que `/health` devuelve 200
-- [ ] Los pipelines manuales (QA, staging, prod) esperan aprobación
-- [ ] Los GitHub Environments están configurados con los reviewers correctos
-
----
-
-## Dependencias
-
-- **Depende de:** F00-W04 (CI pipelines), F00-W05 (infra Azure provisionada)
-- **Bloquea:** Ninguno directamente (pero habilita deploys de todas las features)
+- [ ] A push to `main` that passes CI triggers auto-deploy to DEV
+- [ ] The backend deploys correctly to App Service DEV
+- [ ] EF Core migrations run on DEV with no errors
+- [ ] The frontend deploys correctly to Static Web App DEV
+- [ ] The smoke test validates that `/health` returns 200
+- [ ] The manual pipelines (QA, staging, prod) wait for approval
+- [ ] The GitHub Environments are configured with the correct reviewers
 
 ---
 
-*F00 - W06 - Configuración CD - Pipelines de Deploy — Legal Ai Ar*
+## Dependencies
+
+- **Depends on:** F00-W04 (CI pipelines), F00-W05 (Azure infrastructure provisioned)
+- **Blocks:** None directly (but enables deploys of all features)
+
+---
+
+*F00 - W06 - CD Deployment Pipelines Configuration — Legal Ai Ar*

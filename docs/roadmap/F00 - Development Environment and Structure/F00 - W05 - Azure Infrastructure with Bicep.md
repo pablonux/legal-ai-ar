@@ -1,43 +1,43 @@
-# F00 - W05 - Infraestructura Azure con Bicep (IaC)
+# F00 - W05 - Azure Infrastructure with Bicep (IaC)
 
-> **Feature:** F00 - Entorno y Estructura de Desarrollo
+> **Feature:** F00 - Development Environment and Structure
 > **Release:** 0.0 | **Sprint:** S00
-> **Tipo:** devops | **Prioridad:** Alta
-> **Estimación:** 8 story points
-> **Asignable a:** Dev Backend
+> **Type:** devops | **Priority:** High
+> **Estimate:** 8 story points
+> **Assignable to:** Backend Dev
 
 ---
 
-## Descripción
+## Description
 
-Definir toda la infraestructura Azure como código usando Bicep. Crear módulos reutilizables para cada servicio y archivos de parámetros por ambiente (dev, qa, staging, prod). Provisionar al menos el ambiente DEV como validación.
-
----
-
-## Tareas
-
-- [ ] Crear estructura `infra/bicep/` con `main.bicep` y carpeta `modules/`
-- [ ] Crear módulo `sql.bicep` (Azure SQL Server + Database)
-- [ ] Crear módulo `search.bicep` (Azure AI Search)
-- [ ] Crear módulo `openai.bicep` (Azure OpenAI)
-- [ ] Crear módulo `keyvault.bicep` (Key Vault con access policies)
-- [ ] Crear módulo `storage.bicep` (Storage Account: blobs, queues, tables)
-- [ ] Crear módulo `appservice.bicep` (App Service Plan + Web App .NET 10)
-- [ ] Crear módulo `staticwebapp.bicep` (Static Web App para Angular)
-- [ ] Crear módulo `functions.bicep` (Function App)
-- [ ] Crear módulo `signalr.bicep` (SignalR Service)
-- [ ] Crear módulo `appinsights.bicep` (Application Insights + Log Analytics)
-- [ ] Crear `main.bicep` que orquesta todos los módulos
-- [ ] Crear archivos de parámetros: `dev.bicepparam`, `qa.bicepparam`, `staging.bicepparam`, `prod.bicepparam`
-- [ ] Configurar outputs para connection strings y endpoints
-- [ ] Provisionar ambiente DEV: `az deployment sub create --location eastus2 --template-file main.bicep --parameters dev.bicepparam`
-- [ ] Verificar que todos los recursos se crean correctamente
-- [ ] Configurar Key Vault con secretos iniciales
-- [ ] Documentar naming convention y tags aplicados
+Define all Azure infrastructure as code using Bicep. Create reusable modules for each service and per-environment parameter files (dev, qa, staging, prod). Provision at least the DEV environment as validation.
 
 ---
 
-## Diagrama de Recursos por Ambiente
+## Tasks
+
+- [ ] Create the `infra/bicep/` structure with `main.bicep` and a `modules/` folder
+- [ ] Create the `sql.bicep` module (Azure SQL Server + Database)
+- [ ] Create the `search.bicep` module (Azure AI Search)
+- [ ] Create the `openai.bicep` module (Azure OpenAI)
+- [ ] Create the `keyvault.bicep` module (Key Vault with access policies)
+- [ ] Create the `storage.bicep` module (Storage Account: blobs, queues, tables)
+- [ ] Create the `appservice.bicep` module (App Service Plan + Web App .NET 10)
+- [ ] Create the `staticwebapp.bicep` module (Static Web App for Angular)
+- [ ] Create the `functions.bicep` module (Function App)
+- [ ] Create the `signalr.bicep` module (SignalR Service)
+- [ ] Create the `appinsights.bicep` module (Application Insights + Log Analytics)
+- [ ] Create `main.bicep` that orchestrates all modules
+- [ ] Create parameter files: `dev.bicepparam`, `qa.bicepparam`, `staging.bicepparam`, `prod.bicepparam`
+- [ ] Configure outputs for connection strings and endpoints
+- [ ] Provision the DEV environment: `az deployment sub create --location eastus2 --template-file main.bicep --parameters dev.bicepparam`
+- [ ] Verify that all resources are created correctly
+- [ ] Configure Key Vault with the initial secrets
+- [ ] Document the naming convention and applied tags
+
+---
+
+## Resource Diagram per Environment
 
 ```mermaid
 graph TB
@@ -74,9 +74,9 @@ graph TB
 
 ---
 
-## SKU por Ambiente
+## SKU per Environment
 
-| Servicio | DEV | QA | STAGING | PROD |
+| Service | DEV | QA | STAGING | PROD |
 |---|---|---|---|---|
 | SQL Database | Basic (5 DTU) | S0 (10 DTU) | S1 (20 DTU) | S2 (50 DTU) |
 | AI Search | Free | Basic | Basic | Standard |
@@ -89,9 +89,9 @@ graph TB
 
 ---
 
-## Tags Estándar
+## Standard Tags
 
-Todos los recursos deben tener estos tags:
+All resources must have these tags:
 
 ```json
 {
@@ -105,7 +105,7 @@ Todos los recursos deben tener estos tags:
 
 ---
 
-## Ejemplo de Módulo (`sql.bicep`)
+## Module Example (`sql.bicep`)
 
 ```bicep
 param location string
@@ -157,23 +157,23 @@ output connectionString string = 'Server=tcp:${sqlServer.properties.fullyQualifi
 
 ---
 
-## Criterios de Aceptación
+## Acceptance Criteria
 
-- [ ] `az deployment sub what-if` muestra los recursos a crear sin errores
-- [ ] El ambiente DEV se provisiona completamente con un solo comando
-- [ ] Todos los recursos siguen la naming convention definida
-- [ ] Todos los recursos tienen los tags estándar aplicados
-- [ ] Key Vault tiene las access policies correctas para App Service y Functions
-- [ ] Los connection strings y endpoints se almacenan como outputs
-- [ ] Los módulos son reutilizables entre ambientes (solo cambian los parámetros)
-
----
-
-## Dependencias
-
-- **Depende de:** Suscripción Azure con permisos de Contributor
-- **Bloquea:** F00-W06 (CD pipelines necesitan infra para deployar)
+- [ ] `az deployment sub what-if` shows the resources to create with no errors
+- [ ] The DEV environment is provisioned completely with a single command
+- [ ] All resources follow the defined naming convention
+- [ ] All resources have the standard tags applied
+- [ ] Key Vault has the correct access policies for App Service and Functions
+- [ ] Connection strings and endpoints are stored as outputs
+- [ ] The modules are reusable across environments (only the parameters change)
 
 ---
 
-*F00 - W05 - Infraestructura Azure con Bicep (IaC) — Legal Ai Ar*
+## Dependencies
+
+- **Depends on:** An Azure subscription with Contributor permissions
+- **Blocks:** F00-W06 (CD pipelines need infrastructure to deploy to)
+
+---
+
+*F00 - W05 - Azure Infrastructure with Bicep (IaC) — Legal Ai Ar*

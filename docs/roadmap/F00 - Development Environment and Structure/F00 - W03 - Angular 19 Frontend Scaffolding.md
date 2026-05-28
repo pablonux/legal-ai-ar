@@ -1,43 +1,43 @@
-# F00 - W03 - Scaffolding Frontend Angular 19
+# F00 - W03 - Angular 19 Frontend Scaffolding
 
-> **Feature:** F00 - Entorno y Estructura de Desarrollo
+> **Feature:** F00 - Development Environment and Structure
 > **Release:** 0.0 | **Sprint:** S00
-> **Tipo:** frontend | **Prioridad:** Crítica (bloqueante)
-> **Estimación:** 5 story points
-> **Asignable a:** Dev Frontend
+> **Type:** frontend | **Priority:** Critical (blocking)
+> **Estimate:** 5 story points
+> **Assignable to:** Frontend Dev
 
 ---
 
-## Descripción
+## Description
 
-Inicializar el proyecto Angular 19 dentro del monorepo con la estructura de carpetas definida, configurar PwC AppKit 4 (o placeholder hasta tener la librería), y dejar el proyecto listo para desarrollo de features.
-
----
-
-## Tareas
-
-- [ ] Generar proyecto Angular 19 con `ng new` (standalone, SCSS, routing)
-- [ ] Mover el proyecto generado a la carpeta `frontend/`
-- [ ] Configurar estructura de carpetas: `core/`, `shared/`, `features/`, `layout/`
-- [ ] Configurar `angular.json` con build configurations por ambiente (dev, qa, staging, prod)
-- [ ] Crear archivos `environment.ts` para cada ambiente
-- [ ] Instalar y configurar PwC AppKit 4 (o placeholder con Angular Material temporalmente)
-- [ ] Configurar SCSS base: `_variables.scss`, `_mixins.scss`, `_typography.scss`
-- [ ] Crear componente `AppComponent` con router-outlet
-- [ ] Crear componente `LayoutComponent` (shell con sidebar placeholder y navbar)
-- [ ] Configurar `app.routes.ts` con lazy loading para features placeholder
-- [ ] Configurar proxy para API backend en `proxy.conf.json`
-- [ ] Configurar Jest como test runner (reemplazar Karma)
-- [ ] Instalar y configurar ESLint + angular-eslint
-- [ ] Instalar y configurar Prettier
-- [ ] Agregar script npm: `start`, `build`, `test`, `lint`, `e2e`
-- [ ] Verificar que `ng build` compila sin errores
-- [ ] Verificar que `ng test` ejecuta tests placeholder
-- [ ] Verificar que `ng serve` levanta la app en `localhost:4200`
+Initialize the Angular 19 project inside the monorepo with the defined folder structure, configure PwC AppKit 4 (or a placeholder until the library is available), and leave the project ready for feature development.
 
 ---
 
-## Configuración de Proxy (desarrollo local)
+## Tasks
+
+- [ ] Generate the Angular 19 project with `ng new` (standalone, SCSS, routing)
+- [ ] Move the generated project into the `frontend/` folder
+- [ ] Configure the folder structure: `core/`, `shared/`, `features/`, `layout/`
+- [ ] Configure `angular.json` with per-environment build configurations (dev, qa, staging, prod)
+- [ ] Create `environment.ts` files for each environment
+- [ ] Install and configure PwC AppKit 4 (or a placeholder with Angular Material temporarily)
+- [ ] Configure base SCSS: `_variables.scss`, `_mixins.scss`, `_typography.scss`
+- [ ] Create the `AppComponent` with a router-outlet
+- [ ] Create the `LayoutComponent` (shell with a sidebar placeholder and navbar)
+- [ ] Configure `app.routes.ts` with lazy loading for placeholder features
+- [ ] Configure the proxy for the backend API in `proxy.conf.json`
+- [ ] Configure Jest as the test runner (replace Karma)
+- [ ] Install and configure ESLint + angular-eslint
+- [ ] Install and configure Prettier
+- [ ] Add npm scripts: `start`, `build`, `test`, `lint`, `e2e`
+- [ ] Verify that `ng build` compiles with no errors
+- [ ] Verify that `ng test` runs placeholder tests
+- [ ] Verify that `ng serve` starts the app on `localhost:4200`
+
+---
+
+## Proxy Configuration (local development)
 
 ```json
 // proxy.conf.json
@@ -52,7 +52,7 @@ Inicializar el proyecto Angular 19 dentro del monorepo con la estructura de carp
 
 ---
 
-## Scripts npm
+## npm Scripts
 
 ```json
 {
@@ -74,14 +74,12 @@ Inicializar el proyecto Angular 19 dentro del monorepo con la estructura de carp
 
 ---
 
-## Paquetes npm Base
+## Base npm Packages
 
 ```json
 {
   "dependencies": {
     "@angular/core": "^19.0.0",
-    "@azure/msal-angular": "^4.0.0",
-    "@azure/msal-browser": "^4.0.0",
     "chart.js": "^4.x",
     "ng2-charts": "^6.x",
     "cytoscape": "^3.x",
@@ -105,11 +103,15 @@ Inicializar el proyecto Angular 19 dentro del monorepo con la estructura de carp
 }
 ```
 
-> **Nota:** PwC AppKit 4 se agregará cuando se proporcione la documentación y acceso al paquete. Hasta entonces, usar Angular Material como placeholder para validar estructura.
+> **Note (PwC AppKit):** PwC AppKit 4 will be added once the documentation and package access are provided. Until then, use Angular Material as a placeholder to validate the structure.
+>
+> **Note (auth):** Authentication is platform-managed (GCaaS Entra SSO via the `id_token` cookie) — no MSAL packages are needed. The SPA sends `withCredentials` and uses the session model described in [`gcaas-hosting.md`](../../deployment/gcaas-hosting.md).
 
 ---
 
-## Layout Shell Inicial
+## Initial Shell Layout
+
+> Sidebar/navbar labels below are end-user UI placeholders and stay in Spanish.
 
 ```
 ┌──────────────────────────────────────────────┐
@@ -130,23 +132,23 @@ Inicializar el proyecto Angular 19 dentro del monorepo con la estructura de carp
 
 ---
 
-## Criterios de Aceptación
+## Acceptance Criteria
 
-- [ ] `ng build --configuration=production` compila sin errores ni warnings
-- [ ] `ng serve` levanta la app y muestra el layout shell con sidebar
-- [ ] `jest` ejecuta al menos 1 test placeholder exitosamente
-- [ ] `ng lint` no reporta errores
-- [ ] Las rutas lazy-loaded funcionan (al menos 1 feature placeholder)
-- [ ] El proxy redirige correctamente a la API backend
-- [ ] Los 5 archivos de environment están configurados
-
----
-
-## Dependencias
-
-- **Bloquea:** F00-W04 (CI frontend), F01-W04 (MSAL setup)
-- **Depende de:** F00-W02 (repo ya creado en GitHub)
+- [ ] `ng build --configuration=production` compiles with no errors or warnings
+- [ ] `ng serve` starts the app and shows the shell layout with a sidebar
+- [ ] `jest` runs at least 1 placeholder test successfully
+- [ ] `ng lint` reports no errors
+- [ ] Lazy-loaded routes work (at least 1 placeholder feature)
+- [ ] The proxy correctly forwards to the backend API
+- [ ] The 5 environment files are configured
 
 ---
 
-*F00 - W03 - Scaffolding Frontend Angular 19 — Legal Ai Ar*
+## Dependencies
+
+- **Blocks:** F00-W04 (frontend CI), F01-W04 (frontend platform session setup)
+- **Depends on:** F00-W02 (repo already created on GitHub)
+
+---
+
+*F00 - W03 - Angular 19 Frontend Scaffolding — Legal Ai Ar*

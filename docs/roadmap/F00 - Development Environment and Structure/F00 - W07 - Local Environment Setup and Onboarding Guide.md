@@ -1,37 +1,36 @@
-# F00 - W07 - Setup Entorno Local y Onboarding Guide
+# F00 - W07 - Local Environment Setup and Onboarding Guide
 
-> **Feature:** F00 - Entorno y Estructura de Desarrollo
+> **Feature:** F00 - Development Environment and Structure
 > **Release:** 0.0 | **Sprint:** S00
-> **Tipo:** doc | **Prioridad:** Alta
-> **Estimación:** 3 story points
-> **Asignable a:** Dev Backend o Frontend (quien termine primero W02/W03)
+> **Type:** doc | **Priority:** High
+> **Assignable to:** Backend or Frontend Dev (whoever finishes W02/W03 first)
 
 ---
 
-## Descripción
+## Description
 
-Crear la guía de onboarding para que cualquier desarrollador pueda clonar el repo y tener el proyecto corriendo localmente en menos de 30 minutos. Incluye scripts de setup automatizado, docker-compose para dependencias locales y documentación paso a paso.
+Create the onboarding guide so any developer can clone the repo and have the project running locally in under 30 minutes. Includes automated setup scripts, docker-compose for local dependencies, and step-by-step documentation.
 
 ---
 
-## Tareas
+## Tasks
 
-- [ ] Crear `docker-compose.yml` en la raíz con SQL Server local
-- [ ] Crear script `infra/scripts/setup-local.ps1` (Windows)
-- [ ] Crear script `infra/scripts/setup-local.sh` (Linux/Mac)
-- [ ] Crear `infra/scripts/seed-db.sql` con datos de prueba iniciales
-- [ ] Crear `docs/onboarding/README.md` con guía paso a paso
-- [ ] Crear `docs/onboarding/troubleshooting.md` con errores comunes y soluciones
-- [ ] Actualizar `README.md` raíz con quick start
-- [ ] Verificar que un dev nuevo puede seguir la guía y levantar todo en < 30 min
-- [ ] Agregar sección de extensiones recomendadas para VS Code y Visual Studio
+- [ ] Create `docker-compose.yml` at the root with a local SQL Server
+- [ ] Create the `infra/scripts/setup-local.ps1` script (Windows)
+- [ ] Create the `infra/scripts/setup-local.sh` script (Linux/Mac)
+- [ ] Create `infra/scripts/seed-db.sql` with initial sample data
+- [ ] Create `docs/onboarding/README.md` with a step-by-step guide
+- [ ] Create `docs/onboarding/troubleshooting.md` with common errors and solutions
+- [ ] Update the root `README.md` with a quick start
+- [ ] Verify that a new dev can follow the guide and bring everything up in < 30 min
+- [ ] Add a recommended-extensions section for VS Code and Visual Studio
 
 ---
 
 ## docker-compose.yml
 
 ```yaml
-# docker-compose.yml (raíz del repo)
+# docker-compose.yml (repo root)
 services:
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
@@ -62,13 +61,13 @@ volumes:
 
 ---
 
-## Script Setup Local (PowerShell)
+## Local Setup Script (PowerShell)
 
 ```powershell
 # infra/scripts/setup-local.ps1
-Write-Host "=== Legal Ai Ar - Setup Local ===" -ForegroundColor Cyan
+Write-Host "=== Legal Ai Ar - Local Setup ===" -ForegroundColor Cyan
 
-# 1. Verificar prerequisitos
+# 1. Check prerequisites
 $checks = @(
     @{ Name = ".NET SDK"; Cmd = "dotnet --version"; Min = "10.0" }
     @{ Name = "Node.js"; Cmd = "node --version"; Min = "22.0" }
@@ -87,18 +86,18 @@ foreach ($check in $checks) {
     }
 }
 
-# 2. Levantar Docker
-Write-Host "`n📦 Levantando servicios Docker..." -ForegroundColor Yellow
+# 2. Start Docker
+Write-Host "`n📦 Starting Docker services..." -ForegroundColor Yellow
 docker compose up -d
 
 # 3. Backend
-Write-Host "`n🔧 Configurando backend..." -ForegroundColor Yellow
+Write-Host "`n🔧 Configuring backend..." -ForegroundColor Yellow
 Set-Location backend
 dotnet restore
 dotnet build
 
-# 4. Migraciones
-Write-Host "`n🗄️ Aplicando migraciones..." -ForegroundColor Yellow
+# 4. Migrations
+Write-Host "`n🗄️ Applying migrations..." -ForegroundColor Yellow
 Set-Location src/LegalAiAr.Api
 dotnet ef database update
 Set-Location ../..
@@ -108,12 +107,12 @@ Write-Host "`n🌱 Seed data..." -ForegroundColor Yellow
 # sqlcmd -S localhost -U sa -P "LocalDev123!" -d LegalAiAr -i ../infra/scripts/seed-db.sql
 
 # 6. Frontend
-Write-Host "`n🎨 Configurando frontend..." -ForegroundColor Yellow
+Write-Host "`n🎨 Configuring frontend..." -ForegroundColor Yellow
 Set-Location ../frontend
 npm ci
 
-Write-Host "`n✅ Setup completo!" -ForegroundColor Green
-Write-Host "Para iniciar:" -ForegroundColor Cyan
+Write-Host "`n✅ Setup complete!" -ForegroundColor Green
+Write-Host "To start:" -ForegroundColor Cyan
 Write-Host "  Backend:  cd backend/src/LegalAiAr.Api && dotnet run"
 Write-Host "  Frontend: cd frontend && npm start"
 Write-Host "  Swagger:  https://localhost:5001/swagger"
@@ -122,7 +121,7 @@ Write-Host "  App:      http://localhost:4200"
 
 ---
 
-## Extensiones Recomendadas
+## Recommended Extensions
 
 ### VS Code (Frontend)
 ```json
@@ -148,22 +147,22 @@ Write-Host "  App:      http://localhost:4200"
 
 ---
 
-## Criterios de Aceptación
+## Acceptance Criteria
 
-- [ ] `docker compose up -d` levanta SQL Server y Azurite sin errores
-- [ ] El script de setup instala todo y deja el proyecto listo
-- [ ] La guía de onboarding cubre el 100% del setup
-- [ ] Un dev nuevo puede seguir la guía y tener todo corriendo en < 30 min
-- [ ] El troubleshooting cubre al menos 5 errores comunes
-- [ ] Las extensiones recomendadas están configuradas
-
----
-
-## Dependencias
-
-- **Depende de:** F00-W02, F00-W03 (proyectos backend y frontend existentes)
-- **Bloquea:** Ninguno (pero es crítico para onboarding del equipo)
+- [ ] `docker compose up -d` starts SQL Server and Azurite with no errors
+- [ ] The setup script installs everything and leaves the project ready
+- [ ] The onboarding guide covers 100% of the setup
+- [ ] A new dev can follow the guide and have everything running in < 30 min
+- [ ] The troubleshooting covers at least 5 common errors
+- [ ] The recommended extensions are configured
 
 ---
 
-*F00 - W07 - Setup Entorno Local y Onboarding Guide — Legal Ai Ar*
+## Dependencies
+
+- **Depends on:** F00-W02, F00-W03 (existing backend and frontend projects)
+- **Blocks:** None (but it is critical for team onboarding)
+
+---
+
+*F00 - W07 - Local Environment Setup and Onboarding Guide — Legal Ai Ar*

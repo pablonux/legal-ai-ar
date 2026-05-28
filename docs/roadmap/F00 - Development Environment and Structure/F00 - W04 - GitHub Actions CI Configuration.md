@@ -1,38 +1,38 @@
-# F00 - W04 - Configuración CI - GitHub Actions
+# F00 - W04 - GitHub Actions CI Configuration
 
-> **Feature:** F00 - Entorno y Estructura de Desarrollo
+> **Feature:** F00 - Development Environment and Structure
 > **Release:** 0.0 | **Sprint:** S00
-> **Tipo:** devops | **Prioridad:** Alta
-> **Estimación:** 5 story points
-> **Asignable a:** Dev Backend (o el que tenga más experiencia DevOps)
+> **Type:** devops | **Priority:** High
+> **Estimate:** 5 story points
+> **Assignable to:** Backend Dev (or whoever has the most DevOps experience)
 
 ---
 
-## Descripción
+## Description
 
-Configurar los pipelines de Integración Continua (CI) en GitHub Actions para backend (.NET 10) y frontend (Angular 19). Los pipelines deben ejecutarse automáticamente en cada push a `main` y en cada PR, y deben bloquear el merge si fallan.
+Configure the Continuous Integration (CI) pipelines in GitHub Actions for backend (.NET 10) and frontend (Angular 19). The pipelines must run automatically on every push to `main` and on every PR, and must block the merge if they fail.
 
 ---
 
-## Tareas
+## Tasks
 
-- [ ] Crear `.github/workflows/ci-backend.yml`
-- [ ] Crear `.github/workflows/ci-frontend.yml`
-- [ ] Configurar path filters para que cada pipeline solo ejecute en cambios relevantes
-- [ ] Configurar cache de NuGet y npm para acelerar builds
-- [ ] Configurar branch protection rules en `main`:
+- [ ] Create `.github/workflows/ci-backend.yml`
+- [ ] Create `.github/workflows/ci-frontend.yml`
+- [ ] Configure path filters so each pipeline only runs on relevant changes
+- [ ] Configure NuGet and npm caching to speed up builds
+- [ ] Configure branch protection rules on `main`:
   - Require PR reviews (1)
   - Require status checks (CI backend + CI frontend)
   - Require up-to-date branch
   - Squash merge only
-- [ ] Configurar GitHub secrets para Azure (si se necesita para integration tests)
-- [ ] Agregar badges de CI al README.md
-- [ ] Verificar que un PR con tests fallidos NO se puede mergear
-- [ ] Verificar que un PR con lint errors NO se puede mergear
+- [ ] Configure GitHub secrets for Azure (if needed for integration tests)
+- [ ] Add CI badges to README.md
+- [ ] Verify that a PR with failing tests can NOT be merged
+- [ ] Verify that a PR with lint errors can NOT be merged
 
 ---
 
-## Pipeline CI Backend
+## Backend CI Pipeline
 
 ```yaml
 # .github/workflows/ci-backend.yml
@@ -102,7 +102,7 @@ jobs:
 
 ---
 
-## Pipeline CI Frontend
+## Frontend CI Pipeline
 
 ```yaml
 # .github/workflows/ci-frontend.yml
@@ -166,50 +166,50 @@ jobs:
 
 ```mermaid
 graph TD
-    PR[Pull Request a main] --> CHECK1{CI Backend pasa?}
-    CHECK1 -->|Sí| CHECK2{CI Frontend pasa?}
-    CHECK1 -->|No| BLOCK[❌ Merge bloqueado]
-    CHECK2 -->|Sí| CHECK3{Review aprobado?}
+    PR[Pull Request to main] --> CHECK1{CI Backend passes?}
+    CHECK1 -->|Yes| CHECK2{CI Frontend passes?}
+    CHECK1 -->|No| BLOCK[❌ Merge blocked]
+    CHECK2 -->|Yes| CHECK3{Review approved?}
     CHECK2 -->|No| BLOCK
-    CHECK3 -->|Sí| CHECK4{Branch up-to-date?}
+    CHECK3 -->|Yes| CHECK4{Branch up-to-date?}
     CHECK3 -->|No| BLOCK
-    CHECK4 -->|Sí| MERGE[✅ Squash merge]
-    CHECK4 -->|No| REBASE[Rebase requerido]
+    CHECK4 -->|Yes| MERGE[✅ Squash merge]
+    CHECK4 -->|No| REBASE[Rebase required]
     REBASE --> CHECK1
 ```
 
-**Configuración en GitHub → Settings → Branches → Branch protection rules:**
+**Configuration in GitHub → Settings → Branches → Branch protection rules:**
 
-| Setting | Valor |
+| Setting | Value |
 |---|---|
 | Require a pull request before merging | ✅ |
 | Required approving reviews | 1 |
 | Require status checks to pass | ✅ |
 | Required checks | `CI Backend / build-and-test`, `CI Frontend / build-and-test` |
 | Require branches to be up to date | ✅ |
-| Allow squash merging | ✅ (solo este) |
+| Allow squash merging | ✅ (this one only) |
 | Allow merge commits | ❌ |
 | Allow rebase merging | ❌ |
 
 ---
 
-## Criterios de Aceptación
+## Acceptance Criteria
 
-- [ ] Push a `main` con cambios en `backend/` ejecuta solo CI Backend
-- [ ] Push a `main` con cambios en `frontend/` ejecuta solo CI Frontend
-- [ ] Un PR con tests fallidos muestra ❌ y no permite merge
-- [ ] Un PR con todos los checks ✅ y 1 review permite merge
-- [ ] Los artifacts se generan correctamente en pushes a main
-- [ ] El cache de NuGet/npm funciona (segundo build más rápido)
-- [ ] Los badges de CI aparecen en el README
-
----
-
-## Dependencias
-
-- **Depende de:** F00-W02 (backend scaffolding), F00-W03 (frontend scaffolding)
-- **Bloquea:** F00-W06 (CD pipelines)
+- [ ] A push to `main` with changes in `backend/` runs only CI Backend
+- [ ] A push to `main` with changes in `frontend/` runs only CI Frontend
+- [ ] A PR with failing tests shows ❌ and does not allow merge
+- [ ] A PR with all checks ✅ and 1 review allows merge
+- [ ] Artifacts are generated correctly on pushes to main
+- [ ] The NuGet/npm cache works (second build is faster)
+- [ ] The CI badges appear in the README
 
 ---
 
-*F00 - W04 - Configuración CI - GitHub Actions — Legal Ai Ar*
+## Dependencies
+
+- **Depends on:** F00-W02 (backend scaffolding), F00-W03 (frontend scaffolding)
+- **Blocks:** F00-W06 (CD pipelines)
+
+---
+
+*F00 - W04 - GitHub Actions CI Configuration — Legal Ai Ar*

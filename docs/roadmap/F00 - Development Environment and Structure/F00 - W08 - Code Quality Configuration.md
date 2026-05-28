@@ -1,43 +1,43 @@
-# F00 - W08 - Configuración de Calidad de Código (Linting, Formatting, EditorConfig)
+# F00 - W08 - Code Quality Configuration (Linting, Formatting, EditorConfig)
 
-> **Feature:** F00 - Entorno y Estructura de Desarrollo
+> **Feature:** F00 - Development Environment and Structure
 > **Release:** 0.0 | **Sprint:** S00
-> **Tipo:** devops | **Prioridad:** Media
-> **Estimación:** 3 story points
-> **Asignable a:** Dev Frontend (linting Angular) + Dev Backend (analyzers .NET)
+> **Type:** devops | **Priority:** Medium
+> **Estimate:** 3 story points
+> **Assignable to:** Frontend Dev (Angular linting) + Backend Dev (.NET analyzers)
 
 ---
 
-## Descripción
+## Description
 
-Configurar todas las herramientas de calidad de código para garantizar consistencia entre los dos desarrolladores: EditorConfig, ESLint, Prettier, Roslyn Analyzers, husky pre-commit hooks y templates de PR/Issues.
+Configure all code-quality tools to ensure consistency between the two developers: EditorConfig, ESLint, Prettier, Roslyn Analyzers, husky pre-commit hooks, and PR/Issue templates.
 
 ---
 
-## Tareas
+## Tasks
 
-### Compartido
-- [ ] Crear `.editorconfig` raíz con reglas para C#, TypeScript, JSON, YAML, Markdown
-- [ ] Configurar husky + lint-staged para pre-commit hooks
-- [ ] Crear `.github/PULL_REQUEST_TEMPLATE.md`
-- [ ] Crear `.github/ISSUE_TEMPLATE/bug_report.md`
-- [ ] Crear `.github/ISSUE_TEMPLATE/work_item.md`
-- [ ] Crear `.github/CODEOWNERS`
+### Shared
+- [ ] Create a root `.editorconfig` with rules for C#, TypeScript, JSON, YAML, Markdown
+- [ ] Configure husky + lint-staged for pre-commit hooks
+- [ ] Create `.github/PULL_REQUEST_TEMPLATE.md`
+- [ ] Create `.github/ISSUE_TEMPLATE/bug_report.md`
+- [ ] Create `.github/ISSUE_TEMPLATE/work_item.md`
+- [ ] Create `.github/CODEOWNERS`
 
 ### Backend (.NET)
-- [ ] Agregar `<TreatWarningsAsErrors>true</TreatWarningsAsErrors>` en `Directory.Build.props`
-- [ ] Agregar `<Nullable>enable</Nullable>` en `Directory.Build.props`
-- [ ] Agregar `<ImplicitUsings>enable</ImplicitUsings>`
-- [ ] Configurar Roslyn analyzers: `Microsoft.CodeAnalysis.NetAnalyzers`
-- [ ] Agregar `.globalconfig` con reglas de análisis (naming, async, null checks)
-- [ ] Configurar XML documentation warnings
+- [ ] Add `<TreatWarningsAsErrors>true</TreatWarningsAsErrors>` in `Directory.Build.props`
+- [ ] Add `<Nullable>enable</Nullable>` in `Directory.Build.props`
+- [ ] Add `<ImplicitUsings>enable</ImplicitUsings>`
+- [ ] Configure Roslyn analyzers: `Microsoft.CodeAnalysis.NetAnalyzers`
+- [ ] Add a `.globalconfig` with analysis rules (naming, async, null checks)
+- [ ] Configure XML documentation warnings
 
 ### Frontend (Angular)
-- [ ] Configurar ESLint con `angular-eslint` y reglas custom
-- [ ] Configurar Prettier con `.prettierrc` y `.prettierignore`
-- [ ] Configurar `lint-staged` para ejecutar lint + format en pre-commit
-- [ ] Agregar regla de import ordering (eslint-plugin-import)
-- [ ] Configurar strict TypeScript (`strict: true` en tsconfig)
+- [ ] Configure ESLint with `angular-eslint` and custom rules
+- [ ] Configure Prettier with `.prettierrc` and `.prettierignore`
+- [ ] Configure `lint-staged` to run lint + format on pre-commit
+- [ ] Add an import-ordering rule (eslint-plugin-import)
+- [ ] Configure strict TypeScript (`strict: true` in tsconfig)
 
 ---
 
@@ -129,28 +129,28 @@ trim_trailing_whitespace = false
 
 ```markdown
 <!-- .github/PULL_REQUEST_TEMPLATE.md -->
-## Descripción
-<!-- Qué cambia este PR y por qué -->
+## Description
+<!-- What this PR changes and why -->
 
 ## Work Item
-<!-- Ej: F01-W02 -->
+<!-- E.g.: F01-W02 -->
 Closes #
 
-## Tipo de cambio
-- [ ] feat: nueva funcionalidad
-- [ ] fix: corrección de bug
-- [ ] refactor: refactorización
-- [ ] test: tests nuevos o actualizados
-- [ ] docs: documentación
-- [ ] chore: mantenimiento
+## Type of change
+- [ ] feat: new functionality
+- [ ] fix: bug fix
+- [ ] refactor: refactoring
+- [ ] test: new or updated tests
+- [ ] docs: documentation
+- [ ] chore: maintenance
 
 ## Checklist
-- [ ] El código compila sin warnings
-- [ ] Los tests pasan localmente
-- [ ] He agregado/actualizado tests para mis cambios
-- [ ] La documentación está actualizada (si aplica)
-- [ ] He revisado mi propio código
-- [ ] No hay console.log() ni código de debug
+- [ ] The code compiles with no warnings
+- [ ] Tests pass locally
+- [ ] I have added/updated tests for my changes
+- [ ] The documentation is updated (if applicable)
+- [ ] I have reviewed my own code
+- [ ] There are no console.log() or debug code
 ```
 
 ---
@@ -178,7 +178,7 @@ Closes #
 ## Husky + Lint-Staged
 
 ```json
-// frontend/package.json (agregar)
+// frontend/package.json (add)
 {
   "husky": {
     "hooks": {
@@ -196,24 +196,24 @@ Closes #
 
 ---
 
-## Criterios de Aceptación
+## Acceptance Criteria
 
-- [ ] `.editorconfig` aplica reglas al formatear en VS Code y Visual Studio
-- [ ] ESLint detecta errores de estilo en TypeScript y templates Angular
-- [ ] Prettier formatea automáticamente al guardar (con config de VS Code)
-- [ ] Pre-commit hook ejecuta lint y format antes de cada commit
-- [ ] Los commits siguen Conventional Commits (validado por commitlint)
-- [ ] El PR template se muestra al crear un PR en GitHub
-- [ ] CODEOWNERS asigna reviewers automáticamente
-- [ ] El backend compila con `TreatWarningsAsErrors` sin warnings
-
----
-
-## Dependencias
-
-- **Depende de:** F00-W02 (repo existente), F00-W03 (frontend existente)
-- **Bloquea:** Ninguno (pero mejora la experiencia de desarrollo desde el día 1)
+- [ ] `.editorconfig` applies rules when formatting in VS Code and Visual Studio
+- [ ] ESLint detects style errors in TypeScript and Angular templates
+- [ ] Prettier formats automatically on save (with the VS Code config)
+- [ ] The pre-commit hook runs lint and format before each commit
+- [ ] Commits follow Conventional Commits (validated by commitlint)
+- [ ] The PR template is shown when creating a PR on GitHub
+- [ ] CODEOWNERS assigns reviewers automatically
+- [ ] The backend compiles with `TreatWarningsAsErrors` and no warnings
 
 ---
 
-*F00 - W08 - Configuración de Calidad de Código — Legal Ai Ar*
+## Dependencies
+
+- **Depends on:** F00-W02 (existing repo), F00-W03 (existing frontend)
+- **Blocks:** None (but it improves the development experience from day 1)
+
+---
+
+*F00 - W08 - Code Quality Configuration — Legal Ai Ar*

@@ -1,30 +1,30 @@
-# F00 - W01 - Documentacion Integral
+# F00 - W01 - Comprehensive Documentation
 
-> **Feature:** F00 - Entorno y Estructura de Desarrollo
+> **Feature:** F00 - Development Environment and Structure
 > **Release:** 0.0 (Pre-release) | **Sprint:** S00
-> **Tipo:** Documentación | **Prioridad:** Crítica (bloqueante)
-> **Estimación:** 5 story points
+> **Type:** Documentation | **Priority:** Critical (blocking)
+> **Estimate:** 5 story points
 
 ---
 
-## 1. Descripción General
+## 1. General Description
 
-Definición completa del entorno de desarrollo, stack tecnológico, estructura del monorepo, convenciones de código, estrategia de branching, pipelines CI/CD, provisión de ambientes Azure y configuración del entorno local de desarrollo. Esta feature es **bloqueante** para todas las demás: ningún desarrollo puede comenzar sin completar F00.
+Complete definition of the development environment, tech stack, monorepo structure, code conventions, branching strategy, CI/CD pipelines, Azure environment provisioning, and local development environment setup. This feature is **blocking** for all the others: no development can begin without completing F00.
 
 ---
 
-## 2. Stack Tecnológico
+## 2. Tech Stack
 
 ### Backend
 
-| Componente | Tecnología | Versión |
+| Component | Technology | Version |
 |---|---|---|
 | Runtime | .NET | 10 LTS |
 | Framework | ASP.NET Core Minimal API | 10.x |
 | ORM | Entity Framework Core | 10.x |
-| Validación | FluentValidation | 12.x |
+| Validation | FluentValidation | 12.x |
 | Logging | Serilog + Application Insights | latest |
-| Auth | Microsoft.Identity.Web | 3.x |
+| Auth | Platform auth (`id_token` cookie validation, `Auth:Platform`) | — |
 | AI Orchestration | Semantic Kernel | latest |
 | Testing | xUnit + Moq + FluentAssertions | latest |
 | API Docs | Swashbuckle (OpenAPI/Swagger) | latest |
@@ -33,73 +33,73 @@ Definición completa del entorno de desarrollo, stack tecnológico, estructura d
 
 ### Frontend
 
-| Componente | Tecnología | Versión |
+| Component | Technology | Version |
 |---|---|---|
 | Framework | Angular | 19.x |
-| UI Components | PwC AppKit 4 | (a definir) |
-| Auth | @azure/msal-angular | 4.x |
+| UI Components | PwC AppKit 4 | (TBD) |
+| Auth | Platform session (`id_token` cookie + `withCredentials`, no MSAL) | — |
 | State Management | NgRx Signals / Angular Signals | built-in |
 | HTTP | HttpClient + Interceptors | built-in |
-| Formularios | Reactive Forms + validaciones custom | built-in |
+| Forms | Reactive Forms + custom validations | built-in |
 | Charts | Chart.js + ng2-charts | latest |
-| Grafo | Cytoscape.js + ngx-cytoscape | latest |
+| Graph | Cytoscape.js + ngx-cytoscape | latest |
 | Calendar | FullCalendar Angular | latest |
-| Icons | Material Icons / PwC Icon set | (a definir) |
+| Icons | Material Icons / PwC Icon set | (TBD) |
 | Testing | Jest + Angular Testing Library | latest |
 | E2E | Playwright | latest |
 | Linting | ESLint + Prettier + angular-eslint | latest |
 
-### Infraestructura Azure
+### Azure Infrastructure
 
-| Servicio | Uso |
+| Service | Use |
 |---|---|
-| Azure SQL Database | Base de datos relacional + SQL Graph |
-| Azure AI Search | Índices de búsqueda semántica (normas, jurisprudencia) |
-| Azure OpenAI | Modelos GPT para agentes IA y embeddings |
-| Azure Key Vault | Gestión de secretos y certificados |
-| Azure Storage | Blob Storage (documentos), Queue Storage (mensajes async), Table Storage (logs) |
-| Azure App Service | Hosting de la API .NET 10 |
-| Azure Static Web Apps | Hosting del SPA Angular 19 |
-| Azure Functions | Timer triggers (boletín oficial, evaluación de plazos) |
-| Azure SignalR Service | Notificaciones real-time y streaming de chat |
-| Azure Application Insights | Telemetría, logging, APM |
+| Azure SQL Database | Relational database + SQL Graph |
+| Azure AI Search | Semantic search indexes (norms, case law) |
+| Azure OpenAI | GPT models for AI agents and embeddings |
+| Azure Key Vault | Secret and certificate management |
+| Azure Storage | Blob Storage (documents), Queue Storage (async messages), Table Storage (logs) |
+| Azure App Service | Hosting the .NET 10 API |
+| Azure Static Web Apps | Hosting the Angular 19 SPA |
+| Azure Functions | Timer triggers (official gazette, deadline evaluation) |
+| Azure SignalR Service | Real-time notifications and chat streaming |
+| Azure Application Insights | Telemetry, logging, APM |
 | Microsoft Entra ID | Identity provider (auth, roles) |
 
-### Herramientas de Desarrollo
+### Development Tools
 
-| Herramienta | Uso |
+| Tool | Use |
 |---|---|
-| GitHub | Repositorio, Issues, Projects, PRs |
+| GitHub | Repository, Issues, Projects, PRs |
 | GitHub Actions | CI/CD pipelines |
-| Visual Studio 2022 / Rider | IDE Backend |
-| VS Code | IDE Frontend |
-| Azure Data Studio | Gestión de base de datos |
-| Postman / Bruno | Testing de APIs |
-| Docker Desktop | Contenedores locales (SQL Server dev) |
+| Visual Studio 2022 / Rider | Backend IDE |
+| VS Code | Frontend IDE |
+| Azure Data Studio | Database management |
+| Postman / Bruno | API testing |
+| Docker Desktop | Local containers (SQL Server dev) |
 
 ---
 
-## 3. Estructura del Monorepo (basado en MVP existente)
+## 3. Monorepo Structure (based on the existing MVP)
 
-> El repo `legal-ai-ar` ya existe y contiene un MVP funcional. La estructura se extiende agregando `docs/`, `LegalAiAr.Agents` y `LegalAiAr.AgentEvals`.
+> The `legal-ai-ar` repo already exists and contains a functional MVP. The structure is extended by adding `docs/`, `LegalAiAr.Agents`, and `LegalAiAr.AgentEvals`.
 
 ```
-legal-ai-ar/                            # ← Monorepo existente
+legal-ai-ar/                            # ← Existing monorepo
 ├── .github/
-│   ├── workflows/                      # CI/CD (gestionado fuera del roadmap)
-│   ├── ISSUE_TEMPLATE/                 # Nuevo: templates de issues
-│   └── PULL_REQUEST_TEMPLATE.md        # Nuevo: template de PR
-├── docs/                               # Nuevo: documentación del proyecto
-│   ├── roadmap/                        # Features y Work Items
-│   ├── tecnicas/                       # 9 documentos técnicos
-│   └── ontologia/                      # Modelo de dominio legal
+│   ├── workflows/                      # CI/CD (managed outside the roadmap)
+│   ├── ISSUE_TEMPLATE/                 # New: issue templates
+│   └── PULL_REQUEST_TEMPLATE.md        # New: PR template
+├── docs/                               # New: project documentation
+│   ├── roadmap/                        # Features and Work Items
+│   ├── technical/                      # 9 technical documents
+│   └── ontology/                       # Legal domain model
 ├── backend/
 │   ├── src/
 │   │   ├── api/
-│   │   │   ├── LegalAiAr.Api/         # ✅ ASP.NET Core (Controllers → Minimal API gradual)
+│   │   │   ├── LegalAiAr.Api/         # ✅ ASP.NET Core (Controllers → Minimal API, gradual)
 │   │   │   └── LegalAiAr.Application/ # ✅ CQRS, handlers, DTOs, validators
 │   │   ├── shared/
-│   │   │   ├── LegalAiAr.Core/        # ✅ Entidades, enums, interfaces
+│   │   │   ├── LegalAiAr.Core/        # ✅ Entities, enums, interfaces
 │   │   │   └── LegalAiAr.Infrastructure/ # ✅ EF Core, AI Search, Azure clients
 │   │   ├── workers/                    # ✅ 6 BackgroundService workers (pipeline)
 │   │   │   ├── LegalAiAr.Worker.Discoverer/
@@ -108,43 +108,43 @@ legal-ai-ar/                            # ← Monorepo existente
 │   │   │   ├── LegalAiAr.Worker.Enrichment/
 │   │   │   ├── LegalAiAr.Worker.Persister/
 │   │   │   └── LegalAiAr.Worker.Indexer/
-│   │   └── tools/                      # ✅ 10 herramientas CLI auxiliares
+│   │   └── tools/                      # ✅ 10 auxiliary CLI tools
 │   ├── tests/
-│   │   ├── LegalAiAr.Api.Tests/        # ✅ Tests existentes
+│   │   ├── LegalAiAr.Api.Tests/        # ✅ Existing tests
 │   │   ├── LegalAiAr.Application.Tests/ # ✅
 │   │   ├── LegalAiAr.Core.Tests/       # ✅
 │   │   ├── LegalAiAr.Infrastructure.Tests/ # ✅
-│   │   └── LegalAiAr.AgentEvals/       # Nuevo: evaluaciones de agentes IA
-│   ├── LegalAiAr.sln                   # ✅ Solución existente (agregar nuevos proyectos)
+│   │   └── LegalAiAr.AgentEvals/       # New: AI agent evaluations
+│   ├── LegalAiAr.sln                   # ✅ Existing solution (add new projects)
 │   ├── Directory.Build.props           # ✅
 │   ├── Directory.Packages.props        # ✅ Central Package Management
 │   └── global.json                     # ✅ .NET 10
 ├── frontend/
 │   ├── src/
 │   │   ├── app/
-│   │   │   ├── core/               # Servicios singleton, guards, interceptors
+│   │   │   ├── core/               # Singleton services, guards, interceptors
 │   │   │   │   ├── auth/
 │   │   │   │   ├── interceptors/
 │   │   │   │   ├── guards/
 │   │   │   │   ├── services/
 │   │   │   │   └── models/
-│   │   │   ├── shared/             # Componentes, pipes, directivas reutilizables
+│   │   │   ├── shared/             # Reusable components, pipes, directives
 │   │   │   │   ├── components/
 │   │   │   │   ├── directives/
 │   │   │   │   ├── pipes/
 │   │   │   │   └── utils/
-│   │   │   ├── features/           # Módulos por feature (lazy loaded)
+│   │   │   ├── features/           # Per-feature modules (lazy loaded)
 │   │   │   │   ├── dashboard/
-│   │   │   │   ├── normas/
-│   │   │   │   ├── jurisprudencia/
-│   │   │   │   ├── expedientes/
-│   │   │   │   ├── plazos/
+│   │   │   │   ├── legal-norms/
+│   │   │   │   ├── case-law/
+│   │   │   │   ├── case-files/
+│   │   │   │   ├── deadlines/
 │   │   │   │   ├── chat/
-│   │   │   │   ├── calendario/
-│   │   │   │   ├── analisis-riesgo/
-│   │   │   │   ├── reportes/
+│   │   │   │   ├── calendar/
+│   │   │   │   ├── risk-analysis/
+│   │   │   │   ├── reports/
 │   │   │   │   ├── admin/
-│   │   │   │   └── novedades/
+│   │   │   │   └── updates/
 │   │   │   ├── layout/             # Shell, sidebar, navbar, footer
 │   │   │   ├── app.component.ts
 │   │   │   ├── app.config.ts
@@ -173,8 +173,8 @@ legal-ai-ar/                            # ← Monorepo existente
 │   ├── .prettierrc
 │   └── package.json
 ├── infra/
-│   ├── bicep/                      # IaC con Azure Bicep
-│   │   ├── main.bicep              # Orquestador principal
+│   ├── bicep/                      # IaC with Azure Bicep
+│   │   ├── main.bicep              # Main orchestrator
 │   │   ├── modules/
 │   │   │   ├── sql.bicep
 │   │   │   ├── search.bicep
@@ -192,9 +192,9 @@ legal-ai-ar/                            # ← Monorepo existente
 │   │       ├── staging.bicepparam
 │   │       └── prod.bicepparam
 │   └── scripts/
-│       ├── setup-local.ps1         # Setup entorno local Windows
-│       ├── setup-local.sh          # Setup entorno local Linux/Mac
-│       └── seed-db.sql             # Seed data inicial
+│       ├── setup-local.ps1         # Local setup, Windows
+│       ├── setup-local.sh          # Local setup, Linux/Mac
+│       └── seed-db.sql             # Initial seed data
 ├── .gitignore
 ├── .editorconfig
 ├── README.md
@@ -203,18 +203,18 @@ legal-ai-ar/                            # ← Monorepo existente
 
 ---
 
-## 4. Diagrama de Arquitectura General
+## 4. Overall Architecture Diagram
 
 ```mermaid
 graph TB
     subgraph "Frontend - Angular 19 SPA"
         SPA[Angular 19<br/>PwC AppKit 4]
-        MSAL[MSAL Angular]
+        SESS[Platform session<br/>id_token cookie]
     end
 
     subgraph "Backend - .NET 10 API"
         API[ASP.NET Core<br/>Minimal API]
-        SK[Semantic Kernel<br/>Agentes IA]
+        SK[Semantic Kernel<br/>AI Agents]
         EF[EF Core 10]
     end
 
@@ -234,10 +234,10 @@ graph TB
         EID[Microsoft<br/>Entra ID]
     end
 
-    SPA -->|HTTPS + JWT| API
+    SPA -->|HTTPS + id_token cookie| API
     SPA -->|SignalR WebSocket| SR
-    MSAL -->|OAuth 2.0| EID
-    API -->|Validate JWT| EID
+    SESS -->|Platform Entra SSO| EID
+    API -->|Validate id_token| EID
     API -->|CRUD| SQL
     API -->|Search| AIS
     SK -->|Completions & Embeddings| AOAI
@@ -248,7 +248,7 @@ graph TB
     API -->|Real-time| SR
     API -->|Telemetry| AI
     FUNC -->|Timer triggers| SQL
-    FUNC -->|Ingesta| AIS
+    FUNC -->|Ingestion| AIS
     EF -->|Code-First| SQL
 
     style SPA fill:#1a73e8,color:#fff
@@ -258,42 +258,44 @@ graph TB
     style AOAI fill:#ff5722,color:#fff
 ```
 
+> **Auth note:** Production authentication is platform-managed (GCaaS Entra SSO via the `id_token` HTTP-only cookie; the API validates it with `Auth:Platform`). No MSAL in the SPA. See [`gcaas-hosting.md`](../../deployment/gcaas-hosting.md).
+
 ---
 
-## 5. Ambientes de Deployment
+## 5. Deployment Environments
 
 ```mermaid
 graph LR
-    subgraph "Ambientes"
-        DEV[DEV<br/>Desarrollo libre<br/>Auto-deploy en push]
-        QA[QA<br/>Testing formal<br/>Deploy manual]
-        STG[STAGING<br/>Pre-producción<br/>Deploy manual + aprobación]
-        PROD[PROD<br/>Producción<br/>Deploy manual + 2 aprobaciones]
+    subgraph "Environments"
+        DEV[DEV<br/>Free development<br/>Auto-deploy on push]
+        QA[QA<br/>Formal testing<br/>Manual deploy]
+        STG[STAGING<br/>Pre-production<br/>Manual deploy + approval]
+        PROD[PROD<br/>Production<br/>Manual deploy + 2 approvals]
     end
 
-    DEV -->|Promover| QA
-    QA -->|Promover| STG
-    STG -->|Promover| PROD
+    DEV -->|Promote| QA
+    QA -->|Promote| STG
+    STG -->|Promote| PROD
 ```
 
-| Ambiente | Propósito | Trigger de Deploy | Aprobaciones | Azure Resource Group |
+| Environment | Purpose | Deploy Trigger | Approvals | Azure Resource Group |
 |---|---|---|---|---|
-| **DEV** | Desarrollo libre, integración continua | Push a `main` | Ninguna | `rg-legal-ai-ar-dev` |
-| **QA** | Testing formal por QA/product owner | Manual (workflow dispatch) | 1 (Tech Lead) | `rg-legal-ai-ar-qa` |
-| **STAGING** | Pre-producción, demo a stakeholders | Manual (workflow dispatch) | 1 (Tech Lead) | `rg-legal-ai-ar-staging` |
-| **PROD** | Producción | Manual (workflow dispatch) | 2 (Tech Lead + Product Owner) | `rg-legal-ai-ar-prod` |
+| **DEV** | Free development, continuous integration | Push to `main` | None | `rg-legal-ai-ar-dev` |
+| **QA** | Formal testing by QA/product owner | Manual (workflow dispatch) | 1 (Tech Lead) | `rg-legal-ai-ar-qa` |
+| **STAGING** | Pre-production, stakeholder demo | Manual (workflow dispatch) | 1 (Tech Lead) | `rg-legal-ai-ar-staging` |
+| **PROD** | Production | Manual (workflow dispatch) | 2 (Tech Lead + Product Owner) | `rg-legal-ai-ar-prod` |
 
-### Naming Convention de Recursos Azure
+### Azure Resource Naming Convention
 
 ```
-{servicio}-legal-ai-ar-{ambiente}
+{service}-legal-ai-ar-{environment}
 ```
 
-Ejemplos: `sql-legal-ai-ar-dev`, `app-legal-ai-ar-prod`, `func-legal-ai-ar-qa`, `srch-legal-ai-ar-staging`
+Examples: `sql-legal-ai-ar-dev`, `app-legal-ai-ar-prod`, `func-legal-ai-ar-qa`, `srch-legal-ai-ar-staging`
 
 ---
 
-## 6. Estrategia de Branching (GitHub Flow)
+## 6. Branching Strategy (GitHub Flow)
 
 ```mermaid
 gitgraph
@@ -304,11 +306,11 @@ gitgraph
     commit id: "feat: add JWT validation"
     checkout main
     merge feature/F01-W02-entra-id-jwt id: "PR #1 merged"
-    branch feature/F01-W04-msal-angular
-    checkout feature/F01-W04-msal-angular
-    commit id: "feat: MSAL setup"
+    branch feature/F01-W04-platform-session
+    checkout feature/F01-W04-platform-session
+    commit id: "feat: platform session setup"
     checkout main
-    merge feature/F01-W04-msal-angular id: "PR #2 merged"
+    merge feature/F01-W04-platform-session id: "PR #2 merged"
     branch hotfix/fix-token-refresh
     checkout hotfix/fix-token-refresh
     commit id: "fix: token refresh"
@@ -316,25 +318,25 @@ gitgraph
     merge hotfix/fix-token-refresh id: "PR #3 merged"
 ```
 
-### Convención de Ramas
+### Branch Convention
 
 ```
-feature/{FXX}-{WXX}-{descripcion-corta}    → Nuevas funcionalidades
-bugfix/{FXX}-{descripcion-corta}            → Corrección de bugs
-hotfix/{descripcion-corta}                  → Fixes urgentes a producción
-chore/{descripcion-corta}                   → Mantenimiento, refactor, deps
+feature/{FXX}-{WXX}-{short-description}    → New functionality
+bugfix/{FXX}-{short-description}            → Bug fixes
+hotfix/{short-description}                  → Urgent production fixes
+chore/{short-description}                   → Maintenance, refactor, deps
 ```
 
-### Reglas de PRs
+### PR Rules
 
-- Todo merge a `main` requiere PR con al menos 1 review aprobado
-- CI debe pasar (build + tests) antes de poder mergear
-- Squash merge como estrategia por defecto
-- Título del PR sigue Conventional Commits: `feat(F01): add JWT validation middleware`
+- Every merge to `main` requires a PR with at least 1 approved review
+- CI must pass (build + tests) before merging
+- Squash merge as the default strategy
+- PR title follows Conventional Commits: `feat(F01): add JWT validation middleware`
 
 ---
 
-## 7. Convenciones de Código
+## 7. Code Conventions
 
 ### Conventional Commits
 
@@ -349,65 +351,65 @@ refactor(F05): extract graph service
 
 ### Backend (.NET)
 
-- **Naming:** PascalCase para clases, métodos, propiedades. camelCase para variables locales y parámetros
-- **Async:** Toda operación I/O es async. Sufijo `Async` en métodos
-- **Nullable:** Nullable reference types habilitado (`<Nullable>enable</Nullable>`)
-- **Responses:** Envelope estándar `ApiResponse<T>` con `{data, errors[], meta}`
-- **Exceptions:** Global exception handler middleware, nunca try-catch en controllers
-- **Validación:** FluentValidation en pipeline de MediatR, nunca en controllers
-- **Logging:** Serilog structured logging con correlation ID en cada request
+- **Naming:** PascalCase for classes, methods, properties. camelCase for local variables and parameters
+- **Async:** Every I/O operation is async. `Async` suffix on methods
+- **Nullable:** Nullable reference types enabled (`<Nullable>enable</Nullable>`)
+- **Responses:** Standard `ApiResponse<T>` envelope with `{data, errors[], meta}`
+- **Exceptions:** Global exception handler middleware, never try-catch in controllers
+- **Validation:** FluentValidation in the MediatR pipeline, never in controllers
+- **Logging:** Serilog structured logging with a correlation ID on each request
 
 ### Frontend (Angular)
 
-- **Naming:** kebab-case para archivos, PascalCase para clases, camelCase para variables
-- **Standalone:** Todos los componentes son standalone (Angular 19 default)
-- **Signals:** Preferir Angular Signals sobre RxJS para estado local de componentes
-- **RxJS:** Usar solo para streams HTTP y eventos async complejos
-- **Lazy Loading:** Cada feature es un módulo lazy-loaded con sus propias rutas
-- **Barrel exports:** `index.ts` en cada carpeta de feature para exports limpios
+- **Naming:** kebab-case for files, PascalCase for classes, camelCase for variables
+- **Standalone:** All components are standalone (Angular 19 default)
+- **Signals:** Prefer Angular Signals over RxJS for local component state
+- **RxJS:** Use only for HTTP streams and complex async events
+- **Lazy Loading:** Each feature is a lazy-loaded module with its own routes
+- **Barrel exports:** `index.ts` in each feature folder for clean exports
 - **Error handling:** Global error handler + toast notifications
 
-### Estructura de un Feature Module (Angular)
+### Feature Module Structure (Angular)
 
 ```
-features/normas/
+features/legal-norms/
 ├── components/
-│   ├── norma-list/
-│   │   ├── norma-list.component.ts
-│   │   ├── norma-list.component.html
-│   │   └── norma-list.component.scss
-│   └── norma-detail/
+│   ├── legal-norm-list/
+│   │   ├── legal-norm-list.component.ts
+│   │   ├── legal-norm-list.component.html
+│   │   └── legal-norm-list.component.scss
+│   └── legal-norm-detail/
 ├── services/
-│   └── normas.service.ts
+│   └── legal-norms.service.ts
 ├── models/
-│   └── norma.model.ts
-├── normas.routes.ts
+│   └── legal-norm.model.ts
+├── legal-norms.routes.ts
 └── index.ts
 ```
 
 ---
 
-## 8. Arquitectura de la Knowledge Base
+## 8. Knowledge Base Architecture
 
-### 8.1 Stores que componen la KB
+### 8.1 Stores that make up the KB
 
-La Knowledge Base no vive en un solo almacén. Cada tipo de dato se persiste en el store más adecuado según sus patrones de acceso:
+The Knowledge Base does not live in a single store. Each data type is persisted in the most appropriate store according to its access patterns:
 
 ```mermaid
 graph TB
-    subgraph "Stores de la Knowledge Base"
+    subgraph "Knowledge Base Stores"
         direction TB
-        SQL[(Azure SQL DB<br/>Datos relacionales +<br/>SQL Graph)]
-        AIS[Azure AI Search<br/>Índices semánticos +<br/>BM25 + vectores]
-        BLOB[Azure Blob Storage<br/>Documentos originales<br/>PDFs, HTMLs]
-        CACHE[Azure Table Storage<br/>Cache de embeddings<br/>Metadata rápida]
+        SQL[(Azure SQL DB<br/>Relational data +<br/>SQL Graph)]
+        AIS[Azure AI Search<br/>Semantic indexes +<br/>BM25 + vectors]
+        BLOB[Azure Blob Storage<br/>Original documents<br/>PDFs, HTMLs]
+        CACHE[Azure Table Storage<br/>Embedding cache<br/>Fast metadata]
     end
 
-    subgraph "Datos que almacena cada Store"
-        SQL_D["• Normas (metadata + estructura)<br/>• Artículos + Incisos<br/>• Jurisprudencia (metadata)<br/>• Expedientes y Plazos<br/>• Usuarios y Preferencias<br/>• Relaciones via SQL Graph:<br/>  MODIFICA, DEROGA, REGLAMENTA,<br/>  INTERPRETA, CITA"]
-        AIS_D["• idx-normas: texto normativo<br/>  vectorizado + filtros facetados<br/>• idx-jurisprudencia: fallos<br/>  vectorizados + filtros<br/>• idx-doctrina: textos<br/>  doctrinarios (futuro)<br/>• idx-artículos: artículos<br/>  individuales vectorizados"]
-        BLOB_D["• PDFs originales de normas<br/>• HTMLs scrapeados<br/>• Documentos de expedientes<br/>• Exports de informes"]
-        CACHE_D["• Embeddings pre-calculados<br/>• Resultados de búsqueda cacheados<br/>• Metadata de última ingesta"]
+    subgraph "Data each Store holds"
+        SQL_D["• Norms (metadata + structure)<br/>• Articles + Clauses<br/>• Case law (metadata)<br/>• Case files and Deadlines<br/>• Users and Preferences<br/>• Relationships via SQL Graph:<br/>  AMENDS, REPEALS, REGULATES,<br/>  INTERPRETS, CITES"]
+        AIS_D["• idx-legal-norms: vectorized<br/>  normative text + faceted filters<br/>• idx-case-law: vectorized<br/>  rulings + filters<br/>• idx-doctrine: doctrinal<br/>  texts (future)<br/>• idx-articles: individual<br/>  articles vectorized"]
+        BLOB_D["• Original norm PDFs<br/>• Scraped HTMLs<br/>• Case file documents<br/>• Report exports"]
+        CACHE_D["• Pre-computed embeddings<br/>• Cached search results<br/>• Last-ingestion metadata"]
     end
 
     SQL --- SQL_D
@@ -416,353 +418,353 @@ graph TB
     CACHE --- CACHE_D
 ```
 
-| Store | Tecnología | Qué almacena | Patrón de acceso |
+| Store | Technology | What it stores | Access pattern |
 |---|---|---|---|
-| **Relacional + Grafo** | Azure SQL DB (SQL Graph) | Entidades estructuradas, relaciones entre normas, expedientes, plazos | CRUD, joins, traversal de grafo |
-| **Búsqueda semántica** | Azure AI Search | Textos vectorizados de normas, jurisprudencia, artículos | Hybrid search (BM25 + vectors), filtros facetados |
-| **Documentos originales** | Azure Blob Storage | PDFs, HTMLs, archivos adjuntos | Lectura por URL, streaming |
-| **Cache / Metadata** | Azure Table Storage | Embeddings pre-calculados, estado de ingesta, cache | Key-value lookup rápido |
-| **Colas async** | Azure Queue Storage | Mensajes de ingesta, alertas de plazos, notificaciones | Productor-consumidor |
+| **Relational + Graph** | Azure SQL DB (SQL Graph) | Structured entities, relationships between norms, case files, deadlines | CRUD, joins, graph traversal |
+| **Semantic search** | Azure AI Search | Vectorized text of norms, case law, articles | Hybrid search (BM25 + vectors), faceted filters |
+| **Original documents** | Azure Blob Storage | PDFs, HTMLs, attachments | Read by URL, streaming |
+| **Cache / Metadata** | Azure Table Storage | Pre-computed embeddings, ingestion state, cache | Fast key-value lookup |
+| **Async queues** | Azure Queue Storage | Ingestion messages, deadline alerts, notifications | Producer-consumer |
 
-### 8.2 Modelo de Datos Completo (Azure SQL + SQL Graph)
+### 8.2 Complete Data Model (Azure SQL + SQL Graph)
 
-Derivado de la ontología legal argentina. Se divide en 4 grupos: **Core Legal**, **Procesal/Gestión**, **Identidad** y **Grafo de Relaciones**.
+Derived from the Argentine legal ontology. It is divided into 4 groups: **Core Legal**, **Procedural/Management**, **Identity**, and **Relationship Graph**.
 
-#### 8.2.1 Core Legal — Normas y Jurisprudencia
+#### 8.2.1 Core Legal — Norms and Case Law
 
 ```mermaid
 erDiagram
-    NORMA_JURIDICA {
+    LEGAL_NORM {
         int Id PK
-        nvarchar(20) NumeroNorma UK
-        nvarchar(500) Denominacion
-        nvarchar(200) NombreComun
-        nvarchar(50) TipoNorma "ley|decreto|dnu|resolucion|ordenanza|tratado"
-        int NivelJerarquico "1-5 pirámide Kelsen"
-        nvarchar(50) RamaDelDerecho "civil|penal|laboral|admin|tributario|familia|..."
-        nvarchar(50) AmbitoTerritorial "nacional|provincial|municipal|caba"
-        nvarchar(100) Jurisdiccion
-        date FechaSancion
-        date FechaPromulgacion
-        date FechaPublicacion
-        date FechaVigencia
-        bit EstaVigente
-        nvarchar(500) UrlTextoOficial
-        nvarchar(100) OrganoEmisor
-        nvarchar(max) TextoCompleto
-        nvarchar(max) Sumario
-        nvarchar(100) FuenteIngesta "saij|infoleg|boletinoficial|manual"
-        nvarchar(200) IdExterno
-        datetime2 FechaIngesta
-        datetime2 FechaUltimaActualizacion
+        nvarchar(20) NormNumber UK
+        nvarchar(500) Name
+        nvarchar(200) CommonName
+        nvarchar(50) NormType "ley|decreto|dnu|resolucion|ordenanza|tratado"
+        int HierarchyLevel "1-5 Kelsen pyramid"
+        nvarchar(50) LawBranch "civil|penal|laboral|admin|tributario|familia|..."
+        nvarchar(50) TerritorialScope "nacional|provincial|municipal|caba"
+        nvarchar(100) Jurisdiction
+        date EnactmentDate
+        date PromulgationDate
+        date PublicationDate
+        date EffectiveDate
+        bit IsInForce
+        nvarchar(500) OfficialTextUrl
+        nvarchar(100) IssuingBody
+        nvarchar(max) FullText
+        nvarchar(max) Summary
+        nvarchar(100) IngestionSource "saij|infoleg|boletinoficial|manual"
+        nvarchar(200) ExternalId
+        datetime2 IngestedAt
+        datetime2 LastUpdatedAt
     }
 
-    ARTICULO {
+    ARTICLE {
         int Id PK
-        int NormaId FK
-        nvarchar(20) NumeroArticulo
-        nvarchar(max) TextoNormativo
-        int Orden
-        bit EsVigente
-        nvarchar(100) TituloCapitulo
-        nvarchar(100) TituloSeccion
-        datetime2 FechaUltimaModificacion
+        int LegalNormId FK
+        nvarchar(20) ArticleNumber
+        nvarchar(max) NormativeText
+        int SortOrder
+        bit IsInForce
+        nvarchar(100) ChapterTitle
+        nvarchar(100) SectionTitle
+        datetime2 LastModifiedAt
     }
 
-    INCISO {
+    CLAUSE {
         int Id PK
-        int ArticuloId FK
-        nvarchar(20) NumeroInciso
-        nvarchar(max) TextoInciso
-        int Orden
+        int ArticleId FK
+        nvarchar(20) ClauseNumber
+        nvarchar(max) ClauseText
+        int SortOrder
     }
 
-    JURISPRUDENCIA {
+    CASE_LAW {
         int Id PK
-        nvarchar(200) Caratula
-        nvarchar(100) NumeroFallo
-        date FechaFallo
-        nvarchar(200) Tribunal
-        nvarchar(50) Fuero "civil|penal|laboral|comercial|contadmin|familia"
-        nvarchar(50) Instancia "primera|segunda|csjn|casacion"
-        nvarchar(50) TipoResolucion "sentencia_definitiva|interlocutoria|plenario|acordada"
-        nvarchar(max) Sumario
-        nvarchar(max) TextoCompleto
-        nvarchar(500) VocesTematicas "CSV de voces"
-        nvarchar(100) Resultado "favorable|desfavorable|parcial"
-        bit EsPlenario
-        nvarchar(100) FuenteIngesta
-        nvarchar(200) IdExterno
-        datetime2 FechaIngesta
+        nvarchar(200) Caption
+        nvarchar(100) RulingNumber
+        date RulingDate
+        nvarchar(200) Court
+        nvarchar(50) CourtVenue "civil|penal|laboral|comercial|contadmin|familia"
+        nvarchar(50) Instance "primera|segunda|csjn|casacion"
+        nvarchar(50) ResolutionType "sentencia_definitiva|interlocutoria|plenario|acordada"
+        nvarchar(max) Headnote
+        nvarchar(max) FullText
+        nvarchar(500) TopicKeywords "CSV of keywords"
+        nvarchar(100) Outcome "favorable|desfavorable|parcial"
+        bit IsEnBanc
+        nvarchar(100) IngestionSource
+        nvarchar(200) ExternalId
+        datetime2 IngestedAt
     }
 
-    DOCTRINA {
+    DOCTRINE {
         int Id PK
-        nvarchar(500) Titulo
-        nvarchar(200) Autor
-        nvarchar(200) Publicacion
-        date FechaPublicacion
-        nvarchar(50) RamaDelDerecho
-        nvarchar(max) Resumen
-        nvarchar(max) TextoCompleto
-        nvarchar(500) UrlFuente
-        datetime2 FechaIngesta
+        nvarchar(500) Title
+        nvarchar(200) Author
+        nvarchar(200) Publication
+        date PublicationDate
+        nvarchar(50) LawBranch
+        nvarchar(max) Summary
+        nvarchar(max) FullText
+        nvarchar(500) SourceUrl
+        datetime2 IngestedAt
     }
 
-    NORMA_JURIDICA ||--|{ ARTICULO : "tiene"
-    ARTICULO ||--|{ INCISO : "tiene"
+    LEGAL_NORM ||--|{ ARTICLE : "has"
+    ARTICLE ||--|{ CLAUSE : "has"
 ```
 
-#### 8.2.2 SQL Graph — Relaciones entre Entidades Legales
+#### 8.2.2 SQL Graph — Relationships Between Legal Entities
 
-SQL Graph de Azure SQL permite modelar las relaciones N:N entre normas, artículos y jurisprudencia como edges tipados, habilitando traversal eficiente.
+Azure SQL's SQL Graph models the N:N relationships between norms, articles, and case law as typed edges, enabling efficient traversal.
 
-**Nodos (NODE tables):**
+**Nodes (NODE tables):**
 
 ```sql
--- Nodos (ya son las tablas relacionales anteriores, marcadas como NODE)
-CREATE TABLE NormaJuridica (...) AS NODE;
-CREATE TABLE Articulo (...) AS NODE;
-CREATE TABLE Jurisprudencia (...) AS NODE;
-CREATE TABLE Doctrina (...) AS NODE;
+-- Nodes (these are the relational tables above, marked AS NODE)
+CREATE TABLE LegalNorm (...) AS NODE;
+CREATE TABLE Article (...) AS NODE;
+CREATE TABLE CaseLaw (...) AS NODE;
+CREATE TABLE Doctrine (...) AS NODE;
 ```
 
-**Edges (relaciones del grafo):**
+**Edges (graph relationships):**
 
 ```sql
--- Norma → Norma
-CREATE TABLE Modifica AS EDGE;          -- NormaA modifica a NormaB
-CREATE TABLE Deroga AS EDGE;            -- NormaA deroga a NormaB
-CREATE TABLE Reglamenta AS EDGE;        -- Decreto reglamenta Ley
-CREATE TABLE Complementa AS EDGE;       -- NormaA complementa NormaB
+-- Norm → Norm
+CREATE TABLE Amends AS EDGE;            -- NormA amends NormB
+CREATE TABLE Repeals AS EDGE;           -- NormA repeals NormB
+CREATE TABLE Regulates AS EDGE;         -- Decree regulates Law
+CREATE TABLE Complements AS EDGE;       -- NormA complements NormB
 
--- Jurisprudencia → Norma/Artículo
-CREATE TABLE Interpreta AS EDGE;        -- Fallo interpreta Artículo
-CREATE TABLE Aplica AS EDGE;            -- Fallo aplica Norma
-CREATE TABLE CitaJurisprudencia AS EDGE; -- Fallo cita otro Fallo
+-- Case law → Norm/Article
+CREATE TABLE Interprets AS EDGE;        -- Ruling interprets Article
+CREATE TABLE Applies AS EDGE;           -- Ruling applies Norm
+CREATE TABLE CitesCaseLaw AS EDGE;      -- Ruling cites another Ruling
 
--- Artículo → Artículo
-CREATE TABLE Referencia AS EDGE;        -- Art. X referencia a Art. Y
+-- Article → Article
+CREATE TABLE References AS EDGE;         -- Art. X references Art. Y
 
--- Doctrina → Norma/Jurisprudencia
-CREATE TABLE Comenta AS EDGE;           -- Doctrina comenta Norma o Fallo
+-- Doctrine → Norm/Case law
+CREATE TABLE Comments AS EDGE;          -- Doctrine comments on a Norm or Ruling
 ```
 
-**Propiedades de los Edges:**
+**Edge properties:**
 
-| Edge | Propiedades | Ejemplo |
+| Edge | Properties | Example |
 |---|---|---|
-| `Modifica` | `FechaModificacion`, `TipoModificacion` (parcial/total), `ArticulosAfectados` | Ley 27.077 modifica art. 1 de Ley 26.994 |
-| `Deroga` | `FechaDerogacion`, `TipoDerogacion` (expresa/tácita) | Ley 26.994 deroga Ley 340 (Código Civil) |
-| `Reglamenta` | `FechaReglamentacion` | Decreto 1759/72 reglamenta Ley 19.549 |
-| `Interpreta` | `CriterioInterpretativo`, `EsVinculante` | CSJN interpreta art. 14 bis CN |
-| `Aplica` | `ResultadoAplicacion` | Fallo aplica Ley 20.744 art. 245 |
-| `CitaJurisprudencia` | `ContextoCita` | Fallo cita precedente de CSJN |
+| `Amends` | `AmendedAt`, `AmendmentType` (partial/total), `AffectedArticles` | Ley 27.077 amends art. 1 of Ley 26.994 |
+| `Repeals` | `RepealedAt`, `RepealType` (express/tacit) | Ley 26.994 repeals Ley 340 (Civil Code) |
+| `Regulates` | `RegulatedAt` | Decreto 1759/72 regulates Ley 19.549 |
+| `Interprets` | `InterpretiveCriterion`, `IsBinding` | CSJN interprets art. 14 bis CN |
+| `Applies` | `ApplicationResult` | Ruling applies Ley 20.744 art. 245 |
+| `CitesCaseLaw` | `CitationContext` | Ruling cites a CSJN precedent |
 
-**Consulta de traversal ejemplo:**
+**Example traversal query:**
 
 ```sql
--- ¿Qué fallos interpretan el art. 245 de la LCT?
-SELECT j.Caratula, j.FechaFallo, j.Tribunal
-FROM Jurisprudencia j, Interpreta i, Articulo a, NormaJuridica n
+-- Which rulings interpret art. 245 of the LCT?
+SELECT j.Caption, j.RulingDate, j.Court
+FROM CaseLaw j, Interprets i, Article a, LegalNorm n
 WHERE MATCH(j-(i)->a)
-  AND a.NormaId = n.Id
-  AND n.NumeroNorma = '20.744'
-  AND a.NumeroArticulo = '245';
+  AND a.LegalNormId = n.Id
+  AND n.NormNumber = '20.744'
+  AND a.ArticleNumber = '245';
 
--- Cadena de modificaciones de una norma (hasta 5 niveles)
-SELECT n1.Denominacion, n2.Denominacion AS ModificadaPor, n3.Denominacion AS AsuVezModificadaPor
-FROM NormaJuridica n1, Modifica m1, NormaJuridica n2, Modifica m2, NormaJuridica n3
+-- Amendment chain of a norm (up to 5 levels)
+SELECT n1.Name, n2.Name AS AmendedBy, n3.Name AS InTurnAmendedBy
+FROM LegalNorm n1, Amends m1, LegalNorm n2, Amends m2, LegalNorm n3
 WHERE MATCH(n1<-(m1)-n2<-(m2)-n3);
 ```
 
-#### 8.2.3 Procesal y Gestión
+#### 8.2.3 Procedural and Management
 
 ```mermaid
 erDiagram
-    EXPEDIENTE {
+    CASE_FILE {
         int Id PK
-        nvarchar(100) NumeroExpediente UK
-        nvarchar(500) Caratula
-        nvarchar(50) TipoProcesal "civil|penal|laboral|familia|contadmin"
-        nvarchar(50) SubtipoProceso "ordinario|sumarisimo|ejecutivo|amparo"
-        date FechaInicio
-        nvarchar(50) EstadoProceso "iniciado|en_tramite|en_sentencia|apelado|concluido"
-        nvarchar(50) Jurisdiccion
-        nvarchar(50) Fuero
-        nvarchar(200) Tribunal
-        nvarchar(200) Juez
-        nvarchar(50) Instancia "primera|segunda|tercera|extraordinaria"
-        int AbogadoResponsableId FK
-        nvarchar(max) Notas
-        datetime2 FechaCreacion
-        datetime2 FechaUltimaActualizacion
+        nvarchar(100) CaseFileNumber UK
+        nvarchar(500) Caption
+        nvarchar(50) ProcedureType "civil|penal|laboral|familia|contadmin"
+        nvarchar(50) ProcedureSubtype "ordinario|sumarisimo|ejecutivo|amparo"
+        date StartDate
+        nvarchar(50) ProceedingStatus "iniciado|en_tramite|en_sentencia|apelado|concluido"
+        nvarchar(50) Jurisdiction
+        nvarchar(50) CourtVenue
+        nvarchar(200) Court
+        nvarchar(200) Judge
+        nvarchar(50) Instance "primera|segunda|tercera|extraordinaria"
+        int ResponsibleLawyerId FK
+        nvarchar(max) Notes
+        datetime2 CreatedAt
+        datetime2 LastUpdatedAt
     }
 
-    MOVIMIENTO {
+    MOVEMENT {
         int Id PK
-        int ExpedienteId FK
-        date FechaMovimiento
-        nvarchar(200) TipoMovimiento "demanda|contestacion|prueba|sentencia|recurso|notificacion"
-        nvarchar(max) Descripcion
-        nvarchar(200) RealizadoPor
-        bit EsNotificado
-        date FechaNotificacion
+        int CaseFileId FK
+        date MovementDate
+        nvarchar(200) MovementType "demanda|contestacion|prueba|sentencia|recurso|notificacion"
+        nvarchar(max) Description
+        nvarchar(200) PerformedBy
+        bit IsNotified
+        date NotificationDate
     }
 
-    PLAZO {
+    DEADLINE {
         int Id PK
-        int ExpedienteId FK
-        nvarchar(200) Descripcion
-        date FechaInicio
-        date FechaVencimiento
-        int DiasHabiles
-        nvarchar(50) Estado "pendiente|proximo|vencido|cumplido"
-        nvarchar(50) Prioridad "alta|media|baja"
-        int AbogadoResponsableId FK
-        bit AlertaEnviada
+        int CaseFileId FK
+        nvarchar(200) Description
+        date StartDate
+        date DueDate
+        int BusinessDays
+        nvarchar(50) Status "pendiente|proximo|vencido|cumplido"
+        nvarchar(50) Priority "alta|media|baja"
+        int ResponsibleLawyerId FK
+        bit AlertSent
     }
 
-    DOCUMENTO_ADJUNTO {
+    ATTACHED_DOCUMENT {
         int Id PK
-        int ExpedienteId FK
-        nvarchar(200) NombreArchivo
-        nvarchar(500) UrlBlob
-        nvarchar(50) TipoDocumento "escrito|prueba|sentencia|notificacion|otro"
-        bigint TamanioBytes
-        datetime2 FechaSubida
+        int CaseFileId FK
+        nvarchar(200) FileName
+        nvarchar(500) BlobUrl
+        nvarchar(50) DocumentType "escrito|prueba|sentencia|notificacion|otro"
+        bigint SizeBytes
+        datetime2 UploadedAt
     }
 
-    EXPEDIENTE ||--|{ MOVIMIENTO : "tiene"
-    EXPEDIENTE ||--|{ PLAZO : "tiene"
-    EXPEDIENTE ||--|{ DOCUMENTO_ADJUNTO : "tiene"
+    CASE_FILE ||--|{ MOVEMENT : "has"
+    CASE_FILE ||--|{ DEADLINE : "has"
+    CASE_FILE ||--|{ ATTACHED_DOCUMENT : "has"
 ```
 
-#### 8.2.4 Identidad y Sistema
+#### 8.2.4 Identity and System
 
 ```sql
--- Usuarios del sistema (referencia a Entra ID)
-CREATE TABLE UsuarioPreferencias (
+-- System users (reference to Entra ID)
+CREATE TABLE UserPreferences (
     Id INT PRIMARY KEY IDENTITY,
     EntraObjectId NVARCHAR(128) NOT NULL UNIQUE,
     Email NVARCHAR(256) NOT NULL,
-    NombreCompleto NVARCHAR(200),
-    Rol NVARCHAR(50) NOT NULL, -- abogado | administrativo
-    FechaUltimoAcceso DATETIME2,
-    Preferencias NVARCHAR(MAX) -- JSON
+    FullName NVARCHAR(200),
+    Role NVARCHAR(50) NOT NULL, -- abogado | administrativo
+    LastAccessAt DATETIME2,
+    Preferences NVARCHAR(MAX) -- JSON
 );
 
--- Conversaciones de chat con agentes
-CREATE TABLE Conversacion (
+-- Chat conversations with agents
+CREATE TABLE Conversation (
     Id INT PRIMARY KEY IDENTITY,
-    UsuarioId INT FK REFERENCES UsuarioPreferencias(Id),
-    AgenteId NVARCHAR(50), -- normativo | jurisprudencial | procesal
-    Titulo NVARCHAR(200),
-    FechaCreacion DATETIME2,
-    FechaUltimoMensaje DATETIME2
+    UserId INT FK REFERENCES UserPreferences(Id),
+    AgentId NVARCHAR(50), -- normativo | jurisprudencial | procesal
+    Title NVARCHAR(200),
+    CreatedAt DATETIME2,
+    LastMessageAt DATETIME2
 );
 
-CREATE TABLE MensajeChat (
+CREATE TABLE ChatMessage (
     Id INT PRIMARY KEY IDENTITY,
-    ConversacionId INT FK REFERENCES Conversacion(Id),
-    Rol NVARCHAR(20), -- user | assistant
-    Contenido NVARCHAR(MAX),
-    FuentesCitadas NVARCHAR(MAX), -- JSON array de IDs de normas/fallos
-    TokensUsados INT,
-    FechaCreacion DATETIME2
+    ConversationId INT FK REFERENCES Conversation(Id),
+    Role NVARCHAR(20), -- user | assistant
+    Content NVARCHAR(MAX),
+    CitedSources NVARCHAR(MAX), -- JSON array of norm/ruling IDs
+    TokensUsed INT,
+    CreatedAt DATETIME2
 );
 
--- Análisis de riesgo
-CREATE TABLE AnalisisRiesgo (
+-- Risk analysis
+CREATE TABLE RiskAnalysis (
     Id INT PRIMARY KEY IDENTITY,
-    UsuarioId INT FK REFERENCES UsuarioPreferencias(Id),
-    DescripcionCaso NVARCHAR(MAX),
-    ScoreRiesgo DECIMAL(5,2),
-    NivelRiesgo NVARCHAR(20), -- bajo | medio | alto | critico
-    AnalisisCompleto NVARCHAR(MAX), -- JSON estructurado
-    NormasCitadas NVARCHAR(MAX), -- JSON array
-    JurisprudenciaCitada NVARCHAR(MAX), -- JSON array
-    FechaCreacion DATETIME2
+    UserId INT FK REFERENCES UserPreferences(Id),
+    CaseDescription NVARCHAR(MAX),
+    RiskScore DECIMAL(5,2),
+    RiskLevel NVARCHAR(20), -- bajo | medio | alto | critico
+    FullAnalysis NVARCHAR(MAX), -- structured JSON
+    CitedNorms NVARCHAR(MAX), -- JSON array
+    CitedCaseLaw NVARCHAR(MAX), -- JSON array
+    CreatedAt DATETIME2
 );
 
--- Auditoría
+-- Audit
 CREATE TABLE AuditLog (
     Id BIGINT PRIMARY KEY IDENTITY,
-    UsuarioId INT,
-    Accion NVARCHAR(100),
-    Entidad NVARCHAR(100),
-    EntidadId INT,
-    DatosAntes NVARCHAR(MAX),
-    DatosDespues NVARCHAR(MAX),
+    UserId INT,
+    Action NVARCHAR(100),
+    Entity NVARCHAR(100),
+    EntityId INT,
+    DataBefore NVARCHAR(MAX),
+    DataAfter NVARCHAR(MAX),
     IpAddress NVARCHAR(45),
-    FechaAccion DATETIME2 DEFAULT GETUTCDATE()
+    ActionDate DATETIME2 DEFAULT GETUTCDATE()
 );
 ```
 
 ---
 
-## 9. Estrategia de RAG: GraphRAG + Hybrid Search
+## 9. RAG Strategy: GraphRAG + Hybrid Search
 
-### 9.1 Visión General
+### 9.1 Overview
 
-El sistema usa una estrategia de RAG en capas que combina **Hybrid Search** (BM25 + vectores) con **Graph-enhanced retrieval** para enriquecer el contexto con relaciones legales que la búsqueda semántica sola no capturaría.
+The system uses a layered RAG strategy that combines **Hybrid Search** (BM25 + vectors) with **Graph-enhanced retrieval** to enrich the context with legal relationships that semantic search alone would not capture.
 
 ```mermaid
 graph TB
-    Q[Consulta del usuario] --> ROUTER{Router<br/>Semántico}
+    Q[User query] --> ROUTER{Semantic<br/>Router}
 
-    ROUTER -->|Buscar normas| HYBRID_N[Hybrid Search<br/>idx-normas]
-    ROUTER -->|Buscar fallos| HYBRID_J[Hybrid Search<br/>idx-jurisprudencia]
-    ROUTER -->|Buscar artículos| HYBRID_A[Hybrid Search<br/>idx-articulos]
+    ROUTER -->|Search norms| HYBRID_N[Hybrid Search<br/>idx-legal-norms]
+    ROUTER -->|Search rulings| HYBRID_J[Hybrid Search<br/>idx-case-law]
+    ROUTER -->|Search articles| HYBRID_A[Hybrid Search<br/>idx-articles]
 
-    HYBRID_N --> RESULTS_N[Top-K Normas]
-    HYBRID_J --> RESULTS_J[Top-K Fallos]
-    HYBRID_A --> RESULTS_A[Top-K Artículos]
+    HYBRID_N --> RESULTS_N[Top-K Norms]
+    HYBRID_J --> RESULTS_J[Top-K Rulings]
+    HYBRID_A --> RESULTS_A[Top-K Articles]
 
     RESULTS_N --> GRAPH[Graph Enrichment<br/>SQL Graph Traversal]
     RESULTS_J --> GRAPH
     RESULTS_A --> GRAPH
 
-    GRAPH --> CTX[Contexto Enriquecido<br/>+ Relaciones legales]
+    GRAPH --> CTX[Enriched context<br/>+ legal relationships]
     CTX --> LLM[Azure OpenAI<br/>GPT-4o]
     Q --> LLM
-    LLM --> RESP[Respuesta con<br/>fuentes citadas]
+    LLM --> RESP[Answer with<br/>cited sources]
 
     style ROUTER fill:#ff9800,color:#fff
     style GRAPH fill:#9c27b0,color:#fff
     style LLM fill:#4caf50,color:#fff
 ```
 
-### 9.2 Tipos de RAG por Agente
+### 9.2 RAG Types per Agent
 
-| Agente | Tipo de RAG | Qué busca | Graph Enrichment |
+| Agent | RAG Type | What it searches | Graph Enrichment |
 |---|---|---|---|
-| **Normativo** | Hybrid Search + GraphRAG | Normas y artículos relevantes | Cadena de modificaciones, normas que derogan/reglamentan, artículos relacionados |
-| **Jurisprudencial** | Hybrid Search + GraphRAG | Fallos judiciales relevantes | Normas que el fallo aplica/interpreta, fallos citados por otros fallos, artículos interpretados |
-| **Procesal** | SQL Query + Hybrid | Expedientes, plazos, calendario de días hábiles | Plazos vinculados al expediente, normas procesales aplicables |
+| **Regulatory** | Hybrid Search + GraphRAG | Relevant norms and articles | Amendment chain, norms that repeal/regulate, related articles |
+| **Case Law** | Hybrid Search + GraphRAG | Relevant court rulings | Norms the ruling applies/interprets, rulings cited by other rulings, interpreted articles |
+| **Procedural** | SQL Query + Hybrid | Case files, deadlines, business-day calendar | Deadlines linked to the case file, applicable procedural norms |
 
-### 9.3 Hybrid Search — Configuración de Azure AI Search
+### 9.3 Hybrid Search — Azure AI Search Configuration
 
-Cada índice usa **Hybrid Search** que combina BM25 (keyword) con búsqueda vectorial en un solo query, usando Reciprocal Rank Fusion (RRF) para combinar scores.
+Each index uses **Hybrid Search** that combines BM25 (keyword) with vector search in a single query, using Reciprocal Rank Fusion (RRF) to combine scores.
 
-#### Índice `idx-normas`
+#### `idx-legal-norms` index
 
 ```json
 {
-  "name": "idx-normas",
+  "name": "idx-legal-norms",
   "fields": [
     { "name": "id", "type": "Edm.String", "key": true },
-    { "name": "normaId", "type": "Edm.Int32", "filterable": true },
-    { "name": "numeroNorma", "type": "Edm.String", "searchable": true, "filterable": true },
-    { "name": "denominacion", "type": "Edm.String", "searchable": true },
-    { "name": "tipoNorma", "type": "Edm.String", "filterable": true, "facetable": true },
-    { "name": "ramaDelDerecho", "type": "Edm.String", "filterable": true, "facetable": true },
-    { "name": "ambitoTerritorial", "type": "Edm.String", "filterable": true, "facetable": true },
-    { "name": "estaVigente", "type": "Edm.Boolean", "filterable": true },
-    { "name": "fechaPublicacion", "type": "Edm.DateTimeOffset", "filterable": true, "sortable": true },
-    { "name": "organoEmisor", "type": "Edm.String", "filterable": true, "facetable": true },
-    { "name": "textoCompleto", "type": "Edm.String", "searchable": true },
-    { "name": "sumario", "type": "Edm.String", "searchable": true },
+    { "name": "legalNormId", "type": "Edm.Int32", "filterable": true },
+    { "name": "normNumber", "type": "Edm.String", "searchable": true, "filterable": true },
+    { "name": "name", "type": "Edm.String", "searchable": true },
+    { "name": "normType", "type": "Edm.String", "filterable": true, "facetable": true },
+    { "name": "lawBranch", "type": "Edm.String", "filterable": true, "facetable": true },
+    { "name": "territorialScope", "type": "Edm.String", "filterable": true, "facetable": true },
+    { "name": "isInForce", "type": "Edm.Boolean", "filterable": true },
+    { "name": "publicationDate", "type": "Edm.DateTimeOffset", "filterable": true, "sortable": true },
+    { "name": "issuingBody", "type": "Edm.String", "filterable": true, "facetable": true },
+    { "name": "fullText", "type": "Edm.String", "searchable": true },
+    { "name": "summary", "type": "Edm.String", "searchable": true },
     { "name": "embedding", "type": "Collection(Edm.Single)", "dimensions": 3072, "vectorSearchProfile": "hybrid-profile" }
   ],
   "vectorSearch": {
@@ -770,11 +772,11 @@ Cada índice usa **Hybrid Search** que combina BM25 (keyword) con búsqueda vect
     "profiles": [{ "name": "hybrid-profile", "algorithm": "hnsw-algo" }]
   },
   "scoringProfiles": [{
-    "name": "boost-vigentes",
-    "text": { "weights": { "denominacion": 3, "sumario": 2, "textoCompleto": 1 } },
+    "name": "boost-in-force",
+    "text": { "weights": { "name": 3, "summary": 2, "fullText": 1 } },
     "functions": [{
       "type": "freshness",
-      "fieldName": "fechaPublicacion",
+      "fieldName": "publicationDate",
       "boost": 2,
       "parameters": { "boostingDuration": "P365D" }
     }]
@@ -782,42 +784,42 @@ Cada índice usa **Hybrid Search** que combina BM25 (keyword) con búsqueda vect
 }
 ```
 
-#### Índice `idx-jurisprudencia`
+#### `idx-case-law` index
 
 ```json
 {
-  "name": "idx-jurisprudencia",
+  "name": "idx-case-law",
   "fields": [
     { "name": "id", "type": "Edm.String", "key": true },
-    { "name": "jurisprudenciaId", "type": "Edm.Int32", "filterable": true },
-    { "name": "caratula", "type": "Edm.String", "searchable": true },
-    { "name": "tribunal", "type": "Edm.String", "filterable": true, "facetable": true },
-    { "name": "fuero", "type": "Edm.String", "filterable": true, "facetable": true },
-    { "name": "instancia", "type": "Edm.String", "filterable": true, "facetable": true },
-    { "name": "fechaFallo", "type": "Edm.DateTimeOffset", "filterable": true, "sortable": true },
-    { "name": "esPlenario", "type": "Edm.Boolean", "filterable": true },
-    { "name": "vocesTematicas", "type": "Collection(Edm.String)", "filterable": true, "facetable": true },
-    { "name": "sumario", "type": "Edm.String", "searchable": true },
-    { "name": "textoCompleto", "type": "Edm.String", "searchable": true },
+    { "name": "caseLawId", "type": "Edm.Int32", "filterable": true },
+    { "name": "caption", "type": "Edm.String", "searchable": true },
+    { "name": "court", "type": "Edm.String", "filterable": true, "facetable": true },
+    { "name": "courtVenue", "type": "Edm.String", "filterable": true, "facetable": true },
+    { "name": "instance", "type": "Edm.String", "filterable": true, "facetable": true },
+    { "name": "rulingDate", "type": "Edm.DateTimeOffset", "filterable": true, "sortable": true },
+    { "name": "isEnBanc", "type": "Edm.Boolean", "filterable": true },
+    { "name": "topicKeywords", "type": "Collection(Edm.String)", "filterable": true, "facetable": true },
+    { "name": "headnote", "type": "Edm.String", "searchable": true },
+    { "name": "fullText", "type": "Edm.String", "searchable": true },
     { "name": "embedding", "type": "Collection(Edm.Single)", "dimensions": 3072, "vectorSearchProfile": "hybrid-profile" }
   ]
 }
 ```
 
-#### Índice `idx-articulos`
+#### `idx-articles` index
 
 ```json
 {
-  "name": "idx-articulos",
+  "name": "idx-articles",
   "fields": [
     { "name": "id", "type": "Edm.String", "key": true },
-    { "name": "articuloId", "type": "Edm.Int32", "filterable": true },
-    { "name": "normaId", "type": "Edm.Int32", "filterable": true },
-    { "name": "normaDenominacion", "type": "Edm.String", "searchable": true },
-    { "name": "numeroArticulo", "type": "Edm.String", "filterable": true },
-    { "name": "textoNormativo", "type": "Edm.String", "searchable": true },
-    { "name": "tituloCapitulo", "type": "Edm.String", "searchable": true, "filterable": true },
-    { "name": "esVigente", "type": "Edm.Boolean", "filterable": true },
+    { "name": "articleId", "type": "Edm.Int32", "filterable": true },
+    { "name": "legalNormId", "type": "Edm.Int32", "filterable": true },
+    { "name": "legalNormName", "type": "Edm.String", "searchable": true },
+    { "name": "articleNumber", "type": "Edm.String", "filterable": true },
+    { "name": "normativeText", "type": "Edm.String", "searchable": true },
+    { "name": "chapterTitle", "type": "Edm.String", "searchable": true, "filterable": true },
+    { "name": "isInForce", "type": "Edm.Boolean", "filterable": true },
     { "name": "embedding", "type": "Collection(Edm.Single)", "dimensions": 3072, "vectorSearchProfile": "hybrid-profile" }
   ]
 }
@@ -825,62 +827,62 @@ Cada índice usa **Hybrid Search** que combina BM25 (keyword) con búsqueda vect
 
 ### 9.4 GraphRAG — Enrichment Pipeline
 
-Después de obtener los Top-K resultados de Hybrid Search, el sistema enriquece el contexto con relaciones del grafo:
+After obtaining the Top-K results from Hybrid Search, the system enriches the context with graph relationships:
 
 ```mermaid
 flowchart LR
-    A[Top-K de<br/>Hybrid Search] --> B{¿Qué tipo<br/>de resultado?}
+    A[Top-K from<br/>Hybrid Search] --> B{What type<br/>of result?}
 
-    B -->|Norma| C[Graph: Obtener<br/>normas que la<br/>modifican/derogan]
-    B -->|Norma| D[Graph: Obtener<br/>artículos clave]
-    B -->|Norma| E[Graph: Obtener<br/>fallos que la<br/>interpretan]
+    B -->|Norm| C[Graph: get norms<br/>that amend/repeal it]
+    B -->|Norm| D[Graph: get<br/>key articles]
+    B -->|Norm| E[Graph: get rulings<br/>that interpret it]
 
-    B -->|Fallo| F[Graph: Obtener<br/>normas/artículos<br/>que aplica]
-    B -->|Fallo| G[Graph: Obtener<br/>fallos que lo citan]
+    B -->|Ruling| F[Graph: get<br/>norms/articles<br/>it applies]
+    B -->|Ruling| G[Graph: get rulings<br/>that cite it]
 
-    B -->|Artículo| H[Graph: Obtener<br/>fallos que lo<br/>interpretan]
-    B -->|Artículo| I[Graph: Obtener<br/>artículos que<br/>lo referencian]
+    B -->|Article| H[Graph: get rulings<br/>that interpret it]
+    B -->|Article| I[Graph: get articles<br/>that reference it]
 
-    C & D & E & F & G & H & I --> J[Contexto<br/>enriquecido<br/>con relaciones]
+    C & D & E & F & G & H & I --> J[Context<br/>enriched with<br/>relationships]
 ```
 
-**Ejemplo de enrichment para una consulta sobre despido sin causa:**
+**Enrichment example for a query about dismissal without cause:**
 
-1. Hybrid Search retorna: Ley 20.744 (LCT), art. 245, art. 232
-2. Graph Enrichment agrega:
-   - `Modifica`: Ley 25.877 modificó art. 245 en 2004
-   - `Interpreta`: 15 fallos de CNAT interpretando art. 245 (top 3 por relevancia)
-   - `Reglamenta`: Decreto 1694/06 reglamenta base salarial
-   - `Referencia`: art. 245 referencia a art. 232 (preaviso) y art. 233 (integración mes)
+1. Hybrid Search returns: Ley 20.744 (LCT), art. 245, art. 232
+2. Graph Enrichment adds:
+   - `Amends`: Ley 25.877 amended art. 245 in 2004
+   - `Interprets`: 15 CNAT rulings interpreting art. 245 (top 3 by relevance)
+   - `Regulates`: Decreto 1694/06 regulates the salary base
+   - `References`: art. 245 references art. 232 (prior notice) and art. 233 (month integration)
 
 ### 9.5 Embeddings
 
-| Aspecto | Configuración |
+| Aspect | Configuration |
 |---|---|
-| **Modelo** | `text-embedding-3-large` (Azure OpenAI) |
-| **Dimensiones** | 3072 |
-| **Chunking de normas** | Por artículo individual (unidad mínima semántica legal) |
-| **Chunking de jurisprudencia** | Por secciones: hechos, fundamentos, resolución (separados con metadata) |
-| **Chunking de doctrina** | Chunks de ~500 tokens con overlap de 100 |
-| **Batch processing** | 100 embeddings por batch, rate limiting respetado |
-| **Pre-cálculo** | Los embeddings se generan en el pipeline de ingesta y se almacenan en AI Search + Table Storage (cache) |
+| **Model** | `text-embedding-3-large` (Azure OpenAI) |
+| **Dimensions** | 3072 |
+| **Norm chunking** | Per individual article (minimum legal semantic unit) |
+| **Case law chunking** | By sections: facts, grounds, resolution (separated with metadata) |
+| **Doctrine chunking** | ~500-token chunks with a 100-token overlap |
+| **Batch processing** | 100 embeddings per batch, rate limiting respected |
+| **Pre-computation** | Embeddings are generated in the ingestion pipeline and stored in AI Search + Table Storage (cache) |
 
 ---
 
-## 10. Pipelines de Ingesta
+## 10. Ingestion Pipelines
 
-### 10.1 Arquitectura de Ingesta
+### 10.1 Ingestion Architecture
 
 ```mermaid
 flowchart TB
-    subgraph "Fuentes (a definir con el estudio)"
+    subgraph "Sources (TBD with the firm)"
         SAIJ[SAIJ<br/>saij.gob.ar]
-        BO[Boletín Oficial<br/>boletinoficial.gob.ar]
+        BO[Official Gazette<br/>boletinoficial.gob.ar]
         INFOLEG[InfoLEG<br/>infoleg.gob.ar]
-        MANUAL[Carga Manual<br/>UI Admin]
+        MANUAL[Manual upload<br/>Admin UI]
     end
 
-    subgraph "Ingesta (Azure Functions)"
+    subgraph "Ingestion (Azure Functions)"
         SCRAPER[Scraper/Collector<br/>Timer Trigger]
         PARSER[Parser & Normalizer<br/>Queue Trigger]
         EMBEDDER[Embedding Generator<br/>Queue Trigger]
@@ -888,7 +890,7 @@ flowchart TB
         GRAPH_B[Graph Builder<br/>Queue Trigger]
     end
 
-    subgraph "Colas (Azure Queue Storage)"
+    subgraph "Queues (Azure Queue Storage)"
         Q1[queue-raw-documents]
         Q2[queue-parsed-documents]
         Q3[queue-embed-requests]
@@ -897,17 +899,17 @@ flowchart TB
     end
 
     subgraph "Stores"
-        BLOB_S[Blob Storage<br/>Originales]
-        SQL_S[(Azure SQL<br/>Estructurado)]
-        AIS_S[AI Search<br/>Índices]
+        BLOB_S[Blob Storage<br/>Originals]
+        SQL_S[(Azure SQL<br/>Structured)]
+        AIS_S[AI Search<br/>Indexes]
     end
 
     SAIJ & BO & INFOLEG --> SCRAPER
     MANUAL --> PARSER
     SCRAPER -->|HTML/PDF| Q1
     Q1 --> PARSER
-    PARSER -->|doc original| BLOB_S
-    PARSER -->|metadata + texto| Q2
+    PARSER -->|original doc| BLOB_S
+    PARSER -->|metadata + text| Q2
     Q2 -->|INSERT| SQL_S
     Q2 --> Q3
     Q3 --> EMBEDDER
@@ -919,74 +921,74 @@ flowchart TB
     GRAPH_B -->|edges| SQL_S
 ```
 
-### 10.2 Tipos de Ingesta
+### 10.2 Ingestion Types
 
-| Tipo | Trigger | Frecuencia | Fuente | Qué ingesta |
+| Type | Trigger | Frequency | Source | What it ingests |
 |---|---|---|---|---|
-| **Boletín Oficial** | Timer (diario 8am) | Diaria | boletinoficial.gob.ar | Nuevas normas publicadas |
-| **SAIJ Normas** | Timer (semanal) | Semanal | saij.gob.ar | Normas actualizadas/nuevas |
-| **SAIJ Jurisprudencia** | Timer (semanal) | Semanal | saij.gob.ar | Fallos nuevos |
-| **InfoLEG** | Timer (semanal) | Semanal | infoleg.gob.ar | Textos consolidados |
-| **Carga manual** | HTTP / UI Admin | On demand | Usuarios | Normas provinciales, doctrina |
-| **Re-indexación** | Manual | Según necesidad | Todos los stores | Reconstrucción de índices |
+| **Official Gazette** | Timer (daily 8am) | Daily | boletinoficial.gob.ar | Newly published norms |
+| **SAIJ Norms** | Timer (weekly) | Weekly | saij.gob.ar | Updated/new norms |
+| **SAIJ Case Law** | Timer (weekly) | Weekly | saij.gob.ar | New rulings |
+| **InfoLEG** | Timer (weekly) | Weekly | infoleg.gob.ar | Consolidated texts |
+| **Manual upload** | HTTP / Admin UI | On demand | Users | Provincial norms, doctrine |
+| **Re-indexing** | Manual | As needed | All stores | Index rebuild |
 
-> **Nota:** Las fuentes específicas se definirán con el estudio de abogados. La arquitectura es extensible: agregar una nueva fuente requiere solo un nuevo Scraper/Collector en Azure Functions.
+> **Note:** The specific sources will be defined with the law firm. The architecture is extensible: adding a new source only requires a new Scraper/Collector in Azure Functions.
 
-### 10.3 Pipeline de Procesamiento por Documento
+### 10.3 Per-Document Processing Pipeline
 
 ```mermaid
 stateDiagram-v2
-    [*] --> Recolectado: Scraper obtiene HTML/PDF
-    Recolectado --> Parseado: Parser extrae texto + metadata
-    Parseado --> Almacenado: SQL insert + Blob upload
-    Almacenado --> Chunkeado: Dividir en artículos/secciones
-    Chunkeado --> Embebido: Generar embeddings
-    Embebido --> Indexado: Push a AI Search
-    Indexado --> Grafificado: Detectar y crear edges
-    Grafificado --> [*]: Disponible para búsqueda
+    [*] --> Collected: Scraper fetches HTML/PDF
+    Collected --> Parsed: Parser extracts text + metadata
+    Parsed --> Stored: SQL insert + Blob upload
+    Stored --> Chunked: Split into articles/sections
+    Chunked --> Embedded: Generate embeddings
+    Embedded --> Indexed: Push to AI Search
+    Indexed --> Graphed: Detect and create edges
+    Graphed --> [*]: Available for search
 
-    Parseado --> Error: Fallo de parsing
-    Error --> ColaRetry: Reintentar (max 3)
-    ColaRetry --> Parseado
-    Error --> ColaDeadLetter: Fallos persistentes
+    Parsed --> Error: Parsing failure
+    Error --> RetryQueue: Retry (max 3)
+    RetryQueue --> Parsed
+    Error --> DeadLetterQueue: Persistent failures
 ```
 
-**Detalle de cada paso:**
+**Detail of each step:**
 
-1. **Recolectar:** Azure Function con Timer Trigger scrape la fuente, descarga HTML/PDF, guarda en `queue-raw-documents`
-2. **Parsear:** Extrae texto limpio, metadata (número, fecha, tipo, órgano), estructura (artículos, incisos). Para PDFs usa Azure Document Intelligence
-3. **Almacenar:** Inserta en Azure SQL (tablas relacionales) + sube original a Blob Storage
-4. **Chunkear:** Divide en unidades semánticas (artículos para normas, secciones para fallos)
-5. **Embeber:** Genera embeddings con `text-embedding-3-large` en batch
-6. **Indexar:** Pushea documentos + embeddings a Azure AI Search
-7. **Grafificar:** Analiza el texto para detectar referencias a otras normas/artículos y crea edges en SQL Graph
+1. **Collect:** An Azure Function with a Timer Trigger scrapes the source, downloads the HTML/PDF, and saves to `queue-raw-documents`
+2. **Parse:** Extracts clean text, metadata (number, date, type, body), structure (articles, clauses). For PDFs it uses Azure Document Intelligence
+3. **Store:** Inserts into Azure SQL (relational tables) + uploads the original to Blob Storage
+4. **Chunk:** Splits into semantic units (articles for norms, sections for rulings)
+5. **Embed:** Generates embeddings with `text-embedding-3-large` in batch
+6. **Index:** Pushes documents + embeddings to Azure AI Search
+7. **Graph:** Analyzes the text to detect references to other norms/articles and creates edges in SQL Graph
 
-### 10.4 Detección Automática de Relaciones (Graph Builder)
+### 10.4 Automatic Relationship Detection (Graph Builder)
 
-El Graph Builder analiza el texto de cada norma/fallo para detectar relaciones y crear edges:
+The Graph Builder analyzes the text of each norm/ruling to detect relationships and create edges:
 
-| Patrón detectado | Edge creado | Ejemplo |
+| Detected pattern | Edge created | Example |
 |---|---|---|
-| "Modifícase el artículo X de la Ley Y" | `Modifica` | Ley 27.077 → art. 1 Ley 26.994 |
-| "Derógase la Ley X" | `Deroga` | Ley 26.994 → Ley 340 |
-| "Reglamentación de la Ley X" | `Reglamenta` | Decreto 1759/72 → Ley 19.549 |
-| "Conforme lo dispuesto por el art. X" | `Referencia` | Art. 245 → Art. 232 LCT |
-| Fallo cita "art. X de la Ley Y" | `Aplica` / `Interpreta` | Fallo → Art. 245 Ley 20.744 |
-| Fallo cita otro fallo (carátula + fecha) | `CitaJurisprudencia` | Fallo A → Fallo B |
+| "Modifícase el artículo X de la Ley Y" | `Amends` | Ley 27.077 → art. 1 Ley 26.994 |
+| "Derógase la Ley X" | `Repeals` | Ley 26.994 → Ley 340 |
+| "Reglamentación de la Ley X" | `Regulates` | Decreto 1759/72 → Ley 19.549 |
+| "Conforme lo dispuesto por el art. X" | `References` | Art. 245 → Art. 232 LCT |
+| Ruling cites "art. X de la Ley Y" | `Applies` / `Interprets` | Ruling → Art. 245 Ley 20.744 |
+| Ruling cites another ruling (caption + date) | `CitesCaseLaw` | Ruling A → Ruling B |
 
-La detección usa una combinación de regex patterns para los casos simples y Azure OpenAI para los casos ambiguos, con validación humana en un queue de revisión.
+Detection uses a combination of regex patterns for simple cases and Azure OpenAI for ambiguous cases, with human validation in a review queue.
 
 ---
 
 ## 11. CI/CD Pipelines (GitHub Actions)
 
-> *(Nota: las secciones anteriores 8-10 cubren la arquitectura de la KB. Las secciones originales de CI/CD y entorno local se mantienen a continuación.)*
+> *(Note: the previous sections 8-10 cover the KB architecture. The original CI/CD and local-environment sections are kept below.)*
 
-### CI Backend (`ci-backend.yml`)
+### Backend CI (`ci-backend.yml`)
 
 ```mermaid
 graph LR
-    A[Push/PR a main] --> B[Restore NuGet]
+    A[Push/PR to main] --> B[Restore NuGet]
     B --> C[Build]
     C --> D[Run Unit Tests]
     D --> E[Run Integration Tests]
@@ -994,7 +996,7 @@ graph LR
     F --> G[Publish Artifacts]
 ```
 
-**Trigger:** Push a `main` o PR targeting `main` con cambios en `backend/`
+**Trigger:** Push to `main` or PR targeting `main` with changes in `backend/`
 
 **Steps:**
 1. Checkout + setup .NET 10
@@ -1005,18 +1007,18 @@ graph LR
 6. `dotnet publish -c Release -o ./publish`
 7. Upload build artifact
 
-### CI Frontend (`ci-frontend.yml`)
+### Frontend CI (`ci-frontend.yml`)
 
 ```mermaid
 graph LR
-    A[Push/PR a main] --> B[npm ci]
+    A[Push/PR to main] --> B[npm ci]
     B --> C[Lint]
     C --> D[Build]
     D --> E[Unit Tests]
     E --> F[Coverage Report]
 ```
 
-**Trigger:** Push a `main` o PR targeting `main` con cambios en `frontend/`
+**Trigger:** Push to `main` or PR targeting `main` with changes in `frontend/`
 
 **Steps:**
 1. Checkout + setup Node 22
@@ -1031,21 +1033,21 @@ graph LR
 
 ```mermaid
 graph LR
-    A[Trigger manual] --> B[Download artifacts]
-    B --> C[Deploy Backend a App Service]
+    A[Manual trigger] --> B[Download artifacts]
+    B --> C[Deploy Backend to App Service]
     C --> D[Run DB Migrations]
-    D --> E[Deploy Frontend a Static Web App]
+    D --> E[Deploy Frontend to Static Web App]
     E --> F[Smoke tests]
-    F --> G[Notificar equipo]
+    F --> G[Notify the team]
 ```
 
 ---
 
-## 12. Configuración del Entorno Local
+## 12. Local Environment Setup
 
-### Prerequisitos
+### Prerequisites
 
-| Herramienta | Versión mínima | Verificar con |
+| Tool | Minimum version | Verify with |
 |---|---|---|
 | .NET SDK | 10.0 | `dotnet --version` |
 | Node.js | 22.x LTS | `node --version` |
@@ -1055,10 +1057,10 @@ graph LR
 | Azure CLI | Latest | `az --version` |
 | Git | 2.40+ | `git --version` |
 
-### Setup paso a paso
+### Step-by-step Setup
 
 ```bash
-# 1. Clonar el repo
+# 1. Clone the repo
 git clone https://github.com/{org}/legal-ai-ar.git
 cd legal-ai-ar
 
@@ -1067,33 +1069,33 @@ cd backend
 dotnet restore
 dotnet build
 
-# 3. SQL Server local con Docker
+# 3. Local SQL Server with Docker
 docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=LocalDev123!" \
   -p 1433:1433 --name legal-ai-ar-sql \
   -d mcr.microsoft.com/mssql/server:2022-latest
 
-# 4. Aplicar migraciones
+# 4. Apply migrations
 cd src/LegalAiAr.Api
 dotnet ef database update
 
-# 5. Configurar secretos locales
+# 5. Configure local secrets
 dotnet user-secrets set "AzureOpenAI:Endpoint" "https://xxx.openai.azure.com/"
 dotnet user-secrets set "AzureOpenAI:ApiKey" "xxx"
 dotnet user-secrets set "AzureAISearch:Endpoint" "https://xxx.search.windows.net"
 dotnet user-secrets set "AzureAISearch:ApiKey" "xxx"
 
-# 6. Levantar API
+# 6. Start the API
 dotnet run
 
-# 7. Frontend (en otra terminal)
+# 7. Frontend (in another terminal)
 cd ../../frontend
 npm ci
 ng serve
 ```
 
-### Variables de Entorno (.env / appsettings)
+### Environment Variables (.env / appsettings)
 
-El backend NO usa archivos `.env`. Se usan `appsettings.{Environment}.json` + User Secrets (dev) + Key Vault (deploy).
+The backend does NOT use `.env` files. It uses `appsettings.{Environment}.json` + User Secrets (dev) + Key Vault (deploy).
 
 ```json
 // appsettings.Development.json
@@ -1108,8 +1110,8 @@ El backend NO usa archivos `.env`. Se usan `appsettings.{Environment}.json` + Us
   },
   "AzureAISearch": {
     "Endpoint": "user-secret",
-    "IndexNormas": "idx-normas-dev",
-    "IndexJurisprudencia": "idx-jurisprudencia-dev"
+    "IndexLegalNorms": "idx-legal-norms-dev",
+    "IndexCaseLaw": "idx-case-law-dev"
   },
   "Entra": {
     "Instance": "https://login.microsoftonline.com/",
@@ -1122,54 +1124,54 @@ El backend NO usa archivos `.env`. Se usan `appsettings.{Environment}.json` + Us
 
 ---
 
-## 13. Criterios de Aceptación de F00
+## 13. F00 Acceptance Criteria
 
-- [ ] El repo monorepo está creado en GitHub con la estructura definida
-- [ ] El backend compila sin errores con `dotnet build`
-- [ ] El frontend compila sin errores con `ng build`
-- [ ] El pipeline CI backend ejecuta y pasa (build + tests)
-- [ ] El pipeline CI frontend ejecuta y pasa (lint + build + tests)
-- [ ] El pipeline CD despliega exitosamente al ambiente DEV
-- [ ] Los 4 resource groups de Azure están provisionados con Bicep
-- [ ] SQL Server local con Docker funciona y las migraciones se aplican
-- [ ] Ambos desarrolladores pueden clonar, instalar y levantar el proyecto localmente en < 30 min
-- [ ] El `README.md` tiene instrucciones de setup claras y verificadas
-- [ ] `.editorconfig`, ESLint y Prettier están configurados y consistentes
-- [ ] CODEOWNERS está configurado para requerir reviews
-
----
-
-## 14. Work Items de esta Feature
-
-| ID | Nombre | Tipo | Sprint |
-|----|--------|------|--------|
-| F00-W01 | Documentación Integral | doc | S00 |
-| F00-W02 | Setup Monorepo y Scaffolding Backend .NET 10 | backend | S00 |
-| F00-W03 | Scaffolding Frontend Angular 19 | frontend | S00 |
-| F00-W04 | Configuración CI - GitHub Actions | devops | S00 |
-| F00-W05 | Infraestructura Azure con Bicep (IaC) | devops | S00 |
-| F00-W06 | Configuración CD - Pipelines de Deploy | devops | S00 |
-| F00-W07 | Setup Entorno Local y Onboarding Guide | doc | S00 |
-| F00-W08 | Configuración de Calidad de Código (Linting, Formatting, EditorConfig) | devops | S00 |
+- [ ] The monorepo is set up on GitHub with the defined structure
+- [ ] The backend compiles with no errors via `dotnet build`
+- [ ] The frontend compiles with no errors via `ng build`
+- [ ] The backend CI pipeline runs and passes (build + tests)
+- [ ] The frontend CI pipeline runs and passes (lint + build + tests)
+- [ ] The CD pipeline deploys successfully to the DEV environment
+- [ ] The 4 Azure resource groups are provisioned with Bicep
+- [ ] Local SQL Server with Docker works and migrations apply
+- [ ] Both developers can clone, install, and run the project locally in < 30 min
+- [ ] The `README.md` has clear, verified setup instructions
+- [ ] `.editorconfig`, ESLint, and Prettier are configured and consistent
+- [ ] CODEOWNERS is configured to require reviews
 
 ---
 
-## 15. Dependencias
+## 14. Work Items of this Feature
 
-- **Bloquea:** Todas las features (F01–F23, FT01–FT04)
-- **Prerrequisitos:** Suscripción Azure activa, organización GitHub creada, tenant Entra ID
+| ID | Name | Type | Sprint |
+|----|------|------|--------|
+| F00-W01 | Comprehensive Documentation | doc | S00 |
+| F00-W02 | Monorepo Setup and Backend Scaffolding | backend | S00 |
+| F00-W03 | Angular 19 Frontend Scaffolding | frontend | S00 |
+| F00-W04 | GitHub Actions CI Configuration | devops | S00 |
+| F00-W05 | Azure Infrastructure with Bicep (IaC) | devops | S00 |
+| F00-W06 | CD Deployment Pipelines Configuration | devops | S00 |
+| F00-W07 | Local Environment Setup and Onboarding Guide | doc | S00 |
+| F00-W08 | Code Quality Configuration (Linting, Formatting, EditorConfig) | devops | S00 |
+
+---
+
+## 15. Dependencies
+
+- **Blocks:** All features (F01–F23, FT01–FT04)
+- **Prerequisites:** Active Azure subscription, GitHub organization created, Entra ID tenant
 
 ---
 
 ## 16. Definition of Done
 
-- [ ] Monorepo creado con estructura completa
-- [ ] Backend y frontend compilan y pasan tests
-- [ ] CI/CD pipelines funcionando en los 4 ambientes
-- [ ] Infraestructura Azure provisionada con Bicep
-- [ ] Ambos devs pueden levantar el proyecto localmente
-- [ ] README y onboarding guide completos y verificados
+- [ ] Monorepo created with the complete structure
+- [ ] Backend and frontend compile and pass tests
+- [ ] CI/CD pipelines working across the 4 environments
+- [ ] Azure infrastructure provisioned with Bicep
+- [ ] Both devs can run the project locally
+- [ ] README and onboarding guide complete and verified
 
 ---
 
-*F00 - Entorno y Estructura de Desarrollo — Documentación integral — Legal Ai Ar*
+*F00 - Development Environment and Structure — Comprehensive Documentation — Legal Ai Ar*

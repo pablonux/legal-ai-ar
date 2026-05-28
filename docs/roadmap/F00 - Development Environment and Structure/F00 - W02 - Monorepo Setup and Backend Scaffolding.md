@@ -1,20 +1,20 @@
-# F00 - W02 - Reestructurar Monorepo y Scaffolding Nuevos Proyectos
+# F00 - W02 - Monorepo Setup and Backend Scaffolding
 
-> **Feature:** F00 - Entorno y Estructura de Desarrollo
+> **Feature:** F00 - Development Environment and Structure
 > **Release:** 0.0 | **Sprint:** S00
-> **Tipo:** backend | **Prioridad:** Crítica (bloqueante)
-> **Estimación:** 5 story points
-> **Asignable a:** Dev Backend
+> **Type:** backend | **Priority:** Critical (blocking)
+> **Estimate:** 5 story points
+> **Assignable to:** Backend Dev
 
 ---
 
-## Descripción
+## Description
 
-Reestructurar el monorepo existente `legal-ai-ar` para incorporar la carpeta `docs/` con toda la documentación del proyecto, crear el nuevo proyecto `LegalAiAr.Agents` (Semantic Kernel) y el proyecto de evaluación `LegalAiAr.AgentEvals`. No se crea un repo nuevo — se evoluciona el existente.
+Restructure the existing `legal-ai-ar` monorepo to incorporate the `docs/` folder with all the project documentation, create the new `LegalAiAr.Agents` project (Semantic Kernel), and the evaluation project `LegalAiAr.AgentEvals`. No new repo is created — the existing one is evolved.
 
 ---
 
-## Estado Actual del Monorepo (MVP)
+## Current Monorepo State (MVP)
 
 ```
 legal-ai-ar/
@@ -24,12 +24,12 @@ legal-ai-ar/
 │   │   │   ├── LegalAiAr.Api/           # ✅ ASP.NET Core 10 (Controllers)
 │   │   │   └── LegalAiAr.Application/   # ✅ CQRS, handlers, services
 │   │   ├── shared/
-│   │   │   ├── LegalAiAr.Core/          # ✅ Entidades, enums, interfaces
+│   │   │   ├── LegalAiAr.Core/          # ✅ Entities, enums, interfaces
 │   │   │   └── LegalAiAr.Infrastructure/ # ✅ EF Core, Azure services, AI
 │   │   ├── workers/                      # ✅ 6 BackgroundService workers
-│   │   └── tools/                        # ✅ 10 herramientas CLI auxiliares
-│   ├── tests/                            # ✅ 8 proyectos de test
-│   ├── LegalAiAr.sln                     # ✅ Solución existente
+│   │   └── tools/                        # ✅ 10 auxiliary CLI tools
+│   ├── tests/                            # ✅ 8 test projects
+│   ├── LegalAiAr.sln                     # ✅ Existing solution
 │   ├── Directory.Build.props             # ✅
 │   ├── Directory.Packages.props          # ✅ Central Package Management
 │   └── global.json                       # ✅ .NET 10
@@ -39,39 +39,39 @@ legal-ai-ar/
 
 ---
 
-## Tareas
+## Tasks
 
-### Estructura de carpetas
+### Folder structure
 
-- [ ] Crear carpeta `docs/` en la raíz del repo
-- [ ] Mover la documentación del proyecto a `docs/` (roadmap, tecnicas, ontologia)
-- [ ] Agregar `.github/ISSUE_TEMPLATE/` con templates (bug_report, feature_request, work_item)
-- [ ] Agregar `.github/PULL_REQUEST_TEMPLATE.md`
+- [ ] Create the `docs/` folder at the repo root
+- [ ] Move the project documentation to `docs/` (roadmap, technical, ontology)
+- [ ] Add `.github/ISSUE_TEMPLATE/` with templates (bug_report, feature_request, work_item)
+- [ ] Add `.github/PULL_REQUEST_TEMPLATE.md`
 
-### Nuevo proyecto: LegalAiAr.Agents
+### New project: LegalAiAr.Agents
 
-- [ ] Crear proyecto `LegalAiAr.Agents` (Class Library) en `backend/src/shared/`
-- [ ] Configurar estructura interna: `Plugins/`, `Prompts/`, `Orchestration/`
-- [ ] Agregar referencia a `LegalAiAr.Application` y `LegalAiAr.Core`
-- [ ] Agregar referencia desde `LegalAiAr.Api` a `LegalAiAr.Agents`
-- [ ] Instalar paquetes NuGet de Semantic Kernel
-- [ ] Agregar proyecto a `LegalAiAr.sln`
+- [ ] Create the `LegalAiAr.Agents` project (Class Library) in `backend/src/shared/`
+- [ ] Configure the internal structure: `Plugins/`, `Prompts/`, `Orchestration/`
+- [ ] Add a reference to `LegalAiAr.Application` and `LegalAiAr.Core`
+- [ ] Add a reference from `LegalAiAr.Api` to `LegalAiAr.Agents`
+- [ ] Install the Semantic Kernel NuGet packages
+- [ ] Add the project to `LegalAiAr.sln`
 
-### Nuevo proyecto: LegalAiAr.AgentEvals
+### New project: LegalAiAr.AgentEvals
 
-- [ ] Crear proyecto `LegalAiAr.AgentEvals` en `backend/tests/`
-- [ ] Configurar estructura para golden set y evaluaciones
-- [ ] Agregar proyecto a `LegalAiAr.sln`
+- [ ] Create the `LegalAiAr.AgentEvals` project in `backend/tests/`
+- [ ] Configure the structure for the golden set and evaluations
+- [ ] Add the project to `LegalAiAr.sln`
 
-### Verificación
+### Verification
 
-- [ ] `dotnet build` compila todos los proyectos (existentes + nuevos) sin errores
-- [ ] `dotnet test` pasa incluyendo los nuevos proyectos
-- [ ] Las referencias entre proyectos respetan Clean Architecture
+- [ ] `dotnet build` compiles all projects (existing + new) with no errors
+- [ ] `dotnet test` passes including the new projects
+- [ ] References between projects respect Clean Architecture
 
 ---
 
-## Referencias entre Proyectos (actualizado)
+## Project References (updated)
 
 ```mermaid
 graph TD
@@ -96,41 +96,41 @@ graph TD
 
 ---
 
-## Paquetes NuGet Nuevos
+## New NuGet Packages
 
-### LegalAiAr.Agents (nuevo)
+### LegalAiAr.Agents (new)
 ```xml
 <PackageReference Include="Microsoft.SemanticKernel" />
 <PackageReference Include="Microsoft.SemanticKernel.Connectors.AzureOpenAI" />
 ```
 
-### LegalAiAr.AgentEvals (nuevo)
+### LegalAiAr.AgentEvals (new)
 ```xml
 <PackageReference Include="xunit" />
 <PackageReference Include="xunit.runner.visualstudio" />
 <PackageReference Include="FluentAssertions" />
 ```
 
-> **Nota:** Los paquetes de los proyectos existentes (Api, Application, Core, Infrastructure, Workers, Tools, Tests) ya están configurados en `Directory.Packages.props` y no se modifican.
+> **Note:** The packages for the existing projects (Api, Application, Core, Infrastructure, Workers, Tools, Tests) are already configured in `Directory.Packages.props` and are not modified.
 
 ---
 
-## Criterios de Aceptación
+## Acceptance Criteria
 
-- [ ] Carpeta `docs/` creada con la documentación organizada (roadmap, tecnicas, ontologia)
-- [ ] `LegalAiAr.Agents` compila y está referenciado correctamente en la solución
-- [ ] `LegalAiAr.AgentEvals` compila con al menos 1 test placeholder
-- [ ] `dotnet build` compila todo sin warnings
-- [ ] Las referencias entre proyectos respetan Clean Architecture (Core no referencia a nadie)
-- [ ] Templates de GitHub agregados (.github/)
-
----
-
-## Dependencias
-
-- **Bloquea:** F00-W05 (Calidad de código), F01-W02 (Auth backend), R2.0 (Agentes)
-- **Prerrequisitos:** Ninguno — el repo ya existe
+- [ ] `docs/` folder created with the documentation organized (roadmap, technical, ontology)
+- [ ] `LegalAiAr.Agents` compiles and is referenced correctly in the solution
+- [ ] `LegalAiAr.AgentEvals` compiles with at least 1 placeholder test
+- [ ] `dotnet build` compiles everything with no warnings
+- [ ] References between projects respect Clean Architecture (Core references no one)
+- [ ] GitHub templates added (.github/)
 
 ---
 
-*F00 - W02 - Reestructurar Monorepo y Scaffolding Nuevos Proyectos — Legal Ai Ar*
+## Dependencies
+
+- **Blocks:** F00-W05 (Code quality), F01-W02 (Auth backend), R2.0 (Agents)
+- **Prerequisites:** None — the repo already exists
+
+---
+
+*F00 - W02 - Monorepo Setup and Backend Scaffolding — Legal Ai Ar*
