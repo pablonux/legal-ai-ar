@@ -1,57 +1,57 @@
-# F15 - W05 - Backend - Persistencia de Analisis en SQL
+# F15 - W05 - Backend - Analysis Persistence in SQL
 
-> **Feature:** F15 - Analisis de Riesgo Legal
+> **Feature:** F15 - Legal Risk Analysis
 > **Release:** 3.0 | **Sprint:** S08-S09
-> **Tipo:** backend | **Prioridad:** Alta
-> **Estimación:** 3 story points
-> **Asignable a:** Dev Fullstack (Backend)
+> **Type:** backend | **Priority:** High
+> **Estimate:** 3 story points
+> **Assignable to:** Fullstack Dev (Backend)
 
 ---
 
-## Descripción
+## Description
 
-Implementar Backend - Persistencia de Analisis en SQL para la feature F15 - Analisis de Riesgo Legal.
-
----
-
-## Tareas
-
-- [ ] Analizar los requerimientos del W01 (Documentación integral)
-- [ ] Implementar la lógica de negocio
-- [ ] Escribir tests unitarios
-- [ ] Escribir tests de integración
-- [ ] Documentar el código con XML comments
+Implement Analysis Persistence in SQL for the Legal Risk Analysis feature.
 
 ---
 
-## Criterios de Aceptación
+## Tasks
 
-- [ ] La funcionalidad implementada cumple con los criterios de aceptación del W01
-- [ ] Los tests pasan
-- [ ] El código está revisado por al menos 1 peer
+- [ ] Analizar los requerimientos del W01 (Comprehensive Documentation)
+- [ ] Implement the business logic
+- [ ] Write unit tests
+- [ ] Write integration tests
+- [ ] Document the code with XML comments
 
 ---
 
-## Notas Técnicas
+## Acceptance Criteria
 
-- Framework: .NET 10 LTS con ASP.NET Core Minimal API
+- [ ] The implemented functionality meets the W01 acceptance criteria
+- [ ] Tests pass
+- [ ] The code is reviewed by at least 1 peer
+
+---
+
+## Technical Notes
+
+- Framework: .NET 10 LTS with ASP.NET Core Minimal API
 - ORM: Entity Framework Core 10
-- Validación: FluentValidation 12.x
-- Logging: Serilog con sink a Application Insights
-- Referir a la documentación integral (F15-W01) para modelo de datos y endpoints
+- Validation: FluentValidation 12.x
+- Logging: Serilog with an Application Insights sink
+- Refer to the comprehensive documentation (F15-W01) for the data model and endpoints
 
 ---
 
-## Archivos a Crear/Modificar
+## Files to Create/Modify
 
-> Definir durante la implementación según la estructura del proyecto.
-
----
-
-## Dependencias
-
-- Depende de: F15-W01 (Documentación integral)
+> Define during implementation according to the project structure.
 
 ---
 
-*F15 - W05 - Backend - Persistencia de Analisis en SQL — Legal Ai Ar*
+## Dependencies
+
+- Depends on: F15-W01 (Comprehensive Documentation)
+
+---
+
+*F15 - W05 - Backend - Analysis Persistence in SQL — Legal Ai Ar*

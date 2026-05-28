@@ -1,48 +1,48 @@
-# F11 - W05 - Testing - Evaluacion con 10 Consultas Tipificadas
+# F11 - W05 - Testing - Evaluation with 10 Typified Queries
 
-> **Feature:** F11 - Agente Procesal
+> **Feature:** F11 - Procedural Agent
 > **Release:** 2.0 | **Sprint:** S07
-> **Tipo:** testing | **Prioridad:** Alta
-> **Estimación:** 3 story points
-> **Asignable a:** Dev Fullstack (QA)
+> **Type:** testing | **Priority:** High
+> **Estimate:** 3 story points
+> **Assignable to:** Fullstack Dev (QA)
 
 ---
 
-## Descripción
+## Description
 
-Escribir tests unitarios, de integración y E2E para la feature Agente Procesal.
-
----
-
-## Tareas
-
-- [ ] Tests unitarios de servicios backend (xUnit + Moq)
-- [ ] Tests de integración de API endpoints (WebApplicationFactory)
-- [ ] Tests unitarios de componentes Angular (Jest)
-- [ ] Tests E2E del flujo completo (Cypress)
-- [ ] Verificar cobertura > 80%
-- [ ] Verificar que todos los tests pasan en CI
+Write unit, integration, and E2E tests for the Procedural Agent feature.
 
 ---
 
-## Criterios de Aceptación
+## Tasks
 
-- [ ] Cobertura de tests > 80% en código nuevo
-- [ ] Todos los tests pasan en CI
-- [ ] Los tests E2E cubren el happy path completo de la feature
-- [ ] Los tests de integración cubren todos los endpoints de la feature
-
----
-
-## Notas Técnicas
-
-- Backend: xUnit + Moq + WebApplicationFactory para integration tests
-- Frontend: Jest para unit tests + Cypress para E2E
-- CI: Los tests deben correr en el pipeline de GitHub Actions / Azure DevOps
+- [ ] Backend service unit tests (xUnit + Moq)
+- [ ] API endpoint integration tests (WebApplicationFactory)
+- [ ] Angular component unit tests (Jest)
+- [ ] E2E tests of the full flow (Cypress)
+- [ ] Verify coverage > 80%
+- [ ] Verify all tests pass in CI
 
 ---
 
-## Archivos a Crear/Modificar
+## Acceptance Criteria
+
+- [ ] Test coverage > 80% on new code
+- [ ] All tests pass in CI
+- [ ] E2E tests cover the feature's full happy path
+- [ ] Integration tests cover all of the feature's endpoints
+
+---
+
+## Technical Notes
+
+- Backend: xUnit + Moq + WebApplicationFactory for integration tests
+- Frontend: Jest for unit tests + Cypress for E2E
+- CI: tests must run in the GitHub Actions / Azure DevOps pipeline
+
+---
+
+## Files to Create/Modify
 
 ```
 tests/Application.Tests/{Feature}/
@@ -53,10 +53,10 @@ cypress/e2e/{feature}.cy.ts
 
 ---
 
-## Dependencias
+## Dependencies
 
-- Depende de: Todos los work items de la feature F11 completados
+- Depends on: all work items of feature F11 completed
 
 ---
 
-*F11 - W05 - Testing - Evaluacion con 10 Consultas Tipificadas — Legal Ai Ar*
+*F11 - W05 - Testing - Evaluation with 10 Typified Queries — Legal Ai Ar*

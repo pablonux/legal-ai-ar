@@ -1,57 +1,57 @@
-# F11 - W03 - Backend - Motor de Calculo de Dias Habiles
+# F11 - W03 - Backend - Business Days Calculation Engine
 
-> **Feature:** F11 - Agente Procesal
+> **Feature:** F11 - Procedural Agent
 > **Release:** 2.0 | **Sprint:** S07
-> **Tipo:** backend | **Prioridad:** Alta
-> **Estimación:** 5 story points
-> **Asignable a:** Dev Fullstack (Backend)
+> **Type:** backend | **Priority:** High
+> **Estimate:** 5 story points
+> **Assignable to:** Fullstack Dev (Backend)
 
 ---
 
-## Descripción
+## Description
 
-Implementar Backend - Motor de Calculo de Dias Habiles para la feature F11 - Agente Procesal.
-
----
-
-## Tareas
-
-- [ ] Analizar los requerimientos del W01 (Documentación integral)
-- [ ] Implementar la lógica de negocio
-- [ ] Escribir tests unitarios
-- [ ] Escribir tests de integración
-- [ ] Documentar el código con XML comments
+Implement Business Days Calculation Engine for the Procedural Agent feature.
 
 ---
 
-## Criterios de Aceptación
+## Tasks
 
-- [ ] La funcionalidad implementada cumple con los criterios de aceptación del W01
-- [ ] Los tests pasan
-- [ ] El código está revisado por al menos 1 peer
+- [ ] Analizar los requerimientos del W01 (Comprehensive Documentation)
+- [ ] Implement the business logic
+- [ ] Write unit tests
+- [ ] Write integration tests
+- [ ] Document the code with XML comments
 
 ---
 
-## Notas Técnicas
+## Acceptance Criteria
 
-- Framework: .NET 10 LTS con ASP.NET Core Minimal API
+- [ ] The implemented functionality meets the W01 acceptance criteria
+- [ ] Tests pass
+- [ ] The code is reviewed by at least 1 peer
+
+---
+
+## Technical Notes
+
+- Framework: .NET 10 LTS with ASP.NET Core Minimal API
 - ORM: Entity Framework Core 10
-- Validación: FluentValidation 12.x
-- Logging: Serilog con sink a Application Insights
-- Referir a la documentación integral (F11-W01) para modelo de datos y endpoints
+- Validation: FluentValidation 12.x
+- Logging: Serilog with an Application Insights sink
+- Refer to the comprehensive documentation (F11-W01) for the data model and endpoints
 
 ---
 
-## Archivos a Crear/Modificar
+## Files to Create/Modify
 
-> Definir durante la implementación según la estructura del proyecto.
-
----
-
-## Dependencias
-
-- Depende de: F11-W01 (Documentación integral)
+> Define during implementation according to the project structure.
 
 ---
 
-*F11 - W03 - Backend - Motor de Calculo de Dias Habiles — Legal Ai Ar*
+## Dependencies
+
+- Depends on: F11-W01 (Comprehensive Documentation)
+
+---
+
+*F11 - W03 - Backend - Business Days Calculation Engine — Legal Ai Ar*

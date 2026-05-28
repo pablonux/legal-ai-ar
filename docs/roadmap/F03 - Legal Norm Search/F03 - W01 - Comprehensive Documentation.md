@@ -1,19 +1,19 @@
-# F03 - W01 - Documentacion Integral
+# F03 - W01 - Comprehensive Documentation
 
-> **Feature:** F03 - Busqueda de Normas
+> **Feature:** F03 - Legal Norm Search
 > **Release:** 1.0 | **Sprint:** S02-S03
-> **Tipo:** Documentación | **Prioridad:** Crítica (bloqueante)
-> **Estimación:** 3 story points
+> **Type:** Documentation | **Priority:** Critical (blocking)
+> **Estimate:** 3 story points
 
 ---
 
-## 1. Descripción General
+## 1. General Description
 
-Buscador semántico de legislación argentina con filtros por rama, jurisdicción, vigencia, tipo de norma y rango de fechas.
+Semantic search of Argentine legislation with filters by branch, jurisdiction, validity, norm type, and date range.
 
 ---
 
-## 2. Diagrama de Arquitectura
+## 2. Architecture Diagram
 
 ```mermaid
 graph LR
@@ -23,7 +23,7 @@ graph LR
         RL[Resultados + Highlight]
     end
     subgraph Backend
-        EP[POST /api/buscar/normas]
+        EP[POST /api/search/legal-norms]
         SP[Scoring Profile]
     end
     subgraph Azure
@@ -43,7 +43,7 @@ graph LR
 
 ---
 
-## 3. Modelo de Datos
+## 3. Data Model
 
 ### Índice AI Search: `idx-normas`
 
@@ -70,16 +70,16 @@ graph LR
 
 ## 4. API Endpoints
 
-| Método | Endpoint | Request Body | Response |
+| Method | Endpoint | Request Body | Response |
 |--------|----------|-------------|----------|
-| POST | `/api/buscar/normas` | `{query, filtros: {rama?, vigencia?, jurisdiccion?, fechaDesde?, fechaHasta?, tipo?}, page, pageSize}` | `{total, items: [{id, numero, denominacion, rama, vigente, snippet, score}], facets: {rama: [], vigencia: []}}` |
-| GET | `/api/buscar/sugerencias` | `?q=prescripcion+laboral` | `{sugerencias: ["prescripción laboral", "prescripción penal", ...]}` |
+| POST | `/api/search/legal-norms` | `{query, filters: {rama?, vigencia?, jurisdiccion?, dateFrom?, dateTo?, tipo?}, page, pageSize}` | `{total, items: [{id, numero, denominacion, rama, vigente, snippet, score}], facets: {rama: [], vigencia: []}}` |
+| GET | `/api/search/suggestions` | `?q=prescripcion+laboral` | `{suggestions: ["prescripción laboral", "prescripción penal", ...]}` |
 
 ---
 
-## 5. Descripción de UI / UX
+## 5. UI / UX Description
 
-### Layout de la página
+### Page layout
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -105,69 +105,69 @@ graph LR
 
 ---
 
-## 6. Criterios de Aceptación
+## 6. Acceptance Criteria
 
-- [ ] La búsqueda retorna resultados en menos de 2 segundos
-- [ ] Los resultados más relevantes aparecen en el top 5
-- [ ] El autocompletado muestra sugerencias después de 300ms de inactividad
-- [ ] Los filtros muestran conteo dinámico (facets) de resultados por categoría
-- [ ] La paginación funciona correctamente con 20 resultados por página
-- [ ] El highlighting resalta los términos buscados en los snippets
-- [ ] La búsqueda por lenguaje natural funciona (ej: "plazo para reclamar daños")
-- [ ] Los filtros se pueden combinar (rama + vigencia + jurisdicción)
-- [ ] Al limpiar filtros, se muestran todos los resultados de la query
+- [ ] Search returns results in under 2 seconds
+- [ ] The most relevant results appear in the top 5
+- [ ] Autocomplete shows suggestions after 300ms of inactivity
+- [ ] Filters show a dynamic count (facets) of results per category
+- [ ] Pagination works correctly with 20 results per page
+- [ ] Highlighting emphasizes the searched terms in the snippets
+- [ ] Natural-language search works (e.g., "plazo para reclamar daños")
+- [ ] Filters can be combined (branch + validity + jurisdiction)
+- [ ] When filters are cleared, all query results are shown
 
 ---
 
-## 7. Dependencias
+## 7. Dependencies
 
-- **Depende de:** F01 (Auth), Pipeline ETL (normas ingestadas en AI Search)
-- **Bloquea:** F05 (Detalle de Norma), F04 (Búsqueda Jurisprudencia)
+- **Depends on:** F01 (Auth), Pipeline ETL (normas ingestadas en AI Search)
+- **Blocks:** F05 (Legal Norm Detail), F04 (Case Law Search)
 - **NuGet:** Azure.Search.Documents
 - **npm:** ninguno adicional
 
 ---
 
-## 8. Notas Técnicas
+## 8. Technical Notes
 
 - Usar Azure AI Search SDK `Azure.Search.Documents` v12.x para .NET 10
 - El scoring profile combina BM25 (0.6) + vector (0.3) + freshness (0.05) + vigencia (0.05)
 - Los embeddings se generan con `text-embedding-3-large` de Azure OpenAI
-- Chunking de normas: cada artículo/inciso es un chunk independiente para mejor precisión
+- Norm chunking: each article/clause is an independent chunk for better precision
 - El autocompletado usa el suggester de AI Search (campo: denominacion + nombreComun)
-- Implementar debounce de 300ms en el frontend para el autocompletado
-- Los facets de AI Search se mapean 1:1 con los filtros laterales
+- Implement a 300ms debounce on the frontend for autocomplete
+- Los facets de AI Search se mapean 1:1 con los filters laterales
 
 ---
 
-## 9. Work Items de esta Feature
+## 9. Work Items of this Feature
 
-| ID | Nombre | Tipo | Sprint |
+| ID | Name | Type | Sprint |
 |----|--------|------|--------|
-| F03-W01 | Documentacion Integral | doc | S02-S03 |
-| F03-W02 | Backend - Indice AI Search para Normas | backend | S02-S03 |
-| F03-W03 | Backend - Scoring Profile Hibrido BM25 y Vectores | backend | S02-S03 |
-| F03-W04 | Backend - Endpoint POST Buscar Normas | backend | S02-S03 |
-| F03-W05 | Frontend - SearchBar con Autocompletado | frontend | S02-S03 |
-| F03-W06 | Frontend - Filtros Laterales con Facets | frontend | S02-S03 |
-| F03-W07 | Frontend - Lista de Resultados con Highlight | frontend | S02-S03 |
-| F03-W08 | Testing - Tests de Busqueda de Normas | testing | S02-S03 |
+| F03-W01 | Comprehensive Documentation | doc | S02-S03 |
+| F03-W02 | Backend - AI Search Index for Legal Norms | backend | S02-S03 |
+| F03-W03 | Backend - Hybrid BM25 and Vector Scoring Profile | backend | S02-S03 |
+| F03-W04 | Backend - POST Search Legal Norms Endpoint | backend | S02-S03 |
+| F03-W05 | Frontend - SearchBar with Autocomplete | frontend | S02-S03 |
+| F03-W06 | Frontend - Sidebar Filters with Facets | frontend | S02-S03 |
+| F03-W07 | Frontend - Results List with Highlight | frontend | S02-S03 |
+| F03-W08 | Testing - Legal Norm Search Tests | testing | S02-S03 |
 
 ---
 
 ## 10. Definition of Done
 
-- [ ] Código revisado por al menos 1 peer (PR aprobado)
-- [ ] Tests unitarios con cobertura > 80%
-- [ ] Tests de integración para endpoints
-- [ ] Sin errores en build de CI
-- [ ] Documentación de API actualizada (Swagger/OpenAPI)
-- [ ] Componentes Angular documentados con JSDoc
-- [ ] Accesibilidad validada (WCAG 2.1 AA)
-- [ ] Responsive verificado en desktop y tablet
-- [ ] Performance: tiempo de carga < 3 seg, API response < 2 seg
-- [ ] Feature flag configurado (si aplica)
+- [ ] Code reviewed by at least 1 peer (PR approved)
+- [ ] Unit tests with > 80% coverage
+- [ ] Integration tests for endpoints
+- [ ] No errors in the CI build
+- [ ] API documentation updated (Swagger/OpenAPI)
+- [ ] Angular components documented with JSDoc
+- [ ] Accessibility validated (WCAG 2.1 AA)
+- [ ] Responsive verified on desktop and tablet
+- [ ] Performance: load time < 3 sec, API response < 2 sec
+- [ ] Feature flag configured (if applicable)
 
 ---
 
-*F03 - Busqueda de Normas — Documentación integral — Legal Ai Ar*
+*F03 - Legal Norm Search — Comprehensive Documentation — Legal Ai Ar*

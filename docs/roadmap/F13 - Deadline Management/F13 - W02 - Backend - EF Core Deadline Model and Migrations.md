@@ -1,50 +1,50 @@
-# F13 - W02 - Backend - Modelo EF Core Plazo y Migraciones
+# F13 - W02 - Backend - EF Core Deadline Model and Migrations
 
-> **Feature:** F13 - Gestion de Plazos
+> **Feature:** F13 - Deadline Management
 > **Release:** 2.0 | **Sprint:** S06-S07
-> **Tipo:** backend | **Prioridad:** Alta
-> **Estimación:** 5 story points
-> **Asignable a:** Dev Fullstack (Backend)
+> **Type:** backend | **Priority:** High
+> **Estimate:** 5 story points
+> **Assignable to:** Fullstack Dev (Backend)
 
 ---
 
-## Descripción
+## Description
 
-Crear el modelo de datos con Entity Framework Core 10 para la feature Gestion de Plazos. Incluye entidades, configuración Fluent API, y migration inicial.
+Create the data model with Entity Framework Core 10 for the Deadline Management feature. Includes entities, Fluent API configuration, and the initial migration.
 
 ---
 
-## Tareas
+## Tasks
 
-- [ ] Crear entidades C# en `Domain/Entities/`
-- [ ] Crear configuración Fluent API en `Infrastructure/Persistence/Configurations/`
-- [ ] Agregar DbSet al `ApplicationDbContext`
-- [ ] Crear migration con `dotnet ef migrations add {Nombre}`
+- [ ] Create C# entities in `Domain/Entities/`
+- [ ] Create the Fluent API configuration in `Infrastructure/Persistence/Configurations/`
+- [ ] Add the DbSet to `ApplicationDbContext`
+- [ ] Create a migration with `dotnet ef migrations add {Name}`
 - [ ] Verificar que la migration genera el SQL esperado
 - [ ] Ejecutar migration en la base de desarrollo
-- [ ] Crear seed data si corresponde
+- [ ] Create seed data if applicable
 
 ---
 
-## Criterios de Aceptación
+## Acceptance Criteria
 
-- [ ] La funcionalidad implementada cumple con los criterios de aceptación del W01
-- [ ] Los tests pasan
-- [ ] El código está revisado por al menos 1 peer
+- [ ] The implemented functionality meets the W01 acceptance criteria
+- [ ] Tests pass
+- [ ] The code is reviewed by at least 1 peer
 
 ---
 
-## Notas Técnicas
+## Technical Notes
 
-- Framework: .NET 10 LTS con ASP.NET Core Minimal API
+- Framework: .NET 10 LTS with ASP.NET Core Minimal API
 - ORM: Entity Framework Core 10
-- Validación: FluentValidation 12.x
-- Logging: Serilog con sink a Application Insights
-- Referir a la documentación integral (F13-W01) para modelo de datos y endpoints
+- Validation: FluentValidation 12.x
+- Logging: Serilog with an Application Insights sink
+- Refer to the comprehensive documentation (F13-W01) for the data model and endpoints
 
 ---
 
-## Archivos a Crear/Modificar
+## Files to Create/Modify
 
 ```
 src/Domain/Entities/{Entidad}.cs
@@ -55,10 +55,10 @@ src/Infrastructure/Persistence/Migrations/{timestamp}_{Nombre}.cs
 
 ---
 
-## Dependencias
+## Dependencies
 
-- Depende de: F13-W01 (Documentación integral)
+- Depends on: F13-W01 (Comprehensive Documentation)
 
 ---
 
-*F13 - W02 - Backend - Modelo EF Core Plazo y Migraciones — Legal Ai Ar*
+*F13 - W02 - Backend - EF Core Deadline Model and Migrations — Legal Ai Ar*

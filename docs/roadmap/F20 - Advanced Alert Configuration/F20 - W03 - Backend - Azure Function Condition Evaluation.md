@@ -1,51 +1,51 @@
-# F20 - W03 - Backend - Azure Function Evaluacion de Condiciones
+# F20 - W03 - Backend - Azure Function Condition Evaluation
 
-> **Feature:** F20 - Configuracion de Alertas Avanzadas
+> **Feature:** F20 - Advanced Alert Configuration
 > **Release:** 4.0 | **Sprint:** S10
-> **Tipo:** backend | **Prioridad:** Alta
-> **Estimación:** 5 story points
-> **Asignable a:** Dev Fullstack (Backend)
+> **Type:** backend | **Priority:** High
+> **Estimate:** 5 story points
+> **Assignable to:** Fullstack Dev (Backend)
 
 ---
 
-## Descripción
+## Description
 
-Implementar Azure Function (.NET 10 isolated worker) para Backend - Evaluacion de Condiciones.
-
----
-
-## Tareas
-
-- [ ] Crear la function class en `Functions/`
-- [ ] Configurar el trigger (Timer/Queue/Blob según corresponda)
-- [ ] Implementar la lógica de negocio
-- [ ] Configurar bindings de output (SQL, Queue, etc.)
-- [ ] Agregar connection strings en local.settings.json
-- [ ] Agregar secretos al Key Vault para producción
-- [ ] Escribir tests unitarios
-- [ ] Probar localmente con Azure Functions Core Tools
+Implement an Azure Function (.NET 10 isolated worker) for alert condition evaluation.
 
 ---
 
-## Criterios de Aceptación
+## Tasks
 
-- [ ] La funcionalidad implementada cumple con los criterios de aceptación del W01
-- [ ] Los tests pasan
-- [ ] El código está revisado por al menos 1 peer
+- [ ] Create the function class in `Functions/`
+- [ ] Configure the trigger (Timer/Queue/Blob as appropriate)
+- [ ] Implement the business logic
+- [ ] Configure output bindings (SQL, Queue, etc.)
+- [ ] Add connection strings in local.settings.json
+- [ ] Add secrets to Key Vault for production
+- [ ] Write unit tests
+- [ ] Test locally with Azure Functions Core Tools
 
 ---
 
-## Notas Técnicas
+## Acceptance Criteria
 
-- Framework: .NET 10 LTS con ASP.NET Core Minimal API
+- [ ] The implemented functionality meets the W01 acceptance criteria
+- [ ] Tests pass
+- [ ] The code is reviewed by at least 1 peer
+
+---
+
+## Technical Notes
+
+- Framework: .NET 10 LTS with ASP.NET Core Minimal API
 - ORM: Entity Framework Core 10
-- Validación: FluentValidation 12.x
-- Logging: Serilog con sink a Application Insights
-- Referir a la documentación integral (F20-W01) para modelo de datos y endpoints
+- Validation: FluentValidation 12.x
+- Logging: Serilog with an Application Insights sink
+- Refer to the comprehensive documentation (F20-W01) for the data model and endpoints
 
 ---
 
-## Archivos a Crear/Modificar
+## Files to Create/Modify
 
 ```
 src/Functions/{NombreFunction}.cs
@@ -55,10 +55,10 @@ tests/Functions.Tests/{NombreFunction}Tests.cs
 
 ---
 
-## Dependencias
+## Dependencies
 
-- Depende de: F20-W01 (Documentación integral)
+- Depends on: F20-W01 (Comprehensive Documentation)
 
 ---
 
-*F20 - W03 - Backend - Azure Function Evaluacion de Condiciones — Legal Ai Ar*
+*F20 - W03 - Backend - Azure Function Condition Evaluation — Legal Ai Ar*

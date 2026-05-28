@@ -1,53 +1,53 @@
-# F13 - W07 - Frontend - Formulario Alta Plazo con Calculo Habiles
+# F13 - W07 - Frontend - Deadline Create Form with Business Days Calculation
 
-> **Feature:** F13 - Gestion de Plazos
+> **Feature:** F13 - Deadline Management
 > **Release:** 2.0 | **Sprint:** S06-S07
-> **Tipo:** frontend | **Prioridad:** Alta
-> **Estimación:** 3 story points
-> **Asignable a:** Dev Fullstack (Frontend)
+> **Type:** frontend | **Priority:** High
+> **Estimate:** 3 story points
+> **Assignable to:** Fullstack Dev (Frontend)
 
 ---
 
-## Descripción
+## Description
 
-Implementar formulario reactivo tipado para Gestion de Plazos. Incluye validaciones, controles dinámicos y feedback visual.
+Implement a typed reactive form for Deadline Management. Includes validations, dynamic controls, and visual feedback.
 
 ---
 
-## Tareas
+## Tasks
 
-- [ ] Crear componente de formulario como standalone component
-- [ ] Implementar Typed Reactive Form con validaciones
-- [ ] Agregar controles: inputs, selects, datepickers, textareas según modelo
-- [ ] Implementar validación visual (mat-error con mensajes descriptivos)
+- [ ] Create the form component as a standalone component
+- [ ] Implement a Typed Reactive Form with validations
+- [ ] Add controls: inputs, selects, datepickers, textareas per the model
+- [ ] Implement visual validation (mat-error with descriptive messages)
 - [ ] Conectar al service para submit (POST/PUT)
 - [ ] Manejar estados: loading, success, error
-- [ ] Soportar modo edición (prellenar con datos existentes)
-- [ ] Escribir tests unitarios
+- [ ] Support edit mode (prefill with existing data)
+- [ ] Write unit tests
 
 ---
 
-## Criterios de Aceptación
+## Acceptance Criteria
 
-- [ ] El componente renderiza correctamente en desktop (>1200px) y tablet (768-1200px)
-- [ ] Los estados de loading, error y empty se manejan correctamente
-- [ ] La accesibilidad cumple WCAG 2.1 AA (verificar con axe DevTools)
-- [ ] Los tests unitarios cubren > 80% del componente
-- [ ] El componente es standalone y reutilizable donde corresponda
+- [ ] The component renders correctly on desktop (>1200px) and tablet (768-1200px)
+- [ ] The loading, error, and empty states are handled correctly
+- [ ] Accessibility meets WCAG 2.1 AA (verify with axe DevTools)
+- [ ] Unit tests cover > 80% of the component
+- [ ] The component is standalone and reusable where applicable
 
 ---
 
-## Notas Técnicas
+## Technical Notes
 
-- Angular 19 con standalone components (sin NgModules)
-- State management: Angular Signals + NgRx Signal Store para estado global
+- Angular 19 with standalone components (no NgModules)
+- State management: Angular Signals + NgRx Signal Store for global state
 - UI: Angular Material 19 + Tailwind CSS 4
-- Formularios: Typed Reactive Forms
-- Referir a la documentación integral (F13-W01) para mockups y criterios de aceptación
+- Forms: Typed Reactive Forms
+- Refer to the comprehensive documentation (F13-W01) for mockups and acceptance criteria
 
 ---
 
-## Archivos a Crear/Modificar
+## Files to Create/Modify
 
 ```
 src/app/features/{feature}/{feature}-form/{feature}-form.component.ts
@@ -57,10 +57,10 @@ src/app/features/{feature}/{feature}-form/{feature}-form.component.spec.ts
 
 ---
 
-## Dependencias
+## Dependencies
 
-- Depende de: F13-W01 (Documentación integral)
+- Depends on: F13-W01 (Comprehensive Documentation)
 
 ---
 
-*F13 - W07 - Frontend - Formulario Alta Plazo con Calculo Habiles — Legal Ai Ar*
+*F13 - W07 - Frontend - Deadline Create Form with Business Days Calculation — Legal Ai Ar*

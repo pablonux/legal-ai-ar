@@ -1,53 +1,53 @@
-# F18 - W04 - Frontend - Export a PDF y Excel
+# F18 - W04 - Frontend - Export to PDF and Excel
 
-> **Feature:** F18 - Reportes Operativos
+> **Feature:** F18 - Operational Reports
 > **Release:** 3.0 | **Sprint:** S09
-> **Tipo:** frontend | **Prioridad:** Alta
-> **Estimación:** 3 story points
-> **Asignable a:** Dev Fullstack (Frontend)
+> **Type:** frontend | **Priority:** High
+> **Estimate:** 3 story points
+> **Assignable to:** Fullstack Dev (Frontend)
 
 ---
 
-## Descripción
+## Description
 
-Implementar Frontend - Export a PDF y Excel para la feature F18 - Reportes Operativos.
-
----
-
-## Tareas
-
-- [ ] Crear componente standalone según diseño del W01
-- [ ] Implementar lógica de UI con Angular Signals
-- [ ] Conectar al service/API correspondiente
-- [ ] Manejar estados: loading, success, error, empty
-- [ ] Aplicar estilos con Angular Material + Tailwind
-- [ ] Verificar responsive (desktop + tablet)
-- [ ] Verificar accesibilidad (ARIA labels, focus management)
-- [ ] Escribir tests unitarios
+Implement Export to PDF and Excel for the Operational Reports feature.
 
 ---
 
-## Criterios de Aceptación
+## Tasks
 
-- [ ] El componente renderiza correctamente en desktop (>1200px) y tablet (768-1200px)
-- [ ] Los estados de loading, error y empty se manejan correctamente
-- [ ] La accesibilidad cumple WCAG 2.1 AA (verificar con axe DevTools)
-- [ ] Los tests unitarios cubren > 80% del componente
-- [ ] El componente es standalone y reutilizable donde corresponda
+- [ ] Create a standalone component per the W01 design
+- [ ] Implement UI logic with Angular Signals
+- [ ] Connect to the corresponding service/API
+- [ ] Handle states: loading, success, error, empty
+- [ ] Apply styles with Angular Material + Tailwind
+- [ ] Verify responsive (desktop + tablet)
+- [ ] Verify accessibility (ARIA labels, focus management)
+- [ ] Write unit tests
 
 ---
 
-## Notas Técnicas
+## Acceptance Criteria
 
-- Angular 19 con standalone components (sin NgModules)
-- State management: Angular Signals + NgRx Signal Store para estado global
+- [ ] The component renders correctly on desktop (>1200px) and tablet (768-1200px)
+- [ ] The loading, error, and empty states are handled correctly
+- [ ] Accessibility meets WCAG 2.1 AA (verify with axe DevTools)
+- [ ] Unit tests cover > 80% of the component
+- [ ] The component is standalone and reusable where applicable
+
+---
+
+## Technical Notes
+
+- Angular 19 with standalone components (no NgModules)
+- State management: Angular Signals + NgRx Signal Store for global state
 - UI: Angular Material 19 + Tailwind CSS 4
-- Formularios: Typed Reactive Forms
-- Referir a la documentación integral (F18-W01) para mockups y criterios de aceptación
+- Forms: Typed Reactive Forms
+- Refer to the comprehensive documentation (F18-W01) for mockups and acceptance criteria
 
 ---
 
-## Archivos a Crear/Modificar
+## Files to Create/Modify
 
 ```
 src/app/features/{feature}/{component}/{component}.component.ts
@@ -57,10 +57,10 @@ src/app/features/{feature}/{component}/{component}.component.spec.ts
 
 ---
 
-## Dependencias
+## Dependencies
 
-- Depende de: F18-W01 (Documentación integral)
+- Depends on: F18-W01 (Comprehensive Documentation)
 
 ---
 
-*F18 - W04 - Frontend - Export a PDF y Excel — Legal Ai Ar*
+*F18 - W04 - Frontend - Export to PDF and Excel — Legal Ai Ar*

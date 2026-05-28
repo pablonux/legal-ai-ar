@@ -1,51 +1,51 @@
-# F22 - W03 - Backend - Azure Function Analisis Semanal de Feedback
+# F22 - W03 - Backend - Azure Function Weekly Feedback Analysis
 
-> **Feature:** F22 - Feedback y Mejora de Agentes
+> **Feature:** F22 - Agent Feedback and Improvement
 > **Release:** 4.0 | **Sprint:** S11
-> **Tipo:** backend | **Prioridad:** Alta
-> **Estimación:** 5 story points
-> **Asignable a:** Dev Fullstack (Backend)
+> **Type:** backend | **Priority:** High
+> **Estimate:** 5 story points
+> **Assignable to:** Fullstack Dev (Backend)
 
 ---
 
-## Descripción
+## Description
 
-Implementar Azure Function (.NET 10 isolated worker) para Backend - Analisis Semanal de Feedback.
-
----
-
-## Tareas
-
-- [ ] Crear la function class en `Functions/`
-- [ ] Configurar el trigger (Timer/Queue/Blob según corresponda)
-- [ ] Implementar la lógica de negocio
-- [ ] Configurar bindings de output (SQL, Queue, etc.)
-- [ ] Agregar connection strings en local.settings.json
-- [ ] Agregar secretos al Key Vault para producción
-- [ ] Escribir tests unitarios
-- [ ] Probar localmente con Azure Functions Core Tools
+Implement an Azure Function (.NET 10 isolated worker) for weekly feedback analysis.
 
 ---
 
-## Criterios de Aceptación
+## Tasks
 
-- [ ] La funcionalidad implementada cumple con los criterios de aceptación del W01
-- [ ] Los tests pasan
-- [ ] El código está revisado por al menos 1 peer
+- [ ] Create the function class in `Functions/`
+- [ ] Configure the trigger (Timer/Queue/Blob as appropriate)
+- [ ] Implement the business logic
+- [ ] Configure output bindings (SQL, Queue, etc.)
+- [ ] Add connection strings in local.settings.json
+- [ ] Add secrets to Key Vault for production
+- [ ] Write unit tests
+- [ ] Test locally with Azure Functions Core Tools
 
 ---
 
-## Notas Técnicas
+## Acceptance Criteria
 
-- Framework: .NET 10 LTS con ASP.NET Core Minimal API
+- [ ] The implemented functionality meets the W01 acceptance criteria
+- [ ] Tests pass
+- [ ] The code is reviewed by at least 1 peer
+
+---
+
+## Technical Notes
+
+- Framework: .NET 10 LTS with ASP.NET Core Minimal API
 - ORM: Entity Framework Core 10
-- Validación: FluentValidation 12.x
-- Logging: Serilog con sink a Application Insights
-- Referir a la documentación integral (F22-W01) para modelo de datos y endpoints
+- Validation: FluentValidation 12.x
+- Logging: Serilog with an Application Insights sink
+- Refer to the comprehensive documentation (F22-W01) for the data model and endpoints
 
 ---
 
-## Archivos a Crear/Modificar
+## Files to Create/Modify
 
 ```
 src/Functions/{NombreFunction}.cs
@@ -55,10 +55,10 @@ tests/Functions.Tests/{NombreFunction}Tests.cs
 
 ---
 
-## Dependencias
+## Dependencies
 
-- Depende de: F22-W01 (Documentación integral)
+- Depends on: F22-W01 (Comprehensive Documentation)
 
 ---
 
-*F22 - W03 - Backend - Azure Function Analisis Semanal de Feedback — Legal Ai Ar*
+*F22 - W03 - Backend - Azure Function Weekly Feedback Analysis — Legal Ai Ar*

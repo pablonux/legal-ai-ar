@@ -1,57 +1,57 @@
-# F20 - W04 - Backend - Envio de Email con SendGrid o SMTP
+# F20 - W04 - Backend - Email Sending with SendGrid or SMTP
 
-> **Feature:** F20 - Configuracion de Alertas Avanzadas
+> **Feature:** F20 - Advanced Alert Configuration
 > **Release:** 4.0 | **Sprint:** S10
-> **Tipo:** backend | **Prioridad:** Alta
-> **Estimación:** 3 story points
-> **Asignable a:** Dev Fullstack (Backend)
+> **Type:** backend | **Priority:** High
+> **Estimate:** 3 story points
+> **Assignable to:** Fullstack Dev (Backend)
 
 ---
 
-## Descripción
+## Description
 
-Implementar Backend - Envio de Email con SendGrid o SMTP para la feature F20 - Configuracion de Alertas Avanzadas.
-
----
-
-## Tareas
-
-- [ ] Analizar los requerimientos del W01 (Documentación integral)
-- [ ] Implementar la lógica de negocio
-- [ ] Escribir tests unitarios
-- [ ] Escribir tests de integración
-- [ ] Documentar el código con XML comments
+Implement Email Sending with SendGrid or SMTP for the Advanced Alert Configuration feature.
 
 ---
 
-## Criterios de Aceptación
+## Tasks
 
-- [ ] La funcionalidad implementada cumple con los criterios de aceptación del W01
-- [ ] Los tests pasan
-- [ ] El código está revisado por al menos 1 peer
+- [ ] Analizar los requerimientos del W01 (Comprehensive Documentation)
+- [ ] Implement the business logic
+- [ ] Write unit tests
+- [ ] Write integration tests
+- [ ] Document the code with XML comments
 
 ---
 
-## Notas Técnicas
+## Acceptance Criteria
 
-- Framework: .NET 10 LTS con ASP.NET Core Minimal API
+- [ ] The implemented functionality meets the W01 acceptance criteria
+- [ ] Tests pass
+- [ ] The code is reviewed by at least 1 peer
+
+---
+
+## Technical Notes
+
+- Framework: .NET 10 LTS with ASP.NET Core Minimal API
 - ORM: Entity Framework Core 10
-- Validación: FluentValidation 12.x
-- Logging: Serilog con sink a Application Insights
-- Referir a la documentación integral (F20-W01) para modelo de datos y endpoints
+- Validation: FluentValidation 12.x
+- Logging: Serilog with an Application Insights sink
+- Refer to the comprehensive documentation (F20-W01) for the data model and endpoints
 
 ---
 
-## Archivos a Crear/Modificar
+## Files to Create/Modify
 
-> Definir durante la implementación según la estructura del proyecto.
-
----
-
-## Dependencias
-
-- Depende de: F20-W01 (Documentación integral)
+> Define during implementation according to the project structure.
 
 ---
 
-*F20 - W04 - Backend - Envio de Email con SendGrid o SMTP — Legal Ai Ar*
+## Dependencies
+
+- Depends on: F20-W01 (Comprehensive Documentation)
+
+---
+
+*F20 - W04 - Backend - Email Sending with SendGrid or SMTP — Legal Ai Ar*

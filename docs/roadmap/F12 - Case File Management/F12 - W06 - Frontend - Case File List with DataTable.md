@@ -1,53 +1,53 @@
-# F12 - W06 - Frontend - Lista de Expedientes con DataTable
+# F12 - W06 - Frontend - Case File List with DataTable
 
-> **Feature:** F12 - Gestion de Expedientes
+> **Feature:** F12 - Case File Management
 > **Release:** 2.0 | **Sprint:** S05-S06
-> **Tipo:** frontend | **Prioridad:** Alta
-> **Estimación:** 3 story points
-> **Asignable a:** Dev Fullstack (Frontend)
+> **Type:** frontend | **Priority:** High
+> **Estimate:** 3 story points
+> **Assignable to:** Fullstack Dev (Frontend)
 
 ---
 
-## Descripción
+## Description
 
-Implementar vista de lista con Angular Material DataTable para Gestion de Expedientes. Incluye sort, filter, paginación server-side.
+Implement a list view with an Angular Material DataTable for Case File Management. Includes sort, filter, and server-side pagination.
 
 ---
 
-## Tareas
+## Tasks
 
-- [ ] Crear componente de lista como standalone component
-- [ ] Implementar `MatTable` con columnas según el modelo
-- [ ] Agregar `MatSort` para ordenamiento por columnas
-- [ ] Agregar `MatPaginator` con paginación server-side
-- [ ] Implementar filtros con controles de formulario
-- [ ] Conectar al service/API correspondiente
+- [ ] Create the list component as a standalone component
+- [ ] Implement `MatTable` with columns per the model
+- [ ] Add `MatSort` for column sorting
+- [ ] Add `MatPaginator` with server-side pagination
+- [ ] Implement filters with form controls
+- [ ] Connect to the corresponding service/API
 - [ ] Manejar estados: loading, empty, error
-- [ ] Escribir tests unitarios
+- [ ] Write unit tests
 
 ---
 
-## Criterios de Aceptación
+## Acceptance Criteria
 
-- [ ] El componente renderiza correctamente en desktop (>1200px) y tablet (768-1200px)
-- [ ] Los estados de loading, error y empty se manejan correctamente
-- [ ] La accesibilidad cumple WCAG 2.1 AA (verificar con axe DevTools)
-- [ ] Los tests unitarios cubren > 80% del componente
-- [ ] El componente es standalone y reutilizable donde corresponda
+- [ ] The component renders correctly on desktop (>1200px) and tablet (768-1200px)
+- [ ] The loading, error, and empty states are handled correctly
+- [ ] Accessibility meets WCAG 2.1 AA (verify with axe DevTools)
+- [ ] Unit tests cover > 80% of the component
+- [ ] The component is standalone and reusable where applicable
 
 ---
 
-## Notas Técnicas
+## Technical Notes
 
-- Angular 19 con standalone components (sin NgModules)
-- State management: Angular Signals + NgRx Signal Store para estado global
+- Angular 19 with standalone components (no NgModules)
+- State management: Angular Signals + NgRx Signal Store for global state
 - UI: Angular Material 19 + Tailwind CSS 4
-- Formularios: Typed Reactive Forms
-- Referir a la documentación integral (F12-W01) para mockups y criterios de aceptación
+- Forms: Typed Reactive Forms
+- Refer to the comprehensive documentation (F12-W01) for mockups and acceptance criteria
 
 ---
 
-## Archivos a Crear/Modificar
+## Files to Create/Modify
 
 ```
 src/app/features/{feature}/{feature}-list/{feature}-list.component.ts
@@ -58,10 +58,10 @@ src/app/features/{feature}/{feature}-list/{feature}-list.component.spec.ts
 
 ---
 
-## Dependencias
+## Dependencies
 
-- Depende de: F12-W01 (Documentación integral)
+- Depends on: F12-W01 (Comprehensive Documentation)
 
 ---
 
-*F12 - W06 - Frontend - Lista de Expedientes con DataTable — Legal Ai Ar*
+*F12 - W06 - Frontend - Case File List with DataTable — Legal Ai Ar*

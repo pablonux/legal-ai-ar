@@ -1,49 +1,49 @@
-# F12 - W05 - Backend - Upload Documentos a Blob Storage
+# F12 - W05 - Backend - Upload Documents to Blob Storage
 
-> **Feature:** F12 - Gestion de Expedientes
+> **Feature:** F12 - Case File Management
 > **Release:** 2.0 | **Sprint:** S05-S06
-> **Tipo:** backend | **Prioridad:** Alta
-> **Estimación:** 3 story points
-> **Asignable a:** Dev Fullstack (Backend)
+> **Type:** backend | **Priority:** High
+> **Estimate:** 3 story points
+> **Assignable to:** Fullstack Dev (Backend)
 
 ---
 
-## Descripción
+## Description
 
-Implementar upload/download de documentos a Azure Blob Storage para Gestion de Expedientes.
-
----
-
-## Tareas
-
-- [ ] Crear BlobStorageService en `Infrastructure/Storage/`
-- [ ] Implementar upload con nombre: `{container}/{id}/{guid}_{filename}`
-- [ ] Implementar download con SAS token de corta duración
-- [ ] Configurar container y access policy
-- [ ] Agregar connection string al Key Vault
-- [ ] Escribir tests con Azurite (emulador local)
+Implement document upload/download to Azure Blob Storage for Case File Management.
 
 ---
 
-## Criterios de Aceptación
+## Tasks
 
-- [ ] La funcionalidad implementada cumple con los criterios de aceptación del W01
-- [ ] Los tests pasan
-- [ ] El código está revisado por al menos 1 peer
+- [ ] Create BlobStorageService in `Infrastructure/Storage/`
+- [ ] Implement upload with name: `{container}/{id}/{guid}_{filename}`
+- [ ] Implement download with a short-lived SAS token
+- [ ] Configure the container and access policy
+- [ ] Add the connection string to Key Vault
+- [ ] Write tests with Azurite (local emulator)
 
 ---
 
-## Notas Técnicas
+## Acceptance Criteria
 
-- Framework: .NET 10 LTS con ASP.NET Core Minimal API
+- [ ] The implemented functionality meets the W01 acceptance criteria
+- [ ] Tests pass
+- [ ] The code is reviewed by at least 1 peer
+
+---
+
+## Technical Notes
+
+- Framework: .NET 10 LTS with ASP.NET Core Minimal API
 - ORM: Entity Framework Core 10
-- Validación: FluentValidation 12.x
-- Logging: Serilog con sink a Application Insights
-- Referir a la documentación integral (F12-W01) para modelo de datos y endpoints
+- Validation: FluentValidation 12.x
+- Logging: Serilog with an Application Insights sink
+- Refer to the comprehensive documentation (F12-W01) for the data model and endpoints
 
 ---
 
-## Archivos a Crear/Modificar
+## Files to Create/Modify
 
 ```
 src/Infrastructure/Storage/BlobStorageService.cs
@@ -53,10 +53,10 @@ tests/Infrastructure.Tests/Storage/BlobStorageServiceTests.cs
 
 ---
 
-## Dependencias
+## Dependencies
 
-- Depende de: F12-W01 (Documentación integral)
+- Depends on: F12-W01 (Comprehensive Documentation)
 
 ---
 
-*F12 - W05 - Backend - Upload Documentos a Blob Storage — Legal Ai Ar*
+*F12 - W05 - Backend - Upload Documents to Blob Storage — Legal Ai Ar*

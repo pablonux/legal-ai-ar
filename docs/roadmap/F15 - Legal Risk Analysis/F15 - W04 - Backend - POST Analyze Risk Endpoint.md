@@ -1,51 +1,51 @@
-# F15 - W04 - Backend - Endpoint POST Analizar Riesgo
+# F15 - W04 - Backend - POST Analyze Risk Endpoint
 
-> **Feature:** F15 - Analisis de Riesgo Legal
+> **Feature:** F15 - Legal Risk Analysis
 > **Release:** 3.0 | **Sprint:** S08-S09
-> **Tipo:** backend | **Prioridad:** Alta
-> **Estimación:** 3 story points
-> **Asignable a:** Dev Fullstack (Backend)
+> **Type:** backend | **Priority:** High
+> **Estimate:** 3 story points
+> **Assignable to:** Fullstack Dev (Backend)
 
 ---
 
-## Descripción
+## Description
 
-Implementar los endpoints de API para Analisis de Riesgo Legal usando ASP.NET Core 10 Minimal API.
-
----
-
-## Tareas
-
-- [ ] Crear DTOs de request y response en `Application/DTOs/`
-- [ ] Crear validadores con FluentValidation en `Application/Validators/`
-- [ ] Implementar service/handler en `Application/Services/`
-- [ ] Registrar endpoints en `Api/Endpoints/{Feature}Endpoints.cs`
-- [ ] Agregar autorización por rol donde corresponda
-- [ ] Documentar endpoints con `.WithOpenApi()`
-- [ ] Escribir tests unitarios del service
-- [ ] Escribir tests de integración de los endpoints
+Implement the API endpoints for Legal Risk Analysis using ASP.NET Core 10 Minimal API.
 
 ---
 
-## Criterios de Aceptación
+## Tasks
 
-- [ ] La funcionalidad implementada cumple con los criterios de aceptación del W01
-- [ ] Los tests pasan
-- [ ] El código está revisado por al menos 1 peer
+- [ ] Create request and response DTOs in `Application/DTOs/`
+- [ ] Create FluentValidation validators in `Application/Validators/`
+- [ ] Implement the service/handler in `Application/Services/`
+- [ ] Register the endpoints in `Api/Endpoints/{Feature}Endpoints.cs`
+- [ ] Add role-based authorization where applicable
+- [ ] Document the endpoints with `.WithOpenApi()`
+- [ ] Write unit tests for the service
+- [ ] Write integration tests for the endpoints
 
 ---
 
-## Notas Técnicas
+## Acceptance Criteria
 
-- Framework: .NET 10 LTS con ASP.NET Core Minimal API
+- [ ] The implemented functionality meets the W01 acceptance criteria
+- [ ] Tests pass
+- [ ] The code is reviewed by at least 1 peer
+
+---
+
+## Technical Notes
+
+- Framework: .NET 10 LTS with ASP.NET Core Minimal API
 - ORM: Entity Framework Core 10
-- Validación: FluentValidation 12.x
-- Logging: Serilog con sink a Application Insights
-- Referir a la documentación integral (F15-W01) para modelo de datos y endpoints
+- Validation: FluentValidation 12.x
+- Logging: Serilog with an Application Insights sink
+- Refer to the comprehensive documentation (F15-W01) for the data model and endpoints
 
 ---
 
-## Archivos a Crear/Modificar
+## Files to Create/Modify
 
 ```
 src/Application/DTOs/{Feature}Dto.cs
@@ -58,10 +58,10 @@ tests/Api.Tests/{Feature}EndpointTests.cs
 
 ---
 
-## Dependencias
+## Dependencies
 
-- Depende de: F15-W01 (Documentación integral)
+- Depends on: F15-W01 (Comprehensive Documentation)
 
 ---
 
-*F15 - W04 - Backend - Endpoint POST Analizar Riesgo — Legal Ai Ar*
+*F15 - W04 - Backend - POST Analyze Risk Endpoint — Legal Ai Ar*

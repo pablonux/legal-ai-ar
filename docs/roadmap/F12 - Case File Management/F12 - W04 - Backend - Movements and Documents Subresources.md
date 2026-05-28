@@ -1,57 +1,57 @@
-# F12 - W04 - Backend - Subrecursos Movimientos y Documentos
+# F12 - W04 - Backend - Movements and Documents Subresources
 
-> **Feature:** F12 - Gestion de Expedientes
+> **Feature:** F12 - Case File Management
 > **Release:** 2.0 | **Sprint:** S05-S06
-> **Tipo:** backend | **Prioridad:** Alta
-> **Estimación:** 3 story points
-> **Asignable a:** Dev Fullstack (Backend)
+> **Type:** backend | **Priority:** High
+> **Estimate:** 3 story points
+> **Assignable to:** Fullstack Dev (Backend)
 
 ---
 
-## Descripción
+## Description
 
-Implementar Backend - Subrecursos Movimientos y Documentos para la feature F12 - Gestion de Expedientes.
-
----
-
-## Tareas
-
-- [ ] Analizar los requerimientos del W01 (Documentación integral)
-- [ ] Implementar la lógica de negocio
-- [ ] Escribir tests unitarios
-- [ ] Escribir tests de integración
-- [ ] Documentar el código con XML comments
+Implement Movements and Documents Subresources for the Case File Management feature.
 
 ---
 
-## Criterios de Aceptación
+## Tasks
 
-- [ ] La funcionalidad implementada cumple con los criterios de aceptación del W01
-- [ ] Los tests pasan
-- [ ] El código está revisado por al menos 1 peer
+- [ ] Analizar los requerimientos del W01 (Comprehensive Documentation)
+- [ ] Implement the business logic
+- [ ] Write unit tests
+- [ ] Write integration tests
+- [ ] Document the code with XML comments
 
 ---
 
-## Notas Técnicas
+## Acceptance Criteria
 
-- Framework: .NET 10 LTS con ASP.NET Core Minimal API
+- [ ] The implemented functionality meets the W01 acceptance criteria
+- [ ] Tests pass
+- [ ] The code is reviewed by at least 1 peer
+
+---
+
+## Technical Notes
+
+- Framework: .NET 10 LTS with ASP.NET Core Minimal API
 - ORM: Entity Framework Core 10
-- Validación: FluentValidation 12.x
-- Logging: Serilog con sink a Application Insights
-- Referir a la documentación integral (F12-W01) para modelo de datos y endpoints
+- Validation: FluentValidation 12.x
+- Logging: Serilog with an Application Insights sink
+- Refer to the comprehensive documentation (F12-W01) for the data model and endpoints
 
 ---
 
-## Archivos a Crear/Modificar
+## Files to Create/Modify
 
-> Definir durante la implementación según la estructura del proyecto.
-
----
-
-## Dependencias
-
-- Depende de: F12-W01 (Documentación integral)
+> Define during implementation according to the project structure.
 
 ---
 
-*F12 - W04 - Backend - Subrecursos Movimientos y Documentos — Legal Ai Ar*
+## Dependencies
+
+- Depends on: F12-W01 (Comprehensive Documentation)
+
+---
+
+*F12 - W04 - Backend - Movements and Documents Subresources — Legal Ai Ar*

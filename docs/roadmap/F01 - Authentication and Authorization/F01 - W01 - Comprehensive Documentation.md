@@ -1,19 +1,19 @@
-# F01 - W01 - Documentacion Integral
+# F01 - W01 - Comprehensive Documentation
 
-> **Feature:** F01 - Autenticacion y Autorizacion
+> **Feature:** F01 - Authentication and Authorization
 > **Release:** 1.0 | **Sprint:** S01
-> **Tipo:** Documentación | **Prioridad:** Crítica (bloqueante)
-> **Estimación:** 3 story points
+> **Type:** Documentation | **Priority:** Critical (blocking)
+> **Estimate:** 3 story points
 
 ---
 
-## 1. Descripción General
+## 1. General Description
 
 Login con Microsoft Entra ID, roles (Abogado/Administrativo), guards de ruta, interceptors de auth.
 
 ---
 
-## 2. Diagrama de Arquitectura
+## 2. Architecture Diagram
 
 ```mermaid
 sequenceDiagram
@@ -40,7 +40,7 @@ sequenceDiagram
 
 ---
 
-## 3. Modelo de Datos
+## 3. Data Model
 
 ### Tablas (Azure SQL)
 
@@ -48,68 +48,68 @@ No se crean tablas nuevas para auth. Se usa Entra ID como IdP.
 
 **Tabla auxiliar: UsuarioPreferencias**
 
-| Columna | Tipo | Descripción |
+| Column | Type | Description |
 |---------|------|-------------|
 | Id | int (PK) | ID interno |
 | EntraObjectId | nvarchar(128) | Object ID de Entra ID |
-| Email | nvarchar(256) | Email del usuario |
+| Email | nvarchar(256) | User email |
 | Rol | nvarchar(50) | abogado / administrativo |
-| FechaUltimoAcceso | datetime2 | Último login |
+| LastAccessAt | datetime2 | Last login |
 | Preferencias | nvarchar(max) | JSON con preferencias de UI |
 
 ---
 
 ## 4. API Endpoints
 
-| Método | Endpoint | Request | Response | Auth |
+| Method | Endpoint | Request | Response | Auth |
 |--------|----------|---------|----------|------|
 | GET | `/api/auth/me` | - | `{email, nombre, rol, permisos[]}` | Bearer |
 | GET | `/api/auth/permisos` | - | `{modulos: [{nombre, lectura, escritura}]}` | Bearer |
 
 ---
 
-## 5. Descripción de UI / UX
+## 5. UI / UX Description
 
 ### Pantallas
 
-1. **Login Page:** Página minimal con logo del estudio + botón "Iniciar sesión con Microsoft". Redirect a Entra ID.
+1. **Login Page:** Minimal page with the firm logo + an "Iniciar sesión con Microsoft" button. Redirects to Entra ID.
 2. **Loading:** Spinner mientras se valida el token post-redirect.
-3. **Error 403:** Página de "Acceso denegado" con mensaje amigable y botón para volver al dashboard.
+3. **Error 403:** "Acceso denegado" page with a friendly message and a button to return to the dashboard.
 
-### Flujo de usuario
+### User flow
 ```
 [Landing] → [Click "Iniciar sesión"] → [Entra ID login] → [Redirect callback] → [Dashboard]
 ```
 
 ---
 
-## 6. Criterios de Aceptación
+## 6. Acceptance Criteria
 
 - [ ] El login con Entra ID funciona correctamente (redirect y callback)
-- [ ] El token JWT se incluye automáticamente en cada request HTTP
-- [ ] Las rutas protegidas redirigen a login si no hay sesión
-- [ ] Un usuario con rol "abogado" puede acceder a todas las rutas
-- [ ] Un usuario con rol "administrativo" NO puede acceder a rutas de agentes IA ni análisis de riesgo
-- [ ] El token se refresca automáticamente antes de expirar
+- [ ] The JWT token is automatically included in every HTTP request
+- [ ] Protected routes redirect to login if there is no session
+- [ ] A user with the "abogado" role can access all routes
+- [ ] A user with the "administrativo" role can NOT access AI agent or risk analysis routes
+- [ ] The token refreshes automatically before expiring
 - [ ] El logout limpia el estado y redirige a la pantalla de login
 - [ ] Si el backend devuelve 401, el interceptor redirige a login
-- [ ] Si el backend devuelve 403, se muestra un mensaje de "Acceso denegado"
+- [ ] If the backend returns 403, an "Acceso denegado" message is shown
 
 ---
 
-## 7. Dependencias
+## 7. Dependencies
 
-- **Bloquea:** Todas las demás features (auth es prerrequisito universal)
-- **Prerrequisitos:** Tenant de Entra ID configurado con App Registration
+- **Blocks:** All other features (auth is a universal prerequisite)
+- **Prerequisites:** Tenant de Entra ID configurado con App Registration
 - **NuGet:** Microsoft.Identity.Web, Microsoft.AspNetCore.Authentication.JwtBearer
 - **npm:** @azure/msal-angular, @azure/msal-browser
 
 ---
 
-## 8. Notas Técnicas
+## 8. Technical Notes
 
-- Usar `Microsoft.Identity.Web` v3.x para validación de JWT en .NET 10
-- MSAL Angular v4.x con configuración de scopes para la API
+- Validate the `id_token` cookie JWT against Entra OIDC (`Auth:Platform`) in .NET 10
+- The SPA uses the platform session cookie with `withCredentials` (no MSAL)
 - Almacenar tokens en sessionStorage (no localStorage) por seguridad
 - Los roles se configuran como App Roles en Entra ID y llegan como claims en el JWT
 - El `AuthInterceptor` debe manejar el refresh silencioso del token
@@ -117,33 +117,33 @@ No se crean tablas nuevas para auth. Se usa Entra ID como IdP.
 
 ---
 
-## 9. Work Items de esta Feature
+## 9. Work Items of this Feature
 
-| ID | Nombre | Tipo | Sprint |
+| ID | Name | Type | Sprint |
 |----|--------|------|--------|
-| F01-W01 | Documentacion Integral | doc | S01 |
-| F01-W02 | Backend - Configuracion Entra ID y JWT | backend | S01 |
-| F01-W03 | Backend - Middleware de Autorizacion por Rol | backend | S01 |
-| F01-W04 | Frontend - MSAL Angular Setup y AuthService | frontend | S01 |
-| F01-W05 | Frontend - AuthGuard y RoleGuard | frontend | S01 |
-| F01-W06 | Frontend - AuthInterceptor y ErrorInterceptor | frontend | S01 |
-| F01-W07 | Testing - Tests de Autenticacion E2E | testing | S01 |
+| F01-W01 | Comprehensive Documentation | doc | S01 |
+| F01-W02 | Backend - Entra ID and JWT Configuration | backend | S01 |
+| F01-W03 | Backend - Role-Based Authorization Middleware | backend | S01 |
+| F01-W04 | Frontend - MSAL Angular Setup and AuthService | frontend | S01 |
+| F01-W05 | Frontend - AuthGuard and RoleGuard | frontend | S01 |
+| F01-W06 | Frontend - AuthInterceptor and ErrorInterceptor | frontend | S01 |
+| F01-W07 | Testing - E2E Authentication Tests | testing | S01 |
 
 ---
 
 ## 10. Definition of Done
 
-- [ ] Código revisado por al menos 1 peer (PR aprobado)
-- [ ] Tests unitarios con cobertura > 80%
-- [ ] Tests de integración para endpoints
-- [ ] Sin errores en build de CI
-- [ ] Documentación de API actualizada (Swagger/OpenAPI)
-- [ ] Componentes Angular documentados con JSDoc
-- [ ] Accesibilidad validada (WCAG 2.1 AA)
-- [ ] Responsive verificado en desktop y tablet
-- [ ] Performance: tiempo de carga < 3 seg, API response < 2 seg
-- [ ] Feature flag configurado (si aplica)
+- [ ] Code reviewed by at least 1 peer (PR approved)
+- [ ] Unit tests with > 80% coverage
+- [ ] Integration tests for endpoints
+- [ ] No errors in the CI build
+- [ ] API documentation updated (Swagger/OpenAPI)
+- [ ] Angular components documented with JSDoc
+- [ ] Accessibility validated (WCAG 2.1 AA)
+- [ ] Responsive verified on desktop and tablet
+- [ ] Performance: load time < 3 sec, API response < 2 sec
+- [ ] Feature flag configured (if applicable)
 
 ---
 
-*F01 - Autenticacion y Autorizacion — Documentación integral — Legal Ai Ar*
+*F01 - Authentication and Authorization — Comprehensive Documentation — Legal Ai Ar*

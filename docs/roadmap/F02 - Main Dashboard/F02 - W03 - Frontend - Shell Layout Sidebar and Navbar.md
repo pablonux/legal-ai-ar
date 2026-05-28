@@ -1,52 +1,52 @@
-# F02 - W03 - Frontend - Layout Shell Sidebar y Navbar
+# F02 - W03 - Frontend - Shell Layout Sidebar and Navbar
 
-> **Feature:** F02 - Dashboard Principal
+> **Feature:** F02 - Main Dashboard
 > **Release:** 1.0 | **Sprint:** S02
-> **Tipo:** frontend | **Prioridad:** Alta
-> **Estimación:** 5 story points
-> **Asignable a:** Dev Fullstack (Frontend)
+> **Type:** frontend | **Priority:** High
+> **Estimate:** 5 story points
+> **Assignable to:** Fullstack Dev (Frontend)
 
 ---
 
-## Descripción
+## Description
 
-Implementar el layout principal de la aplicación: shell con sidebar navegable, navbar con info de usuario y notificaciones, footer.
+Implement the application's main layout: shell with a navigable sidebar, navbar with user info and notifications, footer.
 
 ---
 
-## Tareas
+## Tasks
 
-- [ ] Crear `LayoutComponent` (shell principal) como standalone component
-- [ ] Crear `SidebarComponent` con navegación por feature (lazy routes)
-- [ ] Crear `NavbarComponent` con: logo, usuario logueado, badge notificaciones, tema claro/oscuro
-- [ ] Crear `FooterComponent` minimal
-- [ ] Implementar responsive: sidebar colapsable en tablet
-- [ ] Configurar rutas lazy-loaded por feature module
+- [ ] Create `LayoutComponent` (main shell) as a standalone component
+- [ ] Create `SidebarComponent` with per-feature navigation (lazy routes)
+- [ ] Create `NavbarComponent` with: logo, logged-in user, notifications badge, light/dark theme
+- [ ] Create a minimal `FooterComponent`
+- [ ] Implement responsive: collapsible sidebar on tablet
+- [ ] Configure lazy-loaded routes per feature module
 - [ ] Integrar con AuthService para mostrar nombre y rol del usuario
 
 ---
 
-## Criterios de Aceptación
+## Acceptance Criteria
 
-- [ ] El componente renderiza correctamente en desktop (>1200px) y tablet (768-1200px)
-- [ ] Los estados de loading, error y empty se manejan correctamente
-- [ ] La accesibilidad cumple WCAG 2.1 AA (verificar con axe DevTools)
-- [ ] Los tests unitarios cubren > 80% del componente
-- [ ] El componente es standalone y reutilizable donde corresponda
+- [ ] The component renders correctly on desktop (>1200px) and tablet (768-1200px)
+- [ ] The loading, error, and empty states are handled correctly
+- [ ] Accessibility meets WCAG 2.1 AA (verify with axe DevTools)
+- [ ] Unit tests cover > 80% of the component
+- [ ] The component is standalone and reusable where applicable
 
 ---
 
-## Notas Técnicas
+## Technical Notes
 
-- Angular 19 con standalone components (sin NgModules)
-- State management: Angular Signals + NgRx Signal Store para estado global
+- Angular 19 with standalone components (no NgModules)
+- State management: Angular Signals + NgRx Signal Store for global state
 - UI: Angular Material 19 + Tailwind CSS 4
-- Formularios: Typed Reactive Forms
-- Referir a la documentación integral (F02-W01) para mockups y criterios de aceptación
+- Forms: Typed Reactive Forms
+- Refer to the comprehensive documentation (F02-W01) for mockups and acceptance criteria
 
 ---
 
-## Archivos a Crear/Modificar
+## Files to Create/Modify
 
 ```
 src/app/layout/layout.component.ts
@@ -58,10 +58,10 @@ src/app/app.routes.ts (modificar)
 
 ---
 
-## Dependencias
+## Dependencies
 
-- Depende de: F02-W01 (Documentación integral)
+- Depends on: F02-W01 (Comprehensive Documentation)
 
 ---
 
-*F02 - W03 - Frontend - Layout Shell Sidebar y Navbar — Legal Ai Ar*
+*F02 - W03 - Frontend - Shell Layout Sidebar and Navbar — Legal Ai Ar*

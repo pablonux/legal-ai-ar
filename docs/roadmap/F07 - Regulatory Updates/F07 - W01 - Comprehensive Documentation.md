@@ -1,19 +1,19 @@
-# F07 - W01 - Documentacion Integral
+# F07 - W01 - Comprehensive Documentation
 
-> **Feature:** F07 - Novedades Normativas
+> **Feature:** F07 - Regulatory Updates
 > **Release:** 1.0 | **Sprint:** S04
-> **Tipo:** Documentación | **Prioridad:** Crítica (bloqueante)
-> **Estimación:** 3 story points
+> **Type:** Documentation | **Priority:** Critical (blocking)
+> **Estimate:** 3 story points
 
 ---
 
-## 1. Descripción General
+## 1. General Description
 
-Feed cronológico de nuevas normas y modificaciones detectadas por el pipeline de ingesta. Suscripción a alertas por rama.
+Chronological feed of new norms and amendments detected by the ingestion pipeline. Alert subscription by branch.
 
 ---
 
-## 2. Diagrama de Arquitectura
+## 2. Architecture Diagram
 
 ```mermaid
 graph TB
@@ -30,82 +30,82 @@ graph TB
 
 ---
 
-## 3. Modelo de Datos
+## 3. Data Model
 
-> Definir modelo de datos específico durante la implementación del W01.
-> Referir a la ontología en `docs/ontologia/ontologia_legal_argentina.md` para las clases base.
+> Define the specific data model during the W01 implementation.
+> Refer to the ontology in `docs/ontology/argentine-legal-ontology.md` for the base classes.
 
 ---
 
 ## 4. API Endpoints
 
-> Los endpoints específicos se definirán en base al documento de features: `docs/roadmap/features.md`, sección API Endpoints.
+> The specific endpoints will be defined based on the features document: `docs/roadmap/features.md`, API Endpoints section.
 
 ---
 
-## 5. Descripción de UI / UX
+## 5. UI / UX Description
 
-> Definir mockups de UI durante la implementación. Seguir las guidelines de Angular Material 19 + Tailwind CSS 4.
-> Referir a `docs/roadmap/features.md` para la descripción funcional de la UI.
-
----
-
-## 6. Criterios de Aceptación
-
-- [ ] La funcionalidad descrita en la sección de Descripción está completamente implementada
-- [ ] Los endpoints de API retornan los datos esperados
-- [ ] La UI es responsive y funcional en desktop y tablet
-- [ ] Los tests unitarios cubren > 80% del código nuevo
-- [ ] El build de CI pasa sin errores
-- [ ] La funcionalidad es accesible (WCAG 2.1 AA)
+> Define the UI mockups during implementation. Follow the Angular Material 19 + Tailwind CSS 4 guidelines.
+> Refer to `docs/roadmap/features.md` for the functional UI description.
 
 ---
 
-## 7. Dependencias
+## 6. Acceptance Criteria
 
-- **Depende de:** F01 (Auth)
-- **Referir a features.md** para dependencias detalladas entre features
+- [ ] The functionality described in the Description section is fully implemented
+- [ ] The API endpoints return the expected data
+- [ ] The UI is responsive and functional on desktop and tablet
+- [ ] Unit tests cover > 80% of the new code
+- [ ] The CI build passes with no errors
+- [ ] The functionality is accessible (WCAG 2.1 AA)
 
 ---
 
-## 8. Notas Técnicas
+## 7. Dependencies
+
+- **Depends on:** F01 (Auth)
+- **Refer to features.md** for detailed dependencies between features
+
+---
+
+## 8. Technical Notes
 
 - Stack: Angular 19 (standalone components, signals) + .NET 10 Minimal API
-- Base de datos: Azure SQL con EF Core 10 + Graph Tables
-- Búsqueda: Azure AI Search con scoring híbrido
-- Auth: Microsoft Entra ID con MSAL Angular + Microsoft.Identity.Web
-- Comunicación real-time: SignalR
-- Storage: Azure Blob Storage para documentos
-- Referir a la ontología (`docs/ontologia/ontologia_legal_argentina.md`) para el modelo de dominio
+- Database: Azure SQL with EF Core 10 + Graph Tables
+- Search: Azure AI Search with hybrid scoring
+- Auth: platform-managed Microsoft Entra SSO via `id_token` cookie (no MSAL); the API validates it (`Auth:Platform`)
+- Real-time communication: SignalR
+- Storage: Azure Blob Storage for documents
+- Refer to the ontology (`docs/ontology/argentine-legal-ontology.md`) for the domain model
 
 ---
 
-## 9. Work Items de esta Feature
+## 9. Work Items of this Feature
 
-| ID | Nombre | Tipo | Sprint |
+| ID | Name | Type | Sprint |
 |----|--------|------|--------|
-| F07-W01 | Documentacion Integral | doc | S04 |
-| F07-W02 | Backend - Azure Function Timer Trigger Boletin Oficial | backend | S04 |
-| F07-W03 | Backend - Endpoint GET Novedades y SignalR Push | backend | S04 |
-| F07-W04 | Frontend - Pagina Feed de Novedades | frontend | S04 |
-| F07-W05 | Frontend - Suscripcion a Alertas por Rama | frontend | S04 |
-| F07-W06 | Testing - Tests de Novedades | testing | S04 |
+| F07-W01 | Comprehensive Documentation | doc | S04 |
+| F07-W02 | Backend - Azure Function Timer Trigger Official Gazette | backend | S04 |
+| F07-W03 | Backend - GET Updates and SignalR Push Endpoint | backend | S04 |
+| F07-W04 | Frontend - Updates Feed Page | frontend | S04 |
+| F07-W05 | Frontend - Alert Subscription by Law Branch | frontend | S04 |
+| F07-W06 | Testing - Updates Tests | testing | S04 |
 
 ---
 
 ## 10. Definition of Done
 
-- [ ] Código revisado por al menos 1 peer (PR aprobado)
-- [ ] Tests unitarios con cobertura > 80%
-- [ ] Tests de integración para endpoints
-- [ ] Sin errores en build de CI
-- [ ] Documentación de API actualizada (Swagger/OpenAPI)
-- [ ] Componentes Angular documentados con JSDoc
-- [ ] Accesibilidad validada (WCAG 2.1 AA)
-- [ ] Responsive verificado en desktop y tablet
-- [ ] Performance: tiempo de carga < 3 seg, API response < 2 seg
-- [ ] Feature flag configurado (si aplica)
+- [ ] Code reviewed by at least 1 peer (PR approved)
+- [ ] Unit tests with > 80% coverage
+- [ ] Integration tests for endpoints
+- [ ] No errors in the CI build
+- [ ] API documentation updated (Swagger/OpenAPI)
+- [ ] Angular components documented with JSDoc
+- [ ] Accessibility validated (WCAG 2.1 AA)
+- [ ] Responsive verified on desktop and tablet
+- [ ] Performance: load time < 3 sec, API response < 2 sec
+- [ ] Feature flag configured (if applicable)
 
 ---
 
-*F07 - Novedades Normativas — Documentación integral — Legal Ai Ar*
+*F07 - Regulatory Updates — Comprehensive Documentation — Legal Ai Ar*

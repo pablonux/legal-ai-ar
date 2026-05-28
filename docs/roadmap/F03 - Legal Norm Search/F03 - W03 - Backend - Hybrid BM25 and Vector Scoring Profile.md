@@ -1,57 +1,57 @@
-# F03 - W03 - Backend - Scoring Profile Hibrido BM25 y Vectores
+# F03 - W03 - Backend - Hybrid BM25 and Vector Scoring Profile
 
-> **Feature:** F03 - Busqueda de Normas
+> **Feature:** F03 - Legal Norm Search
 > **Release:** 1.0 | **Sprint:** S02-S03
-> **Tipo:** backend | **Prioridad:** Alta
-> **Estimación:** 5 story points
-> **Asignable a:** Dev Fullstack (Backend)
+> **Type:** backend | **Priority:** High
+> **Estimate:** 5 story points
+> **Assignable to:** Fullstack Dev (Backend)
 
 ---
 
-## Descripción
+## Description
 
-Implementar Backend - Scoring Profile Hibrido BM25 y Vectores para la feature F03 - Busqueda de Normas.
-
----
-
-## Tareas
-
-- [ ] Analizar los requerimientos del W01 (Documentación integral)
-- [ ] Implementar la lógica de negocio
-- [ ] Escribir tests unitarios
-- [ ] Escribir tests de integración
-- [ ] Documentar el código con XML comments
+Implement Hybrid BM25 and Vector Scoring Profile for the Legal Norm Search feature.
 
 ---
 
-## Criterios de Aceptación
+## Tasks
 
-- [ ] La funcionalidad implementada cumple con los criterios de aceptación del W01
-- [ ] Los tests pasan
-- [ ] El código está revisado por al menos 1 peer
+- [ ] Analizar los requerimientos del W01 (Comprehensive Documentation)
+- [ ] Implement the business logic
+- [ ] Write unit tests
+- [ ] Write integration tests
+- [ ] Document the code with XML comments
 
 ---
 
-## Notas Técnicas
+## Acceptance Criteria
 
-- Framework: .NET 10 LTS con ASP.NET Core Minimal API
+- [ ] The implemented functionality meets the W01 acceptance criteria
+- [ ] Tests pass
+- [ ] The code is reviewed by at least 1 peer
+
+---
+
+## Technical Notes
+
+- Framework: .NET 10 LTS with ASP.NET Core Minimal API
 - ORM: Entity Framework Core 10
-- Validación: FluentValidation 12.x
-- Logging: Serilog con sink a Application Insights
-- Referir a la documentación integral (F03-W01) para modelo de datos y endpoints
+- Validation: FluentValidation 12.x
+- Logging: Serilog with an Application Insights sink
+- Refer to the comprehensive documentation (F03-W01) for the data model and endpoints
 
 ---
 
-## Archivos a Crear/Modificar
+## Files to Create/Modify
 
-> Definir durante la implementación según la estructura del proyecto.
-
----
-
-## Dependencias
-
-- Depende de: F03-W01 (Documentación integral)
+> Define during implementation according to the project structure.
 
 ---
 
-*F03 - W03 - Backend - Scoring Profile Hibrido BM25 y Vectores — Legal Ai Ar*
+## Dependencies
+
+- Depends on: F03-W01 (Comprehensive Documentation)
+
+---
+
+*F03 - W03 - Backend - Hybrid BM25 and Vector Scoring Profile — Legal Ai Ar*

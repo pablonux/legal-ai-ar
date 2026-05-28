@@ -1,54 +1,54 @@
-# F08 - W05 - Frontend - Chat UI con Markdown Rendering
+# F08 - W05 - Frontend - Chat UI with Markdown Rendering
 
-> **Feature:** F08 - Chat con Agentes IA
+> **Feature:** F08 - AI Agent Chat
 > **Release:** 2.0 | **Sprint:** S05-S06
-> **Tipo:** frontend | **Prioridad:** Alta
-> **Estimación:** 3 story points
-> **Asignable a:** Dev Fullstack (Frontend)
+> **Type:** frontend | **Priority:** High
+> **Estimate:** 3 story points
+> **Assignable to:** Fullstack Dev (Frontend)
 
 ---
 
-## Descripción
+## Description
 
-Implementar la interfaz de chat con los agentes IA. Soporte para markdown, streaming de respuestas y fuentes citadas.
+Implement the chat interface with the AI agents. Support for markdown, response streaming, and cited sources.
 
 ---
 
-## Tareas
+## Tasks
 
-- [ ] Crear `ChatComponent` con área de mensajes y input
-- [ ] Implementar rendering de markdown con ngx-markdown
-- [ ] Soportar streaming de respuesta (tokens aparecen progresivamente)
+- [ ] Create `ChatComponent` with a message area and input
+- [ ] Implement markdown rendering with ngx-markdown
+- [ ] Support response streaming (tokens appear progressively)
 - [ ] Mostrar indicador de "pensando" mientras el agente procesa
 - [ ] Renderizar fuentes citadas como chips clickeables al final de cada respuesta
-- [ ] Implementar scroll automático al nuevo mensaje
-- [ ] Soportar Ctrl+Enter para enviar
-- [ ] Botón "Copiar" por mensaje
-- [ ] Escribir tests unitarios
+- [ ] Implement auto-scroll to the new message
+- [ ] Support Ctrl+Enter to send
+- [ ] Per-message "Copy" button
+- [ ] Write unit tests
 
 ---
 
-## Criterios de Aceptación
+## Acceptance Criteria
 
-- [ ] El componente renderiza correctamente en desktop (>1200px) y tablet (768-1200px)
-- [ ] Los estados de loading, error y empty se manejan correctamente
-- [ ] La accesibilidad cumple WCAG 2.1 AA (verificar con axe DevTools)
-- [ ] Los tests unitarios cubren > 80% del componente
-- [ ] El componente es standalone y reutilizable donde corresponda
+- [ ] The component renders correctly on desktop (>1200px) and tablet (768-1200px)
+- [ ] The loading, error, and empty states are handled correctly
+- [ ] Accessibility meets WCAG 2.1 AA (verify with axe DevTools)
+- [ ] Unit tests cover > 80% of the component
+- [ ] The component is standalone and reusable where applicable
 
 ---
 
-## Notas Técnicas
+## Technical Notes
 
-- Angular 19 con standalone components (sin NgModules)
-- State management: Angular Signals + NgRx Signal Store para estado global
+- Angular 19 with standalone components (no NgModules)
+- State management: Angular Signals + NgRx Signal Store for global state
 - UI: Angular Material 19 + Tailwind CSS 4
-- Formularios: Typed Reactive Forms
-- Referir a la documentación integral (F08-W01) para mockups y criterios de aceptación
+- Forms: Typed Reactive Forms
+- Refer to the comprehensive documentation (F08-W01) for mockups and acceptance criteria
 
 ---
 
-## Archivos a Crear/Modificar
+## Files to Create/Modify
 
 ```
 src/app/features/agentes/chat/chat.component.ts
@@ -60,10 +60,10 @@ src/app/features/agentes/services/chat.service.ts
 
 ---
 
-## Dependencias
+## Dependencies
 
-- Depende de: F08-W01 (Documentación integral)
+- Depends on: F08-W01 (Comprehensive Documentation)
 
 ---
 
-*F08 - W05 - Frontend - Chat UI con Markdown Rendering — Legal Ai Ar*
+*F08 - W05 - Frontend - Chat UI with Markdown Rendering — Legal Ai Ar*

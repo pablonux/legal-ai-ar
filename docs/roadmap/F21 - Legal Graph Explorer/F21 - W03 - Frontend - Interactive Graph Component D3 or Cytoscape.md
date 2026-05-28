@@ -1,54 +1,54 @@
-# F21 - W03 - Frontend - Componente Grafo Interactivo D3 o Cytoscape
+# F21 - W03 - Frontend - Interactive Graph Component D3 or Cytoscape
 
-> **Feature:** F21 - Explorador de Grafo Legal
+> **Feature:** F21 - Legal Graph Explorer
 > **Release:** 4.0 | **Sprint:** S11
-> **Tipo:** frontend | **Prioridad:** Alta
-> **Estimación:** 5 story points
-> **Asignable a:** Dev Fullstack (Frontend)
+> **Type:** frontend | **Priority:** High
+> **Estimate:** 5 story points
+> **Assignable to:** Fullstack Dev (Frontend)
 
 ---
 
-## Descripción
+## Description
 
-Implementar visualización interactiva de grafo de relaciones legales usando D3.js o Cytoscape.js.
+Implement an interactive legal relationship graph visualization using D3.js or Cytoscape.js.
 
 ---
 
-## Tareas
+## Tasks
 
 - [ ] Evaluar D3.js force-directed vs Cytoscape.js (elegir uno)
-- [ ] Crear componente Angular wrapper para la librería elegida
-- [ ] Implementar rendering de nodos coloreados por tipo
-- [ ] Implementar rendering de edges etiquetados por tipo de relación
-- [ ] Soportar zoom, pan y drag de nodos
-- [ ] Implementar click en nodo para mostrar detalle
-- [ ] Implementar expansión de nodo (cargar vecinos on-demand)
+- [ ] Create an Angular wrapper component for the chosen library
+- [ ] Implement rendering of nodes colored by type
+- [ ] Implement rendering of edges labeled by relationship type
+- [ ] Support zoom, pan, and node drag
+- [ ] Implement node click to show detail
+- [ ] Implement node expansion (load neighbors on-demand)
 - [ ] Optimizar para grafos de hasta 200 nodos
-- [ ] Escribir tests
+- [ ] Write tests
 
 ---
 
-## Criterios de Aceptación
+## Acceptance Criteria
 
-- [ ] El componente renderiza correctamente en desktop (>1200px) y tablet (768-1200px)
-- [ ] Los estados de loading, error y empty se manejan correctamente
-- [ ] La accesibilidad cumple WCAG 2.1 AA (verificar con axe DevTools)
-- [ ] Los tests unitarios cubren > 80% del componente
-- [ ] El componente es standalone y reutilizable donde corresponda
+- [ ] The component renders correctly on desktop (>1200px) and tablet (768-1200px)
+- [ ] The loading, error, and empty states are handled correctly
+- [ ] Accessibility meets WCAG 2.1 AA (verify with axe DevTools)
+- [ ] Unit tests cover > 80% of the component
+- [ ] The component is standalone and reusable where applicable
 
 ---
 
-## Notas Técnicas
+## Technical Notes
 
-- Angular 19 con standalone components (sin NgModules)
-- State management: Angular Signals + NgRx Signal Store para estado global
+- Angular 19 with standalone components (no NgModules)
+- State management: Angular Signals + NgRx Signal Store for global state
 - UI: Angular Material 19 + Tailwind CSS 4
-- Formularios: Typed Reactive Forms
-- Referir a la documentación integral (F21-W01) para mockups y criterios de aceptación
+- Forms: Typed Reactive Forms
+- Refer to the comprehensive documentation (F21-W01) for mockups and acceptance criteria
 
 ---
 
-## Archivos a Crear/Modificar
+## Files to Create/Modify
 
 ```
 src/app/shared/components/legal-graph/legal-graph.component.ts
@@ -59,10 +59,10 @@ src/app/shared/components/legal-graph/legal-graph.component.spec.ts
 
 ---
 
-## Dependencias
+## Dependencies
 
-- Depende de: F21-W01 (Documentación integral)
+- Depends on: F21-W01 (Comprehensive Documentation)
 
 ---
 
-*F21 - W03 - Frontend - Componente Grafo Interactivo D3 o Cytoscape — Legal Ai Ar*
+*F21 - W03 - Frontend - Interactive Graph Component D3 or Cytoscape — Legal Ai Ar*

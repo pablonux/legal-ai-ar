@@ -1,52 +1,52 @@
-# F03 - W05 - Frontend - SearchBar con Autocompletado
+# F03 - W05 - Frontend - SearchBar with Autocomplete
 
-> **Feature:** F03 - Busqueda de Normas
+> **Feature:** F03 - Legal Norm Search
 > **Release:** 1.0 | **Sprint:** S02-S03
-> **Tipo:** frontend | **Prioridad:** Alta
-> **Estimación:** 3 story points
-> **Asignable a:** Dev Fullstack (Frontend)
+> **Type:** frontend | **Priority:** High
+> **Estimate:** 3 story points
+> **Assignable to:** Fullstack Dev (Frontend)
 
 ---
 
-## Descripción
+## Description
 
-Implementar componente SearchBar reutilizable con autocompletado (debounce 300ms) y soporte para búsqueda por Enter o click.
+Implement a reusable SearchBar component with autocomplete (300ms debounce) and support for search by Enter or click.
 
 ---
 
-## Tareas
+## Tasks
 
-- [ ] Crear `SearchBarComponent` como standalone component en `shared/components/`
-- [ ] Implementar autocompletado con `MatAutocomplete` y debounce 300ms
+- [ ] Create `SearchBarComponent` as a standalone component in `shared/components/`
+- [ ] Implement autocomplete with `MatAutocomplete` and a 300ms debounce
 - [ ] Conectar al endpoint de sugerencias (`/api/buscar/sugerencias`)
 - [ ] Emitir evento `search` con el query al presionar Enter o click en buscar
-- [ ] Soportar placeholder configurable via @Input
-- [ ] Agregar loading spinner mientras carga sugerencias
-- [ ] Escribir tests unitarios del componente
+- [ ] Support a configurable placeholder via @Input
+- [ ] Add a loading spinner while suggestions load
+- [ ] Write unit tests del componente
 
 ---
 
-## Criterios de Aceptación
+## Acceptance Criteria
 
-- [ ] El componente renderiza correctamente en desktop (>1200px) y tablet (768-1200px)
-- [ ] Los estados de loading, error y empty se manejan correctamente
-- [ ] La accesibilidad cumple WCAG 2.1 AA (verificar con axe DevTools)
-- [ ] Los tests unitarios cubren > 80% del componente
-- [ ] El componente es standalone y reutilizable donde corresponda
+- [ ] The component renders correctly on desktop (>1200px) and tablet (768-1200px)
+- [ ] The loading, error, and empty states are handled correctly
+- [ ] Accessibility meets WCAG 2.1 AA (verify with axe DevTools)
+- [ ] Unit tests cover > 80% of the component
+- [ ] The component is standalone and reusable where applicable
 
 ---
 
-## Notas Técnicas
+## Technical Notes
 
-- Angular 19 con standalone components (sin NgModules)
-- State management: Angular Signals + NgRx Signal Store para estado global
+- Angular 19 with standalone components (no NgModules)
+- State management: Angular Signals + NgRx Signal Store for global state
 - UI: Angular Material 19 + Tailwind CSS 4
-- Formularios: Typed Reactive Forms
-- Referir a la documentación integral (F03-W01) para mockups y criterios de aceptación
+- Forms: Typed Reactive Forms
+- Refer to the comprehensive documentation (F03-W01) for mockups and acceptance criteria
 
 ---
 
-## Archivos a Crear/Modificar
+## Files to Create/Modify
 
 ```
 src/app/shared/components/search-bar/search-bar.component.ts
@@ -56,10 +56,10 @@ src/app/shared/components/search-bar/search-bar.component.spec.ts
 
 ---
 
-## Dependencias
+## Dependencies
 
-- Depende de: F03-W01 (Documentación integral)
+- Depends on: F03-W01 (Comprehensive Documentation)
 
 ---
 
-*F03 - W05 - Frontend - SearchBar con Autocompletado — Legal Ai Ar*
+*F03 - W05 - Frontend - SearchBar with Autocomplete — Legal Ai Ar*

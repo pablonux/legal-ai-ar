@@ -1,50 +1,50 @@
-# F10 - W02 - Backend - Plugin AgenteJurisprudencial Functions
+# F10 - W02 - Backend - CaseLawAgent Plugin Functions
 
-> **Feature:** F10 - Agente Jurisprudencial
+> **Feature:** F10 - Case Law Agent
 > **Release:** 2.0 | **Sprint:** S06-S07
-> **Tipo:** backend | **Prioridad:** Alta
-> **Estimación:** 5 story points
-> **Asignable a:** Dev Fullstack (Backend)
+> **Type:** backend | **Priority:** High
+> **Estimate:** 5 story points
+> **Assignable to:** Fullstack Dev (Backend)
 
 ---
 
-## Descripción
+## Description
 
-Implementar el plugin de Semantic Kernel para Agente Jurisprudencial. Incluye native functions, prompts semánticos y configuración de connectors.
+Implement the Semantic Kernel plugin for Case Law Agent. Includes native functions, semantic prompts, and connector configuration.
 
 ---
 
-## Tareas
+## Tasks
 
-- [ ] Crear clase del plugin en `Application/Agents/Plugins/`
-- [ ] Implementar native functions con atributo `[KernelFunction]`
-- [ ] Crear prompts semánticos en `Application/Agents/Prompts/`
+- [ ] Create the plugin class in `Application/Agents/Plugins/`
+- [ ] Implement native functions with the `[KernelFunction]` attribute
+- [ ] Create semantic prompts in `Application/Agents/Prompts/`
 - [ ] Registrar plugin en el Kernel builder
-- [ ] Configurar connectors (AI Search, SQL, OpenAI)
-- [ ] Escribir tests unitarios con mock del Kernel
+- [ ] Configure connectors (AI Search, SQL, OpenAI)
+- [ ] Write unit tests con mock del Kernel
 - [ ] Validar respuestas con el set de consultas tipificadas
 
 ---
 
-## Criterios de Aceptación
+## Acceptance Criteria
 
-- [ ] La funcionalidad implementada cumple con los criterios de aceptación del W01
-- [ ] Los tests pasan
-- [ ] El código está revisado por al menos 1 peer
+- [ ] The implemented functionality meets the W01 acceptance criteria
+- [ ] Tests pass
+- [ ] The code is reviewed by at least 1 peer
 
 ---
 
-## Notas Técnicas
+## Technical Notes
 
-- Framework: .NET 10 LTS con ASP.NET Core Minimal API
+- Framework: .NET 10 LTS with ASP.NET Core Minimal API
 - ORM: Entity Framework Core 10
-- Validación: FluentValidation 12.x
-- Logging: Serilog con sink a Application Insights
-- Referir a la documentación integral (F10-W01) para modelo de datos y endpoints
+- Validation: FluentValidation 12.x
+- Logging: Serilog with an Application Insights sink
+- Refer to the comprehensive documentation (F10-W01) for the data model and endpoints
 
 ---
 
-## Archivos a Crear/Modificar
+## Files to Create/Modify
 
 ```
 src/Application/Agents/Plugins/{Agente}Plugin.cs
@@ -55,10 +55,10 @@ tests/Application.Tests/Agents/{Agente}PluginTests.cs
 
 ---
 
-## Dependencias
+## Dependencies
 
-- Depende de: F10-W01 (Documentación integral)
+- Depends on: F10-W01 (Comprehensive Documentation)
 
 ---
 
-*F10 - W02 - Backend - Plugin AgenteJurisprudencial Functions — Legal Ai Ar*
+*F10 - W02 - Backend - CaseLawAgent Plugin Functions — Legal Ai Ar*

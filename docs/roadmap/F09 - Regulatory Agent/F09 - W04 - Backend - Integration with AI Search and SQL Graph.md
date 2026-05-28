@@ -1,51 +1,51 @@
-# F09 - W04 - Backend - Integracion con AI Search y SQL Graph
+# F09 - W04 - Backend - Integration with AI Search and SQL Graph
 
-> **Feature:** F09 - Agente Normativo
+> **Feature:** F09 - Regulatory Agent
 > **Release:** 2.0 | **Sprint:** S06
-> **Tipo:** backend | **Prioridad:** Alta
-> **Estimación:** 3 story points
-> **Asignable a:** Dev Fullstack (Backend)
+> **Type:** backend | **Priority:** High
+> **Estimate:** 3 story points
+> **Assignable to:** Fullstack Dev (Backend)
 
 ---
 
-## Descripción
+## Description
 
-Configurar el índice de Azure AI Search para Agente Normativo. Incluye definición del schema, scoring profile, suggester y skillset.
-
----
-
-## Tareas
-
-- [ ] Definir el schema del índice (campos, tipos, atributos)
-- [ ] Crear el scoring profile con pesos para BM25 y vectores
-- [ ] Configurar el suggester para autocompletado
-- [ ] Configurar el skillset para extracción de texto de PDFs (si aplica)
-- [ ] Configurar las projections vectoriales
-- [ ] Crear el indexer conectado a Azure SQL como data source
-- [ ] Implementar el SearchService en C# con Azure.Search.Documents
-- [ ] Probar búsquedas con datos de prueba
+Configure the Azure AI Search index for Regulatory Agent. Includes schema definition, scoring profile, suggester, and skillset.
 
 ---
 
-## Criterios de Aceptación
+## Tasks
 
-- [ ] La funcionalidad implementada cumple con los criterios de aceptación del W01
-- [ ] Los tests pasan
-- [ ] El código está revisado por al menos 1 peer
+- [ ] Define the index schema (fields, types, attributes)
+- [ ] Create the scoring profile with weights for BM25 and vectors
+- [ ] Configure the suggester for autocomplete
+- [ ] Configure the skillset for PDF text extraction (if applicable)
+- [ ] Configure the vector projections
+- [ ] Create the indexer connected to Azure SQL as the data source
+- [ ] Implement the SearchService in C# with Azure.Search.Documents
+- [ ] Test searches with sample data
 
 ---
 
-## Notas Técnicas
+## Acceptance Criteria
 
-- Framework: .NET 10 LTS con ASP.NET Core Minimal API
+- [ ] The implemented functionality meets the W01 acceptance criteria
+- [ ] Tests pass
+- [ ] The code is reviewed by at least 1 peer
+
+---
+
+## Technical Notes
+
+- Framework: .NET 10 LTS with ASP.NET Core Minimal API
 - ORM: Entity Framework Core 10
-- Validación: FluentValidation 12.x
-- Logging: Serilog con sink a Application Insights
-- Referir a la documentación integral (F09-W01) para modelo de datos y endpoints
+- Validation: FluentValidation 12.x
+- Logging: Serilog with an Application Insights sink
+- Refer to the comprehensive documentation (F09-W01) for the data model and endpoints
 
 ---
 
-## Archivos a Crear/Modificar
+## Files to Create/Modify
 
 ```
 src/Infrastructure/Search/{Feature}SearchService.cs
@@ -55,10 +55,10 @@ tests/Infrastructure.Tests/Search/{Feature}SearchServiceTests.cs
 
 ---
 
-## Dependencias
+## Dependencies
 
-- Depende de: F09-W01 (Documentación integral)
+- Depends on: F09-W01 (Comprehensive Documentation)
 
 ---
 
-*F09 - W04 - Backend - Integracion con AI Search y SQL Graph — Legal Ai Ar*
+*F09 - W04 - Backend - Integration with AI Search and SQL Graph — Legal Ai Ar*

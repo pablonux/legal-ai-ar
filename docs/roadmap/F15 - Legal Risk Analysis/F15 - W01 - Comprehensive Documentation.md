@@ -1,24 +1,24 @@
-# F15 - W01 - Documentacion Integral
+# F15 - W01 - Comprehensive Documentation
 
-> **Feature:** F15 - Analisis de Riesgo Legal
+> **Feature:** F15 - Legal Risk Analysis
 > **Release:** 3.0 | **Sprint:** S08-S09
-> **Tipo:** Documentación | **Prioridad:** Crítica (bloqueante)
-> **Estimación:** 3 story points
+> **Type:** Documentation | **Priority:** Critical (blocking)
+> **Estimate:** 3 story points
 
 ---
 
-## 1. Descripción General
+## 1. General Description
 
-El usuario describe un caso y el sistema genera análisis de riesgo estructurado con score, normativa, jurisprudencia y recomendaciones.
+The user describes a case and the system generates a structured risk analysis with score, legislation, case law, and recommendations.
 
 ---
 
-## 2. Diagrama de Arquitectura
+## 2. Architecture Diagram
 
 ```mermaid
 graph TB
     subgraph "Ingreso del Caso"
-        FORM[Formulario: descripción + rama + jurisdicción]
+        FORM[Form: description + branch + jurisdiction]
     end
     subgraph "Procesamiento (Semantic Kernel)"
         AR[AgenteRiesgo Plugin]
@@ -32,7 +32,7 @@ graph TB
     end
     subgraph "Output"
         SCORE[Score de Riesgo]
-        NORM[Análisis Normativo]
+        NORM[Regulatory Analysis]
         JURIS[Jurisprudencia Favorable/Desfavorable]
         RECOM[Recomendaciones]
         DOCX[Informe .docx]
@@ -48,82 +48,82 @@ graph TB
 
 ---
 
-## 3. Modelo de Datos
+## 3. Data Model
 
-> Definir modelo de datos específico durante la implementación del W01.
-> Referir a la ontología en `docs/ontologia/ontologia_legal_argentina.md` para las clases base.
+> Define the specific data model during the W01 implementation.
+> Refer to the ontology in `docs/ontology/argentine-legal-ontology.md` for the base classes.
 
 ---
 
 ## 4. API Endpoints
 
-> Los endpoints específicos se definirán en base al documento de features: `docs/roadmap/features.md`, sección API Endpoints.
+> The specific endpoints will be defined based on the features document: `docs/roadmap/features.md`, API Endpoints section.
 
 ---
 
-## 5. Descripción de UI / UX
+## 5. UI / UX Description
 
-> Definir mockups de UI durante la implementación. Seguir las guidelines de Angular Material 19 + Tailwind CSS 4.
-> Referir a `docs/roadmap/features.md` para la descripción funcional de la UI.
-
----
-
-## 6. Criterios de Aceptación
-
-- [ ] La funcionalidad descrita en la sección de Descripción está completamente implementada
-- [ ] Los endpoints de API retornan los datos esperados
-- [ ] La UI es responsive y funcional en desktop y tablet
-- [ ] Los tests unitarios cubren > 80% del código nuevo
-- [ ] El build de CI pasa sin errores
-- [ ] La funcionalidad es accesible (WCAG 2.1 AA)
+> Define the UI mockups during implementation. Follow the Angular Material 19 + Tailwind CSS 4 guidelines.
+> Refer to `docs/roadmap/features.md` for the functional UI description.
 
 ---
 
-## 7. Dependencias
+## 6. Acceptance Criteria
 
-- **Depende de:** F01 (Auth)
-- **Referir a features.md** para dependencias detalladas entre features
+- [ ] The functionality described in the Description section is fully implemented
+- [ ] The API endpoints return the expected data
+- [ ] The UI is responsive and functional on desktop and tablet
+- [ ] Unit tests cover > 80% of the new code
+- [ ] The CI build passes with no errors
+- [ ] The functionality is accessible (WCAG 2.1 AA)
 
 ---
 
-## 8. Notas Técnicas
+## 7. Dependencies
+
+- **Depends on:** F01 (Auth)
+- **Refer to features.md** for detailed dependencies between features
+
+---
+
+## 8. Technical Notes
 
 - El AgenteRiesgo orquesta llamadas a AgenteNormativo y AgenteJurisprudencial via Semantic Kernel
-- El score de riesgo es un valor 0-100 con categorías: bajo (0-30), medio (31-60), alto (61-80), crítico (81-100)
-- La taxonomía de factores de riesgo se configura como JSON en Azure SQL (tabla ConfiguracionRiesgo)
-- Los análisis se persisten con snapshot de las fuentes consultadas para reproducibilidad
-- El prompt del agente incluye instrucciones de formato JSON para el output estructurado
+- The risk score is a 0-100 value with categories: low (0-30), medium (31-60), high (61-80), critical (81-100)
+- The risk-factor taxonomy is configured as JSON in Azure SQL (RiskConfiguration table)
+- Analyses are persisted with a snapshot of the consulted sources for reproducibility
+- The agent prompt includes JSON-format instructions for the structured output
 
 ---
 
-## 9. Work Items de esta Feature
+## 9. Work Items of this Feature
 
-| ID | Nombre | Tipo | Sprint |
+| ID | Name | Type | Sprint |
 |----|--------|------|--------|
-| F15-W01 | Documentacion Integral | doc | S08-S09 |
-| F15-W02 | Backend - Plugin AgenteRiesgo Semantic Kernel | backend | S08-S09 |
-| F15-W03 | Backend - Modelo de Taxonomia de Riesgos | backend | S08-S09 |
-| F15-W04 | Backend - Endpoint POST Analizar Riesgo | backend | S08-S09 |
-| F15-W05 | Backend - Persistencia de Analisis en SQL | backend | S08-S09 |
-| F15-W06 | Frontend - Formulario de Ingreso de Caso | frontend | S08-S09 |
-| F15-W07 | Frontend - Vista de Resultado con Score Visual | frontend | S08-S09 |
-| F15-W08 | Testing - Evaluacion de Analisis de Riesgo | testing | S08-S09 |
+| F15-W01 | Comprehensive Documentation | doc | S08-S09 |
+| F15-W02 | Backend - RiskAgent Semantic Kernel Plugin | backend | S08-S09 |
+| F15-W03 | Backend - Risk Taxonomy Model | backend | S08-S09 |
+| F15-W04 | Backend - POST Analyze Risk Endpoint | backend | S08-S09 |
+| F15-W05 | Backend - Analysis Persistence in SQL | backend | S08-S09 |
+| F15-W06 | Frontend - Case Input Form | frontend | S08-S09 |
+| F15-W07 | Frontend - Result View with Visual Score | frontend | S08-S09 |
+| F15-W08 | Testing - Risk Analysis Evaluation | testing | S08-S09 |
 
 ---
 
 ## 10. Definition of Done
 
-- [ ] Código revisado por al menos 1 peer (PR aprobado)
-- [ ] Tests unitarios con cobertura > 80%
-- [ ] Tests de integración para endpoints
-- [ ] Sin errores en build de CI
-- [ ] Documentación de API actualizada (Swagger/OpenAPI)
-- [ ] Componentes Angular documentados con JSDoc
-- [ ] Accesibilidad validada (WCAG 2.1 AA)
-- [ ] Responsive verificado en desktop y tablet
-- [ ] Performance: tiempo de carga < 3 seg, API response < 2 seg
-- [ ] Feature flag configurado (si aplica)
+- [ ] Code reviewed by at least 1 peer (PR approved)
+- [ ] Unit tests with > 80% coverage
+- [ ] Integration tests for endpoints
+- [ ] No errors in the CI build
+- [ ] API documentation updated (Swagger/OpenAPI)
+- [ ] Angular components documented with JSDoc
+- [ ] Accessibility validated (WCAG 2.1 AA)
+- [ ] Responsive verified on desktop and tablet
+- [ ] Performance: load time < 3 sec, API response < 2 sec
+- [ ] Feature flag configured (if applicable)
 
 ---
 
-*F15 - Analisis de Riesgo Legal — Documentación integral — Legal Ai Ar*
+*F15 - Legal Risk Analysis — Comprehensive Documentation — Legal Ai Ar*

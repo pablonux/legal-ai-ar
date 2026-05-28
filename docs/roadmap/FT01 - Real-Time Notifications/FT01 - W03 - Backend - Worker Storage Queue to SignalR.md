@@ -1,49 +1,49 @@
-# FT01 - W03 - Backend - Worker Storage Queue a SignalR
+# FT01 - W03 - Backend - Worker Storage Queue to SignalR
 
-> **Feature:** FT01 - Notificaciones en Tiempo Real
+> **Feature:** FT01 - Real-Time Notifications
 > **Release:** Transversal | **Sprint:** S03-S04
-> **Tipo:** backend | **Prioridad:** Alta
-> **Estimación:** 5 story points
-> **Asignable a:** Dev Fullstack (Backend)
+> **Type:** backend | **Priority:** High
+> **Estimate:** 5 story points
+> **Assignable to:** Fullstack Dev (Backend)
 
 ---
 
-## Descripción
+## Description
 
-Implementar comunicación real-time con SignalR para Notificaciones en Tiempo Real.
+Implement real-time communication with SignalR for Real-Time Notifications.
 
 ---
 
-## Tareas
+## Tasks
 
-- [ ] Crear Hub class en `Api/Hubs/`
+- [ ] Create the Hub class in `Api/Hubs/`
 - [ ] Registrar Hub en Program.cs con `.MapHub<>()`
-- [ ] Implementar métodos del Hub
-- [ ] Configurar autenticación del Hub con Bearer token
-- [ ] Implementar service que publica mensajes al Hub
-- [ ] Escribir tests de integración
+- [ ] Implement the Hub methods
+- [ ] Configure Hub authentication with a Bearer token
+- [ ] Implement a service that publishes messages to the Hub
+- [ ] Write integration tests
 
 ---
 
-## Criterios de Aceptación
+## Acceptance Criteria
 
-- [ ] La funcionalidad implementada cumple con los criterios de aceptación del W01
-- [ ] Los tests pasan
-- [ ] El código está revisado por al menos 1 peer
+- [ ] The implemented functionality meets the W01 acceptance criteria
+- [ ] Tests pass
+- [ ] The code is reviewed by at least 1 peer
 
 ---
 
-## Notas Técnicas
+## Technical Notes
 
-- Framework: .NET 10 LTS con ASP.NET Core Minimal API
+- Framework: .NET 10 LTS with ASP.NET Core Minimal API
 - ORM: Entity Framework Core 10
-- Validación: FluentValidation 12.x
-- Logging: Serilog con sink a Application Insights
-- Referir a la documentación integral (FT01-W01) para modelo de datos y endpoints
+- Validation: FluentValidation 12.x
+- Logging: Serilog with an Application Insights sink
+- Refer to the comprehensive documentation (FT01-W01) for the data model and endpoints
 
 ---
 
-## Archivos a Crear/Modificar
+## Files to Create/Modify
 
 ```
 src/Api/Hubs/{Nombre}Hub.cs
@@ -53,10 +53,10 @@ src/Application/Services/{Nombre}NotificationService.cs
 
 ---
 
-## Dependencias
+## Dependencies
 
-- Depende de: FT01-W01 (Documentación integral)
+- Depends on: FT01-W01 (Comprehensive Documentation)
 
 ---
 
-*FT01 - W03 - Backend - Worker Storage Queue a SignalR — Legal Ai Ar*
+*FT01 - W03 - Backend - Worker Storage Queue to SignalR — Legal Ai Ar*

@@ -1,19 +1,19 @@
-# F02 - W01 - Documentacion Integral
+# F02 - W01 - Comprehensive Documentation
 
-> **Feature:** F02 - Dashboard Principal
+> **Feature:** F02 - Main Dashboard
 > **Release:** 1.0 | **Sprint:** S02
-> **Tipo:** Documentación | **Prioridad:** Crítica (bloqueante)
-> **Estimación:** 3 story points
+> **Type:** Documentation | **Priority:** Critical (blocking)
+> **Estimate:** 3 story points
 
 ---
 
-## 1. Descripción General
+## 1. General Description
 
-Vista principal post-login con widgets de resumen: plazos, búsquedas recientes, alertas, novedades normativas. Diferenciado por rol.
+Main post-login view with summary widgets: deadlines, recent searches, alerts, regulatory updates. Differentiated by role.
 
 ---
 
-## 2. Diagrama de Arquitectura
+## 2. Architecture Diagram
 
 ```mermaid
 graph TB
@@ -21,7 +21,7 @@ graph TB
         DW[Dashboard Widget Container]
         PW[Plazos Widget]
         NW[Novedades Widget]
-        BW[Búsquedas Recientes]
+        BW[Recent Searches]
         AW[Alertas Widget]
     end
     subgraph Backend
@@ -39,87 +39,87 @@ graph TB
 
 ---
 
-## 3. Modelo de Datos
+## 3. Data Model
 
-> Definir modelo de datos específico durante la implementación del W01.
-> Referir a la ontología en `docs/ontologia/ontologia_legal_argentina.md` para las clases base.
+> Define the specific data model during the W01 implementation.
+> Refer to the ontology in `docs/ontology/argentine-legal-ontology.md` for the base classes.
 
 ---
 
 ## 4. API Endpoints
 
-| Método | Endpoint | Request | Response |
+| Method | Endpoint | Request | Response |
 |--------|----------|---------|----------|
 | GET | `/api/dashboard` | `?rol=abogado` | `{plazos[], novedades[], busquedasRecientes[], alertasPendientes}` |
 | GET | `/api/dashboard/novedades` | `?limite=10` | `{items: [{tipo, norma, fecha, resumen}]}` |
 
 ---
 
-## 5. Descripción de UI / UX
+## 5. UI / UX Description
 
-> Definir mockups de UI durante la implementación. Seguir las guidelines de Angular Material 19 + Tailwind CSS 4.
-> Referir a `docs/roadmap/features.md` para la descripción funcional de la UI.
-
----
-
-## 6. Criterios de Aceptación
-
-- [ ] La funcionalidad descrita en la sección de Descripción está completamente implementada
-- [ ] Los endpoints de API retornan los datos esperados
-- [ ] La UI es responsive y funcional en desktop y tablet
-- [ ] Los tests unitarios cubren > 80% del código nuevo
-- [ ] El build de CI pasa sin errores
-- [ ] La funcionalidad es accesible (WCAG 2.1 AA)
+> Define the UI mockups during implementation. Follow the Angular Material 19 + Tailwind CSS 4 guidelines.
+> Refer to `docs/roadmap/features.md` for the functional UI description.
 
 ---
 
-## 7. Dependencias
+## 6. Acceptance Criteria
 
-- **Depende de:** F01 (Auth), FT03 (Tema)
+- [ ] The functionality described in the Description section is fully implemented
+- [ ] The API endpoints return the expected data
+- [ ] The UI is responsive and functional on desktop and tablet
+- [ ] Unit tests cover > 80% of the new code
+- [ ] The CI build passes with no errors
+- [ ] The functionality is accessible (WCAG 2.1 AA)
+
+---
+
+## 7. Dependencies
+
+- **Depends on:** F01 (Auth), FT03 (Tema)
 - **NuGet:** ninguno adicional
 - **npm:** @angular/material, @angular/cdk
 
 ---
 
-## 8. Notas Técnicas
+## 8. Technical Notes
 
 - Stack: Angular 19 (standalone components, signals) + .NET 10 Minimal API
-- Base de datos: Azure SQL con EF Core 10 + Graph Tables
-- Búsqueda: Azure AI Search con scoring híbrido
-- Auth: Microsoft Entra ID con MSAL Angular + Microsoft.Identity.Web
-- Comunicación real-time: SignalR
-- Storage: Azure Blob Storage para documentos
-- Referir a la ontología (`docs/ontologia/ontologia_legal_argentina.md`) para el modelo de dominio
+- Database: Azure SQL with EF Core 10 + Graph Tables
+- Search: Azure AI Search with hybrid scoring
+- Auth: platform-managed Microsoft Entra SSO via `id_token` cookie (no MSAL); the API validates it (`Auth:Platform`)
+- Real-time communication: SignalR
+- Storage: Azure Blob Storage for documents
+- Refer to the ontology (`docs/ontology/argentine-legal-ontology.md`) for the domain model
 
 ---
 
-## 9. Work Items de esta Feature
+## 9. Work Items of this Feature
 
-| ID | Nombre | Tipo | Sprint |
+| ID | Name | Type | Sprint |
 |----|--------|------|--------|
-| F02-W01 | Documentacion Integral | doc | S02 |
-| F02-W02 | Backend - Endpoint Agregador Dashboard | backend | S02 |
-| F02-W03 | Frontend - Layout Shell Sidebar y Navbar | frontend | S02 |
-| F02-W04 | Frontend - Dashboard Component y Widgets | frontend | S02 |
-| F02-W05 | Frontend - Widget Plazos Proximos | frontend | S02 |
-| F02-W06 | Frontend - Widget Novedades Normativas | frontend | S02 |
-| F02-W07 | Testing - Tests de Dashboard | testing | S02 |
+| F02-W01 | Comprehensive Documentation | doc | S02 |
+| F02-W02 | Backend - Dashboard Aggregator Endpoint | backend | S02 |
+| F02-W03 | Frontend - Shell Layout Sidebar and Navbar | frontend | S02 |
+| F02-W04 | Frontend - Dashboard Component and Widgets | frontend | S02 |
+| F02-W05 | Frontend - Upcoming Deadlines Widget | frontend | S02 |
+| F02-W06 | Frontend - Regulatory Updates Widget | frontend | S02 |
+| F02-W07 | Testing - Dashboard Tests | testing | S02 |
 
 ---
 
 ## 10. Definition of Done
 
-- [ ] Código revisado por al menos 1 peer (PR aprobado)
-- [ ] Tests unitarios con cobertura > 80%
-- [ ] Tests de integración para endpoints
-- [ ] Sin errores en build de CI
-- [ ] Documentación de API actualizada (Swagger/OpenAPI)
-- [ ] Componentes Angular documentados con JSDoc
-- [ ] Accesibilidad validada (WCAG 2.1 AA)
-- [ ] Responsive verificado en desktop y tablet
-- [ ] Performance: tiempo de carga < 3 seg, API response < 2 seg
-- [ ] Feature flag configurado (si aplica)
+- [ ] Code reviewed by at least 1 peer (PR approved)
+- [ ] Unit tests with > 80% coverage
+- [ ] Integration tests for endpoints
+- [ ] No errors in the CI build
+- [ ] API documentation updated (Swagger/OpenAPI)
+- [ ] Angular components documented with JSDoc
+- [ ] Accessibility validated (WCAG 2.1 AA)
+- [ ] Responsive verified on desktop and tablet
+- [ ] Performance: load time < 3 sec, API response < 2 sec
+- [ ] Feature flag configured (if applicable)
 
 ---
 
-*F02 - Dashboard Principal — Documentación integral — Legal Ai Ar*
+*F02 - Main Dashboard — Comprehensive Documentation — Legal Ai Ar*

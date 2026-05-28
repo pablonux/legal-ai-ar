@@ -1,19 +1,19 @@
-# F08 - W01 - Documentacion Integral
+# F08 - W01 - Comprehensive Documentation
 
-> **Feature:** F08 - Chat con Agentes IA
+> **Feature:** F08 - AI Agent Chat
 > **Release:** 2.0 | **Sprint:** S05-S06
-> **Tipo:** Documentación | **Prioridad:** Crítica (bloqueante)
-> **Estimación:** 3 story points
+> **Type:** Documentation | **Priority:** Critical (blocking)
+> **Estimate:** 3 story points
 
 ---
 
-## 1. Descripción General
+## 1. General Description
 
-Interfaz de chat para interactuar con agentes especializados. Streaming de respuesta, citación de fuentes, historial de conversaciones.
+Chat interface to interact with specialized agents. Response streaming, source citation, conversation history.
 
 ---
 
-## 2. Diagrama de Arquitectura
+## 2. Architecture Diagram
 
 ```mermaid
 sequenceDiagram
@@ -30,9 +30,9 @@ sequenceDiagram
     participant OAI as Azure OpenAI
 
     U->>SPA: Escribe consulta
-    SPA->>API: POST /api/agentes/chat
+    SPA->>API: POST /api/agents/chat
     API->>SK: Procesar consulta
-    SK->>ORC: Clasificar intención
+    SK->>ORC: Classify intent
     ORC->>OAI: Clasificar (GPT-4o)
     OAI->>ORC: Tipo: normativo
     ORC->>AGN: Delegar consulta
@@ -46,20 +46,20 @@ sequenceDiagram
 
 ---
 
-## 3. Modelo de Datos
+## 3. Data Model
 
-> Definir modelo de datos específico durante la implementación del W01.
-> Referir a la ontología en `docs/ontologia/ontologia_legal_argentina.md` para las clases base.
+> Define the specific data model during the W01 implementation.
+> Refer to the ontology in `docs/ontology/argentine-legal-ontology.md` for the base classes.
 
 ---
 
 ## 4. API Endpoints
 
-> Los endpoints específicos se definirán en base al documento de features: `docs/roadmap/features.md`, sección API Endpoints.
+> The specific endpoints will be defined based on the features document: `docs/roadmap/features.md`, API Endpoints section.
 
 ---
 
-## 5. Descripción de UI / UX
+## 5. UI / UX Description
 
 ### Layout del chat
 
@@ -87,7 +87,7 @@ sequenceDiagram
 
 ---
 
-## 6. Criterios de Aceptación
+## 6. Acceptance Criteria
 
 - [ ] El usuario puede escribir una consulta y recibir respuesta del agente
 - [ ] La respuesta se renderiza progresivamente (streaming token a token)
@@ -96,61 +96,61 @@ sequenceDiagram
 - [ ] El historial de conversaciones persiste entre sesiones
 - [ ] El markdown en las respuestas se renderiza correctamente (headers, listas, code blocks)
 - [ ] El indicador de "pensando" se muestra mientras el agente procesa
-- [ ] Se puede exportar una conversación a .docx
+- [ ] A conversation can be exported to .docx
 - [ ] Solo los usuarios con rol "abogado" tienen acceso al chat
 
 ---
 
-## 7. Dependencias
+## 7. Dependencies
 
-- **Depende de:** F01 (Auth), F03 (búsqueda de normas funcional), F04 (búsqueda jurisprudencia funcional)
-- **Bloquea:** F09, F10, F11 (agentes especializados), F15 (análisis de riesgo)
+- **Depends on:** F01 (Auth), F03 (functional legal norm search), F04 (functional case law search)
+- **Blocks:** F09, F10, F11 (specialized agents), F15 (risk analysis)
 - **NuGet:** Microsoft.SemanticKernel, Microsoft.AspNetCore.SignalR
 - **npm:** @microsoft/signalr, ngx-markdown
 
 ---
 
-## 8. Notas Técnicas
+## 8. Technical Notes
 
 - Semantic Kernel SDK v1.x para .NET 10
-- El orquestador usa un prompt de clasificación de intención para rutear al agente correcto
+- The orchestrator uses an intent-classification prompt to route to the correct agent
 - SignalR con protocolo MessagePack para mejor performance en streaming
 - Cada mensaje del agente incluye metadata: `{sources: [{tipo, id, titulo, url}]}`
 - El historial se almacena en Azure SQL (tabla Conversacion + tabla Mensaje)
-- Limitar el contexto a los últimos 10 mensajes para evitar exceder el token limit
-- Usar `IChatCompletionService` con streaming para la generación de respuestas
+- Limit the context to the last 10 messages to avoid exceeding the token limit
+- Use `IChatCompletionService` with streaming for response generation
 
 ---
 
-## 9. Work Items de esta Feature
+## 9. Work Items of this Feature
 
-| ID | Nombre | Tipo | Sprint |
+| ID | Name | Type | Sprint |
 |----|--------|------|--------|
-| F08-W01 | Documentacion Integral | doc | S05-S06 |
-| F08-W02 | Backend - Semantic Kernel Setup y Orquestador | backend | S05-S06 |
-| F08-W03 | Backend - Endpoint POST Chat con SignalR Streaming | backend | S05-S06 |
-| F08-W04 | Backend - Persistencia de Conversaciones | backend | S05-S06 |
-| F08-W05 | Frontend - Chat UI con Markdown Rendering | frontend | S05-S06 |
-| F08-W06 | Frontend - SignalR Client para Streaming | frontend | S05-S06 |
-| F08-W07 | Frontend - Panel de Fuentes Citadas | frontend | S05-S06 |
-| F08-W08 | Frontend - Historial de Conversaciones | frontend | S05-S06 |
-| F08-W09 | Testing - Tests de Chat E2E | testing | S05-S06 |
+| F08-W01 | Comprehensive Documentation | doc | S05-S06 |
+| F08-W02 | Backend - Semantic Kernel Setup and Orchestrator | backend | S05-S06 |
+| F08-W03 | Backend - POST Chat with SignalR Streaming Endpoint | backend | S05-S06 |
+| F08-W04 | Backend - Conversation Persistence | backend | S05-S06 |
+| F08-W05 | Frontend - Chat UI with Markdown Rendering | frontend | S05-S06 |
+| F08-W06 | Frontend - SignalR Client for Streaming | frontend | S05-S06 |
+| F08-W07 | Frontend - Cited Sources Panel | frontend | S05-S06 |
+| F08-W08 | Frontend - Conversation History | frontend | S05-S06 |
+| F08-W09 | Testing - E2E Chat Tests | testing | S05-S06 |
 
 ---
 
 ## 10. Definition of Done
 
-- [ ] Código revisado por al menos 1 peer (PR aprobado)
-- [ ] Tests unitarios con cobertura > 80%
-- [ ] Tests de integración para endpoints
-- [ ] Sin errores en build de CI
-- [ ] Documentación de API actualizada (Swagger/OpenAPI)
-- [ ] Componentes Angular documentados con JSDoc
-- [ ] Accesibilidad validada (WCAG 2.1 AA)
-- [ ] Responsive verificado en desktop y tablet
-- [ ] Performance: tiempo de carga < 3 seg, API response < 2 seg
-- [ ] Feature flag configurado (si aplica)
+- [ ] Code reviewed by at least 1 peer (PR approved)
+- [ ] Unit tests with > 80% coverage
+- [ ] Integration tests for endpoints
+- [ ] No errors in the CI build
+- [ ] API documentation updated (Swagger/OpenAPI)
+- [ ] Angular components documented with JSDoc
+- [ ] Accessibility validated (WCAG 2.1 AA)
+- [ ] Responsive verified on desktop and tablet
+- [ ] Performance: load time < 3 sec, API response < 2 sec
+- [ ] Feature flag configured (if applicable)
 
 ---
 
-*F08 - Chat con Agentes IA — Documentación integral — Legal Ai Ar*
+*F08 - AI Agent Chat — Comprehensive Documentation — Legal Ai Ar*

@@ -1,19 +1,19 @@
-# F12 - W01 - Documentacion Integral
+# F12 - W01 - Comprehensive Documentation
 
-> **Feature:** F12 - Gestion de Expedientes
+> **Feature:** F12 - Case File Management
 > **Release:** 2.0 | **Sprint:** S05-S06
-> **Tipo:** Documentación | **Prioridad:** Crítica (bloqueante)
-> **Estimación:** 3 story points
+> **Type:** Documentation | **Priority:** Critical (blocking)
+> **Estimate:** 3 story points
 
 ---
 
-## 1. Descripción General
+## 1. General Description
 
 CRUD completo de expedientes judiciales y administrativos. Movimientos, documentos adjuntos, partes, abogado responsable.
 
 ---
 
-## 2. Diagrama de Arquitectura
+## 2. Architecture Diagram
 
 ```mermaid
 erDiagram
@@ -39,7 +39,7 @@ erDiagram
         int ExpedienteId FK
         date Fecha
         string Tipo
-        string Descripcion
+        string Description
     }
     DocumentoAdjunto {
         int Id PK
@@ -52,51 +52,51 @@ erDiagram
 
 ---
 
-## 3. Modelo de Datos
+## 3. Data Model
 
 ### Tablas (Azure SQL)
 
 **Expediente**
 
-| Columna | Tipo | Nullable | Descripción |
+| Column | Type | Nullable | Description |
 |---------|------|:--------:|-------------|
 | Id | int (PK, identity) | No | ID autogenerado |
-| NumeroExpediente | nvarchar(100) | No | Número único del expediente |
-| Caratula | nvarchar(500) | No | Carátula del proceso |
+| CaseFileNumber | nvarchar(100) | No | Unique case file number |
+| Caption | nvarchar(500) | No | Case caption |
 | TipoProcesal | nvarchar(50) | No | civil/penal/laboral/familia/contencioso |
-| Fuero | nvarchar(50) | No | Fuero de tramitación |
+| CourtVenue | nvarchar(50) | No | Court venue |
 | Estado | nvarchar(50) | No | iniciado/en_tramite/en_sentencia/apelado/concluido |
 | FechaInicio | date | No | Fecha de inicio |
-| FechaCierre | date | Sí | Fecha de cierre (si aplica) |
+| ClosedAt | date | Yes | Closing date (if applicable) |
 | Jurisdiccion | nvarchar(50) | No | federal/provincial/CABA |
-| TribunalId | int (FK) | Sí | FK a OrganoJudicial (Graph Node) |
+| CourtId | int (FK) | Yes | FK to JudicialBody (Graph Node) |
 | AbogadoResponsableId | int (FK) | No | FK a UsuarioPreferencias |
-| Notas | nvarchar(max) | Sí | Notas internas |
-| CreatedAt | datetime2 | No | Timestamp de creación |
-| UpdatedAt | datetime2 | No | Timestamp de última actualización |
+| Notes | nvarchar(max) | Yes | Internal notes |
+| CreatedAt | datetime2 | No | Creation timestamp |
+| UpdatedAt | datetime2 | No | Last update timestamp |
 
 **Movimiento**
 
-| Columna | Tipo | Nullable | Descripción |
+| Column | Type | Nullable | Description |
 |---------|------|:--------:|-------------|
 | Id | int (PK, identity) | No | ID autogenerado |
 | ExpedienteId | int (FK) | No | FK a Expediente |
 | Fecha | date | No | Fecha del movimiento |
 | Tipo | nvarchar(50) | No | demanda/contestacion/prueba/sentencia/recurso/otro |
-| Descripcion | nvarchar(2000) | No | Descripción del movimiento |
+| Description | nvarchar(2000) | No | Movement description |
 | CreadoPor | nvarchar(128) | No | EntraObjectId del creador |
 | CreatedAt | datetime2 | No | Timestamp |
 
 **DocumentoAdjunto**
 
-| Columna | Tipo | Nullable | Descripción |
+| Column | Type | Nullable | Description |
 |---------|------|:--------:|-------------|
 | Id | int (PK, identity) | No | ID autogenerado |
 | ExpedienteId | int (FK) | No | FK a Expediente |
 | NombreArchivo | nvarchar(256) | No | Nombre original del archivo |
 | BlobUrl | nvarchar(1000) | No | URL en Blob Storage |
 | ContentType | nvarchar(100) | No | MIME type |
-| TamanioBytes | bigint | No | Tamaño en bytes |
+| SizeBytes | bigint | No | Size in bytes |
 | SubidoPor | nvarchar(128) | No | EntraObjectId |
 | FechaSubida | datetime2 | No | Timestamp |
 
@@ -104,29 +104,29 @@ erDiagram
 
 ## 4. API Endpoints
 
-| Método | Endpoint | Request | Response |
+| Method | Endpoint | Request | Response |
 |--------|----------|---------|----------|
-| GET | `/api/expedientes` | `?fuero=laboral&estado=en_tramite&abogado=id&page=1&pageSize=20` | `{total, items: [Expediente]}` |
-| POST | `/api/expedientes` | `{numeroExpediente, caratula, fuero, ...}` | `{id, ...}` (201 Created) |
-| GET | `/api/expedientes/{id}` | - | `Expediente completo` |
-| PUT | `/api/expedientes/{id}` | `{campos a actualizar}` | `Expediente actualizado` |
-| DELETE | `/api/expedientes/{id}` | - | 204 No Content |
-| GET | `/api/expedientes/{id}/movimientos` | `?page&pageSize` | `{total, items: [Movimiento]}` |
-| POST | `/api/expedientes/{id}/movimientos` | `{fecha, tipo, descripcion}` | `Movimiento` (201) |
-| GET | `/api/expedientes/{id}/documentos` | - | `[DocumentoAdjunto]` |
-| POST | `/api/expedientes/{id}/documentos` | `multipart/form-data` | `DocumentoAdjunto` (201) |
+| GET | `/api/case-files` | `?fuero=laboral&estado=en_tramite&abogado=id&page=1&pageSize=20` | `{total, items: [Expediente]}` |
+| POST | `/api/case-files` | `{numeroExpediente, caption, fuero, ...}` | `{id, ...}` (201 Created) |
+| GET | `/api/case-files/{id}` | - | `Expediente completo` |
+| PUT | `/api/case-files/{id}` | `{campos a actualizar}` | `Expediente actualizado` |
+| DELETE | `/api/case-files/{id}` | - | 204 No Content |
+| GET | `/api/case-files/{id}/movimientos` | `?page&pageSize` | `{total, items: [Movimiento]}` |
+| POST | `/api/case-files/{id}/movimientos` | `{fecha, tipo, descripcion}` | `Movimiento` (201) |
+| GET | `/api/case-files/{id}/documentos` | - | `[DocumentoAdjunto]` |
+| POST | `/api/case-files/{id}/documentos` | `multipart/form-data` | `DocumentoAdjunto` (201) |
 
 ---
 
-## 5. Descripción de UI / UX
+## 5. UI / UX Description
 
 ### Pantallas
 
-1. **Lista de expedientes** — DataTable con columnas: N° Expediente, Carátula, Fuero, Estado, Abogado, Fecha Inicio. Filtros superiores. Botón "+ Nuevo expediente".
+1. **Case file list** — DataTable with columns: Case File No., Caption, Court Venue, Status, Lawyer, Start Date. Top filters. "+ Nuevo expediente" button.
 
 2. **Detalle de expediente** — Tabs: Info General | Movimientos | Documentos | Plazos | Notas
 
-3. **Formulario** — Reactive form con: N° Expediente, Carátula, Tipo Procesal (select), Fuero (select), Jurisdicción (select), Tribunal (autocomplete), Abogado Responsable (select), Notas (textarea).
+3. **Form** — Reactive form with: Case File No., Caption, Procedure Type (select), Court Venue (select), Jurisdiction (select), Court (autocomplete), Responsible Lawyer (select), Notes (textarea).
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -146,72 +146,72 @@ erDiagram
 
 ---
 
-## 6. Criterios de Aceptación
+## 6. Acceptance Criteria
 
 - [ ] Se pueden crear, leer, actualizar y eliminar expedientes
 - [ ] La lista de expedientes permite filtrar por fuero, estado y abogado responsable
 - [ ] La lista permite ordenar por cualquier columna
-- [ ] La paginación funciona correctamente
-- [ ] Se pueden agregar movimientos a un expediente con fecha, tipo y descripción
-- [ ] Los movimientos se muestran en un timeline cronológico
+- [ ] Pagination works correctly
+- [ ] Movements can be added to a case file with date, type, and description
+- [ ] Movements are shown in a chronological timeline
 - [ ] Se pueden subir documentos (PDF, DOCX) que se almacenan en Blob Storage
 - [ ] Los documentos se pueden descargar
 - [ ] Los administrativos pueden leer expedientes y agregar movimientos pero NO eliminar
-- [ ] El campo de búsqueda busca por número de expediente y carátula
+- [ ] The search field searches by case file number and caption
 
 ---
 
-## 7. Dependencias
+## 7. Dependencies
 
-- **Depende de:** F01 (Auth)
-- **Bloquea:** F13 (Plazos), F14 (Calendario)
+- **Depends on:** F01 (Auth)
+- **Blocks:** F13 (Plazos), F14 (Calendario)
 - **NuGet:** Azure.Storage.Blobs (para documentos adjuntos)
 - **npm:** @angular/material (DataTable, Forms)
 
 ---
 
-## 8. Notas Técnicas
+## 8. Technical Notes
 
 - Usar EF Core 10 con Fluent API para configurar las relaciones
 - Los documentos se suben a Blob Storage con nombre: `expedientes/{id}/{guid}_{filename}`
-- Usar SAS tokens de corta duración para URLs de descarga
-- Implementar soft delete para expedientes (campo IsDeleted + filtro global de EF Core)
-- La búsqueda por carátula usa `CONTAINS` de SQL Server full-text search
+- Use short-lived SAS tokens for download URLs
+- Implement soft delete for case files (IsDeleted field + EF Core global filter)
+- Caption search uses SQL Server full-text search `CONTAINS`
 - Los movimientos son append-only (no se editan ni eliminan)
 
 ---
 
-## 9. Work Items de esta Feature
+## 9. Work Items of this Feature
 
-| ID | Nombre | Tipo | Sprint |
+| ID | Name | Type | Sprint |
 |----|--------|------|--------|
-| F12-W01 | Documentacion Integral | doc | S05-S06 |
-| F12-W02 | Backend - Modelo EF Core Expediente y Migraciones | backend | S05-S06 |
-| F12-W03 | Backend - CRUD Endpoints Expedientes | backend | S05-S06 |
-| F12-W04 | Backend - Subrecursos Movimientos y Documentos | backend | S05-S06 |
-| F12-W05 | Backend - Upload Documentos a Blob Storage | backend | S05-S06 |
-| F12-W06 | Frontend - Lista de Expedientes con DataTable | frontend | S05-S06 |
-| F12-W07 | Frontend - Formulario Alta y Edicion Expediente | frontend | S05-S06 |
-| F12-W08 | Frontend - Detalle Expediente con Tabs | frontend | S05-S06 |
-| F12-W09 | Frontend - Timeline de Movimientos | frontend | S05-S06 |
-| F12-W10 | Frontend - Gestion de Documentos Adjuntos | frontend | S05-S06 |
-| F12-W11 | Testing - Tests CRUD Expedientes | testing | S05-S06 |
+| F12-W01 | Comprehensive Documentation | doc | S05-S06 |
+| F12-W02 | Backend - EF Core Case File Model and Migrations | backend | S05-S06 |
+| F12-W03 | Backend - Case File CRUD Endpoints | backend | S05-S06 |
+| F12-W04 | Backend - Movements and Documents Subresources | backend | S05-S06 |
+| F12-W05 | Backend - Upload Documents to Blob Storage | backend | S05-S06 |
+| F12-W06 | Frontend - Case File List with DataTable | frontend | S05-S06 |
+| F12-W07 | Frontend - Case File Create and Edit Form | frontend | S05-S06 |
+| F12-W08 | Frontend - Case File Detail with Tabs | frontend | S05-S06 |
+| F12-W09 | Frontend - Movements Timeline | frontend | S05-S06 |
+| F12-W10 | Frontend - Attached Documents Management | frontend | S05-S06 |
+| F12-W11 | Testing - Case File CRUD Tests | testing | S05-S06 |
 
 ---
 
 ## 10. Definition of Done
 
-- [ ] Código revisado por al menos 1 peer (PR aprobado)
-- [ ] Tests unitarios con cobertura > 80%
-- [ ] Tests de integración para endpoints
-- [ ] Sin errores en build de CI
-- [ ] Documentación de API actualizada (Swagger/OpenAPI)
-- [ ] Componentes Angular documentados con JSDoc
-- [ ] Accesibilidad validada (WCAG 2.1 AA)
-- [ ] Responsive verificado en desktop y tablet
-- [ ] Performance: tiempo de carga < 3 seg, API response < 2 seg
-- [ ] Feature flag configurado (si aplica)
+- [ ] Code reviewed by at least 1 peer (PR approved)
+- [ ] Unit tests with > 80% coverage
+- [ ] Integration tests for endpoints
+- [ ] No errors in the CI build
+- [ ] API documentation updated (Swagger/OpenAPI)
+- [ ] Angular components documented with JSDoc
+- [ ] Accessibility validated (WCAG 2.1 AA)
+- [ ] Responsive verified on desktop and tablet
+- [ ] Performance: load time < 3 sec, API response < 2 sec
+- [ ] Feature flag configured (if applicable)
 
 ---
 
-*F12 - Gestion de Expedientes — Documentación integral — Legal Ai Ar*
+*F12 - Case File Management — Comprehensive Documentation — Legal Ai Ar*

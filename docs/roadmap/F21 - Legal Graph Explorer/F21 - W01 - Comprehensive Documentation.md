@@ -1,19 +1,19 @@
-# F21 - W01 - Documentacion Integral
+# F21 - W01 - Comprehensive Documentation
 
-> **Feature:** F21 - Explorador de Grafo Legal
+> **Feature:** F21 - Legal Graph Explorer
 > **Release:** 4.0 | **Sprint:** S11
-> **Tipo:** Documentación | **Prioridad:** Crítica (bloqueante)
-> **Estimación:** 3 story points
+> **Type:** Documentation | **Priority:** Critical (blocking)
+> **Estimate:** 3 story points
 
 ---
 
-## 1. Descripción General
+## 1. General Description
 
-Visualización interactiva del grafo de relaciones legales. Zoom, pan, filtros por tipo de relación, expansión de nodos.
+Interactive visualization of the legal relationship graph. Zoom, pan, filters by relationship type, node expansion.
 
 ---
 
-## 2. Diagrama de Arquitectura
+## 2. Architecture Diagram
 
 ```mermaid
 graph TB
@@ -30,82 +30,82 @@ graph TB
 
 ---
 
-## 3. Modelo de Datos
+## 3. Data Model
 
-> Definir modelo de datos específico durante la implementación del W01.
-> Referir a la ontología en `docs/ontologia/ontologia_legal_argentina.md` para las clases base.
+> Define the specific data model during the W01 implementation.
+> Refer to the ontology in `docs/ontology/argentine-legal-ontology.md` for the base classes.
 
 ---
 
 ## 4. API Endpoints
 
-> Los endpoints específicos se definirán en base al documento de features: `docs/roadmap/features.md`, sección API Endpoints.
+> The specific endpoints will be defined based on the features document: `docs/roadmap/features.md`, API Endpoints section.
 
 ---
 
-## 5. Descripción de UI / UX
+## 5. UI / UX Description
 
-> Definir mockups de UI durante la implementación. Seguir las guidelines de Angular Material 19 + Tailwind CSS 4.
-> Referir a `docs/roadmap/features.md` para la descripción funcional de la UI.
-
----
-
-## 6. Criterios de Aceptación
-
-- [ ] La funcionalidad descrita en la sección de Descripción está completamente implementada
-- [ ] Los endpoints de API retornan los datos esperados
-- [ ] La UI es responsive y funcional en desktop y tablet
-- [ ] Los tests unitarios cubren > 80% del código nuevo
-- [ ] El build de CI pasa sin errores
-- [ ] La funcionalidad es accesible (WCAG 2.1 AA)
+> Define the UI mockups during implementation. Follow the Angular Material 19 + Tailwind CSS 4 guidelines.
+> Refer to `docs/roadmap/features.md` for the functional UI description.
 
 ---
 
-## 7. Dependencias
+## 6. Acceptance Criteria
 
-- **Depende de:** F01 (Auth)
-- **Referir a features.md** para dependencias detalladas entre features
+- [ ] The functionality described in the Description section is fully implemented
+- [ ] The API endpoints return the expected data
+- [ ] The UI is responsive and functional on desktop and tablet
+- [ ] Unit tests cover > 80% of the new code
+- [ ] The CI build passes with no errors
+- [ ] The functionality is accessible (WCAG 2.1 AA)
 
 ---
 
-## 8. Notas Técnicas
+## 7. Dependencies
+
+- **Depends on:** F01 (Auth)
+- **Refer to features.md** for detailed dependencies between features
+
+---
+
+## 8. Technical Notes
 
 - Stack: Angular 19 (standalone components, signals) + .NET 10 Minimal API
-- Base de datos: Azure SQL con EF Core 10 + Graph Tables
-- Búsqueda: Azure AI Search con scoring híbrido
-- Auth: Microsoft Entra ID con MSAL Angular + Microsoft.Identity.Web
-- Comunicación real-time: SignalR
-- Storage: Azure Blob Storage para documentos
-- Referir a la ontología (`docs/ontologia/ontologia_legal_argentina.md`) para el modelo de dominio
+- Database: Azure SQL with EF Core 10 + Graph Tables
+- Search: Azure AI Search with hybrid scoring
+- Auth: platform-managed Microsoft Entra SSO via `id_token` cookie (no MSAL); the API validates it (`Auth:Platform`)
+- Real-time communication: SignalR
+- Storage: Azure Blob Storage for documents
+- Refer to the ontology (`docs/ontology/argentine-legal-ontology.md`) for the domain model
 
 ---
 
-## 9. Work Items de esta Feature
+## 9. Work Items of this Feature
 
-| ID | Nombre | Tipo | Sprint |
+| ID | Name | Type | Sprint |
 |----|--------|------|--------|
-| F21-W01 | Documentacion Integral | doc | S11 |
-| F21-W02 | Backend - Endpoint GET Grafo Explorar con Profundidad | backend | S11 |
-| F21-W03 | Frontend - Componente Grafo Interactivo D3 o Cytoscape | frontend | S11 |
-| F21-W04 | Frontend - Panel Detalle de Nodo Seleccionado | frontend | S11 |
-| F21-W05 | Frontend - Filtros por Tipo de Relacion | frontend | S11 |
-| F21-W06 | Testing - Tests de Explorador de Grafo | testing | S11 |
+| F21-W01 | Comprehensive Documentation | doc | S11 |
+| F21-W02 | Backend - GET Explore Graph with Depth Endpoint | backend | S11 |
+| F21-W03 | Frontend - Interactive Graph Component D3 or Cytoscape | frontend | S11 |
+| F21-W04 | Frontend - Selected Node Detail Panel | frontend | S11 |
+| F21-W05 | Frontend - Filters by Relationship Type | frontend | S11 |
+| F21-W06 | Testing - Graph Explorer Tests | testing | S11 |
 
 ---
 
 ## 10. Definition of Done
 
-- [ ] Código revisado por al menos 1 peer (PR aprobado)
-- [ ] Tests unitarios con cobertura > 80%
-- [ ] Tests de integración para endpoints
-- [ ] Sin errores en build de CI
-- [ ] Documentación de API actualizada (Swagger/OpenAPI)
-- [ ] Componentes Angular documentados con JSDoc
-- [ ] Accesibilidad validada (WCAG 2.1 AA)
-- [ ] Responsive verificado en desktop y tablet
-- [ ] Performance: tiempo de carga < 3 seg, API response < 2 seg
-- [ ] Feature flag configurado (si aplica)
+- [ ] Code reviewed by at least 1 peer (PR approved)
+- [ ] Unit tests with > 80% coverage
+- [ ] Integration tests for endpoints
+- [ ] No errors in the CI build
+- [ ] API documentation updated (Swagger/OpenAPI)
+- [ ] Angular components documented with JSDoc
+- [ ] Accessibility validated (WCAG 2.1 AA)
+- [ ] Responsive verified on desktop and tablet
+- [ ] Performance: load time < 3 sec, API response < 2 sec
+- [ ] Feature flag configured (if applicable)
 
 ---
 
-*F21 - Explorador de Grafo Legal — Documentación integral — Legal Ai Ar*
+*F21 - Legal Graph Explorer — Comprehensive Documentation — Legal Ai Ar*
