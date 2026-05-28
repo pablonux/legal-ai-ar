@@ -1,27 +1,27 @@
-# Tutorial: Configuración IA para Legal Ai Ar
+# Tutorial: AI Setup for Legal Ai Ar
 
-> Guía de referencia de la configuración de asistentes IA del proyecto. Cubre Cowork (Claude Desktop) y Cursor, ambos configurados para comportarse de manera idéntica.
+> Reference guide for the project's AI assistant configuration. Covers Cowork (Claude Desktop) and Cursor, both configured to behave identically.
 
 ---
 
-## 1. El proyecto
+## 1. The project
 
-El proyecto Cowork ya está conectado a la carpeta `legal-ai-ar/` que contiene:
+The Cowork project is already connected to the `legal-ai-ar/` folder, which contains:
 
 ```
 legal-ai-ar/
-├── mvp/                    # Código del MVP (backend + frontend)
-│   ├── backend/            # .NET 10, Clean Architecture, 21 proyectos
+├── mvp/                    # MVP code (backend + frontend)
+│   ├── backend/            # .NET 10, Clean Architecture, 21 projects
 │   └── frontend/           # Angular 19 SPA
-├── docs/                   # Documentación del proyecto
+├── docs/                   # Project documentation
 │   ├── roadmap/            # Features (F00-F23, FT01-FT04), work items, backlog
-│   ├── tecnicas/           # 9 documentos técnicos (RAG, agentes, prompts, etc.)
-│   └── ontologia/          # Modelo de dominio legal argentino
+│   ├── technical/          # 9 technical documents (RAG, agents, prompts, etc.)
+│   └── ontology/           # Argentine legal domain model
 ├── README.md
-├── CLAUDE.md               # → Instrucciones para Cowork (sección 2)
-├── .claude/                # → Configuración Cowork
-│   ├── memory.md           #   Memoria persistente (sección 3)
-│   └── skills/             #   13 skills compartidos (sección 4)
+├── CLAUDE.md               # → Instructions for Cowork (section 2)
+├── .claude/                # → Cowork configuration
+│   ├── memory.md           #   Persistent memory (section 3)
+│   └── skills/             #   13 shared skills (section 4)
 │       ├── work-item-generator/   entity-analyzer/
 │       ├── consistency-checker/   documenter/
 │       ├── architect/             developer/
@@ -29,286 +29,286 @@ legal-ai-ar/
 │       ├── task-breakdown/        doc-standards/
 │       ├── backend-tools/         ia-tools/
 │       └── infra-tools/
-└── .cursor/                # → Configuración Cursor (sección 5)
-    ├── rules/              #   Reglas del proyecto para Cursor
-    │   ├── proyecto.mdc    #   Reglas generales (equivale a CLAUDE.md)
-    │   ├── backend-dotnet.mdc    # Convenciones backend
-    │   ├── frontend-angular.mdc  # Convenciones frontend
-    │   └── work-items.mdc       # Template de work items
-    └── skills/             #   Los mismos 13 skills que en .claude/
+└── .cursor/                # → Cursor configuration (section 5)
+    ├── rules/              #   Project rules for Cursor
+    │   ├── project.mdc     #   General rules (equivalent to CLAUDE.md)
+    │   ├── backend-dotnet.mdc    # Backend conventions
+    │   ├── frontend-angular.mdc  # Frontend conventions
+    │   └── work-items.mdc       # Work item template
+    └── skills/             #   The same 13 skills as in .claude/
 ```
 
-Al abrir una sesión en Cowork con esta carpeta, Claude lee automáticamente el `CLAUDE.md` y tiene acceso a todos los archivos del repo, los skills, y la memoria.
+When you open a Cowork session with this folder, Claude automatically reads `CLAUDE.md` and has access to all the repo files, the skills, and the memory.
 
 ---
 
-## 2. CLAUDE.md — Instrucciones del proyecto
+## 2. CLAUDE.md — Project instructions
 
-**Archivo**: `CLAUDE.md` (raíz del repo)
+**File**: `CLAUDE.md` (repo root)
 
-Es el "system prompt" del proyecto. Claude lo lee al inicio de cada sesión. Contiene las reglas y el contexto que Claude necesita para trabajar correctamente con Legal Ai Ar.
+It is the project's "system prompt". Claude reads it at the start of every session. It contains the rules and context Claude needs to work correctly with Legal Ai Ar.
 
-### Qué incluye
+### What it includes
 
-- **Identidad**: qué es Legal Ai Ar
+- **Identity**: what Legal Ai Ar is
 - **Stack**: Angular 19, .NET 10, Azure OpenAI, Semantic Kernel, etc.
-- **Estructura del monorepo**: mapa de carpetas y proyectos .NET
-- **Convenciones de código**: Clean Architecture, naming, patterns (backend y frontend)
-- **Nomenclatura Azure**: `{servicio}-legal-ai-ar-{ambiente}`
-- **Releases**: R0.0 (Preparación) → R1.0 (Foundation) → R2.0 (Agents) → R3.0 (Risk) → R4.0 (Operations)
-- **Reglas**: idioma español, monorepo único, nombres `LegalAiAr.*` (nunca LegalKB)
+- **Monorepo structure**: map of folders and .NET projects
+- **Code conventions**: Clean Architecture, naming, patterns (backend and frontend)
+- **Azure naming**: `{service}-legal-ai-ar-{environment}`
+- **Releases**: R0.0 (Preparation) → R1.0 (Foundation) → R2.0 (Agents) → R3.0 (Risk) → R4.0 (Operations)
+- **Rules**: English-first language rule, single monorepo, `LegalAiAr.*` names (never LegalKB)
 
-### Cómo extenderlo
+### How to extend it
 
-Editá directamente el archivo para agregar reglas nuevas. Ejemplos:
+Edit the file directly to add new rules. Examples:
 
-- Preferencias de estilo: "siempre usar `var` en C#"
-- Restricciones de paquetes: "no usar Dapper, usar EF Core"
-- Convenciones de Git: "commits en inglés, formato conventional commits"
-- Restricciones de scope: "no tocar los workers del MVP sin consultar"
-
----
-
-## 3. Memoria — Contexto persistente
-
-**Archivo**: `.claude/memory.md`
-
-Guarda decisiones, convenciones y contexto que Claude puede consultar en cualquier sesión futura.
-
-### Contenido actual
-
-- **Decisiones**: monorepo existente (no crear repo nuevo), eliminación de SignalR para workers, rename de R0.0 a "Preparación"
-- **Convenciones**: numeración de features (F00-F23, FT01-FT04), formato de work items, naming Azure
-- **Estado**: R0.0 en progreso, pendiente crear LegalAiAr.Agents y LegalAiAr.AgentEvals
-- **Cosas a evitar**: nunca "LegalKB", no repos separados, no SignalR para workers
-
-### Cómo actualizarla
-
-Decile a Claude en cualquier momento:
-- "Recordá que decidimos usar Azure Functions en vez de BackgroundService"
-- "Agregá a la memoria que el campo EstadoVigencia ahora es un enum"
-- "Actualizá la memoria: R0.0 está completo"
-
-La memoria crece con el tiempo. Cada tanto conviene revisarla y limpiar lo que ya no aplique.
+- Style preferences: "always use `var` in C#"
+- Package restrictions: "do not use Dapper, use EF Core"
+- Git conventions: "commits in English, conventional commits format"
+- Scope restrictions: "do not touch the MVP workers without asking"
 
 ---
 
-## 4. Skills personalizados
+## 3. Memory — Persistent context
 
-Cuatro skills especializados para las tareas más frecuentes del proyecto. Se activan automáticamente cuando Claude detecta que tu pedido encaja con alguno de ellos.
+**File**: `.claude/memory.md`
+
+Stores decisions, conventions, and context that Claude can consult in any future session.
+
+### Current content
+
+- **Decisions**: existing monorepo (do not create a new repo), removal of SignalR for workers, rename of R0.0 to "Preparation"
+- **Conventions**: feature numbering (F00-F23, FT01-FT04), work item format, Azure naming
+- **Status**: R0.0 in progress, pending creation of LegalAiAr.Agents and LegalAiAr.AgentEvals
+- **Things to avoid**: never "LegalKB", no separate repos, no SignalR for workers
+
+### How to update it
+
+Tell Claude at any time:
+- "Remember that we decided to use Azure Functions instead of BackgroundService"
+- "Add to memory that the ValidityStatus field is now an enum"
+- "Update the memory: R0.0 is complete"
+
+The memory grows over time. Every so often it is worth reviewing it and cleaning up what no longer applies.
+
+---
+
+## 4. Custom skills
+
+The most frequent project tasks are covered by specialized skills. They activate automatically when Claude detects that your request matches one of them.
 
 ### 4.1 Work Item Generator
 
-**Cuándo se activa**: al pedir crear un work item, tarea, historia de usuario, o ticket para cualquier feature.
+**When it activates**: when you ask to create a work item, task, user story, or ticket for any feature.
 
-**Qué hace**:
-1. Lee `features.md` para entender la feature padre
-2. Verifica work items existentes para continuar la numeración
-3. Genera el `.md` con el template completo: descripción, tareas con checkboxes, secciones técnicas, criterios de aceptación, dependencias
-4. Lo guarda en la carpeta correcta (`docs/roadmap/F{XX} - {Nombre}/`)
+**What it does**:
+1. Reads `features.md` to understand the parent feature
+2. Checks existing work items to continue the numbering
+3. Generates the `.md` with the full template: description, tasks with checkboxes, technical sections, acceptance criteria, dependencies
+4. Saves it in the correct folder (`docs/roadmap/F{XX} - {Name}/`)
 
-**Ejemplos**:
+**Examples**:
 ```
-"Creame el work item para el endpoint de búsqueda semántica en F03"
-"Necesito un W03 en F09 para el plugin de búsqueda de normas vigentes"
-"Agregá una tarea al roadmap para implementar el middleware de auth en F01"
+"Create the work item for the semantic search endpoint in F03"
+"I need a W03 in F09 for the in-force legal norm search plugin"
+"Add a roadmap task to implement the auth middleware in F01"
 ```
 
 ### 4.2 Entity Analyzer
 
-**Cuándo se activa**: al trabajar con entidades del dominio, modelo de datos, ontología, o grafo legal.
+**When it activates**: when working with domain entities, the data model, the ontology, or the legal graph.
 
-**Capacidades**:
-- Validar una entidad contra la ontología formal (`docs/ontologia/`)
-- Analizar relaciones entre dos entidades
-- Proponer nuevas entidades con propiedades, relaciones, y código C#
-- Auditar consistencia entre el código (`LegalAiAr.Core/Entities/`) y la ontología
+**Capabilities**:
+- Validate an entity against the formal ontology (`docs/ontology/`)
+- Analyze relationships between two entities
+- Propose new entities with properties, relationships, and C# code
+- Audit consistency between the code (`LegalAiAr.Core/Entities/`) and the ontology
 
-**Ejemplos**:
+**Examples**:
 ```
-"Verificá que la entidad Expediente en el código coincide con la ontología"
-"Necesitamos una entidad RecursoJudicial. Proponé la estructura"
-"Qué relaciones hay entre Fallo y Norma según la ontología?"
+"Verify that the CaseFile entity in the code matches the ontology"
+"We need a JudicialRemedy entity. Propose the structure"
+"What relationships exist between Ruling and LegalNorm per the ontology?"
 ```
 
 ### 4.3 Consistency Checker
 
-**Cuándo se activa**: al pedir auditorías de documentación, revisar consistencia, o después de cambios masivos.
+**When it activates**: when you ask for documentation audits, consistency reviews, or after mass changes.
 
-**Qué verifica**:
-- Features en `features.md` vs. carpetas y archivos existentes en disco
-- Metadatos de work items (release, feature, ID, footer)
-- Nombres correctos (`LegalAiAr`, no `LegalKB`)
-- Endpoints y DTOs consistentes entre work items
-- Referencias cruzadas y dependencias válidas (sin ciclos)
+**What it verifies**:
+- Features in `features.md` vs. existing folders and files on disk
+- Work item metadata (release, feature, ID, footer)
+- Correct names (`LegalAiAr`, not `LegalKB`)
+- Endpoints and DTOs consistent across work items
+- Valid cross-references and dependencies (no cycles)
 
-**Ejemplos**:
+**Examples**:
 ```
-"Revisá la consistencia de todos los work items de F08"
-"Hay inconsistencias entre features.md y las carpetas?"
-"Verificá que no quedó ningún LegalKB en los docs"
+"Review the consistency of all F08 work items"
+"Are there inconsistencies between features.md and the folders?"
+"Verify that no LegalKB is left in the docs"
 ```
 
-### 4.4 Documentador
+### 4.4 Documenter
 
-**Cuándo se activa**: al pedir documentación técnica, guías, ADRs, o documentación de API.
+**When it activates**: when you ask for technical documentation, guides, ADRs, or API documentation.
 
-**Tipos de documento que genera**:
-- Documento técnico numerado (para `docs/tecnicas/`)
-- Guía de implementación paso a paso
+**Document types it generates**:
+- Numbered technical document (for `docs/technical/`)
+- Step-by-step implementation guide
 - Architecture Decision Record (ADR)
-- Documentación de API/endpoints
+- API/endpoint documentation
 
-**Ejemplos**:
+**Examples**:
 ```
-"Documentá la arquitectura del pipeline de ingesta como doc técnico"
-"Creá un ADR sobre la decisión de usar Reciprocal Rank Fusion"
-"Hacé una guía de implementación para el setup de Semantic Kernel"
+"Document the ingestion pipeline architecture as a technical doc"
+"Create an ADR about the decision to use Reciprocal Rank Fusion"
+"Write an implementation guide for the Semantic Kernel setup"
 ```
 
 ---
 
-## 5. Cursor — Configuración para el segundo dev
+## 5. Cursor — Configuration for the second dev
 
-El otro desarrollador trabaja con Cursor. La configuración tiene dos niveles: reglas (siempre activas según contexto) y skills (roles especializados que se invocan explícitamente).
+The other developer works with Cursor. The configuration has two levels: rules (always active depending on context) and skills (specialized roles invoked explicitly).
 
-### 5.1 Reglas (`.cursor/rules/`)
+### 5.1 Rules (`.cursor/rules/`)
 
-Se cargan automáticamente según el archivo que se esté editando:
+They load automatically depending on the file being edited:
 
-| Archivo | Alcance | Equivalente Cowork |
-|---------|---------|-------------------|
-| `proyecto.mdc` | Siempre activo | CLAUDE.md completo |
-| `backend-dotnet.mdc` | Archivos `*.cs` y `*.csproj` en `mvp/backend/` | Sección "Backend (.NET)" de CLAUDE.md |
-| `frontend-angular.mdc` | Archivos `*.ts`, `*.html`, `*.scss` en `mvp/frontend/` | Sección "Frontend (Angular)" de CLAUDE.md |
-| `work-items.mdc` | Archivos `*.md` en `docs/roadmap/` | Skill work-item-generator |
+| File | Scope | Cowork equivalent |
+|------|-------|-------------------|
+| `project.mdc` | Always active | Full CLAUDE.md |
+| `backend-dotnet.mdc` | `*.cs` and `*.csproj` files in `mvp/backend/` | "Backend (.NET)" section of CLAUDE.md |
+| `frontend-angular.mdc` | `*.ts`, `*.html`, `*.scss` files in `mvp/frontend/` | "Frontend (Angular)" section of CLAUDE.md |
+| `work-items.mdc` | `*.md` files in `docs/roadmap/` | work-item-generator skill |
 
 ### 5.2 Skills (`.cursor/skills/`)
 
-Los **mismos 13 skills** están disponibles en Cowork (`.claude/skills/`) y en Cursor (`.cursor/skills/`), con nombres idénticos. Cualquiera de los dos puede invocar cualquier skill; la diferencia es el foco de cada plataforma, no las capacidades.
+The **same 13 skills** are available in Cowork (`.claude/skills/`) and in Cursor (`.cursor/skills/`), with identical names. Either one can invoke any skill; the difference is each platform's focus, not the capabilities.
 
-| Skill | Rol |
-|-------|-----|
-| **work-item-generator** | Genera work items siguiendo el template estándar |
-| **consistency-checker** | Verifica consistencia del roadmap |
-| **entity-analyzer** | Valida entidades contra la ontología |
-| **documenter** | Genera documentación técnica (ADR, guías, API) |
-| **architect** | Analiza impacto técnico, produce plan de implementación |
-| **developer** | Implementa work items con código production-ready |
-| **designer** | Crea mockups HTML con guías de diseño PwC |
-| **reviewer** | Code review contra estándares del proyecto |
-| **task-breakdown** | Descompone un work item en tareas concretas |
+| Skill | Role |
+|-------|------|
+| **work-item-generator** | Generates work items following the standard template |
+| **consistency-checker** | Verifies roadmap consistency |
+| **entity-analyzer** | Validates entities against the ontology |
+| **documenter** | Generates technical documentation (ADR, guides, API) |
+| **architect** | Analyzes technical impact, produces an implementation plan |
+| **developer** | Implements work items with production-ready code |
+| **designer** | Creates HTML mockups with PwC design guidelines |
+| **reviewer** | Code review against project standards |
+| **task-breakdown** | Breaks a work item into concrete tasks |
 | **doc-standards** | Markdown, Mermaid, ADR templates |
-| **backend-tools** | Archivos .http, migraciones EF, scaffolding CQRS |
-| **ia-tools** | Prompt templates, golden sets, plugins Semantic Kernel |
-| **infra-tools** | Config Azure, GitHub Actions |
+| **backend-tools** | .http files, EF migrations, CQRS scaffolding |
+| **ia-tools** | Prompt templates, golden sets, Semantic Kernel plugins |
+| **infra-tools** | Azure config, GitHub Actions |
 
-### 5.3 Distribución de responsabilidades
+### 5.3 Distribution of responsibilities
 
-Aunque ambas plataformas tienen los 13 skills, en la práctica cada una se enfoca en distintas etapas:
+Although both platforms have the 13 skills, in practice each focuses on different stages:
 
 ```
-                    COWORK (Pablo)              CURSOR (Otro dev)
-                    ──────────────              ─────────────────
-Planificación       work-item-generator         (disponible)
+                    COWORK (Pablo)              CURSOR (Other dev)
+                    ──────────────              ──────────────────
+Planning            work-item-generator         (available)
                     consistency-checker
                     entity-analyzer
 
-Análisis técnico    (disponible)                architect
-Diseño              (disponible)                designer
-Desarrollo          (disponible)                developer
-Review              reviewer                    reviewer
-Documentación       documenter                  (disponible)
+Technical analysis  (available)                 architect
+Design              (available)                 designer
+Development         (available)                 developer
+Review              reviewer                     reviewer
+Documentation       documenter                   (available)
 ```
 
-Cowork se enfoca en planificación y documentación. Cursor se enfoca en análisis técnico, diseño e implementación. Ambos comparten las mismas reglas base (CLAUDE.md = proyecto.mdc), los mismos skills, y la misma restricción de no tocar código sin permiso.
+Cowork focuses on planning and documentation. Cursor focuses on technical analysis, design, and implementation. Both share the same base rules (CLAUDE.md = project.mdc), the same skills, and the same restriction of not touching code without permission.
 
-### 5.4 Qué comparten ambas configuraciones
+### 5.4 What both configurations share
 
-- Mismos 13 skills con nombres idénticos
-- Misma regla de no tocar código sin permiso explícito
-- **Mismo idioma**: todo en inglés (código, nombres, docs, commits, work items); español solo para textos visibles al usuario final
-- Misma nomenclatura (LegalAiAr, nunca LegalKB)
-- Misma estructura de monorepo y Clean Architecture
-- Mismas convenciones de Azure y código
-- Mismo template de work items
+- The same 13 skills with identical names
+- The same rule of not touching code without explicit permission
+- **Same language**: everything in English (code, names, docs, commits, work items); Spanish only for end-user facing text
+- Same naming (LegalAiAr, never LegalKB)
+- Same monorepo structure and Clean Architecture
+- Same Azure and code conventions
+- Same work item template
 
-### 5.5 Cómo mantener la paridad
+### 5.5 How to keep parity
 
-Cuando se agrega una regla nueva al CLAUDE.md, hay que reflejarla en `proyecto.mdc` (y viceversa). Ambos archivos deben mantenerse sincronizados.
+When a new rule is added to CLAUDE.md, it must be reflected in `project.mdc` (and vice versa). Both files must be kept in sync.
 
 ---
 
-## 6. Flujo de trabajo completo — Cowork + Cursor
+## 6. Full workflow — Cowork + Cursor
 
-Ejemplo: implementar **F09 - Agente Normativo**
+Example: implement **F09 - Regulatory Agent**
 
-### Fase 1 — Planificación (Cowork)
-
-```
-Pablo:  "Creame los work items para F09 - Agente Normativo"
-Claude: [skill: work-item-generator → lee features.md → genera W01-W05]
-
-Pablo:  "Revisá la consistencia"
-Claude: [skill: consistency-checker → valida metadatos, dependencias, numeración]
-
-Pablo:  "Necesitamos la entidad ConsultaNormativa. Proponé la estructura"
-Claude: [skill: entity-analyzer → lee ontología → propone entidad con código C#]
-```
-
-### Fase 2 — Análisis técnico (Cursor)
+### Phase 1 — Planning (Cowork)
 
 ```
-Dev:    "Analizá el impacto técnico de F09-W02 (plugin de búsqueda de normas)"
-Cursor: [skill: architect → lee features.md + docs/tecnicas/01-rag-retrieval.md
-         → produce plan: archivos a crear, modificar, decisiones, riesgos]
+Pablo:  "Create the work items for F09 - Regulatory Agent"
+Claude: [skill: work-item-generator → reads features.md → generates W01-W05]
+
+Pablo:  "Review the consistency"
+Claude: [skill: consistency-checker → validates metadata, dependencies, numbering]
+
+Pablo:  "We need a RegulatoryQuery entity. Propose the structure"
+Claude: [skill: entity-analyzer → reads the ontology → proposes the entity with C# code]
 ```
 
-### Fase 3 — Diseño (Cursor)
+### Phase 2 — Technical analysis (Cursor)
 
 ```
-Dev:    "Creá el mockup para la vista del Agente Normativo"
-Cursor: [skill: designer → lee guías PwC → produce mockup HTML con chat,
-         panel de normas, citación inline → pide aprobación]
+Dev:    "Analyze the technical impact of F09-W02 (legal norm search plugin)"
+Cursor: [skill: architect → reads features.md + docs/technical/01-rag-retrieval.md
+         → produces a plan: files to create, modify, decisions, risks]
 ```
 
-### Fase 4 — Desarrollo (Cursor)
+### Phase 3 — Design (Cursor)
 
 ```
-Dev:    "Implementá F09-W02"
-Cursor: [skill: developer → lee W02 + plan del architect → presenta:
-         "Creá SearchLegalNormPlugin.cs en LegalAiAr.Agents/Plugins/Normativo/
-          con el siguiente código: ..." → espera aprobación]
-
-Dev:    "Dale, aprobado"
-Cursor: [presenta código completo de cada archivo → pide aprobación final]
+Dev:    "Create the mockup for the Regulatory Agent view"
+Cursor: [skill: designer → reads PwC guidelines → produces an HTML mockup with chat,
+         norms panel, inline citation → asks for approval]
 ```
 
-### Fase 5 — Review (Cursor o Cowork)
+### Phase 4 — Development (Cursor)
 
 ```
-Dev:    "Revisá el código del PR de F09-W02"
-Cursor: [skill: reviewer → revisa contra convenciones, tests,
-         Clean Architecture → aprueba o reporta issues con severidad]
+Dev:    "Implement F09-W02"
+Cursor: [skill: developer → reads W02 + the architect's plan → presents:
+         "Create SearchLegalNormPlugin.cs in LegalAiAr.Agents/Plugins/Normativo/
+          with the following code: ..." → waits for approval]
+
+Dev:    "Go ahead, approved"
+Cursor: [presents the complete code for each file → asks for final approval]
 ```
 
-### Fase 6 — Documentación (Cowork)
+### Phase 5 — Review (Cursor or Cowork)
 
 ```
-Pablo:  "Documentá la arquitectura del Agente Normativo"
-Claude: [skill: documenter → genera docs/tecnicas/10-agente-normativo.md]
+Dev:    "Review the code of the F09-W02 PR"
+Cursor: [skill: reviewer → reviews against conventions, tests,
+         Clean Architecture → approves or reports issues by severity]
+```
+
+### Phase 6 — Documentation (Cowork)
+
+```
+Pablo:  "Document the Regulatory Agent architecture"
+Claude: [skill: documenter → generates docs/technical/10-regulatory-agent.md]
 ```
 
 ---
 
 ## 7. Tips
 
-- **Sé específico**: "Creame el W03 para F09 sobre el plugin de búsqueda de normas" funciona mejor que "hacé algo para F09"
-- **Encadená skills**: creá un work item y después pedí que verifique la consistencia
-- **Actualizá la memoria**: cuando tomes una decisión importante, pedile a Claude que la registre para futuras sesiones
-- **Iterá sobre los skills**: si un skill no genera lo que esperás, editá su `SKILL.md` directamente
-- **Usá el CLAUDE.md como contrato**: si Claude comete un error recurrente (ej: usa "LegalKB"), agregá una regla más explícita
+- **Be specific**: "Create W03 for F09 about the legal norm search plugin" works better than "do something for F09"
+- **Chain skills**: create a work item and then ask it to verify consistency
+- **Update the memory**: when you make an important decision, ask Claude to record it for future sessions
+- **Iterate on the skills**: if a skill does not generate what you expect, edit its `SKILL.md` directly
+- **Use CLAUDE.md as a contract**: if Claude makes a recurring mistake (e.g., uses "LegalKB"), add a more explicit rule
 
 ---
 
-*Tutorial: Configuración IA para Legal Ai Ar — Legal Ai Ar*
+*Tutorial: AI Setup for Legal Ai Ar — Legal Ai Ar*

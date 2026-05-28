@@ -1,33 +1,33 @@
-# Guía del Desarrollador — Legal Ai Ar
+# Developer Guide — Legal Ai Ar
 
-> Cómo trabajar con los asistentes IA (Claude en Cowork / Cursor) para implementar work items del proyecto.
+> How to work with the AI assistants (Claude in Cowork / Cursor) to implement project work items.
 
 ---
 
-## 1. Antes de empezar
+## 1. Before you start
 
-### Entorno de desarrollo
+### Development environment
 
-El setup del entorno está documentado en el work item **F00 - W07 - Setup Entorno Local y Onboarding Guide** (`docs/roadmap/F00 - Entorno y Estructura de Desarrollo/`). En resumen necesitás:
+The environment setup is documented in the work item **F00 - W07 - Local Environment Setup and Onboarding Guide** (`docs/roadmap/F00 - Development Environment and Structure/`). In short, you need:
 
 - .NET 10 SDK
-- Node.js 20+ y Angular CLI 19
-- Azure subscription configurada (SQL, AI Search, OpenAI, Storage)
-- Azure Entra ID (autenticación)
-- Git + acceso al repo `legal-ai-ar`
+- Node.js 20+ and Angular CLI 19
+- A configured Azure subscription (SQL, AI Search, OpenAI, Storage)
+- Azure Entra ID (authentication)
+- Git + access to the `legal-ai-ar` repo
 
-### Herramientas IA
+### AI tools
 
-Trabajamos con dos herramientas de asistencia IA. Ambas están configuradas para comportarse de manera idéntica — mismas reglas, misma nomenclatura, mismas convenciones:
+We work with two AI assistance tools. Both are configured to behave identically — same rules, same naming, same conventions:
 
-| Herramienta | Quién la usa | Foco principal |
-|-------------|-------------|----------------|
-| **Cowork** (Claude Desktop) | Pablo | Planificación, documentación, consistencia |
-| **Cursor** | Desarrolladores | Análisis técnico, diseño, implementación, review |
+| Tool | Who uses it | Main focus |
+|------|-------------|------------|
+| **Cowork** (Claude Desktop) | Pablo | Planning, documentation, consistency |
+| **Cursor** | Developers | Technical analysis, design, implementation, review |
 
-Las IAs **nunca crean ni modifican código directamente**. Siempre te indican qué archivo crear, en qué ruta, y te dan el código para que vos lo coloques. Esto es una regla de proyecto.
+The AIs **never create or modify code directly**. They always tell you which file to create, in which path, and give you the code for you to place. This is a project rule.
 
-### Estructura del repo
+### Repo structure
 
 ```
 legal-ai-ar/
@@ -35,141 +35,141 @@ legal-ai-ar/
 │   ├── backend/src/
 │   │   ├── api/LegalAiAr.Api/              # Minimal API, endpoints
 │   │   ├── api/LegalAiAr.Application/      # CQRS, handlers, DTOs
-│   │   ├── shared/LegalAiAr.Core/          # Entidades, interfaces
+│   │   ├── shared/LegalAiAr.Core/          # Entities, interfaces
 │   │   ├── shared/LegalAiAr.Infrastructure/ # EF Core, Azure, AI
 │   │   ├── shared/LegalAiAr.Agents/        # Semantic Kernel
 │   │   ├── workers/                         # BackgroundServices
-│   │   └── tools/                           # CLI auxiliares
+│   │   └── tools/                           # Auxiliary CLIs
 │   ├── backend/tests/                       # xUnit + NSubstitute
 │   └── frontend/                            # Angular 19 SPA
 ├── docs/
-│   ├── roadmap/                             # Work items por feature
-│   ├── tecnicas/                            # 9 docs técnicos
-│   └── ontologia/                           # Modelo de dominio
-├── CLAUDE.md                                # Instrucciones IA (Cowork)
+│   ├── roadmap/                             # Work items by feature
+│   ├── technical/                           # 9 technical docs
+│   └── ontology/                            # Domain model
+├── CLAUDE.md                                # AI instructions (Cowork)
 └── .cursor/
-    ├── rules/                               # Instrucciones IA (Cursor)
-    └── skills/                              # Skills de Cursor
+    ├── rules/                               # AI instructions (Cursor)
+    └── skills/                              # Cursor skills
 ```
 
 ---
 
-## 2. Anatomía de un work item
+## 2. Anatomy of a work item
 
-Cada work item es un archivo `.md` en `docs/roadmap/{Feature}/`. Esta es la estructura:
+Each work item is a `.md` file in `docs/roadmap/{Feature}/`. This is the structure:
 
 ```
-Header          → Feature, Release, Sprint, Tipo, Prioridad, Estimación
-Descripción     → Qué hay que hacer y por qué
-Tareas          → Checklist (genérico al crear, detallado después del breakdown)
-Notas técnicas  → Stack, patrones, configuración
-Archivos        → Qué crear/modificar
-Criterios       → Cuándo está "listo"
-Dependencias    → Qué bloquea y qué necesita
+Header          → Feature, Release, Sprint, Type, Priority, Estimate
+Description     → What to do and why
+Tasks           → Checklist (generic at creation, detailed after the breakdown)
+Technical notes → Stack, patterns, configuration
+Files           → What to create/modify
+Criteria        → When it is "done"
+Dependencies    → What it blocks and what it needs
 ```
 
-Cuando te asignan un work item, lo primero que hacés es **desglosar las tareas genéricas en tasks de implementación concretas** usando el skill `task-breakdown`.
+When a work item is assigned to you, the first thing you do is **break down the generic tasks into concrete implementation tasks** using the `task-breakdown` skill.
 
 ---
 
-## 3. Skills disponibles en Cursor
+## 3. Skills available in Cursor
 
-Estos son los skills que tenés disponibles en Cursor. Los invocás desde el chat escribiendo lo que necesitás — Cursor detecta automáticamente cuál usar.
+These are the skills available to you in Cursor. You invoke them from the chat by writing what you need — Cursor automatically detects which one to use.
 
-### task-breakdown — Desglosar tareas
+### task-breakdown — Break down tasks
 
-**Cuándo**: al recibir un work item asignado, antes de empezar a codear.
+**When**: upon receiving an assigned work item, before starting to code.
 
-**Qué hace**: lee el work item, la documentación técnica relevante, y reemplaza las tareas genéricas con un checklist detallado de archivos a crear/modificar, con rutas exactas, nombres de clases, y métodos.
-
-```
-Tú:     "Desglosá las tareas del work item F08-W03"
-Cursor: [lee W03, W01, features.md, docs técnicos relevantes
-         → genera checklist: 1. Modelo (DTOs), 2. Servicios, 
-         3. CQRS, 4. Validación, 5. Endpoints, 6. Tests, 7. Verificación
-         → actualiza la sección Tareas del work item]
-```
-
-### architect — Análisis técnico
-
-**Cuándo**: antes del breakdown, cuando necesitás entender el impacto técnico de un work item en el sistema.
-
-**Qué hace**: analiza qué capas, servicios, y componentes se ven afectados. Produce un plan con decisiones técnicas, dependencias, y riesgos.
+**What it does**: reads the work item, the relevant technical documentation, and replaces the generic tasks with a detailed checklist of files to create/modify, with exact paths, class names, and methods.
 
 ```
-Tú:     "Analizá el impacto técnico de F09-W02"
-Cursor: [lee W02 + docs técnicos → plan: archivos a crear, 
-         decisiones (patrón Strategy vs directo), riesgos, orden sugerido]
+You:    "Break down the tasks of work item F08-W03"
+Cursor: [reads W03, W01, features.md, relevant technical docs
+         → generates a checklist: 1. Model (DTOs), 2. Services,
+         3. CQRS, 4. Validation, 5. Endpoints, 6. Tests, 7. Verification
+         → updates the work item's Tasks section]
 ```
 
-### developer — Implementación
+### architect — Technical analysis
 
-**Cuándo**: después del breakdown, cuando estás listo para codear.
+**When**: before the breakdown, when you need to understand the technical impact of a work item on the system.
 
-**Qué hace**: para cada task del breakdown, te presenta el código completo de cada archivo con su ruta. Vos lo colocás.
+**What it does**: analyzes which layers, services, and components are affected. Produces a plan with technical decisions, dependencies, and risks.
 
 ```
-Tú:     "Implementemos la task 1 de F08-W03: crear los DTOs"
-Cursor: [presenta: "Creá LegalNormSearchRequestDto.cs en 
-         backend/src/api/LegalAiAr.Application/DTOs/LegalNorms/ 
-         con el siguiente código: ..."]
+You:    "Analyze the technical impact of F09-W02"
+Cursor: [reads W02 + technical docs → plan: files to create,
+         decisions (Strategy pattern vs direct), risks, suggested order]
+```
+
+### developer — Implementation
+
+**When**: after the breakdown, when you are ready to code.
+
+**What it does**: for each task in the breakdown, it presents the complete code for each file with its path. You place it.
+
+```
+You:    "Let's implement task 1 of F08-W03: create the DTOs"
+Cursor: [presents: "Create LegalNormSearchRequestDto.cs in
+         backend/src/api/LegalAiAr.Application/DTOs/LegalNorms/
+         with the following code: ..."]
 ```
 
 ### designer — Mockups
 
-**Cuándo**: cuando necesitás mockups HTML antes de implementar un componente frontend.
+**When**: when you need HTML mockups before implementing a frontend component.
 
 ```
-Tú:     "Creá el mockup para la vista de búsqueda de normas"
-Cursor: [lee guías de diseño → produce mockup HTML]
+You:    "Create the mockup for the legal norm search view"
+Cursor: [reads design guidelines → produces HTML mockup]
 ```
 
 ### reviewer — Code review
 
-**Cuándo**: antes de hacer PR, para verificar que tu código cumple con los estándares.
+**When**: before opening a PR, to verify your code meets the standards.
 
 ```
-Tú:     "Revisá los archivos que creé para F08-W03"
-Cursor: [revisa contra convenciones → reporte con issues por severidad]
+You:    "Review the files I created for F08-W03"
+Cursor: [reviews against conventions → report with issues by severity]
 ```
 
 ---
 
-## 4. Flujo completo: del work item al PR
+## 4. Full flow: from work item to PR
 
-Este es el flujo paso a paso para implementar un work item asignado.
+This is the step-by-step flow to implement an assigned work item.
 
-### Paso 1 — Entender el contexto
+### Step 1 — Understand the context
 
-Leé el work item y su W01 (Documentación Integral). Si algo no queda claro, preguntale a la IA:
-
-```
-Tú:     "Explicame qué necesita F08-W03 y cómo encaja con el resto de la feature"
-```
-
-### Paso 2 — Análisis técnico (opcional pero recomendado)
-
-Si el work item es complejo (5+ story points), pedí un análisis técnico primero:
+Read the work item and its W01 (Comprehensive Documentation). If something is unclear, ask the AI:
 
 ```
-Tú:     "Analizá el impacto técnico de F08-W03"
-Cursor: [skill: architect → produce plan de implementación]
+You:    "Explain what F08-W03 needs and how it fits with the rest of the feature"
 ```
 
-Revisá el plan. Si hay decisiones técnicas que tomar, discutirlas ahora.
+### Step 2 — Technical analysis (optional but recommended)
 
-### Paso 3 — Desglosar tareas
-
-Pedí el breakdown de tareas. Esto reemplaza las tareas genéricas del work item:
+If the work item is complex (5+ story points), ask for a technical analysis first:
 
 ```
-Tú:     "Desglosá las tareas de F08-W03"
-Cursor: [skill: task-breakdown → genera checklist detallado en el work item]
+You:    "Analyze the technical impact of F08-W03"
+Cursor: [skill: architect → produces an implementation plan]
 ```
 
-Revisá el checklist. Si falta algo o algo no tiene sentido, pedí ajustes.
+Review the plan. If there are technical decisions to make, discuss them now.
 
-### Paso 4 — Crear branch
+### Step 3 — Break down tasks
+
+Ask for the task breakdown. This replaces the work item's generic tasks:
+
+```
+You:    "Break down the tasks of F08-W03"
+Cursor: [skill: task-breakdown → generates a detailed checklist in the work item]
+```
+
+Review the checklist. If something is missing or does not make sense, ask for adjustments.
+
+### Step 4 — Create a branch
 
 ```bash
 git checkout main
@@ -177,117 +177,117 @@ git pull
 git checkout -b feature/f08-w03-chat-endpoint
 ```
 
-### Paso 5 — Implementar task por task
+### Step 5 — Implement task by task
 
-Seguí el checklist en orden. Para cada task, pedí el código:
+Follow the checklist in order. For each task, ask for the code:
 
 ```
-Tú:     "Implementá la task 1: crear los DTOs de chat"
-Cursor: [skill: developer → presenta código completo con ruta]
+You:    "Implement task 1: create the chat DTOs"
+Cursor: [skill: developer → presents complete code with path]
 ```
 
-Creá el archivo en la ruta indicada y pegá el código. Repetí para cada task.
+Create the file in the indicated path and paste the code. Repeat for each task.
 
-A medida que completás cada task, marcala con `[x]` en el work item.
+As you complete each task, mark it with `[x]` in the work item.
 
-### Paso 6 — Verificación
+### Step 6 — Verification
 
-Una vez que todas las tasks están completas:
+Once all tasks are complete:
 
 ```bash
 dotnet build
 dotnet test
 ```
 
-Verificá los criterios de aceptación del work item uno por uno.
+Verify the work item's acceptance criteria one by one.
 
-### Paso 7 — Review
+### Step 7 — Review
 
-Antes del PR, pedí un review:
+Before the PR, ask for a review:
 
 ```
-Tú:     "Revisá todo lo que implementé para F08-W03"
-Cursor: [skill: reviewer → reporte de issues]
+You:    "Review everything I implemented for F08-W03"
+Cursor: [skill: reviewer → issue report]
 ```
 
-Corregí los issues críticos e importantes.
+Fix the critical and important issues.
 
-### Paso 8 — PR
+### Step 8 — PR
 
 ```bash
 git add .
-git commit -m "feat(F08): implementar endpoint POST chat con SignalR streaming"
+git commit -m "feat(F08): implement POST chat endpoint with SignalR streaming"
 git push -u origin feature/f08-w03-chat-endpoint
 ```
 
-Creá el PR a `main` con:
-- Título: `feat(F08): implementar endpoint POST chat con SignalR streaming`
-- Descripción: lista de archivos creados/modificados y work item referenciado
-- Referencia al work item: `Closes F08-W03`
+Create the PR to `main` with:
+- Title: `feat(F08): implement POST chat endpoint with SignalR streaming`
+- Description: list of created/modified files and the referenced work item
+- Work item reference: `Closes F08-W03`
 
 ---
 
-## 5. Convenciones que la IA aplica (y vos también)
+## 5. Conventions the AI applies (and you too)
 
-Estas reglas están configuradas en la IA y se aplican automáticamente, pero es bueno conocerlas:
+These rules are configured in the AI and applied automatically, but it is good to know them:
 
-| Tema | Convención |
-|------|-----------|
-| **Idioma** | Todo en inglés: código, nombres, comentarios, documentación, commits, work items. Español solo para textos visibles al usuario final (UI labels, mensajes de error, tooltips) |
-| **Nombres** | `LegalAiAr.*` para proyectos .NET (nunca "LegalKB") |
-| **Arquitectura** | Clean Architecture: Core → Application → Infrastructure → Api |
-| **Core** | NUNCA referencia a otro proyecto |
+| Topic | Convention |
+|-------|------------|
+| **Language** | Everything in English: code, names, comments, documentation, commits, work items. Spanish only for end-user facing text (UI labels, error messages, tooltips) |
+| **Names** | `LegalAiAr.*` for .NET projects (never "LegalKB") |
+| **Architecture** | Clean Architecture: Core → Application → Infrastructure → Api |
+| **Core** | NEVER references another project |
 | **API** | Minimal API (no Controllers) |
-| **CQRS** | Commands y Queries separados, handlers con MediatR |
-| **DI** | Solo constructor injection |
-| **async** | Todo I/O async con CancellationToken |
-| **Logging** | `ILogger<T>` structured, nunca `Console.WriteLine` |
-| **Config** | `IOptions<T>`, sin secretos en appsettings |
-| **Tests** | xUnit + NSubstitute + FluentAssertions. Naming: `{Método}_{Escenario}_{Resultado}` |
-| **Angular** | Standalone components, signals, no `any`, interfaces en `core/models/` |
-| **Git** | Branch: `feature/{fXX}-{desc}`. Commits: `feat/fix/refactor(F{XX}): descripción` |
-| **Azure** | Recursos: `{servicio}-legal-ai-ar-{ambiente}` |
+| **CQRS** | Commands and Queries separated, handlers with MediatR |
+| **DI** | Constructor injection only |
+| **async** | All I/O async with CancellationToken |
+| **Logging** | `ILogger<T>` structured, never `Console.WriteLine` |
+| **Config** | `IOptions<T>`, no secrets in appsettings |
+| **Tests** | xUnit + NSubstitute + FluentAssertions. Naming: `{Method}_{Scenario}_{Result}` |
+| **Angular** | Standalone components, signals, no `any`, interfaces in `core/models/` |
+| **Git** | Branch: `feature/{fXX}-{desc}`. Commits: `feat/fix/refactor(F{XX}): description` |
+| **Azure** | Resources: `{service}-legal-ai-ar-{environment}` |
 
 ---
 
-## 6. Documentación de referencia
+## 6. Reference documentation
 
-Estos son los documentos que la IA consulta y que vos también podés leer cuando necesitás contexto:
+These are the documents the AI consults and that you can also read when you need context:
 
-| Documento | Para qué |
-|-----------|----------|
-| `docs/roadmap/features.md` | Roadmap completo, endpoints, KPIs |
-| `docs/roadmap/{Feature}/` | Work items de cada feature |
-| `docs/tecnicas/01-rag-retrieval.md` | Búsqueda híbrida, embeddings, re-ranking |
-| `docs/tecnicas/02-arquitectura-agentica.md` | Agentes, router, tool calling |
-| `docs/tecnicas/03-prompt-engineering.md` | Templates, system prompts |
-| `docs/tecnicas/04-ingesta-procesamiento.md` | Pipeline de ingesta |
-| `docs/tecnicas/05-evaluacion-calidad-ia.md` | Métricas y evaluación |
-| `docs/tecnicas/06-seguridad-compliance-ia.md` | Seguridad y compliance |
-| `docs/tecnicas/07-observabilidad-llmops.md` | Observabilidad |
-| `docs/tecnicas/08-ux-ia-legal.md` | UX del chat y citación |
-| `docs/tecnicas/09-data-knowledge-management.md` | Gestión de datos |
-| `docs/ontologia/ontologia_legal_argentina.md` | Modelo de dominio legal |
-
----
-
-## 7. Preguntas frecuentes
-
-**¿Puedo pedirle a la IA que escriba el código directo en los archivos?**
-No. La regla del proyecto es que la IA indica qué crear y dónde, y vos lo colocás. Esto es intencional para que siempre revises lo que va al repo.
-
-**¿Qué hago si la IA sugiere algo que no tiene sentido?**
-Decíselo. "Eso no me parece correcto porque X". La IA ajusta. Si es una decisión de arquitectura, consultá con Pablo.
-
-**¿Puedo saltarme el task-breakdown?**
-Para work items simples (1-2 story points) podés ir directo al developer. Para 3+ story points, el breakdown te ahorra tiempo y errores.
-
-**¿Cómo sé qué docs técnicos leer?**
-No necesitás leerlos vos — la IA los lee automáticamente cuando le pedís analizar o implementar algo. Pero si querés contexto, están en `docs/tecnicas/`.
-
-**¿Qué pasa si necesito un endpoint que no está en features.md?**
-Avisale a Pablo. Puede ser que falte un work item o que haya que ajustar el roadmap.
+| Document | What for |
+|----------|----------|
+| `docs/roadmap/features.md` | Full roadmap, endpoints, KPIs |
+| `docs/roadmap/{Feature}/` | Work items of each feature |
+| `docs/technical/01-rag-retrieval.md` | Hybrid search, embeddings, re-ranking |
+| `docs/technical/02-agentic-architecture.md` | Agents, router, tool calling |
+| `docs/technical/03-prompt-engineering.md` | Templates, system prompts |
+| `docs/technical/04-ingestion-processing.md` | Ingestion pipeline |
+| `docs/technical/05-ai-quality-evaluation.md` | Metrics and evaluation |
+| `docs/technical/06-ai-security-compliance.md` | Security and compliance |
+| `docs/technical/07-observability-llmops.md` | Observability |
+| `docs/technical/08-legal-ai-ux.md` | Chat UX and citation |
+| `docs/technical/09-data-knowledge-management.md` | Data management |
+| `docs/ontology/argentine-legal-ontology.md` | Legal domain model |
 
 ---
 
-*Guía del Desarrollador — Legal Ai Ar*
+## 7. Frequently asked questions
+
+**Can I ask the AI to write the code directly into the files?**
+No. The project rule is that the AI indicates what to create and where, and you place it. This is intentional so you always review what goes into the repo.
+
+**What do I do if the AI suggests something that does not make sense?**
+Tell it. "That doesn't seem right because X". The AI adjusts. If it is an architecture decision, check with Pablo.
+
+**Can I skip the task-breakdown?**
+For simple work items (1-2 story points) you can go straight to the developer. For 3+ story points, the breakdown saves you time and errors.
+
+**How do I know which technical docs to read?**
+You don't need to read them yourself — the AI reads them automatically when you ask it to analyze or implement something. But if you want context, they are in `docs/technical/`.
+
+**What if I need an endpoint that is not in features.md?**
+Let Pablo know. There may be a missing work item or the roadmap may need adjusting.
+
+---
+
+*Developer Guide — Legal Ai Ar*
