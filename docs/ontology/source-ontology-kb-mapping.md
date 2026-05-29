@@ -1,3 +1,7 @@
+> 📦 **Ported reference.** Preserved from the previous documentation set as a reference for how
+> semi-structured sources are transformed through the ontology into the Knowledge Base. Spanish
+> original retained; diagrams are the sibling `source-ontology-kb-*.mermaid` files.
+
 # Fuentes → Ontología → Knowledge Base — Diagramas de Transformación
 
 | Campo | Valor |

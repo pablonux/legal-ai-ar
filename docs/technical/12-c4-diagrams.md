@@ -1,7 +1,6 @@
-> ⚠️ **Imported from the MVP — pending review.** Carried over from `mvp/docs/architecture/` to
-> preserve its content in the new structure. Not yet revised for current naming (`Legal Ai Ar` /
-> `LegalAiAr.*`) or the cloud-only / platform `id_token` models. **Do not treat as definitive until
-> reviewed.** Diagram sources live in `docs/technical/diagrams/`.
+> ⚠️ **Imported — pending review.** Preserved from the previous documentation set. Not yet revised for
+> current naming (`Legal Ai Ar` / `LegalAiAr.*`) or the cloud-only / platform `id_token` models. **Do
+> not treat as definitive until reviewed.** Diagram sources live in `docs/technical/diagrams/`.
 
 # C4 Architecture Diagrams — Legal AI AR
 
@@ -299,4 +298,4 @@ Mermaid diagrams render in:
 |----------|-------------|
 | [`10-system-architecture.md`](10-system-architecture.md) | Technical architecture, ADRs, data model |
 | [`11-technical-specs.md`](11-technical-specs.md) | Development specifications, CQRS, API |
-| `f0-1-dependencies.mermaid` (in `mvp/docs/design/`) | .NET project dependencies |
+| .NET project dependency diagram | Pending import |

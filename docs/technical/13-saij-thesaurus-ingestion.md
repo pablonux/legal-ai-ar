@@ -1,222 +1,166 @@
-> ⚠️ **Imported from the MVP — pending review.** Ported from `mvp/docs/roadmap/plans/` (the M-08
-> implementation plan) to preserve its content in the new structure. Not yet aligned to current
-> naming (e.g. `Ruling` → `CaseLaw`, `LegalAiAr.*`) or re-validated against the current roadmap.
-> Argentine legal/thesaurus terms are kept in Spanish (domain vocabulary). **Do not treat as
-> definitive until reviewed.**
+# SAIJ Thesaurus Ingestion
 
-# SAIJ Thesaurus Ingestion — Implementation Plan
-
-> Originally: *M-08 — Ingesta del Tesauro SAIJ*. Branch `feature/saij-thesaurus`.
+> How the **SAIJ legal thesaurus** (*Tesauro SAIJ de Derecho Argentino*) is ingested into the
+> Knowledge Base and used to enrich search: a controlled vocabulary that powers synonym maps, keyword
+> normalization, and query expansion.
+>
+> This document describes the ingestion as currently implemented. Argentine legal terms and the
+> TemaTres relation codes are kept verbatim.
 
 ---
 
 ## 1. Context
 
-The SAIJ Argentine Law Thesaurus is a controlled vocabulary from the *Sistema Argentino de
-Información Jurídica* (Ministry of Justice). It organizes ~12,000 descriptors across 27 thematic
-branches with hierarchical (TG/TE), synonymy (USE/UP), and associative (TR) relations. It is the
-authoritative source of Argentine legal terminology.
+The SAIJ Thesaurus is a controlled vocabulary from the *Sistema Argentino de Información Jurídica*
+(Ministry of Justice). It organizes legal descriptors across thematic branches with hierarchical
+(TG/TE), synonymy (USE/UP) and associative (TR) relations, and is the authoritative source of
+Argentine legal terminology.
 
-**Data sources:**
+It is `Source` **Id = 6** (`EntityType.Thesaurus`). Unlike rulings, the thesaurus is **not** processed
+through the six-stage queue pipeline — it is crawled directly into SQL by a dedicated job, because it
+is a single bounded vocabulary fetched in one pass rather than a stream of documents.
 
-- TemaTres 3.5 REST API: `http://vocabularios.saij.gob.ar/saij/services.php`
-  - Supports JSON output (`&output=json`)
-  - Endpoints: `fetchTopTerms`, `fetchDown`, `fetchTerm`, `fetchAlt`, `fetchRelated`, `fetchDirectTerms`, `letter`
-- PDFs (backup): alphabetical list and systematic list
+**Data source — TemaTres API:** `http://vocabularios.saij.gob.ar/saij/services.php`, called as
+`?task={task}&output=json&arg={termId}`. Four tasks are used:
 
-**Thesaurus relations** (codes are the Spanish TemaTres codes):
-
-| Code | Meaning | Example |
-|------|---------|---------|
-| TG | Broader term (parent) | "abandono de trabajo" → TG: "despido con causa" |
-| TE | Narrower term (child) | "aborto" → TE: "aborto no punible" |
-| UP | Used-for (non-preferred synonym) | "aborto" ← UP: "delito de aborto" |
-| USE | Redirect to preferred | "cuatrerismo" → USE: "abigeato" |
-| TR | Related term | "aborto" → TR: "interrupción del embarazo" |
-| UPAB | Synonym abbreviation | "ABL" → USE: "alumbrado, barrido y limpieza" |
+| Task | Purpose |
+|------|---------|
+| `fetchTopTerms` | The top-level thematic branches |
+| `fetchDown` | Children of a term (hierarchy descent) |
+| `fetchAlt` | Alternative labels / synonyms (non-preferred terms) |
+| `fetchRelated` | Associatively related terms |
 
 ---
 
-## 2. Objectives
+## 2. Data model
 
-1. **Model the thesaurus as a first-class entity** in the KB (like Rulings, Courts, Judges).
-2. **Dedicated ingestion pipeline** that consumes the TemaTres API and persists to Azure SQL.
-3. **Generate synonym maps** for Azure AI Search automatically from the USE/UP relations.
-4. **Enrich search**: use the thesaurus to expand queries and improve LLM preprocessing.
-5. **Link ruling keywords** to thesaurus descriptors (normalization).
+Two entities plus a SKOS-style relation enum:
 
----
+**`ThesaurusTerm`**
 
-## 3. Data model
+- `Id` (int, PK) · `ExternalId` (TemaTres `term_id`) · `Label`
+- `IsPreferred` (true = accepted descriptor; false = USE redirect / synonym)
+- `BranchName` (top-level thematic branch, e.g. "Derecho laboral"; null for non-preferred)
+- `Depth` (0 = top term) · `CreatedAtUtc` / `UpdatedAtUtc`
+- navigation: `RelationsAsSource`, `RelationsAsTarget`
 
-### 3.1 New entities (Azure SQL)
+**`ThesaurusRelation`** — directed edge between two terms
 
-```
-ThesaurusTerm
-├── Id (int, PK, auto)
-├── ExternalId (int, unique) ← TemaTres ID
-├── PreferredLabel (nvarchar 500) ← preferred descriptor
-├── IsPreferred (bit) ← true if descriptor, false if non-preferred
-├── BranchCode (nvarchar 50, nullable) ← branch code (e.g. "01.03")
-├── BranchName (nvarchar 200, nullable) ← "Derecho laboral"
-├── Depth (int) ← depth in the hierarchy
-├── CreatedAt (datetime2)
-├── UpdatedAt (datetime2)
+- `SourceTermId`, `TargetTermId`, `RelationType`, `CreatedAt`
 
-ThesaurusRelation
-├── Id (int, PK, auto)
-├── SourceTermId (int, FK → ThesaurusTerm.Id)
-├── TargetTermId (int, FK → ThesaurusTerm.Id)
-├── RelationType (nvarchar 10) ← 'BT' (broader), 'NT' (narrower), 'UF' (use for), 'RT' (related)
-├── UNIQUE (SourceTermId, TargetTermId, RelationType)
+**`ThesaurusRelationType`** (SKOS-style; mapped from the SAIJ/TemaTres codes):
 
-RulingKeywordMapping (ruling ↔ thesaurus link)
-├── RulingId (uniqueidentifier, FK → Ruling.Id)
-├── ThesaurusTermId (int, FK → ThesaurusTerm.Id)
-├── MatchType (nvarchar 20) ← 'exact', 'synonym', 'broader'
-├── PK (RulingId, ThesaurusTermId)
-```
+| Enum | SAIJ code | Meaning |
+|------|-----------|---------|
+| `BT` | TG | Broader term (parent in hierarchy) |
+| `NT` | TE | Narrower term (child in hierarchy) |
+| `UF` | UP | Use-for (source is the preferred form of the target synonym) |
+| `RT` | TR | Related term (associative) |
 
-### 3.2 SKOS relations → SQL
-
-| TemaTres | RelationType | Direction |
-|----------|-------------|-----------|
-| TG (parent) | BT (broader term) | child → parent |
-| TE (child) | NT (narrower term) | parent → child |
-| UP (synonym) | UF (use for) | preferred → non-preferred |
-| TR (related) | RT (related term) | bidirectional |
+A separate link connects ruling **keywords** to thesaurus terms (see §5).
 
 ---
 
-## 4. Implementation phases
+## 3. Ingestion — three-phase crawl
 
-### Phase 1: Data model and ingestion (effort: 3–4 days)
+`SaijThesaurusCrawler` (`IThesaurusCrawler.CrawlAsync`) ingests the full vocabulary in three phases,
+throttled at 150 ms between API calls and reporting progress via a callback:
 
-#### F-THES-1: Model and migration
+**Phase 1 — Hierarchy (preferred terms).**
+`fetchTopTerms` returns the branches; for each, the crawler upserts the preferred term at depth 0 and
+recurses with `fetchDown`, upserting each child with increasing depth. Hierarchy edges
+(child → parent) are buffered for phase 3. `SaveChanges` persists the preferred terms.
 
-| Task | Description | Deliverable |
-|------|-------------|-------------|
-| T-00 | Design documentation | `docs/design/thesaurus-data-model.md` |
-| T-01 | `ThesaurusTerm`, `ThesaurusRelation` entities in Core | `[ ] DEV` |
-| T-02 | EF Core configurations and migration | `[ ] DEV` |
-| T-03 | `IThesaurusRepository` + implementation | `[ ] DEV` |
+**Phase 2 — Synonyms and related terms.**
+For every preferred term (`GetAllExternalIdsAsync`), `fetchAlt` collects synonyms (non-preferred
+labels) and `fetchRelated` collects associative pairs. Non-preferred terms are then upserted as
+`ThesaurusTerm` rows (`IsPreferred = false`). Progress is reported every 200 terms.
 
-#### F-THES-2: Thesaurus crawler
+**Phase 3 — Relations.**
+Using a full `ExternalId → DbId` map (`GetExternalIdToDbIdMapAsync`), the buffered pairs are
+materialized into `ThesaurusRelation` rows: hierarchy as `BT`/`NT`, synonyms as `UF`, related as
+`RT`.
 
-| Task | Description | Deliverable |
-|------|-------------|-------------|
-| T-04 | `IThesaurusCrawler` interface in Core | `[ ] DEV` |
-| T-05 | `SaijThesaurusCrawler` — consumes the TemaTres API as JSON | `[ ] DEV` |
-| T-06 | CLI tool `LegalAiAr.IngestThesaurus` | `[ ] DEV` |
+The crawl is **idempotent** (upsert by `ExternalId`) and resilient (per-call retry with logging).
 
-**Crawling strategy:**
+### Ingestion job
 
-1. `fetchTopTerms` → get the 27 root branches.
-2. For each root, `fetchDown` recursively until the hierarchy is exhausted.
-3. For each term, `fetchAlt` to get synonyms (UP).
-4. For each term, `fetchRelated` to get related terms (TR).
-5. Throttling: 200 ms between requests (courtesy to the SAIJ server).
-6. Idempotency: upsert by `ExternalId`, `ON CONFLICT UPDATE`.
+`StartThesaurusIngestJobCommand` / `StartThesaurusIngestJobHandler` create an `IngestionJob` row
+(`EntityType.Thesaurus`, `SourceId = 6`) and run the crawl — plus optional keyword normalization — on
+a thread-pool thread. A guard (`HasActiveJobAsync`) prevents concurrent thesaurus jobs. The job is
+triggered from the admin surface (`StartThesaurusIngestJobRequest`).
 
-**Expected output:** ~12,000 preferred terms + ~5,000 synonyms + ~20,000 relations.
+---
 
-### Phase 2: Synonym maps and search (effort: 2 days)
+## 4. Synonym maps for search
 
-#### F-THES-3: Synonym map generation
-
-| Task | Description | Deliverable |
-|------|-------------|-------------|
-| T-07 | Synonym-map generator from UF/RT relations | `[ ] DEV` |
-| T-08 | Integrate into `SetupSearch` — create/update synonym map in Azure AI Search | `[ ] DEV` |
-| T-09 | Configure index fields to use the synonym map | `[ ] DEV` |
-
-**Azure AI Search Synonym Map format** (Solr format):
+`ThesaurusSynonymMapGenerator` (`ISynonymMapGenerator.GenerateSolrRulesAsync`) turns the `UF`
+relations into a **Solr-format synonym map** for Azure AI Search: all non-preferred labels are grouped
+under their preferred term as equivalence lines, e.g.
 
 ```
 despido, cesantía, distracto, desvinculación
-cuatrerismo, abigeato, hurto de ganado, hurto campestre
-recurso extraordinario federal, REF
+cuatrerismo, abigeato, hurto de ganado
 ```
 
-USE/UP relations produce equivalence lines. TR relations can be added as one-directional expansions:
-
-```
-libertad de expresión => libertad de expresión, libertad de prensa, derecho a la información
-```
-
-**Azure Basic tier limit:** 3 synonym maps × 5,000 rules each.
-
-### Phase 3: Linking with rulings (effort: 2 days)
-
-#### F-THES-4: Keyword normalization
-
-| Task | Description | Deliverable |
-|------|-------------|-------------|
-| T-10 | `KeywordNormalizationService` — maps ruling keywords to thesaurus descriptors | `[ ] DEV` |
-| T-11 | Backfill tool to normalize existing keywords (~8,300 rulings) | `[ ] DEV` |
-| T-12 | Integrate normalization into the IndexerWorker pipeline | `[ ] DEV` |
-
-**Matching strategy:**
-
-1. Exact match (keyword = PreferredLabel).
-2. Synonym match (keyword = label of a UP of the descriptor).
-3. Fuzzy match (Levenshtein ≤ 2 + same TG) for spelling variants.
-
-### Phase 4: LLM-preprocessing enrichment (effort: 1 day)
-
-#### F-THES-5: Query expansion with the thesaurus
-
-| Task | Description | Deliverable |
-|------|-------------|-------------|
-| T-13 | Update `SearchQueryPreprocessor` to consult the thesaurus before the LLM | `[ ] DEV` |
-| T-14 | Inject thesaurus context into the preprocessor prompt | `[ ] DEV` |
-
-**Improved flow:**
-
-```
-Query "despido"
-  → Thesaurus lookup: broader="despido con causa", synonyms=["cesantía","distracto"], related=["indemnización por despido"]
-  → LLM prompt includes this context
-  → keywordQuery: "despido cesantía distracto desvinculación indemnización"
-  → semanticQuery: "Jurisprudencia sobre despido laboral, incluyendo cesantía y distracto, con indemnización por despido sin justa causa"
-```
-
-### Phase 5: API and frontend (effort: 1–2 days)
-
-#### F-THES-6: Thesaurus exposure
-
-| Task | Description | Deliverable |
-|------|-------------|-------------|
-| T-15 | `GET /api/thesaurus/search?q=` — descriptor autocomplete | `[ ] DEV` |
-| T-16 | `GET /api/thesaurus/{id}` — descriptor detail with relations | `[ ] DEV` |
-| T-17 | Frontend: keyword autocomplete in the search filter | `[ ] DEV` |
-| T-18 | Frontend: descriptor chips in ruling detail | `[ ] DEV` |
+Labels are normalized before grouping. The generated rules are applied to the search index so a query
+for a synonym also matches the preferred descriptor (and vice versa), improving recall.
 
 ---
 
-## 5. Summary
+## 5. Keyword normalization
 
-| Phase | Scope | Effort | Impact |
-|-------|-------|--------|--------|
-| 1 | Model + ingestion | 3–4 days | Foundational |
-| 2 | Synonym maps | 2 days | High — direct improvement to search recall |
-| 3 | Linking with rulings | 2 days | High — keyword normalization |
-| 4 | LLM preprocessing | 1 day | Medium — more precise query expansion |
-| 5 | API + frontend | 1–2 days | UX — thesaurus autocomplete and navigation |
-
-**Estimated total:** 9–11 development days.
+`KeywordNormalizationService` (`IKeywordNormalizationService.ResolveAsync`) maps a ruling's free-text
+keyword to a thesaurus term Id (exact / synonym / normalized-label match). The resolved term is stored
+as a link between the ruling `Keyword` and the `ThesaurusTerm`, normalizing heterogeneous keyword text
+onto the controlled vocabulary. It can run as part of the ingestion job (backfill) and for new
+keywords.
 
 ---
 
-## 6. Risks
+## 6. Query expansion
 
-| Risk | Mitigation |
-|------|------------|
-| SAIJ API unavailable or throttled | Backup: parse downloaded PDFs. Local cache of responses. |
-| 5,000-rule-per-synonym-map limit (Basic tier) | Prioritize most-used synonyms. Group by thematic branch if needed. |
-| Ruling keywords don't match the thesaurus | Fuzzy match + manual review of unmapped ones |
-| Thesaurus is updated (last: 2025-06-03) | TemaTres `termsSince` endpoint allows incremental ingestion |
+`ThesaurusContextProvider` (`IThesaurusContextProvider.GetContextAsync`) looks up a user query in the
+thesaurus and returns context — broader term, synonyms, and related terms — that is injected into the
+search query preprocessing so the LLM and the keyword/semantic queries can expand a term into its
+vocabulary neighborhood. For example, *"despido"* expands toward *"despido con causa"* (broader),
+*"cesantía" / "distracto"* (synonyms), and *"indemnización por despido"* (related).
 
 ---
 
-*SAIJ Thesaurus Ingestion — Legal Ai Ar (imported MVP plan, pending review)*
+## 7. API
+
+`ThesaurusController` exposes the vocabulary under `api/thesaurus`:
+
+| Endpoint | Purpose |
+|----------|---------|
+| `GET /api/thesaurus/search?q=` | Descriptor autocomplete / search |
+| `GET /api/thesaurus/roots` | Top-level branches |
+| `GET /api/thesaurus/{id}/children` | Children of a term |
+| `GET /api/thesaurus/{id}` | Term detail with its relations |
+
+Responses use `ThesaurusTermDto` / `ThesaurusTermDetailDto`, served by CQRS queries
+(`SearchThesaurus`, `GetThesaurusRoots`, `GetThesaurusChildren`, `GetThesaurusById`).
+
+---
+
+## 8. Persistence & configuration
+
+- EF Core configurations `ThesaurusTermConfiguration` / `ThesaurusRelationConfiguration`; migrations
+  add the thesaurus tables, the keyword↔thesaurus link, and the `SourceId = 6` thesaurus source.
+- `ThesaurusRepository` provides the upserts and the `ExternalId → DbId` maps used by the crawler.
+- The crawler's base URL and 150 ms throttle are defined in code; the broader SAIJ web crawlers
+  (jurisprudence/legislation) have their own options.
+
+---
+
+## 9. Related documentation
+
+- [01 — RAG & Retrieval](01-rag-retrieval.md) — how synonym maps and query expansion feed search
+- [04 — Document Ingestion & Processing](04-ingestion-processing.md) — the document ingestion framework
+- [14 — CSJN Ruling Ingestion](14-csjn-ruling-ingestion.md) — the rulings pipeline that consumes normalized keywords
+- [Argentine Legal Ontology](../ontology/argentine-legal-ontology.md) — domain model and controlled vocabulary
+
+---
+
+*SAIJ Thesaurus Ingestion — Legal Ai Ar*

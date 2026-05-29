@@ -1,7 +1,7 @@
-> ⚠️ **Imported from the MVP — pending review.** Carried over from `mvp/docs/architecture/` to
-> preserve its content in the new structure. Not yet revised for current naming (`Legal Ai Ar` /
-> `LegalAiAr.*`), the cloud-only environment model, or the platform `id_token` auth model. **Do not
-> treat as definitive until reviewed.** Some internal links may still point to MVP paths.
+> ⚠️ **Imported — pending review.** Preserved from the previous documentation set. Not yet revised for
+> current naming (`Legal Ai Ar` / `LegalAiAr.*`), the cloud-only environment model, or the platform
+> `id_token` auth model. **Do not treat as definitive until reviewed.** Some internal links may still
+> be stale.
 
 # Legal AI AR
 

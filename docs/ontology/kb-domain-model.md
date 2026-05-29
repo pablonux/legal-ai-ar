@@ -5,6 +5,10 @@ todos: []
 isProject: false
 ---
 
+> 📦 **Ported reference.** Preserved from the previous documentation set as the target conceptual
+> model of the Knowledge Base. Spanish original retained; complements the applied
+> [`argentine-legal-ontology.md`](argentine-legal-ontology.md).
+
 # Modelo Conceptual Target de la Knowledge Base
 
 ## Principio rector

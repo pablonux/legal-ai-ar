@@ -1,6 +1,8 @@
 # Data Sources by Class — Argentine Legal Ontology
 
 > For each class, the primary (official) and secondary (aggregators/APIs) sources are indicated, from which to obtain the data to populate its instances and properties.
+>
+> For the consolidated **catalog of source portals** (jurisprudence by jurisdiction, administrative *dictámenes*, legislation) with URLs and **integration status**, see [Legal Data Sources Catalog](../technical/20-legal-data-sources.md).
 
 ---
 
