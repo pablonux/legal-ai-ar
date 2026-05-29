@@ -1,7 +1,7 @@
 # Legal Ai Ar — Work Item Backlog
 
 > Generated: 2026-04-02
-> Total features: 27
+> Total features: 28 (incl. F00 and FT01–FT05)
 > Stack: Angular 19 + .NET 10 + Azure
 
 ---
@@ -220,6 +220,27 @@ docs/roadmap/
     ├── FT05 - W05 - GCaaS - Vault Secrets and ConfigMap Wiring.md
     └── FT05 - W06 - GCaaS - Post-Deploy Verification and Rollback Runbook.md
 ```
+
+---
+
+## Release 0.0 (1 feature, 8 work items)
+
+| Feature | Name | Sprint | Work Items |
+|---------|------|--------|------------|
+| F00 | Development Environment and Structure | S00 | 8 |
+
+### Work Item Detail — Release 0.0
+
+| Feature | Work Item | Type | SP |
+|---------|-----------|------|----|
+| F00 | F00-W01: Comprehensive Documentation | doc | 5 SP |
+| F00 | F00-W02: Monorepo Setup and Backend Scaffolding | backend | 5 SP |
+| F00 | F00-W03: Angular 19 Frontend Scaffolding | frontend | 5 SP |
+| F00 | F00-W04: GitHub Actions CI Configuration | devops | 5 SP |
+| F00 | F00-W05: Azure Infrastructure with Bicep | devops | 8 SP |
+| F00 | F00-W06: CD Deployment Pipelines Configuration | devops | 5 SP |
+| F00 | F00-W07: Local Environment Setup and Onboarding Guide | doc | 2 SP |
+| F00 | F00-W08: Code Quality Configuration | devops | 3 SP |
 
 ---
 

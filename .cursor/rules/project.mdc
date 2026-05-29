@@ -6,6 +6,13 @@ alwaysApply: true
 
 # Legal Ai Ar — Project Instructions
 
+## Read first — current state
+
+Before doing anything, read **[`docs/roadmap/STATUS.md`](../../docs/roadmap/STATUS.md)** — the single
+source of truth for *where the project stands and what to pick up next*. When you finish a work item,
+update STATUS.md (progress log + "Next up"). Code currently lives under `mvp/` until work item
+**F00-W02** hoists it to the repo root.
+
 ## Identity
 
 Legal Ai Ar is a Legal Knowledge Base system with AI Agents for the Argentine legal domain. It centralizes legislation, case law, and legal doctrine, combining hybrid search (BM25 + vectors) with specialized agents built on Semantic Kernel.
@@ -71,6 +78,7 @@ legal-ai-ar/
 5. **New projects to add**: `LegalAiAr.Agents` (Semantic Kernel) in `src/shared/` and `LegalAiAr.AgentEvals` in `tests/`.
 6. **Infrastructure & delivery**: CI/CD and IaC are operated by the delivery track (documented + tracked, not application features). Two delivery paths: GitHub Actions → Azure staging (API + SPA) and GCaaS Helm/Knative → corporate production. See `docs/deployment/github-delivery.md`, `docs/deployment/gcaas-hosting.md`, features.md §2.3, feature FT05.
 7. **Authentication**: production auth is platform-managed Entra SSO on GCaaS — the platform issues an `id_token` HTTP-only cookie; the API validates it (`Auth:Platform`). Do NOT use MSAL, app-owned `/login`, or Bearer tokens; the SPA uses `withCredentials`. See `docs/deployment/gcaas-hosting.md`.
+8. **Definition of Done — documentation round-trip (mandatory)**: a work item is **NOT done** until its documentation is updated: the work-item file (Tasks/Acceptance `[x]`), `docs/roadmap/STATUS.md` (progress log + "Next up"), and any affected docs (`docs/technical/*`, `docs/ontology/*`, `docs/deployment/*`, `features.md`, onboarding) synced to the merged code. **NEVER mark a work item complete or approve/finish its PR while documentation is pending.** Applies to every dev + AI. See `docs/roadmap/DEFINITION-OF-DONE.md`.
 
 ## Reference documentation
 

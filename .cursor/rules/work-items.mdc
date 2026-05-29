@@ -16,9 +16,18 @@ Each work item follows the standard template. See `docs/roadmap/F00 - Developmen
 2. Description (1-3 paragraphs)
 3. Tasks with checkboxes grouped by logical section
 4. Relevant technical sections (endpoints, DTOs, diagrams)
-5. Acceptance Criteria with checkboxes
+5. Acceptance Criteria with checkboxes — MUST include the documentation round-trip (see Definition of Done)
 6. Dependencies (Blocks / Prerequisites)
 7. Italic footer: `*{ID} - {Title} — Legal Ai Ar*`
+
+## Definition of Done (mandatory — cannot close a work item without it)
+
+A work item is **not done** until its **documentation round-trip** is complete: the work-item file is
+updated (Tasks/Acceptance `[x]`), `docs/roadmap/STATUS.md` is updated (progress log + "Next up"), and
+any affected docs (`docs/technical/*`, `docs/ontology/*`, `docs/deployment/*`, `features.md`,
+onboarding) are synced to match the merged code. See `docs/roadmap/DEFINITION-OF-DONE.md`. **Never mark
+a work item complete or approve its PR while documentation is pending** — this applies to every
+dev + AI (Cursor or Cowork).
 
 ## Location
 

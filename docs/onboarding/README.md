@@ -275,6 +275,7 @@ Everything you might need, grouped by purpose.
 | Document | What it's for |
 |----------|---------------|
 | [Developer Guide](../developer-guide.md) | The work-item → PR workflow, AI skills, conventions, FAQ |
+| [Definition of Done](../roadmap/DEFINITION-OF-DONE.md) | Mandatory close criteria incl. the documentation round-trip — a work item can't close without it |
 | [Azure Services](azure-services.md) | Credentials, per-component variable matrix, queues, connectivity verification |
 | [Recommended Extensions](recommended-extensions.md) | IDE extensions for VS Code and Cursor |
 | [Troubleshooting](troubleshooting.md) | Common setup errors and fixes |
@@ -284,6 +285,7 @@ Everything you might need, grouped by purpose.
 
 | Document | What it's for |
 |----------|---------------|
+| [Project Status](../roadmap/STATUS.md) | **Where we are / what's next** — read first |
 | [Features Roadmap](../roadmap/features.md) | Full plan: releases, features, endpoints, KPIs, stack |
 | [Backlog](../roadmap/backlog.md) | Feature/work-item inventory and totals |
 | `docs/roadmap/{Feature}/` | The work items themselves (e.g. F00 = dev environment & structure) |

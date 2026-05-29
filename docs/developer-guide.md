@@ -218,7 +218,18 @@ Cursor: [skill: reviewer → issue report]
 
 Fix the critical and important issues.
 
-### Step 8 — PR
+### Step 8 — Documentation round-trip (mandatory — Definition of Done)
+
+**A work item cannot be closed until its documentation is updated.** Before opening the PR:
+
+1. Mark the work item's **Tasks** and **Acceptance Criteria** as `[x]`.
+2. Update **`docs/roadmap/STATUS.md`**: add a row to the progress log and advance "Next up".
+3. **Sync any affected docs** to match what you actually built — `docs/technical/*` (architecture, ingestion, chat, data model, frontend, admin, data sources), `docs/ontology/*`, `docs/deployment/*`, `features.md`, or onboarding — whichever the change touched.
+4. If you discovered a new public data source, document it in `docs/technical/20-legal-data-sources.md` (don't commit static data files).
+
+See the full checklist in [`docs/roadmap/DEFINITION-OF-DONE.md`](roadmap/DEFINITION-OF-DONE.md). The AI (`reviewer` skill) and the PR template both verify this; **do not merge with documentation pending.**
+
+### Step 9 — PR
 
 ```bash
 git add .

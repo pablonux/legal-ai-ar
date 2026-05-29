@@ -35,24 +35,39 @@
 
 > **Sprint:** S00 (Pre-development) | **Team:** 1 Backend + 1 Frontend | **Blocking for the whole project**
 
-### F00 — MVP Migration and Development Structure
+### F00 — Development Environment and Structure
 
 The `legal-ai-ar` MVP is a solid base with ~16,000 functional code files. Phase 0 evolves the existing monorepo, incorporates the project documentation, and prepares the data model for the new functionality. Infrastructure aspects (CI/CD, IaC, secrets, containers) are managed outside this roadmap.
+
+The work items are the ticket files in `docs/roadmap/F00 - Development Environment and Structure/`
+(the **source of truth**):
 
 | ID | Work Item | Type | Assigned to | Estimate |
 |----|-----------|------|-------------|----------|
 | F00-W01 | Comprehensive Documentation | doc | Tech Lead | 5 SP |
-| F00-W02 | Restructure monorepo: add `docs/`, `Agents` project, scaffolding | backend | Backend Dev | 5 SP |
-| F00-W03 | Add missing entities to the data model (EF Core migrations) | backend | Backend Dev | 5 SP |
-| F00-W04 | Incorporate unplanned MVP entities (Vote, Sumario, etc.) | backend | Backend Dev | 3 SP |
-| F00-W05 | Code Quality Configuration (analyzers, formatting, pre-commit) | devops | Both | 3 SP |
-| F00-W06 | Onboarding Guide and migration documentation | doc | Anyone | 2 SP |
+| F00-W02 | Monorepo Setup and Backend Scaffolding (hoist `mvp/` → root; add `LegalAiAr.Agents` + `LegalAiAr.AgentEvals`) | backend | Backend Dev | 5 SP |
+| F00-W03 | Angular 19 Frontend Scaffolding (hoist + align the existing SPA) | frontend | Frontend Dev | 5 SP |
+| F00-W04 | GitHub Actions CI Configuration | devops | Backend Dev | 5 SP |
+| F00-W05 | Azure Infrastructure with Bicep | devops | Backend Dev | 8 SP |
+| F00-W06 | CD Deployment Pipelines Configuration | devops | Backend Dev | 5 SP |
+| F00-W07 | Local Environment Setup and Onboarding Guide | doc | Anyone | 2 SP |
+| F00-W08 | Code Quality Configuration (analyzers, formatting, pre-commit) | devops | Both | 3 SP |
 
-**Total:** 23 story points | **Estimated duration:** 1 sprint (2 weeks)
+**Total:** 38 story points (≈28 remaining — W01 authored, W07/W08 largely done) | **Estimated duration:** ~1–2 sprints (S00, 2 weeks)
 
-> **Note:** CI/CD, IaC (Bicep), Azure Key Vault, branching strategy, and dev containers are managed outside this roadmap.
+> **Already partly covered & "adapt vs create".** Given the MVP and the foundation work already done,
+> several F00 tickets reduce to *hoist/adapt/verify* rather than *create from scratch*: W01 is authored;
+> W07 onboarding lives in `docs/onboarding/`; W08 is partly done (root `.editorconfig` + `.vscode/`);
+> W03 frontend already exists (hoist + align to Angular 19). The **comprehensive delivery & hosting**
+> model (GitHub → Azure staging + GCaaS) is detailed in feature **FT05** and `docs/deployment/`; treat
+> F00-W04–W06 as the initial bootstrap and consolidate them with FT05 when implemented.
 
-#### F00-W03 — New entities to add
+#### Data model evolution (handled within feature work — not a single F00 ticket)
+
+The data model evolves **inside the feature that needs each entity**, not as a standalone F00 work
+item. Two groups:
+
+**(a) New entities still to add** — created in their target release/feature:
 
 | Entity | Purpose | Required for |
 |--------|---------|--------------|
@@ -67,20 +82,11 @@ The `legal-ai-ar` MVP is a solid base with ~16,000 functional code files. Phase 
 | `LegalTaxonomy` | Controlled taxonomy (extends ThesaurusTerm) | R1.0 — Classification |
 | `RiskAnalysis` | Persistence of generated risk analyses | R3.0 — Risk analysis |
 
-#### F00-W04 — MVP entities to incorporate into the Legal Ai Ar plan
-
-The MVP has valuable entities that were not originally planned:
-
-| MVP Entity | Value | Action |
-|------------|-------|--------|
-| `Vote` (judges' votes) | High — each judge's position in rulings | Incorporate into the model |
-| `ProsecutorOpinion` (prosecutor opinion) | Medium — relevant for criminal and administrative law | Incorporate into the model |
-| `Sumario` (doctrinal headnotes) | High — improves RAG by separating headnote from the full ruling | Incorporate into the model |
-| `GraphCommunity` + `CommunityMembership` | High — case law line summaries | Incorporate into the model |
-| `CrawlerConfig` (per-source config) | High — crawler management from the admin UI | Incorporate into the model |
-| `EmbeddingConfig` (model config) | Medium — change model/dimensions without a deploy | Incorporate into the model |
-| `FieldProvenance` (per-field provenance) | High — more granular traceability than DataProvenance | Adopt instead of DataProvenance |
-| `ChunkEntityMention` | High — entities mentioned in each chunk for RAG | Incorporate into the model |
+**(b) MVP entities — already present in the model** (no migration needed; documented in
+[`docs/technical/17-kb-data-model.md`](../technical/17-kb-data-model.md)): `Vote`, `ProsecutorOpinion`,
+`Sumario`, `GraphCommunity` + `CommunityMembership`, `CrawlerConfig`, `EmbeddingConfig`,
+`FieldProvenance` (per-field provenance), `ChunkEntityMention`. These were already implemented in the
+MVP and are part of the KB data model.
 
 ### Phase 0 Technical Decisions
 
