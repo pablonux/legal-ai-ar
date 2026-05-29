@@ -18,6 +18,17 @@
 | 08 | [Legal AI UX](./08-legal-ai-ux.md) | Streaming, inline citation, confidence scores, explainability, feedback loops |
 | 09 | [Data & Knowledge Management](./09-data-knowledge-management.md) | Controlled taxonomy, temporal versioning, graph maintenance, data lineage, consistency |
 
+### Imported from the MVP (pending review)
+
+These were carried over from `mvp/docs/architecture/` to preserve their content. They are **drafts pending review** — not yet aligned to current naming, the cloud-only environment, or the platform `id_token` auth model. Do not treat them as definitive until revised.
+
+| # | Document | Scope |
+|---|----------|-------|
+| 10 | [System Architecture](./10-system-architecture.md) | System overview, ingestion pipeline design, data model, messaging/queues, workers, Azure infra, ADRs, open risks |
+| 11 | [Technical Specs](./11-technical-specs.md) | Repository structure, Clean Architecture layers, CQRS, data model, ingestion, API, frontend, testing strategy, ADRs |
+| 12 | [C4 Diagrams](./12-c4-diagrams.md) | C4 context/container/component diagrams (sources in [`diagrams/`](./diagrams/)) |
+| 13 | [SAIJ Thesaurus Ingestion](./13-saij-thesaurus-ingestion.md) | Plan to ingest the SAIJ controlled vocabulary: data model, crawler, synonym maps, query expansion |
+
 ---
 
 ## Conventions

@@ -19,7 +19,6 @@ features.md (source of truth)
   │   ├── W01 - Comprehensive Documentation
   │   └── W02..WNN - Specific work items
   ├── backlog.md
-  ├── gap-analysis-mvp-vs-plan.md
   └── docs/technical/*.md (technical references)
 ```
 
@@ -57,7 +56,7 @@ For each work item .md:
 
 ### 5. Cross-references
 
-- Links between documents (gap-analysis, backlog, work items) point to existing files
+- Links between documents (backlog, work items) point to existing files
 - Dependencies between work items form a valid DAG (no cycles)
 - References to technical documents (`docs/technical/`) are correct
 

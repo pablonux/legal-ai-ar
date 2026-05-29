@@ -38,8 +38,7 @@ legal-ai-ar/
 │   ├── roadmap/                              # Features, work items, backlog
 │   │   ├── features.md                       # Full roadmap (v2.0)
 │   │   ├── backlog.md
-│   │   ├── gap-analysis-mvp-vs-plan.md
-│   │   └── F00..F23, FT01..FT04/            # One folder per feature
+│   │   └── F00..F23, FT01..FT05/            # One folder per feature
 │   ├── technical/                            # 9 technical documents
 │   └── ontology/                             # Legal domain model
 └── README.md
@@ -86,7 +85,7 @@ legal-ai-ar/
 Before generating code or work items, consult:
 
 - `docs/roadmap/features.md` — Full roadmap with all features, endpoints, and KPIs
-- `docs/roadmap/gap-analysis-mvp-vs-plan.md` — What exists in the MVP vs. what is missing
+- `docs/roadmap/backlog.md` — Feature and work-item inventory with totals
 - `docs/technical/` — Technical decisions on RAG, agents, prompts, ingestion, evaluation, security, observability, UX, and data management
 - `docs/ontology/` — Argentine legal domain model (classes, properties, relationships, sources)
 - `docs/deployment/github-delivery.md` and `docs/deployment/gcaas-hosting.md` — Delivery and hosting: GitHub CI/CD to Azure staging, and GCaaS (Knative/Istio/Helm) corporate hosting with platform Entra auth

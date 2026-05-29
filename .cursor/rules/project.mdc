@@ -77,7 +77,7 @@ legal-ai-ar/
 Before generating code or work items, consult:
 
 - `docs/roadmap/features.md` — Full roadmap with features, endpoints, and KPIs
-- `docs/roadmap/gap-analysis-mvp-vs-plan.md` — MVP vs. plan
+- `docs/roadmap/backlog.md` — Feature and work-item inventory
 - `docs/technical/` — Technical decisions (RAG, agents, prompts, ingestion, eval, security, observability, UX, data)
 - `docs/ontology/` — Argentine legal domain model
 - `docs/deployment/github-delivery.md` + `docs/deployment/gcaas-hosting.md` — Delivery and hosting (GitHub CI/CD to Azure staging; GCaaS Knative/Helm + platform Entra auth)

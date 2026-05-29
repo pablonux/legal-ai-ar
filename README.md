@@ -112,7 +112,7 @@ legal-ai-ar/
 └── docs/
     ├── roadmap/                          # Project planning
     │   ├── features.md                  # Full roadmap (v2.0)
-    │   └── gap-analysis-mvp-vs-plan.md  # MVP vs. plan analysis
+    │   └── backlog.md                   # Feature/work-item inventory
     ├── technical/                        # 9 technical documents
     │   ├── 01-rag-retrieval.md
     │   ├── 02-agentic-architecture.md
@@ -136,7 +136,7 @@ legal-ai-ar/
 | Document | Description |
 |----------|-------------|
 | [Features Roadmap](docs/roadmap/features.md) | Full plan of releases, features, endpoints, KPIs, and tech stack |
-| [Gap Analysis MVP vs Plan](docs/roadmap/gap-analysis-mvp-vs-plan.md) | Detailed comparison of the existing MVP vs. the plan, with an evolution strategy |
+| [Backlog](docs/roadmap/backlog.md) | Feature and work-item inventory with totals |
 | [Argentine Legal Ontology](docs/ontology/argentine-legal-ontology.md) | Formal specification of the Argentine legal domain (classes, properties, relationships) |
 | [Data Sources by Class](docs/ontology/ontology-data-sources.md) | Primary and secondary sources to populate each ontology class |
 | [RAG & Retrieval](docs/technical/01-rag-retrieval.md) | Hybrid Search, GraphRAG, Contextual Retrieval, re-ranking, evaluation |
@@ -149,6 +149,17 @@ legal-ai-ar/
 | [Legal AI UX](docs/technical/08-legal-ai-ux.md) | Streaming, inline citation, confidence scores, feedback loops |
 | [Data & Knowledge Management](docs/technical/09-data-knowledge-management.md) | Taxonomy, temporal versioning, graph maintenance, data lineage |
 
+### Onboarding & Workflow
+
+| Document | Description |
+|----------|-------------|
+| [Developer Onboarding](docs/onboarding/README.md) | Starting point: local setup for VS Code + Claude and Cursor (both with Docker) |
+| [Recommended Extensions](docs/onboarding/recommended-extensions.md) | IDE extensions for VS Code and Cursor |
+| [Troubleshooting](docs/onboarding/troubleshooting.md) | Common local-setup errors and fixes |
+| [Developer Guide](docs/developer-guide.md) | Work-item → PR workflow, AI skills, conventions |
+| [AppKit 4 (UI library)](docs/appkit4/README.md) | PwC AppKit 4 reference: components, design tokens, icons, patterns |
+| [AI Setup Tutorial](docs/cowork-setup-tutorial.md) | How Cowork (Claude) and Cursor are configured |
+
 ### Delivery & Hosting
 
 | Document | Description |
@@ -160,9 +171,28 @@ legal-ai-ar/
 
 ---
 
+## Getting Started (Developers)
+
+New to the project? Start with the **[Developer Onboarding guide](docs/onboarding/README.md)** — a
+single starting point that takes you from a fresh clone to the app running locally, for either
+supported environment:
+
+- **VS Code + Claude + Docker**
+- **Cursor + Docker**
+
+It covers prerequisites, Docker-based local dependencies, backend/frontend setup, IDE configuration,
+[recommended extensions](docs/onboarding/recommended-extensions.md), and
+[troubleshooting](docs/onboarding/troubleshooting.md). For the day-to-day work-item → PR flow, see the
+[Developer Guide](docs/developer-guide.md).
+
+---
+
 ## Requirements
 
 - .NET 10 SDK
-- Node.js 20+ and Angular CLI 19
-- Azure subscription with: SQL Database, AI Search, OpenAI Service, Storage Account, App Service
-- Azure Entra ID (authentication)
+- Node.js 20 LTS+ (Angular CLI installed locally via `npm ci`)
+- Docker Desktop (run the app — API, SPA, workers — in containers)
+- Access to the shared **cloud DEV** services (Azure SQL, AI Search, OpenAI, Storage) — there is no local stack
+- Azure Entra ID (platform-managed SSO; see [GCaaS Hosting](docs/deployment/gcaas-hosting.md))
+
+> Full step-by-step setup is in the [Developer Onboarding guide](docs/onboarding/README.md).

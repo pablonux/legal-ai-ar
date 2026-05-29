@@ -27,7 +27,7 @@ Define the post-deploy verification checklist and rollback procedure for both de
 
 ### Azure staging verification
 
-- [ ] Run the smoke checks in `mvp/docs/setup/staging-verification-tutorial.md`
+- [ ] Run the connectivity checks in [`docs/onboarding/azure-services.md`](../../onboarding/azure-services.md) (§4) against staging
 - [ ] Confirm SPA loads with `usePlatformCredentials: false`
 
 ### Rollback

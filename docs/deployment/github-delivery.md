@@ -43,9 +43,33 @@ flowchart LR
 |------------------|---------|
 | `main` | Production-ready code. Triggers CI on PR/push and CD on push. |
 | `feature/*` | Feature work; merge into `main` via pull request. |
-| `develop` | Optional integration branch; Phase 1 can use `main` only. |
+| `develop` | Not used as an integration branch (trunk-based); Phase 1 uses `main` only. |
 
-**Pull requests:** CI must pass (build, tests, `dotnet format`) before merge to `main` (branch protection).
+**Trunk-based model.** `main` is the single integration branch and must stay stable and deployable
+at all times. Feature branches are short-lived (days, not weeks), one per feature/fix, created from
+`main` and merged back to `main`. Long release branches are not maintained — deploy is direct from
+`main` via CD.
+
+**Branch naming:** `feature/{feature-id}-{short-description}` (e.g. `feature/F01-02-crawler-csjn`),
+or `fix/{short-description}` for fixes.
+
+### Pull request policy
+
+- **CI must pass** (build, tests, `dotnet format`) and there must be **no conflicts** with `main`
+  before merge (branch protection).
+- **Review:** minimum **1 approver** before merge; the author cannot approve their own PR.
+  **Single-contributor waiver** — when only one person is active on the repo, the external-approval
+  requirement is waived (merge allowed after green CI and the prerequisites above).
+- **Merge strategy:** **squash merge** to `main`.
+- **Size:** keep PRs focused (**< 400 lines of diff** when possible); split very large features into
+  incremental PRs.
+- **Description:** state the feature/work item (e.g. `Closes F08-W03`) and the main changes.
+
+### Commit messages
+
+Use **Conventional Commits** scoped by feature: `feat(F08): …`, `fix(F01): …`,
+`refactor(F12): …`, `docs: …`, `chore: …`. This is the canonical convention (see the
+[Developer Guide](../developer-guide.md)). The squash-merge commit follows the same format.
 
 ---
 

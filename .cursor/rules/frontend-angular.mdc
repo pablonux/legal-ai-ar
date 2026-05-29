@@ -18,9 +18,16 @@ globs:
 
 ## Frontend stack
 
+- PwC AppKit 4 (`@appkit4/angular-components`) as the UI component library
 - Tailwind CSS 4 for styling
 - Cytoscape.js for graph visualization
 - SSE (Server-Sent Events) for agent chat streaming
+
+## UI library — AppKit 4
+
+- Component, design-token, icon, and pattern reference lives in [`docs/appkit4/`](../../docs/appkit4/).
+- **Before writing UI**, consult `docs/appkit4/AGENTS.md` (rules for AI) and `docs/appkit4/components/INDEX.md`; use design tokens (`docs/appkit4/design-tokens/`) instead of hard-coded hex/px.
+- Use AppKit layout/shell components and `ap-panel`; don't invent custom app chrome.
 
 ## Language rule (strict)
 

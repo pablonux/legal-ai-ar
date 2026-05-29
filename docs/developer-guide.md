@@ -8,13 +8,19 @@
 
 ### Development environment
 
-The environment setup is documented in the work item **F00 - W07 - Local Environment Setup and Onboarding Guide** (`docs/roadmap/F00 - Development Environment and Structure/`). In short, you need:
+Full step-by-step setup — for both supported environments (**VS Code + Claude + Docker** and
+**Cursor + Docker**) — is in the **[Developer Onboarding guide](onboarding/README.md)**. Get the
+project running locally there first, then come back here for the day-to-day workflow. In short, you
+need:
 
 - .NET 10 SDK
-- Node.js 20+ and Angular CLI 19
-- A configured Azure subscription (SQL, AI Search, OpenAI, Storage)
-- Azure Entra ID (authentication)
+- Node.js 20 LTS+ (Angular CLI installed locally via `npm ci`)
+- Docker Desktop (run the app — API, SPA, workers — in containers)
+- Access to the shared cloud DEV services (Azure SQL, AI Search, OpenAI, Storage) — there is no local stack
 - Git + access to the `legal-ai-ar` repo
+
+> The original planning context for the environment lives in work item **F00 - W07 - Local
+> Environment Setup and Onboarding Guide**; the onboarding guide above is the live, dev-facing version.
 
 ### AI tools
 
