@@ -82,13 +82,13 @@ This document defines how to build a legal golden set, which metrics to use, how
 
 | Law branch | Number of queries | Priority |
 |---|---|---|
-| Labor | 50 | High (firm's core) |
-| Civil and Commercial | 40 | High |
-| Criminal | 30 | Medium |
-| Administrative | 25 | Medium |
-| Procedural | 25 | High (cross-cutting) |
-| Constitutional | 15 | Medium |
-| Tax | 15 | Low |
+| Tax | 60 | High (firm's core) |
+| Administrative | 30 | High (tax-adjacent: dictámenes, recursos) |
+| Procedural (tax procedure / controversy) | 25 | High (cross-cutting) |
+| Civil and Commercial | 30 | Medium |
+| Constitutional | 20 | Medium (tax constitutional principles) |
+| Labor | 20 | Low |
+| Criminal | 15 | Low |
 | **Total** | **200** | — |
 
 ### 3.3 Construction process

@@ -8,9 +8,9 @@
 
 ## 1. Description
 
-Legal Ai Ar uses a system of specialized AI agents that act as assistants to the firm's lawyers. Each agent has a specific knowledge domain (regulatory, case law, procedural) and access to differentiated tools. The agentic architecture defines how these agents receive queries, reason, use tools, collaborate with each other, and produce well-grounded answers.
+Legal Ai Ar uses a system of specialized AI agents that act as assistants to PwC tax-legal professionals. Each agent has a specific knowledge domain (tax, regulatory, case law) and access to differentiated tools. The agentic architecture defines how these agents receive queries, reason, use tools, collaborate with each other, and produce well-grounded answers.
 
-Unlike a simple chatbot that only does RAG, the agents can plan steps, invoke functions (search, deadline calculation, case file lookup), and chain complex reasoning.
+Unlike a simple chatbot that only does RAG, the agents can plan steps, invoke functions (search, tax computation, document/clause lookup), and chain complex reasoning.
 
 ---
 
@@ -31,7 +31,7 @@ Unlike a simple chatbot that only does RAG, the agents can plan steps, invoke fu
 
 | Alternative | Pros | Cons | Decision |
 |---|---|---|---|
-| **Keyword-based router** | Simple. Fast. Deterministic. | Fragile: "¿Cuándo vence el plazo para contestar la demanda según el CPCCN?" has both procedural AND regulatory keywords. | Discarded |
+| **Keyword-based router** | Simple. Fast. Deterministic. | Fragile: "¿Qué alícuota de IVA aplica a la exportación de servicios y desde cuándo rige?" has both tax AND regulatory keywords. | Discarded |
 | **Semantic router (embedding)** | Classifies by semantic similarity with each agent's descriptions. Fast (one embedding only). | Requires good agent descriptors. May fail on ambiguous queries. | **Chosen as the first layer** |
 | **LLM router (function calling)** | The LLM decides which agent to use based on the query. Can explain the decision. Can invoke multiple agents. | Extra latency (~500ms). Cost of an additional LLM call. | **Chosen as the second layer** |
 | **Hybrid router (semantic + LLM)** | Semantic as the fast path for clear queries. LLM as fallback for ambiguous ones. | Higher complexity. Two code paths. | **Chosen (combination)** |
@@ -55,7 +55,7 @@ Unlike a simple chatbot that only does RAG, the agents can plan steps, invoke fu
 |---|---|---|
 | **Short-term (conversation)** | Message history in ChatMessage (SQL). Window of the last N messages in the prompt. | Maintain context of the current conversation |
 | **Working memory** | Semantic Kernel variables (KernelArguments). Cleared per session. | Intermediate agent state during reasoning (e.g., norms already consulted) |
-| **Long-term (user)** | UserPreferences (SQL) + historical RiskAnalysis. | Personalization: preferred law branch, frequent case files, query history |
+| **Long-term (user)** | UserPreferences (SQL) + historical RiskAnalysis. | Personalization: preferred law branch, frequent projects/clients, query history |
 | **Semantic memory** | Azure AI Search as the vector store. | Retrieval of legal knowledge (norms, case law, doctrine) |
 
 ### 2.5 Multi-agent collaboration
@@ -67,7 +67,7 @@ Unlike a simple chatbot that only does RAG, the agents can plan steps, invoke fu
 | **Debate/consensus** | The agents discuss and reach consensus. | Very expensive. Multiple rounds. High complexity. Unnecessary for the use case. | Discarded |
 | **Sequential handoff** | One agent passes control to the next with context. Linear pipeline. | Rigid. The second agent cannot return to the first. | Partially, for escalation |
 
-**Decision:** Orchestrator pattern with the router as the orchestrator. When a query requires multiple domains, the router invokes the relevant agents in parallel and synthesizes the answers. For escalation (e.g., the regulatory agent needs procedural data), sequential handoff is used.
+**Decision:** Orchestrator pattern with the router as the orchestrator. When a query requires multiple domains, the router invokes the relevant agents in parallel and synthesizes the answers. For escalation (e.g., the tax agent needs regulatory data), sequential handoff is used.
 
 ---
 
@@ -79,27 +79,27 @@ flowchart TB
     CHAT -->|WebSocket/SSE| API[API Gateway<br/>.NET Minimal API]
     API --> ROUTER{Router<br/>Semantic + LLM}
 
+    ROUTER -->|Tax/Computation| AT[Tax Agent]
     ROUTER -->|Norm/Law| AN[Regulatory Agent]
     ROUTER -->|Ruling/Judgment| AJ[Case Law Agent]
-    ROUTER -->|Case file/Deadline| AP[Procedural Agent]
     ROUTER -->|Multi-domain| ORCH[Orchestrator<br/>Synthesizes answers]
 
+    ORCH --> AT
     ORCH --> AN
     ORCH --> AJ
-    ORCH --> AP
 
     subgraph "Tools (SK Plugins)"
         T1[SearchLegalNorms<br/>AI Search]
         T2[SearchCaseLaw<br/>AI Search]
         T3[QueryGraph<br/>SQL Graph]
-        T4[GetCaseFile<br/>SQL]
-        T5[CalculateDeadline<br/>Court calendar]
+        T4[SearchTaxSources<br/>dictámenes/consultas]
+        T5[ComputeTax<br/>regime/rates]
         T6[GetArticle<br/>SQL + AI Search]
     end
 
+    AT --> T4 & T5 & T6
     AN --> T1 & T3 & T6
     AJ --> T2 & T3 & T6
-    AP --> T4 & T5 & T3
 
     subgraph "Cross-cutting layers"
         MEM[Memory<br/>Short + Long term]
@@ -107,7 +107,7 @@ flowchart TB
         TRACE[Tracing<br/>App Insights]
     end
 
-    AN & AJ & AP --> MEM & GUARD & TRACE
+    AT & AN & AJ --> MEM & GUARD & TRACE
 ```
 
 ### 3.1 Definition of each agent
@@ -124,11 +124,11 @@ flowchart TB
 - **Capabilities:** Search rulings by topic/court/keywords, analyze the case law line, identify majority doctrine, detect changes of criterion
 - **System prompt:** Includes instructions to distinguish between first instance, appeals court, and CSJN, prioritize en banc decisions, cite the full case caption
 
-#### Procedural Agent
-- **Role:** Specialist in case file management, deadlines, and procedural steps
-- **Tools:** GetCaseFile, CalculateDeadline, QueryGraph
-- **Capabilities:** Look up case file status, calculate procedural deadlines (with business/non-business days), alert about due dates, suggest next procedural steps
-- **System prompt:** Includes deadline tables by procedure type, day-counting rules, jurisdictions
+#### Tax Agent
+- **Role:** Specialist in tax matters (national/provincial/municipal taxes, regimes, dictámenes, consultas vinculantes)
+- **Tools:** SearchTaxSources, ComputeTax, QueryGraph, GetArticle
+- **Capabilities:** Identify the applicable tax regime, locate dictámenes/consultas vinculantes (ARCA/ARBA/AGIP, Tribunal Fiscal), perform rate/base computations, cross-reference legislation and case law for a tax position
+- **System prompt:** Includes mandatory citation instructions, prioritization of the rule in force, distinction between binding and non-binding criteria, and a structured response format
 
 ---
 
@@ -206,17 +206,17 @@ Every agent answer must include a disclaimer. It is end-user facing content, so 
 
 ## 6. Concrete Example: Multi-agent query
 
-**Query:** "Tengo un expediente laboral donde el empleador no pagó la indemnización del art. 245. ¿Qué plazo tengo para ejecutar la sentencia y qué dice la jurisprudencia sobre intereses?"
+**Query:** "Mi cliente exporta servicios de software. ¿Cómo tributa en IVA y Ganancias, qué dijo ARCA en sus dictámenes y hay jurisprudencia que respalde el tratamiento como exportación exenta?"
 
 ### Router flow
 
 ```
-1. Semantic router: confidence 0.62 (ambiguous: touches procedural + case law + regulatory)
+1. Semantic router: confidence 0.62 (ambiguous: touches tax + regulatory + case law)
 2. LLM router: identifies 3 domains → activates Orchestrator
 3. Orchestrator invokes in parallel:
-   - Regulatory Agent: search art. 245 LCT and judgment-enforcement norms
-   - Procedural Agent: calculate the enforcement deadline per the CPCCN
-   - Case Law Agent: search case law on interest in labor enforcement
+   - Tax Agent: determine IVA/Ganancias treatment for service exports, locate ARCA dictámenes/consultas vinculantes
+   - Regulatory Agent: search the IVA/Ganancias norms in force and the export-of-services regime
+   - Case Law Agent: search case law supporting the exempt-export treatment
 4. Orchestrator synthesizes the 3 answers into a unified response with citations
 ```
 
@@ -224,7 +224,7 @@ Every agent answer must include a disclaimer. It is end-user facing content, so 
 
 ## 7. Items Pending Definition
 
-- [ ] Define detailed system prompts for each agent (regulatory, case law, procedural)
+- [ ] Define detailed system prompts for each agent (tax, regulatory, case law)
 - [ ] Define the full list of plugins/tools per agent
 - [ ] Design the escalation flow when an agent cannot resolve the query
 - [ ] Set max tool calls and timeout per agent

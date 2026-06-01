@@ -270,7 +270,7 @@ durante los primeros **3 meses** de vigencia.
 
 ## 7. Items Pending Definition
 
-- [ ] Write complete system prompts for the 3 agents (regulatory, case law, procedural)
+- [ ] Write complete system prompts for the 3 agents (tax, regulatory, case law)
 - [ ] Write the router system prompt (intent classification)
 - [ ] Write the orchestrator system prompt (multi-agent synthesis)
 - [ ] Define 3 few-shot examples per agent, covering frequent patterns

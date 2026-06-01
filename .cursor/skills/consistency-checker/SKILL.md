@@ -15,7 +15,7 @@ The main source of truth is `docs/roadmap/features.md`. Everything else must be 
 
 ```
 features.md (source of truth)
-  ├── Each feature folder (F00-F23, FT01-FT04)
+  ├── Each scheduled feature folder (F00 today; R1–R4/FT features F{X.Y} as generated)
   │   ├── W01 - Comprehensive Documentation
   │   └── W02..WNN - Specific work items
   ├── backlog.md

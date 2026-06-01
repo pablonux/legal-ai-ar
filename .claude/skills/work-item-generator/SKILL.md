@@ -1,6 +1,6 @@
 ---
 name: work-item-generator
-description: "Generates work items (.md) for the Legal Ai Ar roadmap following the project's standard template. Use when the user asks to create a new work item, task, user story, or ticket for any roadmap feature (F00-F23, FT01-FT04). Also use when they say 'create W0X for F0Y', 'add a task to the roadmap', 'I need a work item for...', or any variation that implies creating a new unit of work within the project plan."
+description: "Generates work items (.md) for the Legal Ai Ar roadmap following the project's standard template. Use when the user asks to create a new work item, task, user story, or ticket for any roadmap feature (F00 or any R1–R4/FT feature in features.md). Also use when they say 'create W0X for FY.Z', 'add a task to the roadmap', 'I need a work item for...', or any variation that implies creating a new unit of work within the project plan."
 ---
 
 # Work Item Generator — Legal Ai Ar
@@ -9,7 +9,7 @@ Generates work items in Markdown that follow the project's standard template.
 
 ## Project context
 
-Legal Ai Ar has a roadmap with ~24 features (F00-F23, FT01-FT04) organized into 5 releases (R0.0-R4.0). Each feature contains work items (W01, W02, ...) which are individual .md documents.
+Legal Ai Ar (PwC tax-legal) has a roadmap organized into 5 releases (R0.0–R4.0). **R0.0/F00** (Preparation) has detailed tickets on disk; the **R1–R4** features (`F1.x`, `F2.x`, `F3.x`, `F4.x`) and cross-cutting `FT.x` are catalogued in `features.md` and get detailed work items generated on demand when scheduled. Each feature contains work items (W01, W02, ...) which are individual .md documents.
 
 ## Before generating
 
@@ -22,7 +22,7 @@ Legal Ai Ar has a roadmap with ~24 features (F00-F23, FT01-FT04) organized into 
 Each work item is saved at: `docs/roadmap/{Feature Folder}/{ID} - {Title}.md`
 
 Where:
-- Feature Folder: `F{XX} - {Feature Name}` (e.g., `F08 - AI Agent Chat`)
+- Feature Folder: `F{X.Y} - {Feature Name}` (e.g., `F2.2 - Document Review and Analysis`)
 - ID: `F{XX} - W{YY}` with sequential numbering
 - Title: descriptive name in English
 
@@ -101,11 +101,11 @@ Where:
 
 ## Usage example
 
-The user says: "Create the work item for the semantic search endpoint in F03"
+The user says: "Create the work item for the document analysis service in F2.2"
 
 Steps:
-1. Read `docs/roadmap/features.md` → find F03 and its planned endpoints
-2. Read the existing work items in `docs/roadmap/F03 - Legal Norm Search/`
+1. Read `docs/roadmap/features.md` → find F2.2 (Document Review and Analysis) and its planned scope/endpoints
+2. Read any existing work items in `docs/roadmap/F2.2 - Document Review and Analysis/` (create the folder if it is the first)
 3. Determine the next number (W0X)
 4. Generate the .md with the template, including the specific endpoint, DTOs, and data flow
-5. Save to `docs/roadmap/F03 - Legal Norm Search/F03 - W0X - {Title}.md`
+5. Save to `docs/roadmap/F2.2 - Document Review and Analysis/F2.2 - W0X - {Title}.md`

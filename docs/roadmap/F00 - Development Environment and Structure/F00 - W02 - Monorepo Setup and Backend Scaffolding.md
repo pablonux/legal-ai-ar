@@ -147,7 +147,7 @@ graph TD
 
 ## Dependencies
 
-- **Blocks:** F00-W05 (Code quality), F01-W02 (Auth backend), R2.0 (Agents)
+- **Blocks:** F00-W05 (Code quality), authentication backend (R1.0), specialized agents (R3.0)
 - **Prerequisites:** None — the repo already exists
 
 ---
