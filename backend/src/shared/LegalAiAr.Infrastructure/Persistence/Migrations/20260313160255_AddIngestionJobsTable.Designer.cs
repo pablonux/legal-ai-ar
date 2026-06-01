@@ -484,7 +484,7 @@ namespace LegalAiAr.Infrastructure.Persistence.Migrations
                         {
                             Id = 1,
                             BaseUrl = "https://sjconsulta.csjn.gov.ar/sjconsulta/",
-                            FullName = "Corte Suprema de Justicia de la Nación",
+                            FullName = "Corte Suprema de Justicia de la NaciÃ³n",
                             IsActive = true,
                             Name = "CSJN",
                             Strategy = "api-first"
@@ -493,7 +493,7 @@ namespace LegalAiAr.Infrastructure.Persistence.Migrations
                         {
                             Id = 2,
                             BaseUrl = "https://www.saij.gob.ar/",
-                            FullName = "Sistema Argentino de Información Jurídica",
+                            FullName = "Sistema Argentino de InformaciÃ³n JurÃ­dica",
                             IsActive = true,
                             Name = "SAIJ",
                             Strategy = "html-pdf"
@@ -502,7 +502,7 @@ namespace LegalAiAr.Infrastructure.Persistence.Migrations
                         {
                             Id = 3,
                             BaseUrl = "https://www.pjn.gov.ar/",
-                            FullName = "Poder Judicial de la Nación",
+                            FullName = "Poder Judicial de la NaciÃ³n",
                             IsActive = true,
                             Name = "PJN",
                             Strategy = "html-pdf"

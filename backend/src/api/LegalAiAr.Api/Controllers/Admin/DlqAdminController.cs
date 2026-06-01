@@ -1,7 +1,7 @@
 using LegalAiAr.Application.Admin.Dlq.Commands.RequeueMessage;
 using LegalAiAr.Application.Admin.Dlq.Queries.GetDlqMessages;
-using LegalAiAr.Core.Interfaces.Services;
 using LegalAiAr.Application.Mediation;
+using LegalAiAr.Core.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

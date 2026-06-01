@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -51,7 +51,7 @@ namespace LegalAiAr.Infrastructure.Persistence.Migrations
                 BEGIN
                     SET IDENTITY_INSERT [Sources] ON;
                     INSERT INTO [Sources] ([Id], [BaseUrl], [FullName], [IsActive], [Name], [Strategy])
-                    VALUES (6, N'http://vocabularios.saij.gob.ar/', N'SAIJ — Tesauro (API vocabularios)', CAST(1 AS bit), N'SAIJ', N'thesaurus');
+                    VALUES (6, N'http://vocabularios.saij.gob.ar/', N'SAIJ â€” Tesauro (API vocabularios)', CAST(1 AS bit), N'SAIJ', N'thesaurus');
                     SET IDENTITY_INSERT [Sources] OFF;
                 END
                 """);

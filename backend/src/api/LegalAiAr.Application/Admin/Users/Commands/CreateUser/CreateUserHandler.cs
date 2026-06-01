@@ -1,8 +1,8 @@
 using LegalAiAr.Application.Admin.Users.DTOs;
+using LegalAiAr.Application.Mediation;
 using LegalAiAr.Core.Entities;
 using LegalAiAr.Core.Exceptions;
 using LegalAiAr.Core.Interfaces.Repositories;
-using LegalAiAr.Application.Mediation;
 
 namespace LegalAiAr.Application.Admin.Users.Commands.CreateUser;
 

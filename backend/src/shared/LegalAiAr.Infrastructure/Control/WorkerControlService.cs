@@ -1,4 +1,5 @@
 // Requires NuGet package: Microsoft.AspNetCore.SignalR.Client
+using System.Threading;
 using LegalAiAr.Core.Entities;
 using LegalAiAr.Core.Interfaces.Services;
 using LegalAiAr.Core.Models;
@@ -8,7 +9,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System.Threading;
 
 namespace LegalAiAr.Infrastructure.Control;
 

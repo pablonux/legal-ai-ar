@@ -43,9 +43,14 @@ public class EmbeddingConfigRepositoryTests
 
         context.EmbeddingConfigs.Add(new EmbeddingConfig
         {
-            Version = "v2-llm", EmbeddingModel = "model", EmbeddingDimensions = 3072,
-            ContextualizationMethod = "llm-contextual", ChunkingStrategy = "s",
-            ChunkSize = 512, ChunkOverlap = 50, IsActive = true
+            Version = "v2-llm",
+            EmbeddingModel = "model",
+            EmbeddingDimensions = 3072,
+            ContextualizationMethod = "llm-contextual",
+            ChunkingStrategy = "s",
+            ChunkSize = 512,
+            ChunkOverlap = 50,
+            IsActive = true
         });
         await context.SaveChangesAsync();
 
@@ -66,9 +71,14 @@ public class EmbeddingConfigRepositoryTests
         context.Rulings.Add(ruling);
         var config = new EmbeddingConfig
         {
-            Version = "v1", EmbeddingModel = "m", EmbeddingDimensions = 3072,
-            ContextualizationMethod = "rule-based-prefix", ChunkingStrategy = "s",
-            ChunkSize = 512, ChunkOverlap = 50, IsActive = true
+            Version = "v1",
+            EmbeddingModel = "m",
+            EmbeddingDimensions = 3072,
+            ContextualizationMethod = "rule-based-prefix",
+            ChunkingStrategy = "s",
+            ChunkSize = 512,
+            ChunkOverlap = 50,
+            IsActive = true
         };
         context.EmbeddingConfigs.Add(config);
         await context.SaveChangesAsync();
@@ -94,23 +104,36 @@ public class EmbeddingConfigRepositoryTests
         context.Rulings.Add(ruling);
         var config1 = new EmbeddingConfig
         {
-            Version = "v1", EmbeddingModel = "m", EmbeddingDimensions = 3072,
-            ContextualizationMethod = "rule-based-prefix", ChunkingStrategy = "s",
-            ChunkSize = 512, ChunkOverlap = 50, IsActive = false
+            Version = "v1",
+            EmbeddingModel = "m",
+            EmbeddingDimensions = 3072,
+            ContextualizationMethod = "rule-based-prefix",
+            ChunkingStrategy = "s",
+            ChunkSize = 512,
+            ChunkOverlap = 50,
+            IsActive = false
         };
         var config2 = new EmbeddingConfig
         {
-            Version = "v2", EmbeddingModel = "m", EmbeddingDimensions = 3072,
-            ContextualizationMethod = "llm-contextual", ChunkingStrategy = "s",
-            ChunkSize = 512, ChunkOverlap = 50, IsActive = true
+            Version = "v2",
+            EmbeddingModel = "m",
+            EmbeddingDimensions = 3072,
+            ContextualizationMethod = "llm-contextual",
+            ChunkingStrategy = "s",
+            ChunkSize = 512,
+            ChunkOverlap = 50,
+            IsActive = true
         };
         context.EmbeddingConfigs.AddRange(config1, config2);
         await context.SaveChangesAsync();
 
         context.RulingEmbeddingStates.Add(new RulingEmbeddingState
         {
-            RulingId = ruling.Id, EmbeddingConfigId = config1.Id, ChunkCount = 10,
-            EmbeddedAt = DateTime.UtcNow.AddDays(-1), NeedsReembedding = true
+            RulingId = ruling.Id,
+            EmbeddingConfigId = config1.Id,
+            ChunkCount = 10,
+            EmbeddedAt = DateTime.UtcNow.AddDays(-1),
+            NeedsReembedding = true
         });
         await context.SaveChangesAsync();
 

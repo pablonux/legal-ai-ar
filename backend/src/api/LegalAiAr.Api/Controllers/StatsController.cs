@@ -1,6 +1,6 @@
+using LegalAiAr.Application.Mediation;
 using LegalAiAr.Application.Stats.DTOs;
 using LegalAiAr.Application.Stats.Queries.GetKbStats;
-using LegalAiAr.Application.Mediation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

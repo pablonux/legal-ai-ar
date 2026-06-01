@@ -3,16 +3,16 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Threading.Channels;
-using LegalAiAr.Infrastructure.Blob;
-using LegalAiAr.Infrastructure.Crawling;
 using LegalAiAr.Core.Interfaces.Pipeline;
 using LegalAiAr.Core.Interfaces.Repositories;
 using LegalAiAr.Core.Interfaces.Services;
 using LegalAiAr.Core.Messages;
 using LegalAiAr.Core.Models;
+using LegalAiAr.Infrastructure.Blob;
+using LegalAiAr.Infrastructure.Crawling;
+using LegalAiAr.Infrastructure.Crawling.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using LegalAiAr.Infrastructure.Crawling.Options;
 
 namespace LegalAiAr.Infrastructure.Crawling.Sources;
 

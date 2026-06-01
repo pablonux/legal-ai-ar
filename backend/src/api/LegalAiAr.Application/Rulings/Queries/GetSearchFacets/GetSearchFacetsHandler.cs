@@ -1,6 +1,6 @@
+using LegalAiAr.Application.Mediation;
 using LegalAiAr.Core.Interfaces.Services;
 using LegalAiAr.Core.Models;
-using LegalAiAr.Application.Mediation;
 
 namespace LegalAiAr.Application.Rulings.Queries.GetSearchFacets;
 

@@ -62,7 +62,8 @@ public class GraphExplorerRepository : IGraphExplorerRepository
             var persons = await _db.Persons
                 .Where(p => p.DisplayName.Contains(query))
                 .Take(5)
-                .Select(p => new {
+                .Select(p => new
+                {
                     p.Id,
                     p.DisplayName,
                     CourtName = p.JudicialOffices

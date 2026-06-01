@@ -1,10 +1,10 @@
+using LegalAiAr.Application.Mediation;
 using LegalAiAr.Core.Enums;
 using LegalAiAr.Core.Exceptions;
 using LegalAiAr.Core.Interfaces.Repositories;
 using LegalAiAr.Core.Interfaces.Services;
 using LegalAiAr.Core.Messages;
 using LegalAiAr.Core.Pipeline;
-using LegalAiAr.Application.Mediation;
 
 namespace LegalAiAr.Application.Admin.Jobs.Commands.RetryJob;
 

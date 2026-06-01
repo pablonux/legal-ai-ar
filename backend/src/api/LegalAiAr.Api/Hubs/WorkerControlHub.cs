@@ -1,7 +1,7 @@
 using LegalAiAr.Api.Authorization;
 using LegalAiAr.Api.Services;
-using LegalAiAr.Core.Models;
 using LegalAiAr.Core.Interfaces.Services;
+using LegalAiAr.Core.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 

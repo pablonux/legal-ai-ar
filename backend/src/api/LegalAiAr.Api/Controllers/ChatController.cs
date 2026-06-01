@@ -1,7 +1,7 @@
 using LegalAiAr.Api.Models;
 using LegalAiAr.Application.Chat.Commands.ChatQuery;
-using LegalAiAr.Core.Models;
 using LegalAiAr.Application.Mediation;
+using LegalAiAr.Core.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

@@ -222,8 +222,15 @@ public class GenerateEmbeddingsStepTests
 
         var llmConfig = new LegalAiAr.Core.Entities.EmbeddingConfig
         {
-            Id = 2, Version = "v2-llm", EmbeddingModel = "x", EmbeddingDimensions = 3072,
-            ContextualizationMethod = "llm-contextual", ChunkingStrategy = "s", ChunkSize = 512, ChunkOverlap = 50, IsActive = true
+            Id = 2,
+            Version = "v2-llm",
+            EmbeddingModel = "x",
+            EmbeddingDimensions = 3072,
+            ContextualizationMethod = "llm-contextual",
+            ChunkingStrategy = "s",
+            ChunkSize = 512,
+            ChunkOverlap = 50,
+            IsActive = true
         };
 
         var sut = new GenerateEmbeddingsStep(embeddingService, enrichmentService,

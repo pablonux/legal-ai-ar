@@ -1,10 +1,10 @@
 using LegalAiAr.Api.Hubs;
+using LegalAiAr.Core.Entities;
 using LegalAiAr.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
-using LegalAiAr.Core.Entities;
 
 namespace LegalAiAr.Api.Controllers.Admin;
 

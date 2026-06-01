@@ -1,9 +1,9 @@
+using LegalAiAr.Application.Mediation;
 using LegalAiAr.Core.Entities;
 using LegalAiAr.Core.Enums;
 using LegalAiAr.Core.Exceptions;
 using LegalAiAr.Core.Interfaces.Repositories;
 using LegalAiAr.Core.Interfaces.Services;
-using LegalAiAr.Application.Mediation;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 

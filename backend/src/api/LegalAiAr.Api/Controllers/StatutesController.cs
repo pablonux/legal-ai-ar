@@ -1,8 +1,8 @@
 using LegalAiAr.Application.Mediation;
 using LegalAiAr.Application.Statutes.DTOs;
 using LegalAiAr.Application.Statutes.Queries.GetStatuteById;
-using LegalAiAr.Application.Statutes.Queries.GetStatutes;
 using LegalAiAr.Application.Statutes.Queries.GetStatutePyramid;
+using LegalAiAr.Application.Statutes.Queries.GetStatutes;
 using LegalAiAr.Core.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

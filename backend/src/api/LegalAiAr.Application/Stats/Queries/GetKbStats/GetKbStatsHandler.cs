@@ -1,6 +1,6 @@
+using LegalAiAr.Application.Mediation;
 using LegalAiAr.Application.Stats.DTOs;
 using LegalAiAr.Core.Interfaces.Repositories;
-using LegalAiAr.Application.Mediation;
 
 namespace LegalAiAr.Application.Stats.Queries.GetKbStats;
 

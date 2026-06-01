@@ -12,7 +12,7 @@ public class RenameThesaurusSource6DisplayToSaij : Migration
     {
         migrationBuilder.Sql("""
 UPDATE dbo.Sources
-SET Name = N'SAIJ', FullName = N'SAIJ — Tesauro (API vocabularios)'
+SET Name = N'SAIJ', FullName = N'SAIJ â€” Tesauro (API vocabularios)'
 WHERE Id = 6 AND (Name = N'Tesauro SAIJ' OR FullName LIKE N'Tesauro SAIJ%');
 """);
     }

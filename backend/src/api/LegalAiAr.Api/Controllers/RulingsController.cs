@@ -1,11 +1,11 @@
 using LegalAiAr.Api.Models;
+using LegalAiAr.Application.Mediation;
 using LegalAiAr.Application.Rulings.Queries.GetRelatedRulings;
 using LegalAiAr.Application.Rulings.Queries.GetRulingById;
 using LegalAiAr.Application.Rulings.Queries.GetRulingDocument;
 using LegalAiAr.Application.Rulings.Queries.GetSearchFacets;
 using LegalAiAr.Application.Rulings.Queries.SearchRulings;
 using LegalAiAr.Core.Models;
-using LegalAiAr.Application.Mediation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,9 +1,9 @@
 using LegalAiAr.Application.Common.Mappings;
+using LegalAiAr.Application.Mediation;
 using LegalAiAr.Application.Rulings.DTOs;
 using LegalAiAr.Core.Interfaces.Repositories;
 using LegalAiAr.Core.Interfaces.Services;
 using LegalAiAr.Core.Models;
-using LegalAiAr.Application.Mediation;
 using Microsoft.Extensions.Logging;
 
 namespace LegalAiAr.Application.Rulings.Queries.SearchRulings;

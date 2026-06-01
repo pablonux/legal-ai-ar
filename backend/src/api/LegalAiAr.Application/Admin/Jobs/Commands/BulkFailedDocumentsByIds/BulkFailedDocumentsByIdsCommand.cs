@@ -1,6 +1,6 @@
 using LegalAiAr.Application.Admin.Jobs.Commands.BulkDocumentAction;
-using BulkDocAction = LegalAiAr.Application.Admin.Jobs.Commands.BulkDocumentAction.BulkDocumentAction;
 using LegalAiAr.Application.Mediation;
+using BulkDocAction = LegalAiAr.Application.Admin.Jobs.Commands.BulkDocumentAction.BulkDocumentAction;
 
 namespace LegalAiAr.Application.Admin.Jobs.Commands.BulkFailedDocumentsByIds;
 

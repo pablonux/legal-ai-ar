@@ -65,7 +65,9 @@ public class GetProceedingByRulingHandlerTests
 
         var proceeding = new JudicialProceeding
         {
-            Id = 1, CaseNumber = "EXP-1", Rulings = new List<Ruling>
+            Id = 1,
+            CaseNumber = "EXP-1",
+            Rulings = new List<Ruling>
             {
                 new() { Id = Guid.NewGuid(), CaseTitle = "Third", RulingDate = new DateOnly(2025, 1, 1), Court = court3 },
                 new() { Id = rulingId, CaseTitle = "First", RulingDate = new DateOnly(2023, 1, 1), Court = court1 },

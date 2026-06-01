@@ -1,10 +1,10 @@
 using Azure;
 using Azure.Search.Documents;
 using Azure.Storage.Blobs;
-using LegalAiAr.Infrastructure.Blob;
-using LegalAiAr.Infrastructure.Search;
 using LegalAiAr.Core.Interfaces.Services;
+using LegalAiAr.Infrastructure.Blob;
 using LegalAiAr.Infrastructure.Persistence;
+using LegalAiAr.Infrastructure.Search;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;

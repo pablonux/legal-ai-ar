@@ -1,11 +1,11 @@
 using System.Text;
 using System.Text.Json;
-using LegalAiAr.Infrastructure.Blob;
 using LegalAiAr.Core.Exceptions;
 using LegalAiAr.Core.Interfaces.Pipeline;
 using LegalAiAr.Core.Interfaces.Services;
 using LegalAiAr.Core.Messages;
 using LegalAiAr.Core.Pipeline;
+using LegalAiAr.Infrastructure.Blob;
 using Microsoft.Extensions.Logging;
 
 namespace LegalAiAr.Worker.Parser.Parsers;

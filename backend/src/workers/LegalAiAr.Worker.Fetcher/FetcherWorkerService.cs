@@ -1,12 +1,12 @@
 using System.Text.Json;
 using LegalAiAr.Core.Entities;
 using LegalAiAr.Core.Enums;
-using LegalAiAr.Infrastructure.Crawling;
 using LegalAiAr.Core.Interfaces.Pipeline.Strategies;
 using LegalAiAr.Core.Interfaces.Repositories;
 using LegalAiAr.Core.Interfaces.Services;
 using LegalAiAr.Core.Messages;
 using LegalAiAr.Core.Pipeline;
+using LegalAiAr.Infrastructure.Crawling;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;

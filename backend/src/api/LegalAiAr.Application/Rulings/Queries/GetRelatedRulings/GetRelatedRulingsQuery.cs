@@ -1,5 +1,5 @@
-using LegalAiAr.Application.Rulings.DTOs;
 using LegalAiAr.Application.Mediation;
+using LegalAiAr.Application.Rulings.DTOs;
 
 namespace LegalAiAr.Application.Rulings.Queries.GetRelatedRulings;
 

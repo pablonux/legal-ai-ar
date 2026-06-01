@@ -1,5 +1,5 @@
-using LegalAiAr.Application.Stats.DTOs;
 using LegalAiAr.Application.Mediation;
+using LegalAiAr.Application.Stats.DTOs;
 
 namespace LegalAiAr.Application.Stats.Queries.GetKbStats;
 

@@ -158,17 +158,17 @@ public interface IDocumentRepository
         Guid jobId,
         CancellationToken cancellationToken = default);
 
-/// <summary>
-/// Candidate rows for operator review: (1) <see cref="DocumentStatus.Pending"/> at Persister or Indexer
-/// (often a lost queue message after a dequeue skip), and (2) any <see cref="DocumentStatus.Processing"/> row.
-/// </summary>
-/// <remarks>
-/// <see cref="DocumentStatus.Processing"/> is not automatically an error: under a healthy pipeline, workers
-/// legitimately set this while a message is being handled. After outages, some documents can be lost mid-flight
-/// while others on the queue continue; those losses may only become visible as stray <c>Processing</c> rows once
-/// the rest of the job has finished, queues are empty, workers are idle, and those rows still do not complete.
-/// Interpretation always depends on worker connectivity, queue depth, and whether the job is still advancing.
-/// </remarks>
+    /// <summary>
+    /// Candidate rows for operator review: (1) <see cref="DocumentStatus.Pending"/> at Persister or Indexer
+    /// (often a lost queue message after a dequeue skip), and (2) any <see cref="DocumentStatus.Processing"/> row.
+    /// </summary>
+    /// <remarks>
+    /// <see cref="DocumentStatus.Processing"/> is not automatically an error: under a healthy pipeline, workers
+    /// legitimately set this while a message is being handled. After outages, some documents can be lost mid-flight
+    /// while others on the queue continue; those losses may only become visible as stray <c>Processing</c> rows once
+    /// the rest of the job has finished, queues are empty, workers are idle, and those rows still do not complete.
+    /// Interpretation always depends on worker connectivity, queue depth, and whether the job is still advancing.
+    /// </remarks>
     Task<IReadOnlyList<Document>> GetAuditRiskPipelineDocumentsForJobAsync(
         Guid jobId,
         int take,

@@ -140,9 +140,9 @@ internal class DocumentRepository : IDocumentRepository
     public async Task SetEntityIdAsync(Guid id, Guid? rulingId, int? statuteId, CancellationToken cancellationToken = default)
     {
         var pRulingId = new SqlParameter("@rulingId", SqlDbType.UniqueIdentifier)
-            { Value = rulingId.HasValue ? rulingId.Value : DBNull.Value };
+        { Value = rulingId.HasValue ? rulingId.Value : DBNull.Value };
         var pStatuteId = new SqlParameter("@statuteId", SqlDbType.Int)
-            { Value = statuteId.HasValue ? statuteId.Value : DBNull.Value };
+        { Value = statuteId.HasValue ? statuteId.Value : DBNull.Value };
         var pNow = new SqlParameter("@now", DateTime.UtcNow);
         var pId = new SqlParameter("@id", id);
 

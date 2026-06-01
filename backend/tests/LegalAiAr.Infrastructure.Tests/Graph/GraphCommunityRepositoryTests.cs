@@ -46,11 +46,17 @@ public class GraphCommunityRepositoryTests
 
         context.GraphCommunities.Add(new GraphCommunity
         {
-            Level = 0, Title = "Derecho laboral - despido", Summary = "Cluster laboral", EntityCount = 10
+            Level = 0,
+            Title = "Derecho laboral - despido",
+            Summary = "Cluster laboral",
+            EntityCount = 10
         });
         context.GraphCommunities.Add(new GraphCommunity
         {
-            Level = 1, Title = "Derecho tributario", Summary = "Ganancias e IVA", EntityCount = 20
+            Level = 1,
+            Title = "Derecho tributario",
+            Summary = "Ganancias e IVA",
+            EntityCount = 20
         });
         await context.SaveChangesAsync();
 

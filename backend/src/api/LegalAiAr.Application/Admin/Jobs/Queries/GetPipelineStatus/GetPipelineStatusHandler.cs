@@ -1,8 +1,8 @@
 using LegalAiAr.Application.Admin.Jobs.DTOs;
+using LegalAiAr.Application.Mediation;
 using LegalAiAr.Core.Interfaces.Repositories;
 using LegalAiAr.Core.Interfaces.Services;
 using LegalAiAr.Core.Pipeline;
-using LegalAiAr.Application.Mediation;
 
 namespace LegalAiAr.Application.Admin.Jobs.Queries.GetPipelineStatus;
 

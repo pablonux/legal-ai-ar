@@ -405,7 +405,7 @@ public sealed class DiscovererWorkerService : BackgroundService
                 _logger.LogInformation("Job {JobId}: Discovered batch — created: {Created}, skipped: {Skipped}",
                     job.Id, documentsCreated, documentsSkipped);
             }
-            discoveryComplete:
+        discoveryComplete:
 
             if (strategy.LastTotalSearchResults.HasValue)
                 await jobRepo.SetTotalSearchResultsAsync(job.Id, strategy.LastTotalSearchResults.Value, ct);

@@ -1,8 +1,8 @@
 using System.Runtime.CompilerServices;
 using LegalAiAr.Application.Chat.Commands.ChatQuery;
+using LegalAiAr.Application.Mediation;
 using LegalAiAr.Core.Interfaces.Pipeline;
 using LegalAiAr.Core.Models;
-using LegalAiAr.Application.Mediation;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 

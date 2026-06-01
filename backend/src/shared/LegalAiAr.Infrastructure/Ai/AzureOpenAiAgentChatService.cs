@@ -1,6 +1,6 @@
+using System.ClientModel;
 using System.Runtime.CompilerServices;
 using System.Text;
-using System.ClientModel;
 using Azure.AI.OpenAI;
 using LegalAiAr.Core.Interfaces.Services;
 using LegalAiAr.Core.Models;

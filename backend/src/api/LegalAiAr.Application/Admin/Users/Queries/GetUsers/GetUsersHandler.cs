@@ -1,6 +1,6 @@
 using LegalAiAr.Application.Admin.Users.DTOs;
-using LegalAiAr.Core.Interfaces.Repositories;
 using LegalAiAr.Application.Mediation;
+using LegalAiAr.Core.Interfaces.Repositories;
 
 namespace LegalAiAr.Application.Admin.Users.Queries.GetUsers;
 

@@ -1,6 +1,6 @@
+using LegalAiAr.Application.Catalogs.DTOs;
 using LegalAiAr.Application.Catalogs.Queries.GetPersonById;
 using LegalAiAr.Application.Catalogs.Queries.GetPersons;
-using LegalAiAr.Application.Catalogs.DTOs;
 using LegalAiAr.Application.Mediation;
 using LegalAiAr.Core.Enums;
 using Microsoft.AspNetCore.Authorization;

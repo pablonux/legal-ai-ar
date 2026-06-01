@@ -1,6 +1,6 @@
+using LegalAiAr.Application.Catalogs.DTOs;
 using LegalAiAr.Application.Catalogs.Queries.GetCourtById;
 using LegalAiAr.Application.Catalogs.Queries.GetCourts;
-using LegalAiAr.Application.Catalogs.DTOs;
 using LegalAiAr.Application.Mediation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

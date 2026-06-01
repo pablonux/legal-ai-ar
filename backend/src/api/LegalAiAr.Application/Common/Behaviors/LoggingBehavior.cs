@@ -1,6 +1,6 @@
+using System.Diagnostics;
 using LegalAiAr.Application.Mediation;
 using Microsoft.Extensions.Logging;
-using System.Diagnostics;
 
 namespace LegalAiAr.Application.Common.Behaviors;
 

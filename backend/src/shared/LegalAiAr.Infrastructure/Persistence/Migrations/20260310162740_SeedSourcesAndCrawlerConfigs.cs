@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -18,9 +18,9 @@ namespace LegalAiAr.Infrastructure.Persistence.Migrations
                 columns: new[] { "Id", "BaseUrl", "FullName", "IsActive", "Name", "Strategy" },
                 values: new object[,]
                 {
-                    { 1, "https://sjconsulta.csjn.gov.ar/sjconsulta/", "Corte Suprema de Justicia de la Nación", true, "CSJN", "api-first" },
-                    { 2, "https://www.saij.gob.ar/", "Sistema Argentino de Información Jurídica", true, "SAIJ", "html-pdf" },
-                    { 3, "https://www.pjn.gov.ar/", "Poder Judicial de la Nación", true, "PJN", "html-pdf" },
+                    { 1, "https://sjconsulta.csjn.gov.ar/sjconsulta/", "Corte Suprema de Justicia de la NaciÃ³n", true, "CSJN", "api-first" },
+                    { 2, "https://www.saij.gob.ar/", "Sistema Argentino de InformaciÃ³n JurÃ­dica", true, "SAIJ", "html-pdf" },
+                    { 3, "https://www.pjn.gov.ar/", "Poder Judicial de la NaciÃ³n", true, "PJN", "html-pdf" },
                     { 4, "https://www.scba.gov.ar/", "Suprema Corte de Justicia de la Provincia de Buenos Aires", true, "SCBA", "html-pdf" }
                 });
 

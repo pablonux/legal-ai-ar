@@ -1,10 +1,10 @@
 using LegalAiAr.Application.Common.Mappings;
+using LegalAiAr.Application.Mediation;
 using LegalAiAr.Application.Rulings.DTOs;
 using LegalAiAr.Core.Enums;
 using LegalAiAr.Core.Exceptions;
 using LegalAiAr.Core.Interfaces.Repositories;
 using LegalAiAr.Core.Interfaces.Services;
-using LegalAiAr.Application.Mediation;
 
 namespace LegalAiAr.Application.Rulings.Queries.GetRelatedRulings;
 

@@ -1,7 +1,7 @@
 using LegalAiAr.Application.Admin.Crawlers.DTOs;
+using LegalAiAr.Application.Mediation;
 using LegalAiAr.Core.Exceptions;
 using LegalAiAr.Core.Interfaces.Repositories;
-using LegalAiAr.Application.Mediation;
 
 namespace LegalAiAr.Application.Admin.Crawlers.Queries.GetCrawlers;
 
