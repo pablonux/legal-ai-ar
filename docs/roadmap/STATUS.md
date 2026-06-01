@@ -18,7 +18,7 @@
 
 ## Done so far (foundation)
 
-- **Roadmap**: [`features.md`](features.md) (releases, features, endpoints, KPIs) + [`backlog.md`](backlog.md) (187 work items, ~650 SP) + per-feature folders `F00…F23`, `FT01…FT05`.
+- **Roadmap**: [`features.md`](features.md) (PwC tax-legal releases, features, endpoints, KPIs) + [`backlog.md`](backlog.md) (F00 detailed tickets + feature-level catalog for R1–R4/FT). Detailed work items are generated per feature when it is scheduled (skill `work-item-generator`); only the **F00** folder holds tickets today.
 - **Technical docs** (`docs/technical/`, 20 docs): conceptual 01–09, imported-pending-review 10–12, and **authored-from-code** 13–20 (SAIJ thesaurus, CSJN ingestion, SAIJ web ingestion, chat/RAG/agents, KB data model, frontend, admin/operations, data-sources catalog).
 - **Ontology** (`docs/ontology/`), **delivery/hosting** (`docs/deployment/`), **onboarding** (`docs/onboarding/`), **AppKit 4** UI reference (`docs/appkit4/`).
 - **AI config unified**: `CLAUDE.md` + `.claude/skills/` (Cowork) and `.cursor/rules/` + `.cursor/skills/` (Cursor) — same 13 skills, English-first language rule.

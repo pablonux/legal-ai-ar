@@ -1,8 +1,8 @@
 # Legal Ai Ar
 
-> Legal Knowledge Base with AI Agents
+> PwC tax-legal knowledge base and productivity platform, with AI agents
 
-Legal Ai Ar is a system that centralizes access to legislation, case law, and legal doctrine of the Argentine legal system, combining a multidimensional knowledge base with specialized AI agents. It is designed to reduce legal research time from hours to minutes and to eliminate missed procedural deadlines.
+Legal Ai Ar is an internal productivity tool for **PwC tax-legal professionals**. It centralizes access to legislation, case law, tax sources, and legal doctrine of the Argentine legal system, combining a multidimensional knowledge base with specialized AI agents, and organizes daily advisory work by **client projects/workspaces**. It is designed to reduce legal-tax research time from hours to minutes and to keep regulatory and tax deadlines under control.
 
 ---
 
@@ -27,7 +27,7 @@ The system is composed of three major blocks:
 
 **2. Multidimensional knowledge base** — Documents go through a 6-stage ingestion pipeline (Discovery → Fetch → Parse → Enrichment → Persist → Index) that transforms them into a 44-entity relational data model, semantic vectors in AI Search (3 indexes), and a legal graph with community detection. Contextual Retrieval enriches each chunk with LLM-generated context at ingestion time.
 
-**3. SPA application** — Angular frontend with ~15 functional views enabling semantic search, chat with AI agents (SSE streaming + tool calling), graph exploration (Cytoscape), case file and deadline management, and an administrative panel to control the ingestion pipeline.
+**3. SPA application** — Angular frontend with ~15 functional views enabling semantic search, chat with AI agents (SSE streaming + tool calling), graph exploration (Cytoscape), deadline and task management, and an administrative panel to control the ingestion pipeline.
 
 ---
 
@@ -67,19 +67,23 @@ Each stage communicates via Azure Storage Queues (5 queues). It includes a DLQ w
 
 The project evolves from a mature MVP (~78% reusable code) through 5 releases:
 
-| Release | Name | Focus | Duration |
-|---------|------|-------|----------|
-| **R0.0** | Preparation | Restructure monorepo, add missing entities, code quality | 2 weeks |
-| **R1.0** | Foundation | Auth, dashboard, search, legal norm/case law detail, basic chat, graph | 6 weeks |
-| **R2.0** | Agents | Semantic Kernel, 3 specialized agents, case files, deadlines, calendar, eval | 6 weeks |
-| **R3.0** | Risk | Legal risk analysis, report generation, operational reports | 4 weeks |
-| **R4.0** | Operations | Observability (OpenTelemetry), advanced alerts, PWA, model versioning | 4 weeks |
+| Release | Name | Focus |
+|---------|------|-------|
+| **R0.0** | Preparation | Restructure monorepo, scaffolding, CI/CD, infra, code quality |
+| **R1.0** | Research & Monitoring | Auth, home, legislation/case-law search + tax sources, AI research assistant, regulatory/tax monitoring |
+| **R2.0** | Professional Productivity | Projects/workspaces, document review & analysis, deliverable generation, project tasks & deadlines |
+| **R3.0** | Knowledge & Intelligence | PwC internal KB, tax/regulatory/case-law agents, risk analysis, tax controversy (light tracking) |
+| **R4.0** | Scale & Operations | Reporting, administration, graph explorer, assistant feedback, notifications, observability, PWA, delivery |
 
-### Specialized Agents (R2.0)
+> The product is scoped as an **internal productivity tool for PwC tax-legal professionals** (advisory-first,
+> organized by client projects/workspaces). See [`docs/roadmap/features.md`](docs/roadmap/features.md) for the
+> canonical roadmap and [`docs/roadmap/PIVOT-PWC-TAX.md`](docs/roadmap/PIVOT-PWC-TAX.md) for the re-scope.
 
+### Specialized Agents (R3.0)
+
+- **Tax Agent** — Tax research and advisory queries: applicable regime, dictámenes/consultas vinculantes, computations and references
 - **Regulatory Agent** — Queries about current legislation, validity verification, repeal chains
-- **Case Law Agent** — Search and analysis of rulings, precedent identification, case law trends
-- **Procedural Agent** — Queries about case files and deadlines, business-day calculation, due-date alerts
+- **Case Law Agent** — Search and analysis of rulings, precedent identification, case-law trends
 
 Orchestrated by a Hybrid Router (embedding similarity + LLM fallback) on Semantic Kernel with the ReAct pattern.
 

@@ -19,8 +19,8 @@ The loop is wrapped by a configurable **pipeline** of guardrail/enrichment stage
 client as it is produced.
 
 > **Single agent today; multi-agent is the target.** The current implementation is **one** tool-calling
-> agent with 13 tools. The roadmap (R2.0) introduces specialized agents (Regulatory / Case Law /
-> Procedural) orchestrated by a router on Semantic Kernel; the tool catalog and pipeline below are the
+> agent with 13 tools. The roadmap (R3.0) introduces specialized agents (Tax / Regulatory / Case Law)
+> orchestrated by a router on Semantic Kernel; the tool catalog and pipeline below are the
 > foundation for that evolution.
 
 ---
