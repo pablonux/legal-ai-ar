@@ -48,7 +48,10 @@ Tickets are the files in [`F00 - Development Environment and Structure/`](F00%20
 > and `backlog.md` now list this same W01–W08 set (reconciled). Note W04–W06 (CI/Bicep/CD) overlap
 > with feature **FT05** (delivery & hosting) — consolidate when implemented.
 
-After R0.0: **R1.0 Foundation** (F01–F07). See [`features.md`](features.md) for the full release map.
+After R0.0: **R1.0 — Research & Monitoring**. ⚠️ The product was **re-scoped to PwC tax-legal**
+(projects/workspaces, tax focus) — R1.0+ features changed; F00/R0.0 is unaffected. See
+[`features.md`](features.md) and [`PIVOT-PWC-TAX.md`](PIVOT-PWC-TAX.md). The old litigation work-item
+folders (`F01…F23`, `FT01…FT05`) are being retired.
 
 ---
 
@@ -81,6 +84,7 @@ Work item: [`F00 - W02 - Monorepo Setup and Backend Scaffolding.md`](F00%20-%20D
 | 2026-05-29 | — | Foundation complete: roadmap, 20 technical docs, ontology, deployment, onboarding, unified skills/rules; `mvp/docs/` integrated & removed. Ready to start R0.0 / F00-W02. |
 | 2026-05-29 | F00-W02 | Monorepo hoist (`mvp/` → root); `LegalAiAr.Agents` + `LegalAiAr.AgentEvals`; SK 1.77.0; repoint docs/skills; `.github/ISSUE_TEMPLATE/`; AC: 0 errors (warnings → F00-W08). |
 | 2026-05-29 | F00-W02 | **Merged to `main`** — [PR #102](https://github.com/pwc-ar-xlos-argentinaaifactory/legal-ai-ar/pull/102). WI closed; pick up F00-W03. |
+| 2026-05-29 | roadmap | **Product re-scoped to PwC tax-legal** (branch `feature/roadmap-pwc-tax-pivot`): `features.md` + `backlog.md` rewritten; R1.0+ features changed (projects/workspaces, tax sources, document review, deliverables, internal KB, tax controversy). F00/R0.0 unchanged. Old `F01…F23`/`FT0x` work-item folders to be retired. |
 
 ---
 
