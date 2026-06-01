@@ -10,13 +10,13 @@
 
 ## Description
 
-GCaaS (PwC's container platform) hosts Legal Ai Ar for internal users via a Helm chart under `mvp/deployment/`. The API and SPA run as Knative services behind Istio; images are built by the GCaaS platform (`experimentalBuild: true`), not by GitHub Actions. This work item covers the chart, Knative services, and Istio routing.
+GCaaS (PwC's container platform) hosts Legal Ai Ar for internal users via a Helm chart under `deployment/`. The API and SPA run as Knative services behind Istio; images are built by the GCaaS platform (`experimentalBuild: true`), not by GitHub Actions. This work item covers the chart, Knative services, and Istio routing.
 
 ---
 
 ## Tasks
 
-### Helm chart (`mvp/deployment/`)
+### Helm chart (`deployment/`)
 
 - [ ] `Chart.yaml` — chart metadata (`legal-ai`)
 - [ ] `values.yaml` — apps, auth flag, secret keys, configMap, metadata placeholders

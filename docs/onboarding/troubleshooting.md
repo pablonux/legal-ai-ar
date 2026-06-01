@@ -30,7 +30,7 @@ Install the global tool once: `dotnet tool install --global dotnet-ef`. Make sur
 is on your `PATH` (restart the terminal after install).
 
 **`Unable to create a DbContext` / design-time errors.**
-Run the command with both projects specified, from `mvp/backend`:
+Run the command with both projects specified, from `backend`:
 
 ```bash
 dotnet ef database update \
@@ -47,7 +47,7 @@ via CD; only apply them manually when coordinating a schema change with the team
 ## 3. Backend (.NET)
 
 **`dotnet` version mismatch / SDK not found.**
-The repo pins the SDK in `mvp/backend/global.json` (`10.0.100`, roll-forward `latestFeature`). Install
+The repo pins the SDK in `backend/global.json` (`10.0.100`, roll-forward `latestFeature`). Install
 .NET 10 SDK. Check with `dotnet --version`.
 
 **Build warnings fail the build.**

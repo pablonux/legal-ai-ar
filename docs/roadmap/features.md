@@ -202,7 +202,7 @@ The project uses **two complementary delivery paths** that may share the same Az
 
 | Aspect | GitHub → Azure staging | GCaaS (corporate production) |
 |--------|------------------------|------------------------------|
-| Trigger | Merge to `main` → GitHub Actions (`ci.yml`, `cd.yml`) | PwC GCaaS Helm / platform pipeline (chart in `mvp/deployment/`) |
+| Trigger | Merge to `main` → GitHub Actions (`ci.yml`, `cd.yml`) | PwC GCaaS Helm / platform pipeline (chart in `deployment/`) |
 | Compute | Azure App Service (API, staging slot) + Azure Static Web Apps (SPA) | Knative services (API + SPA containers) behind Istio |
 | Identity | Same API with `usePlatformCredentials: false` (no platform cookies) | Entra SSO via Envoy; `id_token` HTTP-only cookie |
 | Secrets | GitHub Actions secrets (`AZURE_CREDENTIALS`, SWA token) | HashiCorp Vault keys mapped into the release |
@@ -711,7 +711,7 @@ These features apply to the whole application and are implemented progressively:
 
 | Field | Detail |
 |-------|--------|
-| **MVP** | 🟢 70% — `ci.yml` + `cd.yml` deploy API + SPA to **Azure staging**; GCaaS Helm chart (`mvp/deployment/`) with Knative, Istio, Vault, platform Entra auth already implemented |
+| **MVP** | 🟢 70% — `ci.yml` + `cd.yml` deploy API + SPA to **Azure staging**; GCaaS Helm chart (`deployment/`) with Knative, Istio, Vault, platform Entra auth already implemented |
 | **Delta** | Document and reconcile the dual delivery model; complete the GCaaS production verification/rollback runbook; align worker deploy and production promotion (the implemented `cd.yml` covers API + SPA staging only). |
 | **Description** | Two complementary paths (see §2.3): GitHub Actions → Azure staging, and GCaaS Helm → corporate production with Entra SSO (`id_token` cookie) and Vault secrets. Both can share the same Azure data services. |
 | **References** | [`github-delivery.md`](../deployment/github-delivery.md), [`gcaas-hosting.md`](../deployment/gcaas-hosting.md) |
@@ -776,12 +776,12 @@ See [`gcaas-hosting.md`](../deployment/gcaas-hosting.md). Images are built by th
 
 | Component | Use | MVP | Notes |
 |-----------|-----|-----|-------|
-| GCaaS (PwC) | Corporate Kubernetes hosting platform | ✅ Helm chart in `mvp/deployment/` | Knative + Istio + Envoy |
+| GCaaS (PwC) | Corporate Kubernetes hosting platform | ✅ Helm chart in `deployment/` | Knative + Istio + Envoy |
 | Knative | Serverless container runtime for API + SPA | ✅ `templates/ksvc.yaml` | `backend` (port 8080), `frontend` (port 8081) |
 | Istio VirtualServices | Ingress routing (legacy host + Entra host) | ✅ | `*-vs-entra` when `authentication.entra: true` |
 | Microsoft Entra ID (Envoy) | Platform SSO → `id_token` cookie | ✅ | API validates the cookie JWT |
 | HashiCorp Vault | Secret store mapped into the release | ✅ `templates/secrets.yaml` | `Azure*__*`, `Auth__Platform__*` keys |
-| Helm | GCaaS deployment packaging | ✅ `mvp/deployment/` | `Chart.yaml`, `values.yaml`, templates |
+| Helm | GCaaS deployment packaging | ✅ `deployment/` | `Chart.yaml`, `values.yaml`, templates |
 | Azure Static Web Apps | SPA hosting (GitHub CD staging path) | Add | Deployed by `cd.yml` |
 | Datadog | Optional observability via platform labels | Optional | `gcaas_datadog_enabled` |
 

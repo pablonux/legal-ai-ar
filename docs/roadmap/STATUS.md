@@ -4,17 +4,15 @@
 > up next. Update it whenever a work item is completed or the next step changes. Committed to the repo
 > so it is shared across environments (Cowork / Cursor).
 >
-> **Last updated:** 2026-05-29
+> **Last updated:** 2026-05-29 (F00-W02 merged — PR #102)
 
 ---
 
 ## Current phase
 
-**Planning & documentation foundation — ✅ complete. Code work not started yet (about to begin R0.0).**
-
-The MVP code has **not** been migrated yet: it still lives under `mvp/` (`mvp/backend` .NET 10 Clean
-Architecture, `mvp/frontend` Angular, `mvp/infra`, `mvp/deployment`, `docker-compose*.yml`). The plan
-is to **evolve the MVP in place** (~78% reusable), not rewrite it.
+**R0.0 (Preparation) — in progress.** Application code lives at the repo root (`backend/`, `frontend/`,
+`infra/`, `deployment/`, `docker-compose.app.yml`). **F00-W02** is **done** (merged to `main` via
+[PR #102](https://github.com/pwc-ar-xlos-argentinaaifactory/legal-ai-ar/pull/102)). **Next:** F00-W03.
 
 ---
 
@@ -35,8 +33,8 @@ Tickets are the files in [`F00 - Development Environment and Structure/`](F00%20
 | Order | Ticket file | Status |
 |------:|-------------|--------|
 | — | F00 - W01 - Comprehensive Documentation | ✅ done (authored) |
-| **1** | **F00 - W02 - Monorepo Setup and Backend Scaffolding** | ⏭ **next** |
-| 2 | F00 - W03 - Angular 19 Frontend Scaffolding | pending |
+| — | F00 - W02 - Monorepo Setup and Backend Scaffolding | ✅ done (merged PR #102) |
+| **1** | **F00 - W03 - Angular 19 Frontend Scaffolding** | ⏭ **next** |
 | 3 | F00 - W04 - GitHub Actions CI Configuration | pending |
 | 4 | F00 - W05 - Azure Infrastructure with Bicep | pending |
 | 5 | F00 - W06 - CD Deployment Pipelines Configuration | pending |
@@ -45,7 +43,7 @@ Tickets are the files in [`F00 - Development Environment and Structure/`](F00%20
 
 > ⚠️ **Adapt vs create.** The F00 tickets were drafted greenfield (their diagrams assume code already
 > at the repo root and "scaffold from scratch"). In reality the MVP already provides `backend/` and
-> `frontend/` **under `mvp/`**, and `docs/` is already at the root. So several F00 tickets reduce to
+> `frontend/` at the repo root, and `docs/` was already at the root. So several F00 tickets reduce to
 > **"hoist + adapt"** rather than "create new" — call this out in the `architect` step. `features.md`
 > and `backlog.md` now list this same W01–W08 set (reconciled). Note W04–W06 (CI/Bicep/CD) overlap
 > with feature **FT05** (delivery & hosting) — consolidate when implemented.
@@ -54,62 +52,11 @@ After R0.0: **R1.0 Foundation** (F01–F07). See [`features.md`](features.md) fo
 
 ---
 
-## ▶ First ticket walkthrough — F00-W02 (Monorepo Setup & Backend Scaffolding)
+## Recently completed — F00-W02
 
-**Goal:** hoist the code out of `mvp/` to the repo root and add the two new .NET projects
-(`LegalAiAr.Agents` for Semantic Kernel, `LegalAiAr.AgentEvals` for evals). After this, `mvp/` is gone.
-
-**Starting reality:** code is under `mvp/backend`, `mvp/frontend`, `mvp/infra`, `mvp/deployment` (+ `mvp/docker-compose*.yml`); `docs/` is already at the root; `mvp/docs/` no longer exists.
-
-### Step by step (what the dev does)
-
-1. **Get oriented.** Read this file and `docs/roadmap/F00 - Development Environment and Structure/F00 - W02 - Monorepo Setup and Backend Scaffolding.md`, plus the [Developer Guide](../developer-guide.md).
-2. **Branch:** `git checkout main && git pull && git checkout -b feature/f00-w02-monorepo-hoist`.
-3. **Hoist the code to root** (preserve history with `git mv`):
-   - `git mv mvp/backend backend`
-   - `git mv mvp/frontend frontend`
-   - `git mv mvp/infra infra`
-   - `git mv mvp/deployment deployment`
-   - `git mv mvp/docker-compose.yml .` and `git mv mvp/docker-compose.app.yml .`
-   - move/keep `mvp/.env.example` and `mvp/.gitignore` as needed, then remove the empty `mvp/`.
-4. **Repoint `mvp/` references** in the operational docs (now that paths changed): `onboarding/*`, `deployment/github-delivery.md`, `gcaas-hosting.md`, `developer-guide.md`, `cowork-setup-tutorial.md`, `features.md`, `FT05` work items → `mvp/backend` → `backend`, `mvp/frontend` → `frontend`, etc.
-5. **Add `LegalAiAr.Agents`** (Class Library) in `backend/src/shared/` with `Plugins/ Prompts/ Orchestration/`; reference `Application` + `Core`; reference it from `Api`; install Semantic Kernel NuGet; add to `LegalAiAr.sln`.
-6. **Add `LegalAiAr.AgentEvals`** in `backend/tests/` (golden-set/eval structure); add to `LegalAiAr.sln`.
-7. **Verify:** `dotnet build` (all projects, 0 warnings/errors) and `dotnet test` pass; Clean Architecture references respected (`Core` references nothing).
-8. **Close out:** update this STATUS (mark W02 done, set W03 next, add a log row), commit, and open a PR `Closes F00-W02`.
-
-### Example — what to type to Cursor to drive it
-
-Paste these in order in the Cursor chat (it auto-loads the rules and discovers the skills):
-
-```
-1) "Leé docs/roadmap/STATUS.md y el ticket F00-W02 (Monorepo Setup and Backend
-    Scaffolding). Resumime en qué consiste y qué hay que hacer dado que el código
-    todavía está bajo mvp/."
-
-2) "Usá el skill architect: analizá el impacto de F00-W02. Tené en cuenta que el
-    código real está en mvp/backend y mvp/frontend (no en la raíz como asume el
-    ticket) y que docs/ ya está migrado. Decime el plan de hoist + los 2 proyectos
-    nuevos (Agents, AgentEvals), riesgos y orden."
-
-3) "Desglosá F00-W02 en tareas concretas (skill task-breakdown): comandos git mv del
-    hoist, archivos de docs a repointar, creación de LegalAiAr.Agents y
-    LegalAiAr.AgentEvals con sus referencias y NuGet, y los pasos de verificación.
-    Actualizá la sección Tasks del work item."
-
-4) "Implementemos la tarea 1: dame los comandos exactos para el hoist con git mv y
-    qué referencias de mvp/ hay que actualizar en los docs operativos."
-
-5) (por cada proyecto nuevo) "Implementemos LegalAiAr.Agents: decime archivos, rutas,
-    .csproj con sus ProjectReference y los paquetes NuGet de Semantic Kernel, para que
-    yo los cree."
-
-6) "Revisá lo que implementé para F00-W02 (skill reviewer): build sin warnings, tests,
-    y que Core no referencie a nadie."
-```
-
-> Remember the project rule: the AI **proposes** files/paths/code; the human places them. After the PR
-> merges, update this STATUS file.
+Monorepo hoist (`mvp/` removed), `LegalAiAr.Agents`, `LegalAiAr.AgentEvals`, docs/skills repoint,
+`.github/ISSUE_TEMPLATE/`. Build: 0 errors on `main`; analyzer warnings deferred to **F00-W08**.
+Work item: [`F00 - W02 - Monorepo Setup and Backend Scaffolding.md`](F00%20-%20Development%20Environment%20and%20Structure/F00%20-%20W02%20-%20Monorepo%20Setup%20and%20Backend%20Scaffolding.md).
 
 ---
 
@@ -132,6 +79,8 @@ Paste these in order in the Cursor chat (it auto-loads the rules and discovers t
 | Date | Release / WI | Change |
 |------|--------------|--------|
 | 2026-05-29 | — | Foundation complete: roadmap, 20 technical docs, ontology, deployment, onboarding, unified skills/rules; `mvp/docs/` integrated & removed. Ready to start R0.0 / F00-W02. |
+| 2026-05-29 | F00-W02 | Monorepo hoist (`mvp/` → root); `LegalAiAr.Agents` + `LegalAiAr.AgentEvals`; SK 1.77.0; repoint docs/skills; `.github/ISSUE_TEMPLATE/`; AC: 0 errors (warnings → F00-W08). |
+| 2026-05-29 | F00-W02 | **Merged to `main`** — [PR #102](https://github.com/pwc-ar-xlos-argentinaaifactory/legal-ai-ar/pull/102). WI closed; pick up F00-W03. |
 
 ---
 

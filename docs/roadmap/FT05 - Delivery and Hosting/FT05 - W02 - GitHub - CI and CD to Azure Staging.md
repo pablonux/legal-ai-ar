@@ -62,7 +62,7 @@ The MVP already implements both workflows; the remaining work is hardening, the 
 ## Dependencies
 
 - **Blocks:** Production promotion (out of scope of current `cd.yml`)
-- **Prerequisites:** Azure App Service (staging slot) and Static Web App provisioned (`mvp/infra/scripts/*.ps1`)
+- **Prerequisites:** Azure App Service (staging slot) and Static Web App provisioned (`infra/scripts/*.ps1`)
 
 ---
 

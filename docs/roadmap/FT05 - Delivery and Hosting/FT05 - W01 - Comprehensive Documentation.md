@@ -13,7 +13,7 @@
 Consolidate the delivery and hosting reference for Legal Ai Ar. The project uses two complementary paths that may share the same Azure data services but differ in compute and identity:
 
 1. **GitHub → Azure staging** — GitHub Actions (`ci.yml`, `cd.yml`) build and deploy the API (App Service staging slot) and the SPA (Azure Static Web Apps). GitHub Actions does NOT deploy to GCaaS.
-2. **GCaaS (corporate production)** — PwC's Kubernetes platform hosts the API and SPA as Knative services behind Istio, with Microsoft Entra SSO (`id_token` cookie), HashiCorp Vault secrets, and a Helm chart in `mvp/deployment/`.
+2. **GCaaS (corporate production)** — PwC's Kubernetes platform hosts the API and SPA as Knative services behind Istio, with Microsoft Entra SSO (`id_token` cookie), HashiCorp Vault secrets, and a Helm chart in `deployment/`.
 
 This work item keeps the canonical references current and linked from the plan.
 
@@ -37,7 +37,7 @@ This work item keeps the canonical references current and linked from the plan.
 |----------|-------|
 | `docs/deployment/github-delivery.md` | GitHub branching, CI/CD workflows, secrets, Azure staging targets |
 | `docs/deployment/gcaas-hosting.md` | GCaaS Knative/Istio/Helm deploy, Entra `id_token` auth, Vault, session lifecycle |
-| `mvp/deployment/` | Helm chart (`Chart.yaml`, `values.yaml`, templates) |
+| `deployment/` | Helm chart (`Chart.yaml`, `values.yaml`, templates) |
 | `.github/workflows/ci.yml`, `cd.yml` | CI and CD pipelines |
 
 ---

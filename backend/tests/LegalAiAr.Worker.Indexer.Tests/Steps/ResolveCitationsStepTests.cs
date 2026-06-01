@@ -2,12 +2,14 @@ using LegalAiAr.Core.Entities;
 using LegalAiAr.Core.Enums;
 using LegalAiAr.Core.Interfaces.Repositories;
 using LegalAiAr.Core.Messages;
+using LegalAiAr.Infrastructure.Caching;
 using LegalAiAr.Infrastructure.Persistence;
 using LegalAiAr.Worker.Indexer.Steps;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using NSubstitute;
 
 namespace LegalAiAr.Worker.Indexer.Tests.Steps;
@@ -22,6 +24,8 @@ public class ResolveCitationsStepTests
             opts.UseInMemoryDatabase(dbName);
             opts.ConfigureWarnings(w => w.Ignore(InMemoryEventId.TransactionIgnoredWarning));
         });
+        services.AddSingleton<EntityCacheService>();
+        services.AddSingleton<ILogger<EntityCacheService>>(NullLogger<EntityCacheService>.Instance);
         services.AddScoped<IRulingRepository, LegalAiAr.Infrastructure.Persistence.Repositories.RulingRepository>();
         services.AddScoped<ICourtRepository, LegalAiAr.Infrastructure.Persistence.Repositories.CourtRepository>();
         services.AddScoped<ICitationRepository, LegalAiAr.Infrastructure.Persistence.Repositories.CitationRepository>();

@@ -18,7 +18,7 @@ Agent prompts are versioned as YAML files in the `LegalAiAr.Agents` project.
 ### Location
 
 ```
-mvp/backend/src/shared/LegalAiAr.Agents/Prompts/
+backend/src/shared/LegalAiAr.Agents/Prompts/
 ├── system/
 │   ├── normativo.yaml          # Regulatory agent system prompt
 │   ├── jurisprudencial.yaml    # Case law agent system prompt
@@ -103,7 +103,7 @@ template: |
 ### Location
 
 ```
-mvp/backend/tests/LegalAiAr.AgentEvals/
+backend/tests/LegalAiAr.AgentEvals/
 ├── GoldenSets/
 │   ├── normativo/
 │   │   ├── golden-set.json       # Test cases
@@ -239,7 +239,7 @@ Template to create plugins (tools) that agents can invoke.
 ### Location
 
 ```
-mvp/backend/src/shared/LegalAiAr.Agents/
+backend/src/shared/LegalAiAr.Agents/
 ├── Plugins/
 │   ├── Normativo/
 │   │   ├── SearchLegalNormPlugin.cs

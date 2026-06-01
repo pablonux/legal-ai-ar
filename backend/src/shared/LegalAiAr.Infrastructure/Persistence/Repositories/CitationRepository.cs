@@ -36,7 +36,7 @@ internal class CitationRepository : ICitationRepository
         return await _context.Citations
             .AsNoTracking()
             .Where(c => c.TargetRulingId == null &&
-                normalizedAliases.Contains(c.ExternalAlias))
+                normalizedAliases.Contains(c.ExternalAlias.Trim().ToLower()))
             .ToListAsync(cancellationToken);
     }
 

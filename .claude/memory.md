@@ -2,7 +2,7 @@
 
 ## Decisions made
 
-- **2025-05**: Decided to use the existing `legal-ai-ar` monorepo instead of creating a new repo. The MVP was moved into the `mvp/` folder.
+- **2025-05**: Decided to use the existing `legal-ai-ar` monorepo instead of creating a new repo. The MVP initially lived under `mvp/`; **F00-W02** hoisted it to the repo root (`backend/`, `frontend/`, etc.).
 - **2025-05**: Worker control via SignalR was removed from scope. SignalR is reserved for notifications, chat, and alerts.
 - **2025-05**: R0.0 was renamed from "Migration" to "Preparation" to reflect that there is no repo migration.
 - **2025-05**: All documentation (roadmap, technical, ontology) was organized under `docs/` at the monorepo root.

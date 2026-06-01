@@ -70,7 +70,7 @@ public class EntityName
 
 ### 5. Verify model-ontology consistency
 
-Compare all entities in `mvp/backend/src/shared/LegalAiAr.Core/Entities/` against the ontology and report:
+Compare all entities in `backend/src/shared/LegalAiAr.Core/Entities/` against the ontology and report:
 - Entities in code that are not in the ontology
 - Entities in the ontology that are not in code
 - Discrepancies in properties or relationships

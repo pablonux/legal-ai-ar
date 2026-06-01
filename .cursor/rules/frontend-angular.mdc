@@ -1,9 +1,9 @@
 ---
 description: Frontend Angular code conventions. Applies when working with frontend TypeScript/HTML files.
 globs:
-  - mvp/frontend/**/*.ts
-  - mvp/frontend/**/*.html
-  - mvp/frontend/**/*.scss
+  - frontend/**/*.ts
+  - frontend/**/*.html
+  - frontend/**/*.scss
 ---
 
 # Frontend Angular — Conventions

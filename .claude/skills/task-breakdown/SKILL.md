@@ -74,7 +74,7 @@ Not all categories apply to every work item. Use only the relevant ones.
 
 ## Rules
 
-- Each task must result in a concrete file with a full path relative to `mvp/`
+- Each task must result in a concrete file with a full path relative to the repo root (`backend/`, `frontend/`, etc.)
 - Indicate the .NET project (`LegalAiAr.{Layer}`) or the Angular folder
 - Tasks must follow a logical dependency order (Core first, then Application, then Api)
 - Respect Clean Architecture: dependencies point inward

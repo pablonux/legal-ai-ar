@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\LegalAiAr.Application\LegalAiAr.Application.csproj" />
     <ProjectReference Include="..\..\shared\LegalAiAr.Infrastructure\LegalAiAr.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\shared\LegalAiAr.Agents\LegalAiAr.Agents.csproj" />
   </ItemGroup>
 
 </Project>
