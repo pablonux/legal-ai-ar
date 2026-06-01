@@ -10,8 +10,8 @@ alwaysApply: true
 
 Before doing anything, read **[`docs/roadmap/STATUS.md`](../../docs/roadmap/STATUS.md)** — the single
 source of truth for *where the project stands and what to pick up next*. When you finish a work item,
-update STATUS.md (progress log + "Next up"). Code currently lives under `mvp/` until work item
-**F00-W02** hoists it to the repo root.
+update STATUS.md (progress log + "Next up"). Application code lives at the repo root (`backend/`,
+`frontend/`, `infra/`, `deployment/`).
 
 ## Identity
 
@@ -31,22 +31,15 @@ Legal Ai Ar is a Legal Knowledge Base system with AI Agents for the Argentine le
 
 ```
 legal-ai-ar/
-├── mvp/                          # Existing MVP code
-│   ├── backend/
-│   │   ├── src/
-│   │   │   ├── api/
-│   │   │   │   ├── LegalAiAr.Api/           # ASP.NET Core 10 (Minimal API)
-│   │   │   │   └── LegalAiAr.Application/   # CQRS, handlers, services
-│   │   │   ├── shared/
-│   │   │   │   ├── LegalAiAr.Core/          # Entities, enums, interfaces
-│   │   │   │   └── LegalAiAr.Infrastructure/ # EF Core, Azure services, AI
-│   │   │   ├── workers/                      # 6 BackgroundService workers
-│   │   │   └── tools/                        # 10 auxiliary CLI tools
-│   │   ├── tests/                            # 8 test projects (xUnit + NSubstitute)
-│   │   ├── LegalAiAr.sln
-│   │   ├── Directory.Packages.props          # Central Package Management
-│   │   └── global.json                       # .NET 10
-│   └── frontend/                             # Angular 19 SPA
+├── backend/
+│   ├── src/ … api, shared (Core, Infrastructure, Agents), workers, tools
+│   ├── tests/ … xUnit projects (+ LegalAiAr.AgentEvals)
+│   ├── LegalAiAr.sln
+│   ├── Directory.Packages.props
+│   └── global.json
+├── frontend/                     # Angular 19 SPA
+├── infra/                        # Azure provisioning scripts
+├── deployment/                   # GCaaS Helm chart
 ├── docs/
 │   ├── roadmap/                              # Features, work items, backlog
 │   ├── technical/                            # 9 technical documents
@@ -66,7 +59,7 @@ legal-ai-ar/
 
 ## Mandatory rules
 
-1. **Do not touch code directly**: NEVER create, edit, or delete source code files unless the user explicitly requests it. Instead, indicate which file to create or modify, in which path, and provide the code for the user to place. Correct example: "Create the `LegalNormService.cs` class in `mvp/backend/src/api/LegalAiAr.Application/Services/` with the following code: ..."
+1. **Do not touch code directly**: NEVER create, edit, or delete source code files unless the user explicitly requests it. Instead, indicate which file to create or modify, in which path, and provide the code for the user to place. Correct example: "Create the `LegalNormService.cs` class in `backend/src/api/LegalAiAr.Application/Services/` with the following code: ..."
 2. **Language rule (strict)**:
    - **Everything in English**: code (variables, methods, classes, interfaces, enums), file names, components, tables, indexes, storage, repos, URLs, endpoints, DTOs, domain entities, commits, technical documentation, work items, code comments.
    - **Spanish only for**: end-user facing messages in the app (UI labels, error messages, tooltips, user-visible content).
@@ -75,7 +68,7 @@ legal-ai-ar/
    - Example: class is `LegalNorm`, table is `LegalNorms`, endpoint is `/api/legal-norms`, but the UI label says "Normas Legales".
 3. **Monorepo**: the project uses a single repository `legal-ai-ar`; never create separate repos.
 4. **Naming consistency**: use "Legal Ai Ar" (display name) or "LegalAiAr" (.NET namespace). NEVER use "LegalKB".
-5. **New projects to add**: `LegalAiAr.Agents` (Semantic Kernel) in `src/shared/` and `LegalAiAr.AgentEvals` in `tests/`.
+5. **Agent projects**: `LegalAiAr.Agents` in `backend/src/shared/` and `LegalAiAr.AgentEvals` in `backend/tests/`.
 6. **Infrastructure & delivery**: CI/CD and IaC are operated by the delivery track (documented + tracked, not application features). Two delivery paths: GitHub Actions → Azure staging (API + SPA) and GCaaS Helm/Knative → corporate production. See `docs/deployment/github-delivery.md`, `docs/deployment/gcaas-hosting.md`, features.md §2.3, feature FT05.
 7. **Authentication**: production auth is platform-managed Entra SSO on GCaaS — the platform issues an `id_token` HTTP-only cookie; the API validates it (`Auth:Platform`). Do NOT use MSAL, app-owned `/login`, or Bearer tokens; the SPA uses `withCredentials`. See `docs/deployment/gcaas-hosting.md`.
 8. **Definition of Done — documentation round-trip (mandatory)**: a work item is **NOT done** until its documentation is updated: the work-item file (Tasks/Acceptance `[x]`), `docs/roadmap/STATUS.md` (progress log + "Next up"), and any affected docs (`docs/technical/*`, `docs/ontology/*`, `docs/deployment/*`, `features.md`, onboarding) synced to the merged code. **NEVER mark a work item complete or approve/finish its PR while documentation is pending.** Applies to every dev + AI. See `docs/roadmap/DEFINITION-OF-DONE.md`.

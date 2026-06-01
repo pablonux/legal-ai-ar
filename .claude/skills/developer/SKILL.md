@@ -29,7 +29,7 @@ No stubs or placeholders — every file is production-ready.
 ## Code structure
 
 ```
-mvp/backend/src/
+backend/src/
 ├── api/
 │   ├── LegalAiAr.Api/              # Minimal API, endpoints, DI, middleware
 │   └── LegalAiAr.Application/      # CQRS handlers, services, DTOs, validators
@@ -40,14 +40,14 @@ mvp/backend/src/
 ├── workers/                         # 6 BackgroundService workers
 └── tools/                           # 10 auxiliary CLI tools
 
-mvp/backend/tests/
+backend/tests/
 ├── LegalAiAr.Api.Tests/
 ├── LegalAiAr.Application.Tests/
 ├── LegalAiAr.Core.Tests/
 ├── LegalAiAr.Infrastructure.Tests/
 └── LegalAiAr.AgentEvals/           # Agent evaluations
 
-mvp/frontend/src/app/
+frontend/src/app/
 ├── core/                            # Auth, interceptors, singleton services
 ├── features/                        # Lazy-loaded feature modules
 └── shared/                          # Components, pipes, directives
@@ -61,7 +61,7 @@ mvp/frontend/src/app/
 3. The complete code the user must place
 
 Correct example:
-> "Create the `SearchLegalNormPlugin.cs` class in `mvp/backend/src/shared/LegalAiAr.Agents/Plugins/Normativo/` with the following code: ..."
+> "Create the `SearchLegalNormPlugin.cs` class in `backend/src/shared/LegalAiAr.Agents/Plugins/Normativo/` with the following code: ..."
 
 Incorrect example:
 > Creating the file directly.

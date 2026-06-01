@@ -37,8 +37,8 @@ The AIs **never create or modify code directly**. They always tell you which fil
 
 ```
 legal-ai-ar/
-├── mvp/
-│   ├── backend/src/
+├── backend/
+│   ├── src/
 │   │   ├── api/LegalAiAr.Api/              # Minimal API, endpoints
 │   │   ├── api/LegalAiAr.Application/      # CQRS, handlers, DTOs
 │   │   ├── shared/LegalAiAr.Core/          # Entities, interfaces
@@ -46,8 +46,10 @@ legal-ai-ar/
 │   │   ├── shared/LegalAiAr.Agents/        # Semantic Kernel
 │   │   ├── workers/                         # BackgroundServices
 │   │   └── tools/                           # Auxiliary CLIs
-│   ├── backend/tests/                       # xUnit + NSubstitute
-│   └── frontend/                            # Angular 19 SPA
+│   └── tests/                               # xUnit + NSubstitute (+ AgentEvals)
+├── frontend/                                # Angular 19 SPA
+├── infra/                                   # Azure provisioning scripts
+├── deployment/                              # GCaaS Helm chart
 ├── docs/
 │   ├── roadmap/                             # Work items by feature
 │   ├── technical/                           # 9 technical docs

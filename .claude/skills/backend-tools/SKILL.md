@@ -16,7 +16,7 @@ REST Client files for VS Code/Cursor that allow testing endpoints without Postma
 ### Location
 
 ```
-mvp/backend/src/api/LegalAiAr.Api/http/
+backend/src/api/LegalAiAr.Api/http/
 ├── legal-norms.http
 ├── case-law.http
 ├── chat.http
@@ -94,7 +94,7 @@ Content-Type: {{contentType}}
 
 ```bash
 # Create migration (from the backend root)
-cd mvp/backend
+cd backend
 dotnet ef migrations add {MigrationName} \
   --project src/shared/LegalAiAr.Infrastructure \
   --startup-project src/api/LegalAiAr.Api
@@ -214,7 +214,7 @@ For each Handler, create:
 ### Locations
 
 ```
-mvp/backend/tests/
+backend/tests/
 ├── LegalAiAr.Application.Tests/
 │   └── TestData/                    # Fixtures by feature
 │       ├── LegalNorms/

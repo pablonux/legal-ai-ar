@@ -43,7 +43,7 @@ Read only the documents relevant to the work item being analyzed.
 ## Code structure
 
 ```
-mvp/backend/src/
+backend/src/
 ├── api/
 │   ├── LegalAiAr.Api/              # Minimal API, endpoints, middleware
 │   └── LegalAiAr.Application/      # CQRS handlers, services, DTOs
@@ -54,7 +54,7 @@ mvp/backend/src/
 ├── workers/                         # 6 BackgroundService workers
 └── tools/                           # 10 auxiliary CLI tools
 
-mvp/frontend/src/app/
+frontend/src/app/
 ├── core/                            # Auth, interceptors, singleton services
 ├── features/                        # Lazy-loaded feature modules
 └── shared/                          # Components, pipes, directives

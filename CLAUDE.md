@@ -18,22 +18,24 @@ Legal Ai Ar is a Legal Knowledge Base system with AI Agents for the Argentine le
 
 ```
 legal-ai-ar/
-├── mvp/                          # Existing MVP code
-│   ├── backend/
-│   │   ├── src/
-│   │   │   ├── api/
-│   │   │   │   ├── LegalAiAr.Api/           # ASP.NET Core 10 (Minimal API)
-│   │   │   │   └── LegalAiAr.Application/   # CQRS, handlers, services
-│   │   │   ├── shared/
-│   │   │   │   ├── LegalAiAr.Core/          # Entities, enums, interfaces
-│   │   │   │   └── LegalAiAr.Infrastructure/ # EF Core, Azure services, AI
-│   │   │   ├── workers/                      # 6 BackgroundService workers
-│   │   │   └── tools/                        # 10 auxiliary CLI tools
-│   │   ├── tests/                            # 8 test projects (xUnit + NSubstitute)
-│   │   ├── LegalAiAr.sln
-│   │   ├── Directory.Packages.props          # Central Package Management
-│   │   └── global.json                       # .NET 10
-│   └── frontend/                             # Angular 19 SPA
+├── backend/
+│   ├── src/
+│   │   ├── api/
+│   │   │   ├── LegalAiAr.Api/                # ASP.NET Core 10 (Minimal API)
+│   │   │   └── LegalAiAr.Application/        # CQRS, handlers, services
+│   │   ├── shared/
+│   │   │   ├── LegalAiAr.Core/               # Entities, enums, interfaces
+│   │   │   ├── LegalAiAr.Infrastructure/     # EF Core, Azure services, AI
+│   │   │   └── LegalAiAr.Agents/               # Semantic Kernel plugins & prompts
+│   │   ├── workers/                            # 6 BackgroundService workers
+│   │   └── tools/                              # 10 auxiliary CLI tools
+│   ├── tests/                                  # xUnit + NSubstitute (+ AgentEvals)
+│   ├── LegalAiAr.sln
+│   ├── Directory.Packages.props                # Central Package Management
+│   └── global.json                             # .NET 10
+├── frontend/                                   # Angular 19 SPA
+├── infra/                                      # Azure scripts
+├── deployment/                                 # GCaaS Helm chart
 ├── docs/
 │   ├── roadmap/                              # Features, work items, backlog
 │   │   ├── features.md                       # Full roadmap (v2.0)
@@ -93,7 +95,7 @@ Before generating code or work items, consult:
 
 ## Important rules
 
-- **Do not touch code directly**: NEVER create, edit, or delete source code files unless the user explicitly requests it. Instead, indicate which file to create or modify, in which path, and provide the code for the user to place. Correct example: "Create the `LegalNormService.cs` class in `mvp/backend/src/api/LegalAiAr.Application/Services/` with the following code: ..." Incorrect example: creating the file directly with Write/Edit.
+- **Do not touch code directly**: NEVER create, edit, or delete source code files unless the user explicitly requests it. Instead, indicate which file to create or modify, in which path, and provide the code for the user to place. Correct example: "Create the `LegalNormService.cs` class in `backend/src/api/LegalAiAr.Application/Services/` with the following code: ..." Incorrect example: creating the file directly with Write/Edit.
 - **Language rule (strict)**:
   - **Everything in English**: code (variables, methods, classes, interfaces, enums), file names, components, tables, indexes, storage, repos, URLs, endpoints, DTOs, domain entities, commits, technical documentation, work items, code comments.
   - **Spanish only for**: end-user facing content in the app (UI labels, error messages, tooltips, user-visible content) and the entire presentation layer facing the end user.

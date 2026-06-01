@@ -10,9 +10,10 @@ The Cowork project is already connected to the `legal-ai-ar/` folder, which cont
 
 ```
 legal-ai-ar/
-├── mvp/                    # MVP code (backend + frontend)
-│   ├── backend/            # .NET 10, Clean Architecture, 21 projects
-│   └── frontend/           # Angular 19 SPA
+├── backend/                # .NET 10, Clean Architecture
+├── frontend/               # Angular 19 SPA
+├── infra/                  # Azure provisioning scripts
+├── deployment/             # GCaaS Helm chart
 ├── docs/                   # Project documentation
 │   ├── roadmap/            # Features (F00-F23, FT01-FT04), work items, backlog
 │   ├── technical/          # 9 technical documents (RAG, agents, prompts, etc.)
@@ -179,8 +180,8 @@ They load automatically depending on the file being edited:
 | File | Scope | Cowork equivalent |
 |------|-------|-------------------|
 | `project.mdc` | Always active | Full CLAUDE.md |
-| `backend-dotnet.mdc` | `*.cs` and `*.csproj` files in `mvp/backend/` | "Backend (.NET)" section of CLAUDE.md |
-| `frontend-angular.mdc` | `*.ts`, `*.html`, `*.scss` files in `mvp/frontend/` | "Frontend (Angular)" section of CLAUDE.md |
+| `backend-dotnet.mdc` | `*.cs` and `*.csproj` files in `backend/` | "Backend (.NET)" section of CLAUDE.md |
+| `frontend-angular.mdc` | `*.ts`, `*.html`, `*.scss` files in `frontend/` | "Frontend (Angular)" section of CLAUDE.md |
 | `work-items.mdc` | `*.md` files in `docs/roadmap/` | work-item-generator skill |
 
 ### 5.2 Skills (`.cursor/skills/`)

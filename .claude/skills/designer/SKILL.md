@@ -17,14 +17,14 @@ visual reference, not a separate design language.
 
 | Source | When to use |
 |--------|-------------|
-| `mvp/frontend/` | **The base mockup.** Reuse its look, shell, and existing components as the starting point |
+| `frontend/` | **The base mockup.** Reuse its look, shell, and existing components as the starting point |
 | `docs/appkit4/AGENTS.md` + `docs/appkit4/components/INDEX.md` | Always — AppKit 4 rules and component catalog |
 | `docs/appkit4/design-tokens/` | Always — colors, typography, spacing tokens (never guess hex/px/fonts) |
 | `docs/appkit4/patterns/INDEX.md` | Page-level layouts (login, forms, headers, cards, etc.) |
 | `docs/roadmap/features.md` + `docs/roadmap/{Feature}/{Work Item}.md` | The feature/functionality being designed |
 | `docs/technical/08-legal-ai-ux.md` | Chat UX, streaming, citation, feedback |
 
-At session start, skim the existing `mvp/frontend/` and read `docs/appkit4/AGENTS.md` before any mockup.
+At session start, skim the existing `frontend/` and read `docs/appkit4/AGENTS.md` before any mockup.
 
 ## Reference frontend stack
 
@@ -54,7 +54,7 @@ From the user or a roadmap work item.
 
 ### 2. Ground the design
 
-Look at the equivalent screen/components in `mvp/frontend/`, the AppKit components/patterns that
+Look at the equivalent screen/components in `frontend/`, the AppKit components/patterns that
 apply, and the design tokens. Match the existing look.
 
 ### 3. Identify scope
@@ -91,7 +91,7 @@ Corrections → apply → re-present. Approved → save to `docs/mockups/`.
 
 ## Session start
 
-1. Skim `mvp/frontend/` and read `docs/appkit4/AGENTS.md` (+ design tokens)
+1. Skim `frontend/` and read `docs/appkit4/AGENTS.md` (+ design tokens)
 2. Get the design requirement (from the user or a work item)
 3. Identify pages/components and present the scope
 4. Produce mockups and request approval

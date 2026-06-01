@@ -1,0 +1,6 @@
+{
+  "version": "1.0",
+  "description": "Agent evaluation configuration placeholder for Legal Ai Ar",
+  "defaultJudgeModel": "gpt-5o-mini",
+  "metrics": ["faithfulness", "answerRelevance", "citationAccuracy"]
+}

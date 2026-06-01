@@ -64,11 +64,8 @@ git clone <repo-url> legal-ai-ar
 cd legal-ai-ar
 ```
 
-The application code currently lives under `mvp/` (`mvp/backend`, `mvp/frontend`). Most setup
-commands below run from inside `mvp/`.
-
-> **Forward note:** work item **F00-W02** hoists the solution from `mvp/` to the repo root
-> (`backend/`, `frontend/`) as part of R0.0. Until that lands, use the `mvp/` paths shown here.
+Application code lives at the repo root: `backend/`, `frontend/`, plus `infra/`, `deployment/`,
+and `docker-compose.app.yml`.
 
 ---
 
@@ -77,7 +74,7 @@ commands below run from inside `mvp/`.
 Before running anything, point the app at the shared cloud DEV services. The repo ships a template:
 
 ```bash
-# from mvp/
+# from repo root
 cp .env.example .env
 ```
 
@@ -111,7 +108,7 @@ to configure. Production auth is platform-managed Entra SSO via the same `id_tok
 ## 4. Run the backend (.NET)
 
 ```bash
-cd mvp/backend
+cd backend
 dotnet restore
 dotnet build
 dotnet run --project src/api/LegalAiAr.Api
@@ -160,7 +157,7 @@ per-component variable matrix, queues, and connectivity verification, see
 In a second terminal:
 
 ```bash
-cd mvp/frontend
+cd frontend
 npm ci
 npm start          # ng serve
 ```
@@ -181,7 +178,7 @@ deploys. This still uses your `.env` and the **same shared cloud DEV** services 
 any database container):
 
 ```bash
-cd mvp
+# from repo root
 docker compose -f docker-compose.app.yml up -d
 # SPA: http://localhost:4200  ·  API: http://localhost:5088  ·  Docs: http://localhost:5088/docs
 ```
@@ -191,7 +188,7 @@ docker compose -f docker-compose.app.yml ps     # check container health
 docker compose -f docker-compose.app.yml logs -f api
 ```
 
-> The repo also contains a `mvp/docker-compose.yml` that would start a local SQL Server / Neo4j. **We
+> The repo also contains a `docker-compose.app.yml` that would start a local SQL Server / Neo4j. **We
 > don't use it** — our workflow connects to the shared cloud DEV services. Use
 > `docker-compose.app.yml`.
 
@@ -201,7 +198,7 @@ You're done when all of these work:
 
 - Swagger UI loads at http://localhost:5088/swagger (or `/docs` when running in containers).
 - The SPA loads at http://localhost:4200 and reaches the API (no 401 — the dev cookie is injected).
-- `dotnet build` and `dotnet test` pass in `mvp/backend`.
+- `dotnet build` and `dotnet test` pass in `backend`.
 
 If anything fails, see [troubleshooting.md](troubleshooting.md).
 

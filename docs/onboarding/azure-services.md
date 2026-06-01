@@ -11,7 +11,7 @@
 ## 1. What you need and where to get it
 
 You don't create Azure resources — you collect the values for an existing DEV environment and put them
-in `.env` (`cp .env.example .env` from `mvp/`). Endpoints are pre-filled in the template; you only
+in `.env` (`cp .env.example .env` from the repo root). Endpoints are pre-filled in the template; you only
 replace the secret placeholders. Ask the Tech Lead for access to the DEV resources.
 
 | Service | Non-secret values (already in `.env.example`) | Secret to replace |

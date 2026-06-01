@@ -22,7 +22,7 @@ GitHub is the **canonical source of truth** for application code. Two automation
 | **CI** | `.github/workflows/ci.yml` | Push or PR to `main` | Build, test, format check — no deploy |
 | **CD** | `.github/workflows/cd.yml` | Push to `main` (merge) | Build artifacts and deploy API + SPA to **Azure staging** |
 
-GitHub Actions **does not deploy to GCaaS**. GCaaS releases use the Helm chart under `mvp/deployment/` and the platform's own deployment pipeline (see [`gcaas-hosting.md`](gcaas-hosting.md)).
+GitHub Actions **does not deploy to GCaaS**. GCaaS releases use the Helm chart under `deployment/` and the platform's own deployment pipeline (see [`gcaas-hosting.md`](gcaas-hosting.md)).
 
 ```mermaid
 flowchart LR
@@ -83,10 +83,10 @@ Use **Conventional Commits** scoped by feature: `feat(F08): …`, `fix(F01): …
 
 1. **Checkout** — `actions/checkout@v4`
 2. **Setup .NET** — `actions/setup-dotnet@v4`, SDK `10.0.x`
-3. **Restore** — `dotnet restore mvp/backend/LegalAiAr.sln`
-4. **Build** — `dotnet build mvp/backend/LegalAiAr.sln -c Release --no-restore`
-5. **Test** — `dotnet test mvp/backend/LegalAiAr.sln -c Release --no-build`
-6. **Lint** — `dotnet format mvp/backend/LegalAiAr.sln --verify-no-changes`
+3. **Restore** — `dotnet restore backend/LegalAiAr.sln`
+4. **Build** — `dotnet build backend/LegalAiAr.sln -c Release --no-restore`
+5. **Test** — `dotnet test backend/LegalAiAr.sln -c Release --no-build`
+6. **Lint** — `dotnet format backend/LegalAiAr.sln --verify-no-changes`
 
 **Scope note:** CI covers the **backend solution only**. The Angular SPA is not built or tested in this workflow.
 
@@ -111,14 +111,14 @@ Deploy jobs run only when `github.ref == 'refs/heads/main'` and use the GitHub *
 
 Same .NET steps as CI, plus:
 
-- `dotnet publish mvp/backend/src/api/LegalAiAr.Api/LegalAiAr.Api.csproj -c Release -o api-publish`
+- `dotnet publish backend/src/api/LegalAiAr.Api/LegalAiAr.Api.csproj -c Release -o api-publish`
 - Upload artifact `api-publish`
 
 ### `build-spa`
 
-- Node `20`, `npm ci` in `mvp/frontend/`
-- `npm run build --prefix mvp/frontend -- --configuration=staging`
-- Upload artifact `spa-dist` from `mvp/frontend/dist/legal-ai-ar`
+- Node `20`, `npm ci` in `frontend/`
+- `npm run build --prefix frontend -- --configuration=staging`
+- Upload artifact `spa-dist` from `frontend/dist/legal-ai-ar`
 
 The **staging** Angular configuration uses `environment.staging.ts`: API at `legal-ai-ar-api-staging.azurewebsites.net`, `usePlatformCredentials: false` (no GCaaS cookie flow).
 
@@ -160,8 +160,8 @@ Configure under **Settings → Secrets and variables → Actions** and **Setting
 
 | Component | Staging target | Provisioning |
 |-----------|----------------|--------------|
-| API | App Service staging slot | `mvp/infra/scripts/create-app-service.ps1` |
-| SPA | Azure Static Web Apps | `mvp/infra/scripts/create-static-web-app.ps1`, Portal/CLI |
+| API | App Service staging slot | `infra/scripts/create-app-service.ps1` |
+| SPA | Azure Static Web Apps | `infra/scripts/create-static-web-app.ps1`, Portal/CLI |
 | Workers | Container Apps (design) | Not deployed by the current `cd.yml` |
 | Data plane | Azure SQL, Blob, Search, OpenAI | Shared; configured in App Service settings, not by GHA |
 
@@ -174,7 +174,7 @@ Configure under **Settings → Secrets and variables → Actions** and **Setting
 | Deploy trigger | Merge to `main` → GitHub Actions | Platform Helm deploy (separate) |
 | SPA build config | `staging` | `development` or `production` (Angular) |
 | Auth | Staging API without platform cookies | Entra + `id_token` cookie |
-| Infra | `mvp/infra/scripts/*.ps1` | `mvp/deployment/` Helm chart |
+| Infra | `infra/scripts/*.ps1` | `deployment/` Helm chart |
 
 Both paths can target the **same Azure data services**; compute and identity boundaries differ. See [`gcaas-hosting.md`](gcaas-hosting.md).
 
@@ -202,11 +202,11 @@ Both paths can target the **same Azure data services**; compute and identity bou
 |------|-------------|
 | `.github/workflows/ci.yml` | CI: build, test, format |
 | `.github/workflows/cd.yml` | CD: Azure staging deploy |
-| `mvp/infra/scripts/create-app-service.ps1` | App Service + staging slot |
-| `mvp/infra/scripts/create-static-web-app.ps1` | Static Web Apps |
-| `mvp/infra/scripts/create-container-registry.ps1` | ACR (workers / future CD) |
-| `mvp/frontend/src/environments/environment.staging.ts` | API URL for the Azure staging build |
-| `mvp/frontend/angular.json` | `staging` build configuration |
+| `infra/scripts/create-app-service.ps1` | App Service + staging slot |
+| `infra/scripts/create-static-web-app.ps1` | Static Web Apps |
+| `infra/scripts/create-container-registry.ps1` | ACR (workers / future CD) |
+| `frontend/src/environments/environment.staging.ts` | API URL for the Azure staging build |
+| `frontend/angular.json` | `staging` build configuration |
 | [`gcaas-hosting.md`](gcaas-hosting.md) | GCaaS platform (not deployed via GitHub Actions) |
 
 ---

@@ -32,7 +32,7 @@ Storage accounts do not allow hyphens — use all lowercase with no separators.
 ### appsettings structure
 
 ```
-mvp/backend/src/api/LegalAiAr.Api/
+backend/src/api/LegalAiAr.Api/
 ├── appsettings.json              # Base config (no secrets)
 ├── appsettings.Development.json  # Overrides for local dev
 └── appsettings.Production.json   # Overrides for prod (structure only)
@@ -171,8 +171,8 @@ on:
   pull_request:
     branches: [main]
     paths:
-      - 'mvp/backend/**'
-      - 'mvp/frontend/**'
+      - 'backend/**'
+      - 'frontend/**'
 
 jobs:
   backend:
@@ -180,7 +180,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: mvp/backend
+        working-directory: backend
     steps:
       - uses: actions/checkout@v4
 
@@ -203,7 +203,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: mvp/frontend
+        working-directory: frontend
     steps:
       - uses: actions/checkout@v4
 
@@ -212,7 +212,7 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-          cache-dependency-path: mvp/frontend/package-lock.json
+          cache-dependency-path: frontend/package-lock.json
 
       - name: Install
         run: npm ci
@@ -237,7 +237,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'mvp/backend/**'
+      - 'backend/**'
 
 jobs:
   deploy:
@@ -246,7 +246,7 @@ jobs:
     environment: development
     defaults:
       run:
-        working-directory: mvp/backend
+        working-directory: backend
     steps:
       - uses: actions/checkout@v4
 
@@ -266,7 +266,7 @@ jobs:
         with:
           app-name: app-legal-ai-ar-dev
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_DEV }}
-          package: mvp/backend/publish
+          package: backend/publish
 ```
 
 ### Conventions
@@ -275,6 +275,6 @@ jobs:
 - CD dev: automatic on push to main
 - CD prod: manual (workflow_dispatch) with approval
 - GitHub secrets: `AZURE_WEBAPP_PUBLISH_PROFILE_DEV`, `AZURE_WEBAPP_PUBLISH_PROFILE_PROD`
-- Working directory always relative to `mvp/`
+- Working directory always relative to the repo root (`backend/`, `frontend/`)
 - NuGet and npm cache to speed up builds
 ```

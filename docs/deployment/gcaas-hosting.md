@@ -52,16 +52,16 @@ A **legacy** hostname (e.g. `hosted-apps-us.pwclabs.pwcglb.com`) remains configu
 
 ## 3. Deployment on GCaaS (Helm)
 
-Helm chart root: `mvp/deployment/`. Images are built by the **GCaaS platform** (`experimentalBuild: true`, language hints `dotnet` / `angular`), not by GitHub Actions.
+Helm chart root: `deployment/`. Images are built by the **GCaaS platform** (`experimentalBuild: true`, language hints `dotnet` / `angular`), not by GitHub Actions.
 
 | File | Role |
 |------|------|
-| `mvp/deployment/Chart.yaml` | Chart metadata (`legal-ai`) |
-| `mvp/deployment/values.yaml` | Apps, auth, secret keys, configMap, metadata placeholders |
-| `mvp/deployment/templates/ksvc.yaml` | Knative Service + Istio VirtualServices |
-| `mvp/deployment/templates/configmap.yaml` | Non-secret env injection |
-| `mvp/deployment/templates/secrets.yaml` | Secret references |
-| `mvp/deployment/templates/daemonset.yaml` | Optional image preloader |
+| `deployment/Chart.yaml` | Chart metadata (`legal-ai`) |
+| `deployment/values.yaml` | Apps, auth, secret keys, configMap, metadata placeholders |
+| `deployment/templates/ksvc.yaml` | Knative Service + Istio VirtualServices |
+| `deployment/templates/configmap.yaml` | Non-secret env injection |
+| `deployment/templates/secrets.yaml` | Secret references |
+| `deployment/templates/daemonset.yaml` | Optional image preloader |
 
 ### Applications in `values.yaml`
 
@@ -256,34 +256,34 @@ Both may share the same Azure SQL, Blob, Search, and OpenAI backends.
 
 | Path | Description |
 |------|-------------|
-| `mvp/deployment/Chart.yaml` | Helm chart metadata |
-| `mvp/deployment/values.yaml` | Apps, Entra flag, secrets, configMap, metadata |
-| `mvp/deployment/templates/ksvc.yaml` | Knative Service, VirtualServices (legacy + Entra) |
-| `mvp/deployment/templates/configmap.yaml` | ConfigMap template |
-| `mvp/deployment/templates/secrets.yaml` | Secrets template |
-| `mvp/deployment/templates/daemonset.yaml` | Preloader / Datadog-related daemonset |
+| `deployment/Chart.yaml` | Helm chart metadata |
+| `deployment/values.yaml` | Apps, Entra flag, secrets, configMap, metadata |
+| `deployment/templates/ksvc.yaml` | Knative Service, VirtualServices (legacy + Entra) |
+| `deployment/templates/configmap.yaml` | ConfigMap template |
+| `deployment/templates/secrets.yaml` | Secrets template |
+| `deployment/templates/daemonset.yaml` | Preloader / Datadog-related daemonset |
 
 ### Backend — platform authentication
 
 | Path | Description |
 |------|-------------|
-| `mvp/backend/src/api/LegalAiAr.Api/Program.cs` | Registers the platform auth scheme |
-| `mvp/backend/src/api/LegalAiAr.Api/Services/PlatformAuthenticationHandler.cs` | ASP.NET Core auth handler |
-| `mvp/backend/src/api/LegalAiAr.Api/Services/PlatformGatewayTokenResolver.cs` | Reads the `id_token` cookie |
-| `mvp/backend/src/api/LegalAiAr.Api/Services/PlatformUserJwtValidator.cs` | JWT validation |
-| `mvp/backend/src/api/LegalAiAr.Api/Services/PlatformRoleResolver.cs` | Entra/platform role → app role |
-| `mvp/backend/src/api/LegalAiAr.Api/Controllers/AuthController.cs` | `/api/auth/me`, `/logout` |
+| `backend/src/api/LegalAiAr.Api/Program.cs` | Registers the platform auth scheme |
+| `backend/src/api/LegalAiAr.Api/Services/PlatformAuthenticationHandler.cs` | ASP.NET Core auth handler |
+| `backend/src/api/LegalAiAr.Api/Services/PlatformGatewayTokenResolver.cs` | Reads the `id_token` cookie |
+| `backend/src/api/LegalAiAr.Api/Services/PlatformUserJwtValidator.cs` | JWT validation |
+| `backend/src/api/LegalAiAr.Api/Services/PlatformRoleResolver.cs` | Entra/platform role → app role |
+| `backend/src/api/LegalAiAr.Api/Controllers/AuthController.cs` | `/api/auth/me`, `/logout` |
 
 ### Frontend — GCaaS session and environments
 
 | Path | Description |
 |------|-------------|
-| `mvp/frontend/src/environments/environment.development.ts` | GCaaS cloud build (Entra host URLs) |
-| `mvp/frontend/src/environments/environment.prod.ts` | GCaaS production (same-origin) |
-| `mvp/frontend/angular.json` | `development` / `production` configs and `baseHref` |
-| `mvp/frontend/src/app/services/auth.service.ts` | Bootstrap, refresh, logout |
-| `mvp/frontend/src/app/interceptors/platform-credentials.interceptor.ts` | `withCredentials` for API calls |
-| `mvp/frontend/src/app/features/auth/session-required/session-required.component.ts` | SSO gate UI |
+| `frontend/src/environments/environment.development.ts` | GCaaS cloud build (Entra host URLs) |
+| `frontend/src/environments/environment.prod.ts` | GCaaS production (same-origin) |
+| `frontend/angular.json` | `development` / `production` configs and `baseHref` |
+| `frontend/src/app/services/auth.service.ts` | Bootstrap, refresh, logout |
+| `frontend/src/app/interceptors/platform-credentials.interceptor.ts` | `withCredentials` for API calls |
+| `frontend/src/app/features/auth/session-required/session-required.component.ts` | SSO gate UI |
 
 ### Related
 
