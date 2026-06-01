@@ -15,7 +15,7 @@ legal-ai-ar/
 ├── infra/                  # Azure provisioning scripts
 ├── deployment/             # GCaaS Helm chart
 ├── docs/                   # Project documentation
-│   ├── roadmap/            # Features (F00-F23, FT01-FT04), work items, backlog
+│   ├── roadmap/            # features.md, backlog.md, STATUS.md + work items by feature
 │   ├── technical/          # 9 technical documents (RAG, agents, prompts, etc.)
 │   └── ontology/           # Argentine legal domain model
 ├── README.md
@@ -56,7 +56,7 @@ It is the project's "system prompt". Claude reads it at the start of every sessi
 - **Monorepo structure**: map of folders and .NET projects
 - **Code conventions**: Clean Architecture, naming, patterns (backend and frontend)
 - **Azure naming**: `{service}-legal-ai-ar-{environment}`
-- **Releases**: R0.0 (Preparation) → R1.0 (Foundation) → R2.0 (Agents) → R3.0 (Risk) → R4.0 (Operations)
+- **Releases**: R0.0 (Preparation) → R1.0 (Research & Monitoring) → R2.0 (Professional Productivity) → R3.0 (Knowledge & Intelligence) → R4.0 (Scale & Operations)
 - **Rules**: English-first language rule, single monorepo, `LegalAiAr.*` names (never LegalKB)
 
 ### How to extend it
@@ -79,8 +79,8 @@ Stores decisions, conventions, and context that Claude can consult in any future
 ### Current content
 
 - **Decisions**: existing monorepo (do not create a new repo), removal of SignalR for workers, rename of R0.0 to "Preparation"
-- **Conventions**: feature numbering (F00-F23, FT01-FT04), work item format, Azure naming
-- **Status**: R0.0 in progress, pending creation of LegalAiAr.Agents and LegalAiAr.AgentEvals
+- **Conventions**: feature numbering, work item format, Azure naming
+- **Status**: current release / work item (see `docs/roadmap/STATUS.md` for live progress)
 - **Things to avoid**: never "LegalKB", no separate repos, no SignalR for workers
 
 ### How to update it
@@ -110,9 +110,9 @@ The most frequent project tasks are covered by specialized skills. They activate
 
 **Examples**:
 ```
-"Create the work item for the semantic search endpoint in F03"
-"I need a W03 in F09 for the in-force legal norm search plugin"
-"Add a roadmap task to implement the auth middleware in F01"
+"Create the work items for F2.2 - Document Review and Analysis"
+"I need a W03 in F1.3 for the ARCA dictámenes ingestion source"
+"Add a roadmap task to implement the projects/workspaces API in F2.1"
 ```
 
 ### 4.2 Entity Analyzer
@@ -127,9 +127,9 @@ The most frequent project tasks are covered by specialized skills. They activate
 
 **Examples**:
 ```
-"Verify that the CaseFile entity in the code matches the ontology"
-"We need a JudicialRemedy entity. Propose the structure"
-"What relationships exist between Ruling and LegalNorm per the ontology?"
+"Verify that the Project (Workspace) entity in the code matches the model"
+"We need a TaxControversy entity. Propose the structure"
+"What relationships exist between Ruling and Statute per the ontology?"
 ```
 
 ### 4.3 Consistency Checker
@@ -145,7 +145,7 @@ The most frequent project tasks are covered by specialized skills. They activate
 
 **Examples**:
 ```
-"Review the consistency of all F08 work items"
+"Review the consistency of all F1.7 work items"
 "Are there inconsistencies between features.md and the folders?"
 "Verify that no LegalKB is left in the docs"
 ```
@@ -242,44 +242,45 @@ When a new rule is added to CLAUDE.md, it must be reflected in `project.mdc` (an
 
 ## 6. Full workflow — Cowork + Cursor
 
-Example: implement **F09 - Regulatory Agent**
+Example: implement **F2.2 - Document Review and Analysis**
 
 ### Phase 1 — Planning (Cowork)
 
 ```
-Pablo:  "Create the work items for F09 - Regulatory Agent"
+Pablo:  "Create the work items for F2.2 - Document Review and Analysis"
 Claude: [skill: work-item-generator → reads features.md → generates W01-W05]
 
 Pablo:  "Review the consistency"
 Claude: [skill: consistency-checker → validates metadata, dependencies, numbering]
 
-Pablo:  "We need a RegulatoryQuery entity. Propose the structure"
-Claude: [skill: entity-analyzer → reads the ontology → proposes the entity with C# code]
+Pablo:  "We need a Document entity. Propose the structure"
+Claude: [skill: entity-analyzer → reads the model → proposes the entity with C# code]
 ```
 
 ### Phase 2 — Technical analysis (Cursor)
 
 ```
-Dev:    "Analyze the technical impact of F09-W02 (legal norm search plugin)"
-Cursor: [skill: architect → reads features.md + docs/technical/01-rag-retrieval.md
-         → produces a plan: files to create, modify, decisions, risks]
+Dev:    "Analyze the technical impact of F2.2-W02 (document analysis service)"
+Cursor: [skill: architect → reads features.md + docs/technical/21-business-workspace-model.md
+         + 16-chat-rag-agents.md → produces a plan: files, decisions, risks]
 ```
 
 ### Phase 3 — Design (Cursor)
 
 ```
-Dev:    "Create the mockup for the Regulatory Agent view"
-Cursor: [skill: designer → reads PwC guidelines → produces an HTML mockup with chat,
-         norms panel, inline citation → asks for approval]
+Dev:    "Create the mockup for the document review view"
+Cursor: [skill: designer → grounds on frontend/ + AppKit 4 → produces an HTML mockup with
+         upload, extracted clauses/risks panel, version compare → asks for approval]
 ```
 
 ### Phase 4 — Development (Cursor)
 
 ```
-Dev:    "Implement F09-W02"
+Dev:    "Implement F2.2-W02"
 Cursor: [skill: developer → reads W02 + the architect's plan → presents:
-         "Create SearchLegalNormPlugin.cs in LegalAiAr.Agents/Plugins/Normativo/
-          with the following code: ..." → waits for approval]
+         "Create DocumentAnalysisService.cs in
+          backend/src/api/LegalAiAr.Application/Documents/ with the following code: ..."
+         → waits for approval]
 
 Dev:    "Go ahead, approved"
 Cursor: [presents the complete code for each file → asks for final approval]
@@ -288,23 +289,23 @@ Cursor: [presents the complete code for each file → asks for final approval]
 ### Phase 5 — Review (Cursor or Cowork)
 
 ```
-Dev:    "Review the code of the F09-W02 PR"
-Cursor: [skill: reviewer → reviews against conventions, tests,
-         Clean Architecture → approves or reports issues by severity]
+Dev:    "Review the code of the F2.2-W02 PR"
+Cursor: [skill: reviewer → reviews against conventions, tests, Clean Architecture,
+         and the Definition of Done → approves or reports issues by severity]
 ```
 
 ### Phase 6 — Documentation (Cowork)
 
 ```
-Pablo:  "Document the Regulatory Agent architecture"
-Claude: [skill: documenter → generates docs/technical/10-regulatory-agent.md]
+Pablo:  "Document the document-review pipeline"
+Claude: [skill: documenter → updates docs/technical/21-business-workspace-model.md]
 ```
 
 ---
 
 ## 7. Tips
 
-- **Be specific**: "Create W03 for F09 about the legal norm search plugin" works better than "do something for F09"
+- **Be specific**: "Create W03 for F2.2 about the document analysis service" works better than "do something for F2.2"
 - **Chain skills**: create a work item and then ask it to verify consistency
 - **Update the memory**: when you make an important decision, ask Claude to record it for future sessions
 - **Iterate on the skills**: if a skill does not generate what you expect, edit its `SKILL.md` directly
