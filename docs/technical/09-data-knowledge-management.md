@@ -119,7 +119,7 @@ The taxonomy synonyms are used at two points:
 
 ### 3.1 Problem
 
-The law has a unique temporal dimension: an article may have had 5 different versions over the years, and a lawyer may need to know what the norm said on a specific date (for example, at the time of a tort or the signing of a contract).
+The law has a unique temporal dimension: an article may have had 5 different versions over the years, and a professional may need to know what the norm said on a specific date (for example, at the time of a taxable event or the signing of a contract).
 
 ### 3.2 Temporal data model
 
@@ -249,7 +249,7 @@ SELECT 'Norms with no edges', COUNT(*) FROM LegalNorm n
 
 ### 5.1 Source traceability
 
-Every piece of data in the KB must be able to trace its origin back to the original source. This is critical in the legal domain because a lawyer needs to know where information comes from to assess its reliability.
+Every piece of data in the KB must be able to trace its origin back to the original source. This is critical in the tax-legal domain because a professional needs to know where information comes from to assess its reliability.
 
 ### 5.2 Provenance schema
 
@@ -368,7 +368,7 @@ LEFT JOIN DataProvenance p ON p.EntityType = 'norm' AND p.EntityId = n.Id;
 8. AI SEARCH: Re-indexes the 3 articles in idx-articles
 9. PROVENANCE: Records the origin (Gazette, date, URL) for the new law
 10. CONSISTENCY: Verifies that SQL, AI Search, and Blob are synchronized
-11. NOTIFICATION: Alerts lawyers with case files that cite art. 245
+11. NOTIFICATION: Alerts the members of projects whose saved research or deliverables cite art. 245
 ```
 
 ---
@@ -385,7 +385,7 @@ LEFT JOIN DataProvenance p ON p.EntityType = 'norm' AND p.EntityId = n.Id;
 - [ ] Implement cross-store reconciliation (SQL vs AI Search vs Blob)
 - [ ] Design the taxonomy admin UI (CRUD + reorder + synonyms)
 - [ ] Define the source re-verification policy (every 30 days?)
-- [ ] Implement alerts for changes in norms that affect active case files
+- [ ] Implement alerts for changes in norms that affect active projects (saved research / deliverables)
 - [ ] Create a Knowledge Graph health dashboard
 
 ---

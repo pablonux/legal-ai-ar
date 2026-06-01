@@ -8,9 +8,9 @@
 
 ## 1. Description
 
-A legal AI system handles particularly sensitive information: court case file data, clients' legal strategies, privileged information protected by attorney-client privilege. Security measures must be stricter than in a generic AI application.
+A tax-legal AI system handles particularly sensitive information: confidential client data, working papers and deliverables per project, advisory strategies and positions, information covered by professional secrecy. Security measures must be stricter than in a generic AI application.
 
-This document defines the AI-specific security layers: content filtering, PII detection, data sovereignty, rate limiting, responsible AI practices, and the legal obligations of attorney-client privilege.
+This document defines the AI-specific security layers: content filtering, PII detection, data sovereignty, rate limiting, responsible AI practices, and the obligations of client confidentiality and professional secrecy.
 
 ---
 
@@ -32,11 +32,11 @@ This document defines the AI-specific security layers: content filtering, PII de
 
 | Sensitive data | Where it may appear | Protection |
 |---|---|---|
-| **Client names** | User queries, case files | Not sent to the LLM unless necessary for the query. Anonymization in logs. |
-| **National ID / Tax ID** | Case file data | Never included in the RAG context. Masked in logs. |
-| **Bank data** | Civil/labor case files | Excluded from the ingestion pipeline. Not indexed. |
-| **Legal strategy** | Conversations with agents | Encrypted at-rest (Azure SQL TDE). Not used as training data. |
-| **Captions involving minors** | Family case law | Automatic anonymization: replace names with initials. |
+| **Client names** | User queries, project documents | Not sent to the LLM unless necessary for the query. Anonymization in logs. |
+| **National ID / Tax ID (CUIT/CUIL)** | Client and project data | Never included in the RAG context. Masked in logs. |
+| **Financial / banking data** | Working papers, client documents | Excluded from the public-KB ingestion pipeline. Stored only in the project workspace. |
+| **Advisory strategy / tax position** | Conversations with agents, deliverables | Encrypted at-rest (Azure SQL TDE). Not used as training data. |
+| **Personal data of individuals** | Client documents | Automatic anonymization where not needed: replace names with initials. |
 
 ### 2.3 PII detection implementation
 
@@ -61,22 +61,22 @@ flowchart LR
 
 ---
 
-## 3. Attorney-Client Privilege
+## 3. Client Confidentiality & Professional Secrecy
 
-### 3.1 Legal framework
+### 3.1 Framework
 
-The lawyer's professional privilege is protected by Ley 23.187 (Practice of Law) and the codes of professional ethics. All information a client shares with their lawyer is protected and cannot be disclosed.
+PwC tax-legal work is bound by professional secrecy and client-confidentiality duties (the professional codes of ethics and the engagement terms with each client). Information a client shares for an engagement is confidential and may only be accessed by the members of that project/workspace. The professional-privilege regime for matriculated lawyers (Ley 23.187) applies to the legal professionals where relevant.
 
 ### 3.2 Implications for Legal Ai Ar
 
 | Obligation | Implementation |
 |---|---|
 | **Client data cannot leave the system** | Azure OpenAI with data residency in the contracted region. No opt-in to Azure OpenAI abuse monitoring with client data. |
-| **Prompts with case file data cannot be used to train models** | Azure OpenAI: data is not used for training (opt-out confirmed by Azure). |
-| **Per-case restricted access** | RBAC: each lawyer only sees the case files assigned to them. Admin can see all. |
-| **Access traceability** | AuditLog records every query that involves case file data. |
-| **Right to be forgotten** | Ability to delete all information of a case file/client from the system (soft delete + scheduled purge). |
-| **Limited retention** | Conversations with agents are retained for the period defined by the firm (configurable, default 2 years). |
+| **Prompts with confidential project data cannot be used to train models** | Azure OpenAI: data is not used for training (opt-out confirmed by Azure). |
+| **Per-project restricted access** | RBAC: each member only sees the projects/workspaces they belong to (`ProjectMember`). Admin can see all. Internal-KB items are confidential per project. |
+| **Access traceability** | AuditLog records every query that involves confidential project data. |
+| **Right to be forgotten** | Ability to delete all information of a project/client from the system (soft delete + scheduled purge). |
+| **Limited retention** | Conversations with agents are retained for the period defined by the practice (configurable, default 2 years). |
 
 ### 3.3 Azure OpenAI configuration for sensitive data
 
@@ -131,9 +131,9 @@ The lawyer's professional privilege is protected by Ley 23.187 (Practice of Law)
 | Principle | Implementation |
 |---|---|
 | **Transparency** | The user always knows they are talking to AI. Answers include a disclaimer. Sources are cited and verifiable. |
-| **Human oversight** | Legal Ai Ar is an assistant, not a replacement for the lawyer. Legal decisions are made by the professional. The system does not make automatic court filings. |
-| **Fairness** | The agents do not discriminate by case type, procedural party, or jurisdiction. Answers are periodically evaluated for bias. |
-| **Privacy** | Client data protected by attorney-client privilege. PII detected and masked. Training opt-out confirmed. |
+| **Human oversight** | Legal Ai Ar is an assistant, not a replacement for the professional. Advisory decisions are made by the professional. The system does not file submissions or commit a position on its own. |
+| **Fairness** | The agents do not discriminate by client type, industry, or jurisdiction. Answers are periodically evaluated for bias. |
+| **Privacy** | Client data protected by professional secrecy and per-project confidentiality. PII detected and masked. Training opt-out confirmed. |
 | **Security** | Content filtering. Scope guardrails. Rate limiting. Full audit logging. |
 | **Reliability** | Quality metrics monitored. Fallback when the system cannot answer with confidence. Circuit breakers to avoid degradation. |
 
@@ -144,11 +144,12 @@ Every agent answer includes at the end (end-user facing content, kept in Spanish
 ```markdown
 ---
 > **Aviso legal:** Esta información es generada por un sistema de inteligencia
-> artificial y tiene carácter orientativo. No constituye asesoramiento legal
-> profesional ni reemplaza la opinión de un abogado matriculado. Verificá
-> siempre las fuentes citadas y consultá con un profesional para tu caso
-> particular. La información legal puede haber cambiado después de la última
-> actualización de la base de conocimiento ({fecha_ultima_ingesta}).
+> artificial y tiene carácter orientativo. No constituye asesoramiento legal o
+> impositivo profesional ni reemplaza la opinión de un profesional habilitado.
+> Verificá siempre las fuentes citadas y consultá con el profesional responsable
+> del proyecto para tu caso particular. La información legal e impositiva puede
+> haber cambiado después de la última actualización de la base de conocimiento
+> ({fecha_ultima_ingesta}).
 ```
 
 ---
@@ -162,7 +163,7 @@ Every agent answer includes at the end (end-user facing content, kept in Spanish
 | **Data in Argentina / LATAM** | Azure region: Brazil South (closest with all services). Alternative: East US 2 if Brazil South does not have Azure OpenAI available. |
 | **Data never leaves the region** | Private endpoints for all services. No cross-region replication. |
 | **Ley 25.326 (Personal Data Protection)** | Registration of databases with AAIP. Informed consent. Right of access and deletion. |
-| **Judicial data** | Court case file data is restricted-access by law. Only authorized firm users can access it. |
+| **Confidential client data** | Client documents and working papers are restricted-access. Only the authorized members of each project/workspace can access them. |
 
 ---
 
@@ -170,12 +171,12 @@ Every agent answer includes at the end (end-user facing content, kept in Spanish
 
 - [ ] Configure Azure OpenAI with a private endpoint and abuse-monitoring opt-out
 - [ ] Implement the PII detection pipeline (Azure AI Language + regex)
-- [ ] Define the conversation retention policy with the firm
+- [ ] Define the conversation retention policy with the practice
 - [ ] Implement rate-limiting middleware in .NET
 - [ ] Design the soft delete + purge mechanism for the right to be forgotten
 - [ ] Define the final Azure region (Brazil South vs East US 2) based on service availability
 - [ ] Evaluate the need to register the database with AAIP (Ley 25.326)
-- [ ] Implement RBAC at the case file level (lawyer only sees their cases)
+- [ ] Implement RBAC at the project/workspace level (member only sees their projects; `ProjectMember`)
 - [ ] Define the Azure OpenAI Content Safety filters (levels per category)
 - [ ] Create an AI security incident runbook (data breach, dangerous hallucination)
 
