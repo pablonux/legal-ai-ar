@@ -28,6 +28,7 @@
 | 18 | [Frontend Architecture](./18-frontend-architecture.md) | The Angular SPA as implemented: structure, routing/navigation, cookie auth, SSE chat client, Cytoscape graph explorer, environments |
 | 19 | [Admin & Pipeline Operations](./19-admin-pipeline-operations.md) | Admin API, job tracking & traceability, SignalR worker control (pause/resume), DLQ & requeue, failure recovery, ruling reprocess |
 | 20 | [Legal Data Sources Catalog](./20-legal-data-sources.md) | Catalog of known Argentine legal data sources (jurisprudence portals, administrative dictámenes, legislation) with URLs and integration status |
+| 21 | [Business Layer — Projects & Workspaces](./21-business-workspace-model.md) | ⚠️ *Target model (R2–R3).* Project/workspace business layer for PwC tax-legal: workspaces, documents, deliverables, internal KB, tax controversy |
 
 > Docs **10–12** are imported from the previous documentation set and are **drafts pending review** — not yet aligned to current naming, the cloud-only environment, or the platform `id_token` auth model. Do not treat them as definitive until revised.
 

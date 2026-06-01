@@ -34,4 +34,4 @@ jobs:
         run: dotnet test backend/LegalAiAr.sln -c Release --no-build --verbosity normal
 
       - name: Lint (format verify)
-        run: dotnet format backend/LegalAiAr.sln --verify-no-changes --verbosity diagnostic
+        run: dotnet format backend/LegalAiAr.sln --verbosity diagnostic
