@@ -29,6 +29,7 @@ public static class ApplicationServiceExtensions
             typeof(LoggingBehavior<,>));
 
         services.AddValidatorsFromAssembly(typeof(SearchRulingsQueryValidator).Assembly);
+        services.AddDomainEventHandlersFromAssembly(typeof(SearchRulingsHandler).Assembly);
 
         // Chat tools (T-06+)
         services.AddSingleton<IChatTool, SearchRulingsTool>();

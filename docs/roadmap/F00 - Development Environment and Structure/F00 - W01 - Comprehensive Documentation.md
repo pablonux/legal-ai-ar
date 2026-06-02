@@ -17,65 +17,65 @@ Complete definition of the development environment, tech stack, monorepo structu
 
 ### Backend
 
-| Component | Technology | Version |
-|---|---|---|
-| Runtime | .NET | 10 LTS |
-| Framework | ASP.NET Core Minimal API | 10.x |
-| ORM | Entity Framework Core | 10.x |
-| Validation | FluentValidation | 12.x |
-| Logging | Serilog + Application Insights | latest |
-| Auth | Platform auth (`id_token` cookie validation, `Auth:Platform`) | — |
-| AI Orchestration | Semantic Kernel | latest |
-| Testing | xUnit + Moq + FluentAssertions | latest |
-| API Docs | Swashbuckle (OpenAPI/Swagger) | latest |
-| Mapping | Mapperly (source generator) | latest |
-| Mediator | MediatR | 12.x |
+| Component        | Technology                                                    | Version |
+| ---------------- | ------------------------------------------------------------- | ------- |
+| Runtime          | .NET                                                          | 10 LTS  |
+| Framework        | ASP.NET Core Minimal API                                      | 10.x    |
+| ORM              | Entity Framework Core                                         | 10.x    |
+| Validation       | FluentValidation                                              | 12.x    |
+| Logging          | Serilog + Application Insights                                | latest  |
+| Auth             | Platform auth (`id_token` cookie validation, `Auth:Platform`) | —       |
+| AI Orchestration | Semantic Kernel                                               | latest  |
+| Testing          | xUnit + Moq + FluentAssertions                                | latest  |
+| API Docs         | Swashbuckle (OpenAPI/Swagger)                                 | latest  |
+| Mapping          | Mapperly (source generator)                                   | latest  |
+| Mediator         | MediatR                                                       | 12.x    |
 
 ### Frontend
 
-| Component | Technology | Version |
-|---|---|---|
-| Framework | Angular | 19.x |
-| UI Components | PwC AppKit 4 | (TBD) |
-| Auth | Platform session (`id_token` cookie + `withCredentials`, no MSAL) | — |
-| State Management | NgRx Signals / Angular Signals | built-in |
-| HTTP | HttpClient + Interceptors | built-in |
-| Forms | Reactive Forms + custom validations | built-in |
-| Charts | Chart.js + ng2-charts | latest |
-| Graph | Cytoscape.js + ngx-cytoscape | latest |
-| Calendar | FullCalendar Angular | latest |
-| Icons | Material Icons / PwC Icon set | (TBD) |
-| Testing | Jest + Angular Testing Library | latest |
-| E2E | Playwright | latest |
-| Linting | ESLint + Prettier + angular-eslint | latest |
+| Component        | Technology                                                        | Version  |
+| ---------------- | ----------------------------------------------------------------- | -------- |
+| Framework        | Angular                                                           | 19.x     |
+| UI Components    | PwC AppKit 4                                                      | (TBD)    |
+| Auth             | Platform session (`id_token` cookie + `withCredentials`, no MSAL) | —        |
+| State Management | NgRx Signals / Angular Signals                                    | built-in |
+| HTTP             | HttpClient + Interceptors                                         | built-in |
+| Forms            | Reactive Forms + custom validations                               | built-in |
+| Charts           | Chart.js + ng2-charts                                             | latest   |
+| Graph            | Cytoscape.js + ngx-cytoscape                                      | latest   |
+| Calendar         | FullCalendar Angular                                              | latest   |
+| Icons            | Material Icons / PwC Icon set                                     | (TBD)    |
+| Testing          | Jest + Angular Testing Library                                    | latest   |
+| E2E              | Playwright                                                        | latest   |
+| Linting          | ESLint + Prettier + angular-eslint                                | latest   |
 
 ### Azure Infrastructure
 
-| Service | Use |
-|---|---|
-| Azure SQL Database | Relational database + SQL Graph |
-| Azure AI Search | Semantic search indexes (norms, case law) |
-| Azure OpenAI | GPT models for AI agents and embeddings |
-| Azure Key Vault | Secret and certificate management |
-| Azure Storage | Blob Storage (documents), Queue Storage (async messages), Table Storage (logs) |
-| Azure App Service | Hosting the .NET 10 API |
-| Azure Static Web Apps | Hosting the Angular 19 SPA |
-| Azure Functions | Timer triggers (official gazette, deadline evaluation) |
-| Azure SignalR Service | Real-time notifications and chat streaming |
-| Azure Application Insights | Telemetry, logging, APM |
-| Microsoft Entra ID | Identity provider (auth, roles) |
+| Service                    | Use                                                                            |
+| -------------------------- | ------------------------------------------------------------------------------ |
+| Azure SQL Database         | Relational database + SQL Graph                                                |
+| Azure AI Search            | Semantic search indexes (norms, case law)                                      |
+| Azure OpenAI               | GPT models for AI agents and embeddings                                        |
+| Azure Key Vault            | Secret and certificate management                                              |
+| Azure Storage              | Blob Storage (documents), Queue Storage (async messages), Table Storage (logs) |
+| Azure App Service          | Hosting the .NET 10 API                                                        |
+| Azure Static Web Apps      | Hosting the Angular 19 SPA                                                     |
+| Azure Functions            | Timer triggers (official gazette, deadline evaluation)                         |
+| Azure SignalR Service      | Real-time notifications and chat streaming                                     |
+| Azure Application Insights | Telemetry, logging, APM                                                        |
+| Microsoft Entra ID         | Identity provider (auth, roles)                                                |
 
 ### Development Tools
 
-| Tool | Use |
-|---|---|
-| GitHub | Repository, Issues, Projects, PRs |
-| GitHub Actions | CI/CD pipelines |
-| Visual Studio 2022 / Rider | Backend IDE |
-| VS Code | Frontend IDE |
-| Azure Data Studio | Database management |
-| Postman / Bruno | API testing |
-| Docker Desktop | Local containers (SQL Server dev) |
+| Tool                       | Use                               |
+| -------------------------- | --------------------------------- |
+| GitHub                     | Repository, Issues, Projects, PRs |
+| GitHub Actions             | CI/CD pipelines                   |
+| Visual Studio 2022 / Rider | Backend IDE                       |
+| VS Code                    | Frontend IDE                      |
+| Azure Data Studio          | Database management               |
+| Postman / Bruno            | API testing                       |
+| Docker Desktop             | Local containers (SQL Server dev) |
 
 ---
 
@@ -278,12 +278,12 @@ graph LR
     STG -->|Promote| PROD
 ```
 
-| Environment | Purpose | Deploy Trigger | Approvals | Azure Resource Group |
-|---|---|---|---|---|
-| **DEV** | Free development, continuous integration | Push to `main` | None | `rg-legal-ai-ar-dev` |
-| **QA** | Formal testing by QA/product owner | Manual (workflow dispatch) | 1 (Tech Lead) | `rg-legal-ai-ar-qa` |
-| **STAGING** | Pre-production, stakeholder demo | Manual (workflow dispatch) | 1 (Tech Lead) | `rg-legal-ai-ar-staging` |
-| **PROD** | Production | Manual (workflow dispatch) | 2 (Tech Lead + Product Owner) | `rg-legal-ai-ar-prod` |
+| Environment | Purpose                                  | Deploy Trigger             | Approvals                     | Azure Resource Group     |
+| ----------- | ---------------------------------------- | -------------------------- | ----------------------------- | ------------------------ |
+| **DEV**     | Free development, continuous integration | Push to `main`             | None                          | `rg-legal-ai-ar-dev`     |
+| **QA**      | Formal testing by QA/product owner       | Manual (workflow dispatch) | 1 (Tech Lead)                 | `rg-legal-ai-ar-qa`      |
+| **STAGING** | Pre-production, stakeholder demo         | Manual (workflow dispatch) | 1 (Tech Lead)                 | `rg-legal-ai-ar-staging` |
+| **PROD**    | Production                               | Manual (workflow dispatch) | 2 (Tech Lead + Product Owner) | `rg-legal-ai-ar-prod`    |
 
 ### Azure Resource Naming Convention
 
@@ -418,13 +418,13 @@ graph TB
     CACHE --- CACHE_D
 ```
 
-| Store | Technology | What it stores | Access pattern |
-|---|---|---|---|
-| **Relational + Graph** | Azure SQL DB (SQL Graph) | Structured entities, relationships between norms, case files, deadlines | CRUD, joins, graph traversal |
-| **Semantic search** | Azure AI Search | Vectorized text of norms, case law, articles | Hybrid search (BM25 + vectors), faceted filters |
-| **Original documents** | Azure Blob Storage | PDFs, HTMLs, attachments | Read by URL, streaming |
-| **Cache / Metadata** | Azure Table Storage | Pre-computed embeddings, ingestion state, cache | Fast key-value lookup |
-| **Async queues** | Azure Queue Storage | Ingestion messages, deadline alerts, notifications | Producer-consumer |
+| Store                  | Technology               | What it stores                                                          | Access pattern                                  |
+| ---------------------- | ------------------------ | ----------------------------------------------------------------------- | ----------------------------------------------- |
+| **Relational + Graph** | Azure SQL DB (SQL Graph) | Structured entities, relationships between norms, case files, deadlines | CRUD, joins, graph traversal                    |
+| **Semantic search**    | Azure AI Search          | Vectorized text of norms, case law, articles                            | Hybrid search (BM25 + vectors), faceted filters |
+| **Original documents** | Azure Blob Storage       | PDFs, HTMLs, attachments                                                | Read by URL, streaming                          |
+| **Cache / Metadata**   | Azure Table Storage      | Pre-computed embeddings, ingestion state, cache                         | Fast key-value lookup                           |
+| **Async queues**       | Azure Queue Storage      | Ingestion messages, deadline alerts, notifications                      | Producer-consumer                               |
 
 ### 8.2 Complete Data Model (Azure SQL + SQL Graph)
 
@@ -552,14 +552,14 @@ CREATE TABLE Comments AS EDGE;          -- Doctrine comments on a Norm or Ruling
 
 **Edge properties:**
 
-| Edge | Properties | Example |
-|---|---|---|
-| `Amends` | `AmendedAt`, `AmendmentType` (partial/total), `AffectedArticles` | Ley 27.077 amends art. 1 of Ley 26.994 |
-| `Repeals` | `RepealedAt`, `RepealType` (express/tacit) | Ley 26.994 repeals Ley 340 (Civil Code) |
-| `Regulates` | `RegulatedAt` | Decreto 1759/72 regulates Ley 19.549 |
-| `Interprets` | `InterpretiveCriterion`, `IsBinding` | CSJN interprets art. 14 bis CN |
-| `Applies` | `ApplicationResult` | Ruling applies Ley 20.744 art. 245 |
-| `CitesCaseLaw` | `CitationContext` | Ruling cites a CSJN precedent |
+| Edge           | Properties                                                       | Example                                 |
+| -------------- | ---------------------------------------------------------------- | --------------------------------------- |
+| `Amends`       | `AmendedAt`, `AmendmentType` (partial/total), `AffectedArticles` | Ley 27.077 amends art. 1 of Ley 26.994  |
+| `Repeals`      | `RepealedAt`, `RepealType` (express/tacit)                       | Ley 26.994 repeals Ley 340 (Civil Code) |
+| `Regulates`    | `RegulatedAt`                                                    | Decreto 1759/72 regulates Ley 19.549    |
+| `Interprets`   | `InterpretiveCriterion`, `IsBinding`                             | CSJN interprets art. 14 bis CN          |
+| `Applies`      | `ApplicationResult`                                              | Ruling applies Ley 20.744 art. 245      |
+| `CitesCaseLaw` | `CitationContext`                                                | Ruling cites a CSJN precedent           |
 
 **Example traversal query:**
 
@@ -737,11 +737,11 @@ graph TB
 
 ### 9.2 RAG Types per Agent
 
-| Agent | RAG Type | What it searches | Graph Enrichment |
-|---|---|---|---|
-| **Regulatory** | Hybrid Search + GraphRAG | Relevant norms and articles | Amendment chain, norms that repeal/regulate, related articles |
-| **Case Law** | Hybrid Search + GraphRAG | Relevant court rulings | Norms the ruling applies/interprets, rulings cited by other rulings, interpreted articles |
-| **Procedural** | SQL Query + Hybrid | Case files, deadlines, business-day calendar | Deadlines linked to the case file, applicable procedural norms |
+| Agent          | RAG Type                 | What it searches                             | Graph Enrichment                                                                          |
+| -------------- | ------------------------ | -------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| **Regulatory** | Hybrid Search + GraphRAG | Relevant norms and articles                  | Amendment chain, norms that repeal/regulate, related articles                             |
+| **Case Law**   | Hybrid Search + GraphRAG | Relevant court rulings                       | Norms the ruling applies/interprets, rulings cited by other rulings, interpreted articles |
+| **Procedural** | SQL Query + Hybrid       | Case files, deadlines, business-day calendar | Deadlines linked to the case file, applicable procedural norms                            |
 
 ### 9.3 Hybrid Search — Azure AI Search Configuration
 
@@ -751,36 +751,81 @@ Each index uses **Hybrid Search** that combines BM25 (keyword) with vector searc
 
 ```json
 {
-  "name": "idx-legal-norms",
-  "fields": [
-    { "name": "id", "type": "Edm.String", "key": true },
-    { "name": "legalNormId", "type": "Edm.Int32", "filterable": true },
-    { "name": "normNumber", "type": "Edm.String", "searchable": true, "filterable": true },
-    { "name": "name", "type": "Edm.String", "searchable": true },
-    { "name": "normType", "type": "Edm.String", "filterable": true, "facetable": true },
-    { "name": "lawBranch", "type": "Edm.String", "filterable": true, "facetable": true },
-    { "name": "territorialScope", "type": "Edm.String", "filterable": true, "facetable": true },
-    { "name": "isInForce", "type": "Edm.Boolean", "filterable": true },
-    { "name": "publicationDate", "type": "Edm.DateTimeOffset", "filterable": true, "sortable": true },
-    { "name": "issuingBody", "type": "Edm.String", "filterable": true, "facetable": true },
-    { "name": "fullText", "type": "Edm.String", "searchable": true },
-    { "name": "summary", "type": "Edm.String", "searchable": true },
-    { "name": "embedding", "type": "Collection(Edm.Single)", "dimensions": 3072, "vectorSearchProfile": "hybrid-profile" }
-  ],
-  "vectorSearch": {
-    "algorithms": [{ "name": "hnsw-algo", "kind": "hnsw", "parameters": { "m": 4, "efConstruction": 400, "efSearch": 500 } }],
-    "profiles": [{ "name": "hybrid-profile", "algorithm": "hnsw-algo" }]
-  },
-  "scoringProfiles": [{
-    "name": "boost-in-force",
-    "text": { "weights": { "name": 3, "summary": 2, "fullText": 1 } },
-    "functions": [{
-      "type": "freshness",
-      "fieldName": "publicationDate",
-      "boost": 2,
-      "parameters": { "boostingDuration": "P365D" }
-    }]
-  }]
+    "name": "idx-legal-norms",
+    "fields": [
+        { "name": "id", "type": "Edm.String", "key": true },
+        { "name": "legalNormId", "type": "Edm.Int32", "filterable": true },
+        {
+            "name": "normNumber",
+            "type": "Edm.String",
+            "searchable": true,
+            "filterable": true
+        },
+        { "name": "name", "type": "Edm.String", "searchable": true },
+        {
+            "name": "normType",
+            "type": "Edm.String",
+            "filterable": true,
+            "facetable": true
+        },
+        {
+            "name": "lawBranch",
+            "type": "Edm.String",
+            "filterable": true,
+            "facetable": true
+        },
+        {
+            "name": "territorialScope",
+            "type": "Edm.String",
+            "filterable": true,
+            "facetable": true
+        },
+        { "name": "isInForce", "type": "Edm.Boolean", "filterable": true },
+        {
+            "name": "publicationDate",
+            "type": "Edm.DateTimeOffset",
+            "filterable": true,
+            "sortable": true
+        },
+        {
+            "name": "issuingBody",
+            "type": "Edm.String",
+            "filterable": true,
+            "facetable": true
+        },
+        { "name": "fullText", "type": "Edm.String", "searchable": true },
+        { "name": "summary", "type": "Edm.String", "searchable": true },
+        {
+            "name": "embedding",
+            "type": "Collection(Edm.Single)",
+            "dimensions": 3072,
+            "vectorSearchProfile": "hybrid-profile"
+        }
+    ],
+    "vectorSearch": {
+        "algorithms": [
+            {
+                "name": "hnsw-algo",
+                "kind": "hnsw",
+                "parameters": { "m": 4, "efConstruction": 400, "efSearch": 500 }
+            }
+        ],
+        "profiles": [{ "name": "hybrid-profile", "algorithm": "hnsw-algo" }]
+    },
+    "scoringProfiles": [
+        {
+            "name": "boost-in-force",
+            "text": { "weights": { "name": 3, "summary": 2, "fullText": 1 } },
+            "functions": [
+                {
+                    "type": "freshness",
+                    "fieldName": "publicationDate",
+                    "boost": 2,
+                    "parameters": { "boostingDuration": "P365D" }
+                }
+            ]
+        }
+    ]
 }
 ```
 
@@ -788,21 +833,51 @@ Each index uses **Hybrid Search** that combines BM25 (keyword) with vector searc
 
 ```json
 {
-  "name": "idx-case-law",
-  "fields": [
-    { "name": "id", "type": "Edm.String", "key": true },
-    { "name": "caseLawId", "type": "Edm.Int32", "filterable": true },
-    { "name": "caption", "type": "Edm.String", "searchable": true },
-    { "name": "court", "type": "Edm.String", "filterable": true, "facetable": true },
-    { "name": "courtVenue", "type": "Edm.String", "filterable": true, "facetable": true },
-    { "name": "instance", "type": "Edm.String", "filterable": true, "facetable": true },
-    { "name": "rulingDate", "type": "Edm.DateTimeOffset", "filterable": true, "sortable": true },
-    { "name": "isEnBanc", "type": "Edm.Boolean", "filterable": true },
-    { "name": "topicKeywords", "type": "Collection(Edm.String)", "filterable": true, "facetable": true },
-    { "name": "headnote", "type": "Edm.String", "searchable": true },
-    { "name": "fullText", "type": "Edm.String", "searchable": true },
-    { "name": "embedding", "type": "Collection(Edm.Single)", "dimensions": 3072, "vectorSearchProfile": "hybrid-profile" }
-  ]
+    "name": "idx-case-law",
+    "fields": [
+        { "name": "id", "type": "Edm.String", "key": true },
+        { "name": "caseLawId", "type": "Edm.Int32", "filterable": true },
+        { "name": "caption", "type": "Edm.String", "searchable": true },
+        {
+            "name": "court",
+            "type": "Edm.String",
+            "filterable": true,
+            "facetable": true
+        },
+        {
+            "name": "courtVenue",
+            "type": "Edm.String",
+            "filterable": true,
+            "facetable": true
+        },
+        {
+            "name": "instance",
+            "type": "Edm.String",
+            "filterable": true,
+            "facetable": true
+        },
+        {
+            "name": "rulingDate",
+            "type": "Edm.DateTimeOffset",
+            "filterable": true,
+            "sortable": true
+        },
+        { "name": "isEnBanc", "type": "Edm.Boolean", "filterable": true },
+        {
+            "name": "topicKeywords",
+            "type": "Collection(Edm.String)",
+            "filterable": true,
+            "facetable": true
+        },
+        { "name": "headnote", "type": "Edm.String", "searchable": true },
+        { "name": "fullText", "type": "Edm.String", "searchable": true },
+        {
+            "name": "embedding",
+            "type": "Collection(Edm.Single)",
+            "dimensions": 3072,
+            "vectorSearchProfile": "hybrid-profile"
+        }
+    ]
 }
 ```
 
@@ -810,18 +885,28 @@ Each index uses **Hybrid Search** that combines BM25 (keyword) with vector searc
 
 ```json
 {
-  "name": "idx-articles",
-  "fields": [
-    { "name": "id", "type": "Edm.String", "key": true },
-    { "name": "articleId", "type": "Edm.Int32", "filterable": true },
-    { "name": "legalNormId", "type": "Edm.Int32", "filterable": true },
-    { "name": "legalNormName", "type": "Edm.String", "searchable": true },
-    { "name": "articleNumber", "type": "Edm.String", "filterable": true },
-    { "name": "normativeText", "type": "Edm.String", "searchable": true },
-    { "name": "chapterTitle", "type": "Edm.String", "searchable": true, "filterable": true },
-    { "name": "isInForce", "type": "Edm.Boolean", "filterable": true },
-    { "name": "embedding", "type": "Collection(Edm.Single)", "dimensions": 3072, "vectorSearchProfile": "hybrid-profile" }
-  ]
+    "name": "idx-articles",
+    "fields": [
+        { "name": "id", "type": "Edm.String", "key": true },
+        { "name": "articleId", "type": "Edm.Int32", "filterable": true },
+        { "name": "legalNormId", "type": "Edm.Int32", "filterable": true },
+        { "name": "legalNormName", "type": "Edm.String", "searchable": true },
+        { "name": "articleNumber", "type": "Edm.String", "filterable": true },
+        { "name": "normativeText", "type": "Edm.String", "searchable": true },
+        {
+            "name": "chapterTitle",
+            "type": "Edm.String",
+            "searchable": true,
+            "filterable": true
+        },
+        { "name": "isInForce", "type": "Edm.Boolean", "filterable": true },
+        {
+            "name": "embedding",
+            "type": "Collection(Edm.Single)",
+            "dimensions": 3072,
+            "vectorSearchProfile": "hybrid-profile"
+        }
+    ]
 }
 ```
 
@@ -850,22 +935,22 @@ flowchart LR
 
 1. Hybrid Search returns: Ley 20.744 (LCT), art. 245, art. 232
 2. Graph Enrichment adds:
-   - `Amends`: Ley 25.877 amended art. 245 in 2004
-   - `Interprets`: 15 CNAT rulings interpreting art. 245 (top 3 by relevance)
-   - `Regulates`: Decreto 1694/06 regulates the salary base
-   - `References`: art. 245 references art. 232 (prior notice) and art. 233 (month integration)
+    - `Amends`: Ley 25.877 amended art. 245 in 2004
+    - `Interprets`: 15 CNAT rulings interpreting art. 245 (top 3 by relevance)
+    - `Regulates`: Decreto 1694/06 regulates the salary base
+    - `References`: art. 245 references art. 232 (prior notice) and art. 233 (month integration)
 
 ### 9.5 Embeddings
 
-| Aspect | Configuration |
-|---|---|
-| **Model** | `text-embedding-3-large` (Azure OpenAI) |
-| **Dimensions** | 3072 |
-| **Norm chunking** | Per individual article (minimum legal semantic unit) |
-| **Case law chunking** | By sections: facts, grounds, resolution (separated with metadata) |
-| **Doctrine chunking** | ~500-token chunks with a 100-token overlap |
-| **Batch processing** | 100 embeddings per batch, rate limiting respected |
-| **Pre-computation** | Embeddings are generated in the ingestion pipeline and stored in AI Search + Table Storage (cache) |
+| Aspect                | Configuration                                                                                      |
+| --------------------- | -------------------------------------------------------------------------------------------------- |
+| **Model**             | `text-embedding-3-large` (Azure OpenAI)                                                            |
+| **Dimensions**        | 3072                                                                                               |
+| **Norm chunking**     | Per individual article (minimum legal semantic unit)                                               |
+| **Case law chunking** | By sections: facts, grounds, resolution (separated with metadata)                                  |
+| **Doctrine chunking** | ~500-token chunks with a 100-token overlap                                                         |
+| **Batch processing**  | 100 embeddings per batch, rate limiting respected                                                  |
+| **Pre-computation**   | Embeddings are generated in the ingestion pipeline and stored in AI Search + Table Storage (cache) |
 
 ---
 
@@ -923,14 +1008,14 @@ flowchart TB
 
 ### 10.2 Ingestion Types
 
-| Type | Trigger | Frequency | Source | What it ingests |
-|---|---|---|---|---|
-| **Official Gazette** | Timer (daily 8am) | Daily | boletinoficial.gob.ar | Newly published norms |
-| **SAIJ Norms** | Timer (weekly) | Weekly | saij.gob.ar | Updated/new norms |
-| **SAIJ Case Law** | Timer (weekly) | Weekly | saij.gob.ar | New rulings |
-| **InfoLEG** | Timer (weekly) | Weekly | infoleg.gob.ar | Consolidated texts |
-| **Manual upload** | HTTP / Admin UI | On demand | Users | Provincial norms, doctrine |
-| **Re-indexing** | Manual | As needed | All stores | Index rebuild |
+| Type                 | Trigger           | Frequency | Source                | What it ingests            |
+| -------------------- | ----------------- | --------- | --------------------- | -------------------------- |
+| **Official Gazette** | Timer (daily 8am) | Daily     | boletinoficial.gob.ar | Newly published norms      |
+| **SAIJ Norms**       | Timer (weekly)    | Weekly    | saij.gob.ar           | Updated/new norms          |
+| **SAIJ Case Law**    | Timer (weekly)    | Weekly    | saij.gob.ar           | New rulings                |
+| **InfoLEG**          | Timer (weekly)    | Weekly    | infoleg.gob.ar        | Consolidated texts         |
+| **Manual upload**    | HTTP / Admin UI   | On demand | Users                 | Provincial norms, doctrine |
+| **Re-indexing**      | Manual            | As needed | All stores            | Index rebuild              |
 
 > **Note:** The specific sources will be defined with the law firm. The architecture is extensible: adding a new source only requires a new Scraper/Collector in Azure Functions.
 
@@ -967,14 +1052,14 @@ stateDiagram-v2
 
 The Graph Builder analyzes the text of each norm/ruling to detect relationships and create edges:
 
-| Detected pattern | Edge created | Example |
-|---|---|---|
-| "Modifícase el artículo X de la Ley Y" | `Amends` | Ley 27.077 → art. 1 Ley 26.994 |
-| "Derógase la Ley X" | `Repeals` | Ley 26.994 → Ley 340 |
-| "Reglamentación de la Ley X" | `Regulates` | Decreto 1759/72 → Ley 19.549 |
-| "Conforme lo dispuesto por el art. X" | `References` | Art. 245 → Art. 232 LCT |
-| Ruling cites "art. X de la Ley Y" | `Applies` / `Interprets` | Ruling → Art. 245 Ley 20.744 |
-| Ruling cites another ruling (caption + date) | `CitesCaseLaw` | Ruling A → Ruling B |
+| Detected pattern                             | Edge created             | Example                        |
+| -------------------------------------------- | ------------------------ | ------------------------------ |
+| "Modifícase el artículo X de la Ley Y"       | `Amends`                 | Ley 27.077 → art. 1 Ley 26.994 |
+| "Derógase la Ley X"                          | `Repeals`                | Ley 26.994 → Ley 340           |
+| "Reglamentación de la Ley X"                 | `Regulates`              | Decreto 1759/72 → Ley 19.549   |
+| "Conforme lo dispuesto por el art. X"        | `References`             | Art. 245 → Art. 232 LCT        |
+| Ruling cites "art. X de la Ley Y"            | `Applies` / `Interprets` | Ruling → Art. 245 Ley 20.744   |
+| Ruling cites another ruling (caption + date) | `CitesCaseLaw`           | Ruling A → Ruling B            |
 
 Detection uses a combination of regex patterns for simple cases and Azure OpenAI for ambiguous cases, with human validation in a review queue.
 
@@ -982,7 +1067,7 @@ Detection uses a combination of regex patterns for simple cases and Azure OpenAI
 
 ## 11. CI/CD Pipelines (GitHub Actions)
 
-> *(Note: the previous sections 8-10 cover the KB architecture. The original CI/CD and local-environment sections are kept below.)*
+> _(Note: the previous sections 8-10 cover the KB architecture. The original CI/CD and local-environment sections are kept below.)_
 
 ### Backend CI (`ci-backend.yml`)
 
@@ -999,6 +1084,7 @@ graph LR
 **Trigger:** Push to `main` or PR targeting `main` with changes in `backend/`
 
 **Steps:**
+
 1. Checkout + setup .NET 10
 2. `dotnet restore`
 3. `dotnet build --no-restore -c Release`
@@ -1021,6 +1107,7 @@ graph LR
 **Trigger:** Push to `main` or PR targeting `main` with changes in `frontend/`
 
 **Steps:**
+
 1. Checkout + setup Node 22
 2. `npm ci`
 3. `npm run lint`
@@ -1047,15 +1134,15 @@ graph LR
 
 ### Prerequisites
 
-| Tool | Minimum version | Verify with |
-|---|---|---|
-| .NET SDK | 10.0 | `dotnet --version` |
-| Node.js | 22.x LTS | `node --version` |
-| npm | 10.x | `npm --version` |
-| Angular CLI | 19.x | `ng version` |
-| Docker Desktop | Latest | `docker --version` |
-| Azure CLI | Latest | `az --version` |
-| Git | 2.40+ | `git --version` |
+| Tool           | Minimum version | Verify with        |
+| -------------- | --------------- | ------------------ |
+| .NET SDK       | 10.0            | `dotnet --version` |
+| Node.js        | 22.x LTS        | `node --version`   |
+| npm            | 10.x            | `npm --version`    |
+| Angular CLI    | 19.x            | `ng version`       |
+| Docker Desktop | Latest          | `docker --version` |
+| Azure CLI      | Latest          | `az --version`     |
+| Git            | 2.40+           | `git --version`    |
 
 ### Step-by-step Setup
 
@@ -1100,25 +1187,25 @@ The backend does NOT use `.env` files. It uses `appsettings.{Environment}.json` 
 ```json
 // appsettings.Development.json
 {
-  "ConnectionStrings": {
-    "DefaultConnection": "Server=localhost,1433;Database=LegalAiAr;User=sa;Password=LocalDev123!;TrustServerCertificate=true"
-  },
-  "AzureOpenAI": {
-    "Endpoint": "user-secret",
-    "DeploymentName": "gpt-4o",
-    "EmbeddingDeploymentName": "text-embedding-3-large"
-  },
-  "AzureAISearch": {
-    "Endpoint": "user-secret",
-    "IndexLegalNorms": "idx-legal-norms-dev",
-    "IndexCaseLaw": "idx-case-law-dev"
-  },
-  "Entra": {
-    "Instance": "https://login.microsoftonline.com/",
-    "TenantId": "user-secret",
-    "ClientId": "user-secret",
-    "Audience": "api://legal-ai-ar-dev"
-  }
+    "ConnectionStrings": {
+        "DefaultConnection": "Server=localhost,1433;Database=LegalAiAr;User=sa;Password=LocalDev123!;TrustServerCertificate=true"
+    },
+    "AzureOpenAI": {
+        "Endpoint": "user-secret",
+        "DeploymentName": "gpt-4o",
+        "EmbeddingDeploymentName": "text-embedding-3-large"
+    },
+    "AzureAISearch": {
+        "Endpoint": "user-secret",
+        "IndexLegalNorms": "idx-legal-norms-dev",
+        "IndexCaseLaw": "idx-case-law-dev"
+    },
+    "Entra": {
+        "Instance": "https://login.microsoftonline.com/",
+        "TenantId": "user-secret",
+        "ClientId": "user-secret",
+        "Audience": "api://legal-ai-ar-dev"
+    }
 }
 ```
 
@@ -1143,16 +1230,16 @@ The backend does NOT use `.env` files. It uses `appsettings.{Environment}.json` 
 
 ## 14. Work Items of this Feature
 
-| ID | Name | Type | Sprint |
-|----|------|------|--------|
-| F00-W01 | Comprehensive Documentation | doc | S00 |
-| F00-W02 | Monorepo Setup and Backend Scaffolding | backend | S00 |
-| F00-W03 | Angular 19 Frontend Scaffolding | frontend | S00 |
-| F00-W04 | GitHub Actions CI Configuration | devops | S00 |
-| F00-W05 | Azure Infrastructure with Bicep (IaC) | devops | S00 |
-| F00-W06 | CD Deployment Pipelines Configuration | devops | S00 |
-| F00-W07 | Local Environment Setup and Onboarding Guide | doc | S00 |
-| F00-W08 | Code Quality Configuration (Linting, Formatting, EditorConfig) | devops | S00 |
+| ID       | Name                                                           | Type     | Sprint |
+| -------- | -------------------------------------------------------------- | -------- | ------ |
+| F00-W01  | Comprehensive Documentation                                    | doc      | S00    |
+| F00-W02  | Monorepo Setup and Backend Scaffolding                         | backend  | S00    |
+| F00-W03  | Angular 19 Frontend Scaffolding                                | frontend | S00    |
+| FT05-W01 | GitHub Actions CI Configuration _(was F00-W04)_                | devops   | FT05   |
+| FT05-W02 | Azure Infrastructure with Bicep (IaC) _(was F00-W05)_          | devops   | FT05   |
+| FT05-W03 | CD Deployment Pipelines Configuration _(was F00-W06)_          | devops   | FT05   |
+| F00-W07  | Local Environment Setup and Onboarding Guide                   | doc      | S00    |
+| F00-W08  | Code Quality Configuration (Linting, Formatting, EditorConfig) | devops   | S00    |
 
 ---
 
@@ -1174,4 +1261,4 @@ The backend does NOT use `.env` files. It uses `appsettings.{Environment}.json` 
 
 ---
 
-*F00 - Development Environment and Structure — Comprehensive Documentation — Legal Ai Ar*
+_F00 - Development Environment and Structure — Comprehensive Documentation — Legal Ai Ar_

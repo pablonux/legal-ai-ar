@@ -3,8 +3,8 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { A11yModule } from '@angular/cdk/a11y';
 import { CrawlerService, type CrawlerConfig, type Job } from '../../../services/admin/crawler.service';
-import { NotificationService } from '../../../shared/services/notification.service';
-import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner.component';
+import { NotificationService } from '@legal-ai-ar/shared-common/services/notification.service';
+import { LoadingSpinnerComponent } from '@legal-ai-ar/shared-common/components/loading-spinner/loading-spinner.component';
 import { forkJoin } from 'rxjs';
 
 interface SourceCard {

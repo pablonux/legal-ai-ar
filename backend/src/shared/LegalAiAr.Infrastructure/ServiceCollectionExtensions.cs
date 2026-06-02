@@ -13,6 +13,8 @@ using LegalAiAr.Infrastructure.Persistence;
 using LegalAiAr.Infrastructure.Persistence.Repositories;
 using LegalAiAr.Infrastructure.Queue;
 using LegalAiAr.Infrastructure.Search;
+using LegalAiAr.Infrastructure.Outbox;
+using LegalAiAr.Infrastructure.Persistence.Interceptors;
 using LegalAiAr.Infrastructure.Thesaurus;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -42,8 +44,11 @@ public static class ServiceCollectionExtensions
         var isDevelopment = configuration["DOTNET_ENVIRONMENT"] == "Development"
             || configuration["ASPNETCORE_ENVIRONMENT"] == "Development";
 
-        services.AddDbContext<AppDbContext>(options =>
+        services.AddScoped<DispatchDomainEventsInterceptor>();
+
+        services.AddDbContext<AppDbContext>((sp, options) =>
         {
+            options.AddInterceptors(sp.GetRequiredService<DispatchDomainEventsInterceptor>());
             options.UseSqlServer(connectionString, sqlOptions =>
             {
                 sqlOptions.EnableRetryOnFailure(
@@ -56,6 +61,8 @@ public static class ServiceCollectionExtensions
                 options.EnableSensitiveDataLogging();
             }
         });
+
+        services.AddLegalAiArOutbox(configuration);
 
         // Repositories
         services.AddScoped<IRulingRepository, RulingRepository>();

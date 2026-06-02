@@ -1,6 +1,6 @@
 using LegalAiAr.Application.Common.Mappings;
 using LegalAiAr.Application.Mediation;
-using LegalAiAr.Application.Rulings.DTOs;
+using LegalAiAr.Contracts.Responses.Rulings;
 using LegalAiAr.Core.Enums;
 using LegalAiAr.Core.Exceptions;
 using LegalAiAr.Core.Interfaces.Repositories;

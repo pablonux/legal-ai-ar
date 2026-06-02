@@ -3,7 +3,7 @@ import { OntologyService } from '../../../services/ontology.service';
 import { OntologyGraphComponent } from '../ontology-graph/ontology-graph.component';
 import { ClassDetailPanelComponent } from '../class-detail-panel/class-detail-panel.component';
 import { TaxonomyBrowserComponent } from '../taxonomy-browser/taxonomy-browser.component';
-import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner.component';
+import { LoadingSpinnerComponent } from '@legal-ai-ar/shared-common/components/loading-spinner/loading-spinner.component';
 import { forkJoin } from 'rxjs';
 import type { OntologyClass, OntologyGraphResponse, GraphNode, EntityStats } from '../../../models/ontology.models';
 

@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "SchemaLaThinFeature",
+  "title": "Thin feature slice schematic",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Feature name (English, e.g. health-check)",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "Feature name (kebab-case or words):"
+    },
+    "route": {
+      "type": "string",
+      "description": "Spanish UI route segment (e.g. salud)",
+      "x-prompt": "Route path segment (Spanish UI):"
+    },
+    "skipRoutes": {
+      "type": "boolean",
+      "description": "Do not patch app.routes.ts",
+      "default": false
+    }
+  },
+  "required": ["name", "route"]
+}

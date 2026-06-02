@@ -3,8 +3,8 @@ import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { StatuteService } from '../../../services/statute.service';
-import { SkeletonTableRowComponent } from '../../../shared/components/skeletons/skeleton-table-row.component';
-import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state.component';
+import { SkeletonTableRowComponent } from '@legal-ai-ar/shared-common/components/skeletons/skeleton-table-row.component';
+import { EmptyStateComponent } from '@legal-ai-ar/shared-common/components/empty-state/empty-state.component';
 import type { StatuteListItem } from '../../../models/statute.models';
 
 const NORM_TYPE_LABELS: Record<string, string> = {

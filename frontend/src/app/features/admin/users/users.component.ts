@@ -1,9 +1,9 @@
 import { Component, signal, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { A11yModule } from '@angular/cdk/a11y';
-import { NotificationService } from '../../../shared/services/notification.service';
+import { NotificationService } from '@legal-ai-ar/shared-common/services/notification.service';
 import { UserService, type User, type UserRole } from '../../../services/admin/user.service';
-import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner.component';
+import { LoadingSpinnerComponent } from '@legal-ai-ar/shared-common/components/loading-spinner/loading-spinner.component';
 
 const ROLE_LABELS: Record<UserRole, string> = {
   admin: 'Admin',

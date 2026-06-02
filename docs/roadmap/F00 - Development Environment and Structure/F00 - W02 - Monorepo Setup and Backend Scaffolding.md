@@ -24,7 +24,7 @@ legal-ai-ar/
 ├── backend/
 │   ├── src/
 │   │   ├── api/
-│   │   │   ├── LegalAiAr.Api/              # ASP.NET Core 10 (Controllers — Minimal API in F01+)
+│   │   │   ├── LegalAiAr.Api/              # ASP.NET Core 10 (Controllers → Minimal API in F00-W09)
 │   │   │   └── LegalAiAr.Application/      # CQRS, handlers, services
 │   │   ├── shared/
 │   │   │   ├── LegalAiAr.Core/             # Entities, enums, interfaces

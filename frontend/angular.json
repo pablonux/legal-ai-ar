@@ -41,9 +41,7 @@
             "outputPath": "dist/legal-ai-ar",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               {
@@ -51,17 +49,15 @@
                 "input": "public"
               }
             ],
-            "styles": [
-              "src/styles.scss"
-            ],
+            "styles": ["src/styles.scss"],
             "scripts": []
           },
           "configurations": {
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "replace": "projects/core/src/lib/environments/environment.ts",
+                  "with": "projects/core/src/lib/environments/environment.prod.ts"
                 }
               ],
               "budgets": [
@@ -78,12 +74,30 @@
               ],
               "outputHashing": "all"
             },
+            "dev": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/core/src/lib/environments/environment.ts",
+                  "with": "projects/core/src/lib/environments/environment.dev.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "qa": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/core/src/lib/environments/environment.ts",
+                  "with": "projects/core/src/lib/environments/environment.qa.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
             "development": {
               "baseHref": "/ddf6b108-ced9-4827-a133-9c82141ebf29/legal-ai-ar-main-frontend/",
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.development.ts"
+                  "replace": "projects/core/src/lib/environments/environment.ts",
+                  "with": "projects/core/src/lib/environments/environment.development.ts"
                 }
               ],
               "budgets": [
@@ -103,8 +117,8 @@
             "staging": {
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.staging.ts"
+                  "replace": "projects/core/src/lib/environments/environment.ts",
+                  "with": "projects/core/src/lib/environments/environment.staging.ts"
                 }
               ],
               "budgets": [
@@ -131,12 +145,24 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "proxyConfig": "proxy.conf.json"
+          },
           "configurations": {
             "production": {
               "buildTarget": "legal-ai-ar:build:production"
             },
             "development": {
               "buildTarget": "legal-ai-ar:build:development"
+            },
+            "dev": {
+              "buildTarget": "legal-ai-ar:build:dev"
+            },
+            "qa": {
+              "buildTarget": "legal-ai-ar:build:qa"
+            },
+            "staging": {
+              "buildTarget": "legal-ai-ar:build:staging"
             },
             "local": {
               "buildTarget": "legal-ai-ar:build:local"
@@ -150,10 +176,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
             "assets": [
               {
@@ -161,28 +184,172 @@
                 "input": "public"
               }
             ],
-            "styles": [
-              "src/styles.scss"
-            ],
+            "styles": ["src/styles.scss"],
             "scripts": []
           }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
+          }
+        }
+      }
+    },
+    "core": {
+      "projectType": "library",
+      "root": "projects/core",
+      "sourceRoot": "projects/core/src",
+      "prefix": "la",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/core/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/core/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/core/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/core/tsconfig.spec.json",
+            "polyfills": ["zone.js", "zone.js/testing"]
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": ["projects/core/**/*.ts", "projects/core/**/*.html"],
+            "eslintConfig": "projects/core/eslint.config.js"
+          }
+        }
+      }
+    },
+    "shell": {
+      "projectType": "library",
+      "root": "projects/shell",
+      "sourceRoot": "projects/shell/src",
+      "prefix": "la",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/shell/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/shell/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/shell/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/shell/tsconfig.spec.json",
+            "polyfills": ["zone.js", "zone.js/testing"]
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": ["projects/shell/**/*.ts", "projects/shell/**/*.html"],
+            "eslintConfig": "projects/shell/eslint.config.js"
+          }
+        }
+      }
+    },
+    "ui": {
+      "projectType": "library",
+      "root": "projects/ui",
+      "sourceRoot": "projects/ui/src",
+      "prefix": "la",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/ui/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ui/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ui/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/ui/tsconfig.spec.json",
+            "polyfills": ["zone.js", "zone.js/testing"]
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": ["projects/ui/**/*.ts", "projects/ui/**/*.html"],
+            "eslintConfig": "projects/ui/eslint.config.js"
+          }
+        }
+      }
+    },
+    "shared-common": {
+      "projectType": "library",
+      "root": "projects/shared-common",
+      "sourceRoot": "projects/shared-common/src",
+      "prefix": "la",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/shared-common/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/shared-common/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/shared-common/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/shared-common/tsconfig.spec.json",
+            "polyfills": ["zone.js", "zone.js/testing"]
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
             "lintFilePatterns": [
-              "src/**/*.ts",
-              "src/**/*.html"
-            ]
+              "projects/shared-common/**/*.ts",
+              "projects/shared-common/**/*.html"
+            ],
+            "eslintConfig": "projects/shared-common/eslint.config.js"
           }
         }
       }
     }
   },
   "cli": {
-    "schematicCollections": [
-      "@angular-eslint/schematics"
-    ],
+    "schematicCollections": ["schema-la", "@angular-eslint/schematics"],
     "analytics": false
   }
 }

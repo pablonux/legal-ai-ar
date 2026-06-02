@@ -14,8 +14,8 @@ import {
   type ReconcileJobCountersResult,
   type StorageProbeResult,
 } from '../../../services/admin/crawler.service';
-import { NotificationService } from '../../../shared/services/notification.service';
-import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner.component';
+import { NotificationService } from '@legal-ai-ar/shared-common/services/notification.service';
+import { LoadingSpinnerComponent } from '@legal-ai-ar/shared-common/components/loading-spinner/loading-spinner.component';
 
 interface SourceSection {
   config: CrawlerConfig;

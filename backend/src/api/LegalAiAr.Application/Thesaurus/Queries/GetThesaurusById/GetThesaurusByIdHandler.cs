@@ -1,5 +1,5 @@
 using LegalAiAr.Application.Mediation;
-using LegalAiAr.Application.Thesaurus.DTOs;
+using LegalAiAr.Contracts.Responses.Thesaurus;
 using LegalAiAr.Core.Enums;
 using LegalAiAr.Core.Interfaces.Repositories;
 

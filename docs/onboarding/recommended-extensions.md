@@ -100,7 +100,7 @@ This file lives at the repo root so both editors show the install prompt. Curren
 ## References
 
 - [Onboarding hub](README.md) — full local setup for both environments
-- [Developer Guide](../developer-guide.md) — work-item → PR workflow and AI skills
+- [Developer Guide](developer-guide.md) — work-item → PR workflow and AI skills
 - [GitHub Delivery](../deployment/github-delivery.md) — GitHub Actions / Azure CD
 - [GCaaS Hosting](../deployment/gcaas-hosting.md) — GCaaS / Helm deploy
 - [Workspace recommended extensions (VS Code docs)](https://code.visualstudio.com/docs/editor/extension-marketplace#_workspace-recommended-extensions)

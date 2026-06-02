@@ -2,10 +2,10 @@ import { Component, inject, signal, DestroyRef } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ProceedingService } from '../../../services/proceeding.service';
-import { SkeletonDetailComponent } from '../../../shared/components/skeletons/skeleton-detail.component';
-import { BreadcrumbComponent } from '../../../shared/components/breadcrumb/breadcrumb.component';
-import { RulingDatePipe } from '../../../shared/pipes/ruling-date.pipe';
-import { EntityPreviewDirective } from '../../../shared/directives/entity-preview.directive';
+import { SkeletonDetailComponent } from '@legal-ai-ar/shared-common/components/skeletons/skeleton-detail.component';
+import { BreadcrumbComponent } from '@legal-ai-ar/shared-common/components/breadcrumb/breadcrumb.component';
+import { RulingDatePipe } from '@legal-ai-ar/shared-common/pipes/ruling-date.pipe';
+import { EntityPreviewDirective } from '@legal-ai-ar/shared-common/directives/entity-preview.directive';
 import type { ProceedingDetail, AppealChain } from '../../../models/proceeding-space.models';
 
 type State = 'loading' | 'loaded' | 'notFound' | 'error';

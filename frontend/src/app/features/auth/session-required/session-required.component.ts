@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { environment } from '../../../../environments/environment';
+import { environment } from '@legal-ai-ar/core';
 
 @Component({
   selector: 'app-session-required',

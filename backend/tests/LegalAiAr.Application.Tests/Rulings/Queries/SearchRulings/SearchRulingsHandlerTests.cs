@@ -1,4 +1,4 @@
-using LegalAiAr.Application.Rulings.DTOs;
+using LegalAiAr.Contracts.Responses.Rulings;
 using LegalAiAr.Application.Rulings.Queries.SearchRulings;
 using LegalAiAr.Core.Interfaces.Repositories;
 using LegalAiAr.Core.Interfaces.Services;

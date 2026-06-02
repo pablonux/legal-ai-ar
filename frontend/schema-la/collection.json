@@ -1,0 +1,25 @@
+{
+  "$schema": "../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "thin-feature": {
+      "description": "Thin feature slice (pages, components, data/) under src/app/features",
+      "factory": "./dist/thin-feature/index.js",
+      "schema": "./src/thin-feature/schema.json"
+    },
+    "full-feature": {
+      "description": "Full feature slice (domain, api, application, views/) under src/app/features",
+      "factory": "./dist/full-feature/index.js",
+      "schema": "./src/full-feature/schema.json"
+    },
+    "ui-wrapper": {
+      "description": "AppKit-oriented UI wrapper component in projects/ui",
+      "factory": "./dist/ui-wrapper/index.js",
+      "schema": "./src/ui-wrapper/schema.json"
+    },
+    "api-service": {
+      "description": "HTTP API client stub in a feature api/ or data/ folder",
+      "factory": "./dist/api-service/index.js",
+      "schema": "./src/api-service/schema.json"
+    }
+  }
+}

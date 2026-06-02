@@ -15,6 +15,7 @@ Review code and documentation against the project standards, identify problems, 
 
 | Document | Content |
 |----------|---------|
+| `docs/standards/pwc-internal-app-architecture.md` | **Architecture baseline** — verify §16 compliance checklist |
 | `docs/roadmap/features.md` | Context of the feature being reviewed |
 | `docs/roadmap/{Feature}/{Work Item}.md` | Work item acceptance criteria |
 | `docs/roadmap/DEFINITION-OF-DONE.md` | **Definition of Done** — verify before approving |

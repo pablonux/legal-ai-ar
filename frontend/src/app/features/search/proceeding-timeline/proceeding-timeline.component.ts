@@ -1,7 +1,7 @@
 import { Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import type { ProceedingResponse } from '../../../models/proceeding.models';
-import { RulingDatePipe } from '../../../shared/pipes/ruling-date.pipe';
+import { RulingDatePipe } from '@legal-ai-ar/shared-common/pipes/ruling-date.pipe';
 
 @Component({
   selector: 'app-proceeding-timeline',

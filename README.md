@@ -1,5 +1,8 @@
 # Legal Ai Ar
 
+[![CI Backend](https://github.com/pwc-ar-xlos-argentinaaifactory/legal-ai-ar/actions/workflows/ci-backend.yml/badge.svg?branch=main)](https://github.com/pwc-ar-xlos-argentinaaifactory/legal-ai-ar/actions/workflows/ci-backend.yml)
+[![CI Frontend](https://github.com/pwc-ar-xlos-argentinaaifactory/legal-ai-ar/actions/workflows/ci-frontend.yml/badge.svg?branch=main)](https://github.com/pwc-ar-xlos-argentinaaifactory/legal-ai-ar/actions/workflows/ci-frontend.yml)
+
 > PwC tax-legal knowledge base and productivity platform, with AI agents
 
 Legal Ai Ar is an internal productivity tool for **PwC tax-legal professionals**. It centralizes access to legislation, case law, tax sources, and legal doctrine of the Argentine legal system, combining a multidimensional knowledge base with specialized AI agents, and organizes daily advisory work by **client projects/workspaces**. It is designed to reduce legal-tax research time from hours to minutes and to keep regulatory and tax deadlines under control.
@@ -114,6 +117,7 @@ legal-ai-ar/
 │           ├── features/                # Lazy-loaded feature modules
 │           └── shared/                  # Common components, pipes, directives
 └── docs/
+    ├── standards/                        # PwC internal app architecture (baseline for all work)
     ├── roadmap/                          # Project planning
     │   ├── features.md                  # Full roadmap (v2.0)
     │   └── backlog.md                   # Feature/work-item inventory
@@ -139,6 +143,7 @@ legal-ai-ar/
 
 | Document | Description |
 |----------|-------------|
+| [**PwC Internal App Architecture**](docs/standards/pwc-internal-app-architecture.md) | **Single reference guide** — auth, backend/frontend structure, API patterns, testing, delivery (read before new features) |
 | [Features Roadmap](docs/roadmap/features.md) | Full plan of releases, features, endpoints, KPIs, and tech stack |
 | [Backlog](docs/roadmap/backlog.md) | Feature and work-item inventory with totals |
 | [Argentine Legal Ontology](docs/ontology/argentine-legal-ontology.md) | Formal specification of the Argentine legal domain (classes, properties, relationships) |
@@ -160,9 +165,9 @@ legal-ai-ar/
 | [Developer Onboarding](docs/onboarding/README.md) | Starting point: local setup for VS Code + Claude and Cursor (both with Docker) |
 | [Recommended Extensions](docs/onboarding/recommended-extensions.md) | IDE extensions for VS Code and Cursor |
 | [Troubleshooting](docs/onboarding/troubleshooting.md) | Common local-setup errors and fixes |
-| [Developer Guide](docs/developer-guide.md) | Work-item → PR workflow, AI skills, conventions |
+| [Developer Guide](docs/onboarding/developer-guide.md) | Work-item → PR workflow, AI skills, conventions |
 | [AppKit 4 (UI library)](docs/appkit4/README.md) | PwC AppKit 4 reference: components, design tokens, icons, patterns |
-| [AI Setup Tutorial](docs/cowork-setup-tutorial.md) | How Cowork (Claude) and Cursor are configured |
+| [AI Setup Tutorial](docs/onboarding/cowork-setup-tutorial.md) | How Cowork (Claude) and Cursor are configured |
 
 ### Delivery & Hosting
 
@@ -177,24 +182,28 @@ legal-ai-ar/
 
 ## Getting Started (Developers)
 
-New to the project? Start with the **[Developer Onboarding guide](docs/onboarding/README.md)** — a
-single starting point that takes you from a fresh clone to the app running locally, for either
-supported environment:
+New to the project? **Under 30 minutes** with DEV credentials ready:
 
-- **VS Code + Claude + Docker**
-- **Cursor + Docker**
+1. **Clone** the repo and run the setup script:
+   - Windows: `.\infra\scripts\setup-local.ps1`
+   - Linux/macOS: `./infra/scripts/setup-local.sh`
+2. **Fill** `.env` secrets (copy from `.env.example` — see onboarding §3).
+3. **Start** backend (`dotnet run --project src/api/LegalAiAr.Api` from `backend/`) and frontend
+   (`npm start` from `frontend/`).
+4. **Verify** Swagger at http://localhost:5088/swagger and the SPA at http://localhost:4200.
 
-It covers prerequisites, Docker-based local dependencies, backend/frontend setup, IDE configuration,
-[recommended extensions](docs/onboarding/recommended-extensions.md), and
-[troubleshooting](docs/onboarding/troubleshooting.md). For the day-to-day work-item → PR flow, see the
-[Developer Guide](docs/developer-guide.md).
+Full guide (both IDE environments, Docker, troubleshooting):
+
+- **[Developer Onboarding](docs/onboarding/README.md)** — VS Code + Claude or Cursor + Docker
+- **[Developer Guide](docs/onboarding/developer-guide.md)** — work-item → PR flow
+- **[Recommended extensions](docs/onboarding/recommended-extensions.md)** · **[Troubleshooting](docs/onboarding/troubleshooting.md)**
 
 ---
 
 ## Requirements
 
 - .NET 10 SDK
-- Node.js 20 LTS+ (Angular CLI installed locally via `npm ci`)
+- Node.js 22 LTS+ (Angular CLI installed locally via `npm ci`)
 - Docker Desktop (run the app — API, SPA, workers — in containers)
 - Access to the shared **cloud DEV** services (Azure SQL, AI Search, OpenAI, Storage) — there is no local stack
 - Azure Entra ID (platform-managed SSO; see [GCaaS Hosting](docs/deployment/gcaas-hosting.md))

@@ -4,9 +4,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { RulingService } from '../../../services/ruling.service';
 import { RulingCardComponent } from '../ruling-card/ruling-card.component';
-import { SkeletonCardComponent } from '../../../shared/components/skeletons/skeleton-card.component';
-import { BreadcrumbComponent } from '../../../shared/components/breadcrumb/breadcrumb.component';
-import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state.component';
+import {
+  BreadcrumbComponent,
+  EmptyStateComponent,
+  SkeletonCardComponent,
+  type EmptyStateAction
+} from '@legal-ai-ar/shared-common';
 import { OnboardingService } from '../../../services/onboarding.service';
 import type { SearchFiltersRequest, SearchRulingsResult } from '../../../models/ruling.models';
 
@@ -505,8 +508,8 @@ export class SearchResultsComponent {
     return tips;
   });
 
-  searchEmptyActions = computed<import('../../../shared/components/empty-state/empty-state.component').EmptyStateAction[]>(() => {
-    const acts: import('../../../shared/components/empty-state/empty-state.component').EmptyStateAction[] = [];
+  searchEmptyActions = computed<EmptyStateAction[]>(() => {
+    const acts: EmptyStateAction[] = [];
     if (this.activeFilterCount() > 0) {
       acts.push({ label: 'Buscar sin filtros', action: () => this.retryWithoutFilters(), primary: true });
     }

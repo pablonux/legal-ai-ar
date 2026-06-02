@@ -1,5 +1,5 @@
 using LegalAiAr.Application.Mediation;
-using LegalAiAr.Application.Statutes.DTOs;
+using LegalAiAr.Contracts.Responses.Statutes;
 
 namespace LegalAiAr.Application.Statutes.Queries.GetStatutePyramid;
 

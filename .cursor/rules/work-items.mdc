@@ -24,7 +24,7 @@ Each work item follows the standard template. See `docs/roadmap/F00 - Developmen
 
 A work item is **not done** until its **documentation round-trip** is complete: the work-item file is
 updated (Tasks/Acceptance `[x]`), `docs/roadmap/STATUS.md` is updated (progress log + "Next up"), and
-any affected docs (`docs/technical/*`, `docs/ontology/*`, `docs/deployment/*`, `features.md`,
+any affected docs (`docs/standards/*`, `docs/technical/*`, `docs/ontology/*`, `docs/deployment/*`, `features.md`,
 onboarding) are synced to match the merged code. See `docs/roadmap/DEFINITION-OF-DONE.md`. **Never mark
 a work item complete or approve its PR while documentation is pending** — this applies to every
 dev + AI (Cursor or Cowork).
@@ -42,5 +42,6 @@ dev + AI (Cursor or Cowork).
 
 ## Consult before generating
 
+- `docs/standards/pwc-internal-app-architecture.md` for architecture constraints and patterns
 - `docs/roadmap/features.md` for feature and release context
 - Existing work items of the same feature to keep consistency

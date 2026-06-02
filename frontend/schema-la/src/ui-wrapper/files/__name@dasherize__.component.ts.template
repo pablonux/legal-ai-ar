@@ -1,0 +1,25 @@
+import { Component, input } from '@angular/core';
+
+/**
+ * Thin AppKit wrapper for <%= dasherize(name) %>.
+ * Wire PwC AppKit components here when adopting @appkit4/angular-components.
+ */
+@Component({
+  selector: 'app-ui-<%= dasherize(name) %>',
+  standalone: true,
+  template: `
+    <div class="la-ui-<%= dasherize(name) %>">
+      <ng-content />
+    </div>
+  `,
+  styles: [
+    `
+      .la-ui-<%= dasherize(name) %> {
+        display: block;
+      }
+    `
+  ]
+})
+export class <%= classify(name) %>Component {
+  readonly ariaLabel = input<string | undefined>(undefined);
+}

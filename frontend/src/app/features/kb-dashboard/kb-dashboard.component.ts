@@ -1,6 +1,6 @@
 import { Component, signal, inject, OnInit, computed } from '@angular/core';
 import { StatsService } from '../../services/stats.service';
-import { SkeletonStatComponent } from '../../shared/components/skeletons/skeleton-stat.component';
+import { SkeletonStatComponent } from '@legal-ai-ar/shared-common/components/skeletons/skeleton-stat.component';
 import type { KbStats, NameCount } from '../../models/stats.models';
 
 @Component({

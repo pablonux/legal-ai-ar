@@ -1,0 +1,5 @@
+/** Domain models for <%= dasherize(name) %> (full slice). */
+
+export interface <%= classify(name) %>Entity {
+  readonly id: string;
+}

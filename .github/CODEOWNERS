@@ -1,0 +1,11 @@
+# CODEOWNERS — Legal Ai Ar
+# Replace placeholder handles with real GitHub users or teams before enforcing review assignment.
+# Docs: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default
+* @pwc-ar-xlos-argentinaaifactory
+
+/backend/ @pwc-ar-xlos-argentinaaifactory
+/frontend/ @pwc-ar-xlos-argentinaaifactory
+/infra/ @pwc-ar-xlos-argentinaaifactory
+/.github/ @pwc-ar-xlos-argentinaaifactory

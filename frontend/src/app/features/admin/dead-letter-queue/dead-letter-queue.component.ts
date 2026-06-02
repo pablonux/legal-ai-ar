@@ -1,8 +1,8 @@
 import { Component, signal, inject, OnInit } from '@angular/core';
 import { A11yModule } from '@angular/cdk/a11y';
-import { NotificationService } from '../../../shared/services/notification.service';
+import { NotificationService } from '@legal-ai-ar/shared-common/services/notification.service';
 import { DlqService, type DlqQueueName, type DlqMessage } from '../../../services/admin/dlq.service';
-import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner.component';
+import { LoadingSpinnerComponent } from '@legal-ai-ar/shared-common/components/loading-spinner/loading-spinner.component';
 
 const QUEUE_LABELS: Record<DlqQueueName, string> = {
   discoverer: 'Descubrimiento',

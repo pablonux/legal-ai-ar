@@ -1,16 +1,16 @@
 using LegalAiAr.Application.Mediation;
-using LegalAiAr.Application.Statutes.DTOs;
+using LegalAiAr.Contracts.Responses.Statutes;
 using LegalAiAr.Core.Interfaces.Repositories;
 
 namespace LegalAiAr.Application.Statutes.Queries.GetStatutes;
 
-public class GetStatutesHandler : IRequestHandler<GetStatutesQuery, StatutePageDto>
+public class GetStatutesHandler : IRequestHandler<GetStatutesQuery, StatutePageResponse>
 {
     private readonly IStatuteRepository _repo;
 
     public GetStatutesHandler(IStatuteRepository repo) => _repo = repo;
 
-    public async Task<StatutePageDto> Handle(GetStatutesQuery request, CancellationToken cancellationToken)
+    public async Task<StatutePageResponse> Handle(GetStatutesQuery request, CancellationToken cancellationToken)
     {
         var (items, totalCount) = await _repo.SearchAsync(
             request.Search,
@@ -26,9 +26,9 @@ public class GetStatutesHandler : IRequestHandler<GetStatutesQuery, StatutePageD
             s.Id,
             s.Number,
             s.Name,
-            s.NormType,
-            s.NormativeLevel,
-            s.LegalBranch,
+            s.NormType?.ToString(),
+            s.NormativeLevel?.ToString(),
+            s.LegalBranch?.ToString(),
             s.IssuingBody,
             s.SanctionDate,
             s.Status?.ToString(),
@@ -36,6 +36,6 @@ public class GetStatutesHandler : IRequestHandler<GetStatutesQuery, StatutePageD
             s.RulingCount
         )).ToList();
 
-        return new StatutePageDto(dtos, totalCount, request.Page, request.PageSize);
+        return new StatutePageResponse(dtos, totalCount, request.Page, request.PageSize);
     }
 }

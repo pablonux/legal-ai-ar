@@ -1,4 +1,5 @@
 using LegalAiAr.Application.Mediation;
+using LegalAiAr.Contracts.Responses.Rulings;
 using LegalAiAr.Core.Models;
 
 namespace LegalAiAr.Application.Rulings.Queries.SearchRulings;

@@ -1,4 +1,7 @@
+using FluentValidation;
 using LegalAiAr.Api.Authorization;
+using LegalAiAr.Api.Validators.Rulings;
+using LegalAiAr.Api.Extensions;
 using LegalAiAr.Api.Middleware;
 using LegalAiAr.Api.Services;
 using LegalAiAr.Application.Extensions;
@@ -17,11 +20,12 @@ builder.Services.AddSingleton<IAuthorizationHandler, WorkerControlHubAuthorizati
 builder.Services.AddSingleton<PlatformUserJwtValidator>();
 builder.Services.AddLegalAiArInfrastructure(builder.Configuration);
 builder.Services.AddLegalAiArApplication();
+builder.Services.AddValidatorsFromAssemblyContaining<SearchRulingsRequestValidator>();
 builder.Services.Configure<LegalAiAr.Application.Chat.ChatToolsOptions>(
     builder.Configuration.GetSection(LegalAiAr.Application.Chat.ChatToolsOptions.SectionName));
 builder.Services.Configure<LegalAiAr.Core.Interfaces.Pipeline.ChatPipelineOptions>(
     builder.Configuration.GetSection(LegalAiAr.Core.Interfaces.Pipeline.ChatPipelineOptions.SectionName));
-builder.Services.AddControllers();
+builder.Services.AddLegalAiArEndpoints();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -102,7 +106,7 @@ app.UseCors();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
-app.MapControllers();
+app.MapLegalAiArEndpoints();
 app.MapHub<LegalAiAr.Api.Hubs.WorkerControlHub>("/hubs/worker-control");
 
 app.Run();

@@ -1,4 +1,4 @@
-using LegalAiAr.Application.Catalogs.DTOs;
+using LegalAiAr.Contracts.Responses.Catalogs;
 using LegalAiAr.Application.Mediation;
 using LegalAiAr.Core.Interfaces.Repositories;
 

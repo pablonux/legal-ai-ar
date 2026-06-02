@@ -1,5 +1,5 @@
 using LegalAiAr.Application.Mediation;
-using LegalAiAr.Application.Statutes.DTOs;
+using LegalAiAr.Contracts.Responses.Statutes;
 using LegalAiAr.Core.Interfaces.Repositories;
 
 namespace LegalAiAr.Application.Statutes.Queries.GetStatuteById;
@@ -38,7 +38,7 @@ public class GetStatuteByIdHandler : IRequestHandler<GetStatuteByIdQuery, Statut
 
         return new StatuteDetailDto(
             s.Id, s.Number, s.Name, s.Url,
-            s.NormType, s.NormativeLevel, s.LegalBranch,
+            s.NormType?.ToString(), s.NormativeLevel?.ToString(), s.LegalBranch?.ToString(),
             s.IssuingBody, s.IssuingBodyName, s.SanctionDate,
             s.PublicationDate, s.EffectiveFrom, s.EffectiveTo,
             s.OfficialUrl, s.SaijId, s.Status?.ToString(),

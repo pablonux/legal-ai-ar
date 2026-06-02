@@ -1,8 +1,8 @@
 import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { StatuteService } from '../../../services/statute.service';
-import { BreadcrumbComponent } from '../../../shared/components/breadcrumb/breadcrumb.component';
-import { SkeletonStatComponent } from '../../../shared/components/skeletons/skeleton-stat.component';
+import { BreadcrumbComponent } from '@legal-ai-ar/shared-common/components/breadcrumb/breadcrumb.component';
+import { SkeletonStatComponent } from '@legal-ai-ar/shared-common/components/skeletons/skeleton-stat.component';
 import type { PyramidLevel } from '../../../models/statute.models';
 
 @Component({

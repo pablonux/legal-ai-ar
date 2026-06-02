@@ -1,4 +1,4 @@
-using LegalAiAr.Application.Rulings.DTOs;
+using LegalAiAr.Contracts.Responses.Rulings;
 using LegalAiAr.Application.Rulings.Queries.GetRelatedRulings;
 using LegalAiAr.Core.Entities;
 using LegalAiAr.Core.Exceptions;

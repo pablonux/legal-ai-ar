@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment';
-import { AuthService } from './auth.service';
+import { environment } from '@legal-ai-ar/core';
+import { AuthService } from '@legal-ai-ar/core';
 
 export interface ValidationResult {
   status: 'passed' | 'warnings';

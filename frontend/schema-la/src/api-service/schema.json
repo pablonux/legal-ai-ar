@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "SchemaLaApiService",
+  "title": "API service stub schematic",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "API client name (English)",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "API client name:"
+    },
+    "domain": {
+      "type": "string",
+      "description": "API resource segment (e.g. rulings)",
+      "x-prompt": "API domain segment (/api/{domain}):"
+    },
+    "feature": {
+      "type": "string",
+      "description": "Parent feature folder under src/app/features",
+      "x-prompt": "Feature folder name:"
+    },
+    "slice": {
+      "type": "string",
+      "description": "thin uses data/; full uses api/",
+      "enum": ["thin", "full"],
+      "default": "full"
+    }
+  },
+  "required": ["name", "domain", "feature"]
+}

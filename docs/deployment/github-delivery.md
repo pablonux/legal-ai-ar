@@ -3,7 +3,7 @@
 > Delivery document — Legal Ai Ar
 >
 > **Scope:** Source control, CI quality gates, CD to Azure staging
-> **Last updated:** 2026-05-28
+> **Last updated:** 2026-06-01
 
 ---
 
@@ -19,7 +19,8 @@ GitHub is the **canonical source of truth** for application code. Two automation
 
 | Workflow | File | Trigger | Outcome |
 |----------|------|---------|---------|
-| **CI** | `.github/workflows/ci.yml` | Push or PR to `main` | Build, test, format check — no deploy |
+| **CI Backend** | `.github/workflows/ci-backend.yml` | Push or PR to `main` (paths: `backend/**`) | .NET build, test, format check — no deploy |
+| **CI Frontend** | `.github/workflows/ci-frontend.yml` | Push or PR to `main` (paths: `frontend/**`) | lint, production build, Jest — no deploy |
 | **CD** | `.github/workflows/cd.yml` | Push to `main` (merge) | Build artifacts and deploy API + SPA to **Azure staging** |
 
 GitHub Actions **does not deploy to GCaaS**. GCaaS releases use the Helm chart under `deployment/` and the platform's own deployment pipeline (see [`gcaas-hosting.md`](gcaas-hosting.md)).
@@ -28,9 +29,11 @@ GitHub Actions **does not deploy to GCaaS**. GCaaS releases use the Helm chart u
 flowchart LR
   Dev[Developers] --> PR[Pull request]
   PR --> Main[main branch]
-  Main --> CI[ci.yml]
+  Main --> CIB[ci-backend.yml]
+  Main --> CIF[ci-frontend.yml]
   Main --> CD[cd.yml]
-  CI --> Gate[Quality gate]
+  CIB --> Gate[Quality gate]
+  CIF --> Gate
   CD --> Azure[Azure staging]
   Main -.->|separate process| GCaaS[GCaaS Helm deploy]
 ```
@@ -55,7 +58,8 @@ or `fix/{short-description}` for fixes.
 
 ### Pull request policy
 
-- **CI must pass** (build, tests, `dotnet format`) and there must be **no conflicts** with `main`
+- **CI must pass** — both **CI Backend** and **CI Frontend** status checks (when triggered by path
+  filters) plus `dotnet format` on backend changes — and there must be **no conflicts** with `main`
   before merge (branch protection).
 - **Review:** minimum **1 approver** before merge; the author cannot approve their own PR.
   **Single-contributor waiver** — when only one person is active on the repo, the external-approval
@@ -69,26 +73,77 @@ or `fix/{short-description}` for fixes.
 
 Use **Conventional Commits** scoped by feature: `feat(F08): …`, `fix(F01): …`,
 `refactor(F12): …`, `docs: …`, `chore: …`. This is the canonical convention (see the
-[Developer Guide](../developer-guide.md)). The squash-merge commit follows the same format.
+[Developer Guide](../onboarding/developer-guide.md)). The squash-merge commit follows the same format.
 
 ---
 
-## 4. CI pipeline (`ci.yml`)
+## 4. CI pipelines
 
-**Name:** `CI` · **Runner:** `ubuntu-latest`
+Two separate workflows run on path-filtered changes. Each only executes when files under its scope
+change, so a backend-only PR does not run the frontend pipeline (and vice versa).
 
-**Triggers:** `push` to `main`; `pull_request` targeting `main`.
+### 4.1 CI Backend (`ci-backend.yml`)
 
-**Steps** (single job `build-and-test`):
+**Name:** `CI Backend` · **Runner:** `ubuntu-latest` · **Working directory:** `backend/`
+
+**Triggers:** `push` to `main` or `pull_request` targeting `main`, when paths match:
+
+- `backend/**`
+- `.github/workflows/ci-backend.yml`
+
+**Steps** (job `build-and-test`):
 
 1. **Checkout** — `actions/checkout@v4`
 2. **Setup .NET** — `actions/setup-dotnet@v4`, SDK `10.0.x`
-3. **Restore** — `dotnet restore backend/LegalAiAr.sln`
-4. **Build** — `dotnet build backend/LegalAiAr.sln -c Release --no-restore`
-5. **Test** — `dotnet test backend/LegalAiAr.sln -c Release --no-build`
-6. **Lint** — `dotnet format backend/LegalAiAr.sln --verify-no-changes`
+3. **Cache NuGet** — keyed on `Directory.Packages.props`
+4. **Restore** — `dotnet restore LegalAiAr.sln`
+5. **Build** — `dotnet build LegalAiAr.sln -c Release --no-restore`
+6. **Test** — `dotnet test LegalAiAr.sln -c Release --no-build` (all test projects in the solution)
+7. **Lint** — `dotnet format LegalAiAr.sln --verbosity diagnostic` (enforce `--verify-no-changes` in **F00-W08**)
+8. **Coverage** — optional upload to Codecov (`fail_ci_if_error: false`)
+9. **Artifact** (push to `main` only) — publish API to `backend/publish/`, upload as `backend-{sha}`
 
-**Scope note:** CI covers the **backend solution only**. The Angular SPA is not built or tested in this workflow.
+**Branch protection check name:** `CI Backend / build-and-test`
+
+### 4.2 CI Frontend (`ci-frontend.yml`)
+
+**Name:** `CI Frontend` · **Runner:** `ubuntu-latest` · **Working directory:** `frontend/`
+
+**Triggers:** `push` to `main` or `pull_request` targeting `main`, when paths match:
+
+- `frontend/**`
+- `.github/workflows/ci-frontend.yml`
+
+**Steps** (job `build-and-test`):
+
+1. **Checkout** — `actions/checkout@v4`
+2. **Setup Node** — `actions/setup-node@v4`, Node `22`, npm cache
+3. **Install** — `npm ci`
+4. **Lint** — `npm run lint:ci` (workspace libraries only; app-level lint debt → **F00-W08**)
+5. **Build** — `npm run build:prod`
+6. **Test** — `npm run test:coverage -- --ci --passWithNoTests`
+7. **Coverage** — optional upload to Codecov (`fail_ci_if_error: false`)
+8. **Artifact** (push to `main` only) — upload `frontend/dist/legal-ai-ar` as `frontend-{sha}`
+
+**Branch protection check name:** `CI Frontend / build-and-test`
+
+### 4.3 Branch protection (`main`)
+
+Configure under **Settings → Branches → Branch protection rules**:
+
+| Setting | Value |
+|---------|-------|
+| Require a pull request before merging | ✅ |
+| Required approving reviews | 1 |
+| Require status checks to pass | ✅ |
+| Required checks | `CI Backend / build-and-test`, `CI Frontend / build-and-test` |
+| Require branches to be up to date | ✅ |
+| Allow squash merging | ✅ (this one only) |
+| Allow merge commits | ❌ |
+| Allow rebase merging | ❌ |
+
+> **Note:** Required checks appear in GitHub only after each workflow has run at least once on the
+> repository. Merge the first CI PR, then enable the checks above.
 
 ---
 
@@ -200,7 +255,8 @@ Both paths can target the **same Azure data services**; compute and identity bou
 
 | Path | Description |
 |------|-------------|
-| `.github/workflows/ci.yml` | CI: build, test, format |
+| `.github/workflows/ci-backend.yml` | CI: .NET build, test, format |
+| `.github/workflows/ci-frontend.yml` | CI: Angular lint, build, unit tests |
 | `.github/workflows/cd.yml` | CD: Azure staging deploy |
 | `infra/scripts/create-app-service.ps1` | App Service + staging slot |
 | `infra/scripts/create-static-web-app.ps1` | Static Web Apps |

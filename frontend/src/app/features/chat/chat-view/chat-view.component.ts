@@ -13,7 +13,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ChatService, ValidationResult } from '../../../services/chat.service';
 import { ToolStatusChipComponent, ToolChipState } from '../tool-status-chip/tool-status-chip.component';
-import { ChatMarkdownPipe } from '../../../shared/pipes/chat-markdown.pipe';
+import { ChatMarkdownPipe } from '@legal-ai-ar/shared-common/pipes/chat-markdown.pipe';
 import { OnboardingService } from '../../../services/onboarding.service';
 import { Subscription } from 'rxjs';
 

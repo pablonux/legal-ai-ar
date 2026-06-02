@@ -6,8 +6,8 @@ import { Subject, combineLatest } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, startWith } from 'rxjs/operators';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PersonService } from '../../../services/person.service';
-import { SkeletonTableRowComponent } from '../../../shared/components/skeletons/skeleton-table-row.component';
-import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state.component';
+import { SkeletonTableRowComponent } from '@legal-ai-ar/shared-common/components/skeletons/skeleton-table-row.component';
+import { EmptyStateComponent } from '@legal-ai-ar/shared-common/components/empty-state/empty-state.component';
 import type { PersonListItem } from '../../../models/catalog.models';
 
 export type PersonVista = 'todos' | 'magistrados' | 'partes';

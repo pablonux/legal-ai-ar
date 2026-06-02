@@ -9,7 +9,7 @@ import {
   type StageSummary,
   type JobDocument
 } from '../../../../services/admin/crawler.service';
-import { LoadingSpinnerComponent } from '../../../../shared/components/loading-spinner/loading-spinner.component';
+import { LoadingSpinnerComponent } from '@legal-ai-ar/shared-common/components/loading-spinner/loading-spinner.component';
 import { catchError, EMPTY, interval, Subscription, switchMap } from 'rxjs';
 
 const STAGE_ORDER = ['Discoverer', 'Fetcher', 'Parser', 'Enricher', 'Persister', 'Indexer'];

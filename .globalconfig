@@ -1,0 +1,9 @@
+is_global = true
+
+# xUnit v3 — adopt TestContext.Current.CancellationToken incrementally
+dotnet_diagnostic.xUnit1051.severity = none
+
+# Roslynator — exception boilerplate deferred on domain exceptions
+dotnet_diagnostic.RCS1194.severity = none
+dotnet_diagnostic.RCS1138.severity = none
+dotnet_diagnostic.RCS1139.severity = none

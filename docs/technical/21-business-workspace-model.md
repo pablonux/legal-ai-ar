@@ -11,8 +11,8 @@
 
 ## 1. Overview
 
-The KB layer (rulings, norms, statutes, thesaurus, citation graph) answers *"what does the law say"*.
-The **business layer** answers *"what is my team doing for this client"*. The central entity is the
+The KB layer (rulings, norms, statutes, thesaurus, citation graph) answers _"what does the law say"_.
+The **business layer** answers _"what is my team doing for this client"_. The central entity is the
 **Project / Workspace** (one per client engagement); everything a professional produces or saves lives
 inside a project, with **confidentiality per project** (members see only their projects).
 
@@ -36,20 +36,20 @@ erDiagram
 
 ## 2. Entities
 
-| Entity | Purpose | Key fields |
-|--------|---------|-----------|
-| `Project` (Workspace) | A client engagement workspace | `Id`, `Name`, `ClientName`, `Status`, `LeadUserId`, `CreatedAt`, `ConfidentialityLevel` |
-| `ProjectMember` | A user's membership + role in a project | `ProjectId`, `UserId`, `Role` (Manager/Senior/Associate/Viewer) |
-| `Document` | A client document or generated file | `Id`, `ProjectId`, `Name`, `Type`, `BlobPath`, `UploadedBy`, `Version`, `AnalysisJson?` |
-| `Deliverable` | A client output (memo/opinion/report) | `Id`, `ProjectId`, `Type`, `Title`, `Status` (Draft/Review/Approved), `TemplateId`, `BodyRef`, `ApprovedBy?` |
-| `Task` | A unit of project work | `Id`, `ProjectId`, `Title`, `AssigneeUserId`, `Status`, `DueDate?` |
-| `ProjectDeadline` | A regulatory/tax/contractual due date | `Id`, `ProjectId`, `Kind`, `DueDate` (business-day computed), `Status`, `AlertLeadDays` |
-| `SavedResearch` | Saved query / cited KB items / chat thread | `Id`, `ProjectId`, `Kind` (query/chat/citation), `Payload`, `CitedItems[]` |
-| `InternalKnowledgeItem` | PwC internal precedent/memo/opinion | `Id`, `Title`, `Body`, `Tags`, `SourceProjectId?`, `Confidential`, `EmbeddingState` |
-| `ProjectRiskAssessment` | Legal/tax/compliance risk analysis | `Id`, `ProjectId`, `Scenario`, `Score`, `Findings`, `CreatedAt`, `Version` |
-| `TaxControversy` | A tax dispute tracked (light) | `Id`, `ProjectId`, `Organism` (ARCA/TFN…), `Tax`, `Period`, `Stage`, `Status`, `AmountInDispute` |
-| `ControversyEvent` | A stage/event in the controversy | `Id`, `ControversyId`, `Type`, `Date`, `Notes`, `DocumentId?` |
-| `ControversyDeadline` | A procedural/recourse due date | `Id`, `ControversyId`, `Kind`, `DueDate` (computed), `Status`, `AlertLeadDays` |
+| Entity                  | Purpose                                    | Key fields                                                                                                   |
+| ----------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
+| `Project` (Workspace)   | A client engagement workspace              | `Id`, `Name`, `ClientName`, `Status`, `LeadUserId`, `CreatedAt`, `ConfidentialityLevel`                      |
+| `ProjectMember`         | A user's membership + role in a project    | `ProjectId`, `UserId`, `Role` (Manager/Senior/Associate/Viewer)                                              |
+| `Document`              | A client document or generated file        | `Id`, `ProjectId`, `Name`, `Type`, `BlobPath`, `UploadedBy`, `Version`, `AnalysisJson?`                      |
+| `Deliverable`           | A client output (memo/opinion/report)      | `Id`, `ProjectId`, `Type`, `Title`, `Status` (Draft/Review/Approved), `TemplateId`, `BodyRef`, `ApprovedBy?` |
+| `Task`                  | A unit of project work                     | `Id`, `ProjectId`, `Title`, `AssigneeUserId`, `Status`, `DueDate?`                                           |
+| `ProjectDeadline`       | A regulatory/tax/contractual due date      | `Id`, `ProjectId`, `Kind`, `DueDate` (business-day computed), `Status`, `AlertLeadDays`                      |
+| `SavedResearch`         | Saved query / cited KB items / chat thread | `Id`, `ProjectId`, `Kind` (query/chat/citation), `Payload`, `CitedItems[]`                                   |
+| `InternalKnowledgeItem` | PwC internal precedent/memo/opinion        | `Id`, `Title`, `Body`, `Tags`, `SourceProjectId?`, `Confidential`, `EmbeddingState`                          |
+| `ProjectRiskAssessment` | Legal/tax/compliance risk analysis         | `Id`, `ProjectId`, `Scenario`, `Score`, `Findings`, `CreatedAt`, `Version`                                   |
+| `TaxControversy`        | A tax dispute tracked (light)              | `Id`, `ProjectId`, `Organism` (ARCA/TFN…), `Tax`, `Period`, `Stage`, `Status`, `AmountInDispute`             |
+| `ControversyEvent`      | A stage/event in the controversy           | `Id`, `ControversyId`, `Type`, `Date`, `Notes`, `DocumentId?`                                                |
+| `ControversyDeadline`   | A procedural/recourse due date             | `Id`, `ControversyId`, `Kind`, `DueDate` (computed), `Status`, `AlertLeadDays`                               |
 
 > `UserId` references the existing `User` entity (KB model). `Document` and `SavedResearch` can link to
 > KB items (e.g. cited `Ruling`/`Statute`/dictamen) so deliverables and research stay grounded.
@@ -77,20 +77,21 @@ client/secreto-profesional protection (see [06 — AI Security & Compliance](06-
 
 ## 5. Feature mapping
 
-| Feature | Entities |
-|---------|----------|
-| F2.1 Projects / Workspaces | `Project`, `ProjectMember`, `Task`, `ProjectDeadline`, `SavedResearch` |
-| F2.2 Document review & analysis | `Document` (+ `AnalysisJson`) |
-| F2.3 Deliverable generation | `Deliverable`, references `SavedResearch` + KB |
-| F2.4 Tasks & deadlines | `Task`, `ProjectDeadline` |
-| F3.1 Internal KB | `InternalKnowledgeItem` |
-| F3.3 Risk analysis | `ProjectRiskAssessment` |
-| F3.4 Tax controversy (light) | `TaxControversy`, `ControversyEvent`, `ControversyDeadline` |
+| Feature                         | Entities                                                               |
+| ------------------------------- | ---------------------------------------------------------------------- |
+| F2.1 Projects / Workspaces      | `Project`, `ProjectMember`, `Task`, `ProjectDeadline`, `SavedResearch` |
+| F2.2 Document review & analysis | `Document` (+ `AnalysisJson`)                                          |
+| F2.3 Deliverable generation     | `Deliverable`, references `SavedResearch` + KB                         |
+| F2.4 Tasks & deadlines          | `Task`, `ProjectDeadline`                                              |
+| F3.1 Internal KB                | `InternalKnowledgeItem`                                                |
+| F3.3 Risk analysis              | `ProjectRiskAssessment`                                                |
+| F3.4 Tax controversy (light)    | `TaxControversy`, `ControversyEvent`, `ControversyDeadline`            |
 
 ---
 
 ## 6. Related documentation
 
+- [23 — Transactional Outbox & Domain Events](23-outbox-domain-events.md) — infrastructure for reliable side effects when F2.1 introduces `IAggregateRoot` writes
 - [17 — KB Data Model](17-kb-data-model.md) — the as-built public KB model this extends
 - [features.md](../roadmap/features.md) — the PwC tax-legal roadmap (R2.0–R3.0)
 - [06 — AI Security & Compliance](06-ai-security-compliance.md) — confidentiality / privilege
@@ -98,4 +99,4 @@ client/secreto-profesional protection (see [06 — AI Security & Compliance](06-
 
 ---
 
-*Business Layer — Legal Ai Ar (PwC Tax-Legal, target model)*
+_Business Layer — Legal Ai Ar (PwC Tax-Legal, target model)_

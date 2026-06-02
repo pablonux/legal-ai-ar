@@ -86,6 +86,7 @@ legal-ai-ar/
 
 Before generating code or work items, consult:
 
+- `docs/standards/pwc-internal-app-architecture.md` — **Architecture baseline** for internal PwC apps (auth, layers, API, frontend, testing, delivery)
 - `docs/roadmap/STATUS.md` — **Read first**: where the project stands and what to pick up next (update it when a work item is done)
 - `docs/roadmap/features.md` — Full roadmap with all features, endpoints, and KPIs
 - `docs/roadmap/backlog.md` — Feature and work-item inventory with totals
@@ -108,4 +109,5 @@ Before generating code or work items, consult:
 - **New projects to add**: `LegalAiAr.Agents` (Semantic Kernel) in `src/shared/` and `LegalAiAr.AgentEvals` in `tests/`.
 - **Infrastructure & delivery**: CI/CD and IaC are operated by the delivery track, not as application features, but they ARE documented and tracked. There are **two delivery paths**: (1) GitHub Actions → Azure staging (API + SPA), and (2) GCaaS Helm/Knative → corporate production. See `docs/deployment/github-delivery.md` and `docs/deployment/gcaas-hosting.md`, summarized in `docs/roadmap/features.md` §2.3 and feature **FT05**.
 - **Authentication (important)**: production auth is platform-managed Entra SSO on GCaaS — the platform issues an **`id_token` HTTP-only cookie** and the API validates it (`Auth:Platform`). Do NOT propose MSAL in the SPA, app-owned `/login` endpoints, or Bearer tokens; the SPA uses `withCredentials`. See `docs/deployment/gcaas-hosting.md`.
-- **Definition of Done — documentation round-trip (mandatory)**: a work item is **NOT done** until its documentation is updated: the work-item file (Tasks/Acceptance `[x]`), `docs/roadmap/STATUS.md` (progress log + "Next up"), and any affected docs (`docs/technical/*`, `docs/ontology/*`, `docs/deployment/*`, `features.md`, onboarding) synced to the merged code. **NEVER mark a work item complete or approve/finish its PR while documentation is pending.** This applies to every developer + AI (Cowork or Cursor). See `docs/roadmap/DEFINITION-OF-DONE.md`.
+- **Definition of Done — documentation round-trip (mandatory)**: a work item is **NOT done** until its documentation is updated: the work-item file (Tasks/Acceptance `[x]`), `docs/roadmap/STATUS.md` (progress log + "Next up"), and any affected docs (`docs/standards/*`, `docs/technical/*`, `docs/ontology/*`, `docs/deployment/*`, `features.md`, onboarding) synced to the merged code. **NEVER mark a work item complete or approve/finish its PR while documentation is pending.** This applies to every developer + AI (Cowork or Cursor). See `docs/roadmap/DEFINITION-OF-DONE.md`.
+- **Architecture baseline**: follow `docs/standards/pwc-internal-app-architecture.md` for auth, layering, API patterns, frontend structure, testing, and delivery.

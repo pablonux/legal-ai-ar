@@ -1,5 +1,5 @@
 using LegalAiAr.Application.Mediation;
-using LegalAiAr.Application.Thesaurus.DTOs;
+using LegalAiAr.Contracts.Responses.Thesaurus;
 
 namespace LegalAiAr.Application.Thesaurus.Queries.GetThesaurusRoots;
 

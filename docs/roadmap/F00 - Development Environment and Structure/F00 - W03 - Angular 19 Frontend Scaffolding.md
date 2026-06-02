@@ -5,35 +5,40 @@
 > **Type:** frontend | **Priority:** Critical (blocking)
 > **Estimate:** 5 story points
 > **Assignable to:** Frontend Dev
+> **Status:** ✅ **Done** — merged to `main` via [PR #105](https://github.com/pwc-ar-xlos-argentinaaifactory/legal-ai-ar/pull/105) (2026-06-01)
 
 ---
 
 ## Description
 
-Initialize the Angular 19 project inside the monorepo with the defined folder structure, configure PwC AppKit 4 (or a placeholder until the library is available), and leave the project ready for feature development.
+Adapt the existing Angular SPA to the [PwC Internal Application Architecture](../standards/pwc-internal-app-architecture.md) (§6 Frontend): monorepo libraries (`shell`, `core`, `ui`, `shared-common`), AppKit 4 shell, platform cookie auth (`withCredentials`), adaptive feature layering, and environment configurations. The MVP already provides a working SPA at `frontend/` — this work item is **hoist + adapt**, not greenfield scaffolding.
+
+**Baseline:** Read [`docs/standards/pwc-internal-app-architecture.md`](../standards/pwc-internal-app-architecture.md) before starting. Product-specific routes and views are documented in [`18-frontend-architecture.md`](../technical/18-frontend-architecture.md).
 
 ---
 
 ## Tasks
 
-- [ ] Generate the Angular 19 project with `ng new` (standalone, SCSS, routing)
-- [ ] Move the generated project into the `frontend/` folder
-- [ ] Configure the folder structure: `core/`, `shared/`, `features/`, `layout/`
-- [ ] Configure `angular.json` with per-environment build configurations (dev, qa, staging, prod)
-- [ ] Create `environment.ts` files for each environment
-- [ ] Install and configure PwC AppKit 4 (or a placeholder with Angular Material temporarily)
-- [ ] Configure base SCSS: `_variables.scss`, `_mixins.scss`, `_typography.scss`
-- [ ] Create the `AppComponent` with a router-outlet
-- [ ] Create the `LayoutComponent` (shell with a sidebar placeholder and navbar)
-- [ ] Configure `app.routes.ts` with lazy loading for placeholder features
-- [ ] Configure the proxy for the backend API in `proxy.conf.json`
-- [ ] Configure Jest as the test runner (replace Karma)
-- [ ] Install and configure ESLint + angular-eslint
-- [ ] Install and configure Prettier
-- [ ] Add npm scripts: `start`, `build`, `test`, `lint`, `e2e`
-- [ ] Verify that `ng build` compiles with no errors
-- [ ] Verify that `ng test` runs placeholder tests
-- [ ] Verify that `ng serve` starts the app on `localhost:4200`
+### Structure (per architecture standard §6)
+
+- [x] Restructure `frontend/` into an Angular workspace with libraries: `shell`, `core`, `ui`, `shared-common` (app host remains `src/app/`)
+- [x] Migrate existing `src/app/core`-equivalent code into `projects/core` (auth, interceptors, guards, environment)
+- [x] Implement shell in `projects/shell` (header, drawer, footer — **Material/custom placeholder** until AppKit package access)
+- [x] Keep existing features under `src/app/features/` using **thin slice** layout (unchanged)
+- [x] Configure `angular.json` with per-environment build configurations (`local`, `dev`, `qa`, `development`, `staging`, `production`)
+- [x] Create/update `environment.ts` files with platform auth keys (`usePlatformCredentials`, `platformAuthFailurePath`, `platformSessionRefreshIntervalMs`)
+- [ ] Install and configure PwC AppKit 4 per [`docs/appkit4/`](../appkit4/README.md) (deferred — Material placeholder per WI note)
+- [ ] Configure AppKit design tokens in global styles (deferred with AppKit)
+- [x] Wire `platformCredentialsInterceptor` and `authGuard` per architecture standard §5
+- [x] Configure `app.routes.ts` with lazy loading; preserve existing feature routes
+- [x] Configure the proxy for the backend API in `proxy.conf.json`
+- [x] Configure Jest as the test runner (`jest.config.cjs`; Karma retained for legacy `ng test` target)
+- [x] Install and configure ESLint + angular-eslint + Prettier
+- [x] Add npm scripts: `start`, `build`, `test`, `lint`, `e2e`
+- [x] Verify that `ng build` compiles with no errors
+- [x] Verify that `npm test` (Jest) runs placeholder tests
+- [x] Verify that `ng serve` starts the app on `localhost:4200` (manual)
+- [x] Update [`docs/technical/18-frontend-architecture.md`](../technical/18-frontend-architecture.md) to reflect the merged structure (DoD round-trip)
 
 ---
 
@@ -42,11 +47,11 @@ Initialize the Angular 19 project inside the monorepo with the defined folder st
 ```json
 // proxy.conf.json
 {
-  "/api": {
-    "target": "https://localhost:5001",
-    "secure": false,
-    "changeOrigin": true
-  }
+    "/api": {
+        "target": "http://localhost:5088",
+        "secure": false,
+        "changeOrigin": true
+    }
 }
 ```
 
@@ -56,19 +61,19 @@ Initialize the Angular 19 project inside the monorepo with the defined folder st
 
 ```json
 {
-  "start": "ng serve --proxy-config proxy.conf.json",
-  "build": "ng build",
-  "build:dev": "ng build --configuration=dev",
-  "build:qa": "ng build --configuration=qa",
-  "build:staging": "ng build --configuration=staging",
-  "build:prod": "ng build --configuration=production",
-  "test": "jest",
-  "test:watch": "jest --watch",
-  "test:coverage": "jest --coverage",
-  "lint": "ng lint",
-  "lint:fix": "ng lint --fix",
-  "e2e": "npx playwright test",
-  "format": "prettier --write \"src/**/*.{ts,html,scss}\""
+    "start": "ng serve --proxy-config proxy.conf.json",
+    "build": "ng build",
+    "build:dev": "ng build --configuration=dev",
+    "build:qa": "ng build --configuration=qa",
+    "build:staging": "ng build --configuration=staging",
+    "build:prod": "ng build --configuration=production",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "ng lint",
+    "lint:fix": "ng lint --fix",
+    "e2e": "npx playwright test",
+    "format": "prettier --write \"src/**/*.{ts,html,scss}\""
 }
 ```
 
@@ -78,28 +83,28 @@ Initialize the Angular 19 project inside the monorepo with the defined folder st
 
 ```json
 {
-  "dependencies": {
-    "@angular/core": "^19.0.0",
-    "chart.js": "^4.x",
-    "ng2-charts": "^6.x",
-    "cytoscape": "^3.x",
-    "@fullcalendar/angular": "^6.x",
-    "@fullcalendar/core": "^6.x",
-    "@fullcalendar/daygrid": "^6.x",
-    "@fullcalendar/timegrid": "^6.x",
-    "marked": "^12.x"
-  },
-  "devDependencies": {
-    "jest": "^29.x",
-    "@angular-builders/jest": "^19.x",
-    "@testing-library/angular": "^17.x",
-    "jest-preset-angular": "^14.x",
-    "playwright": "^1.x",
-    "@playwright/test": "^1.x",
-    "eslint": "^9.x",
-    "angular-eslint": "^19.x",
-    "prettier": "^3.x"
-  }
+    "dependencies": {
+        "@angular/core": "^19.0.0",
+        "chart.js": "^4.x",
+        "ng2-charts": "^6.x",
+        "cytoscape": "^3.x",
+        "@fullcalendar/angular": "^6.x",
+        "@fullcalendar/core": "^6.x",
+        "@fullcalendar/daygrid": "^6.x",
+        "@fullcalendar/timegrid": "^6.x",
+        "marked": "^12.x"
+    },
+    "devDependencies": {
+        "jest": "^29.x",
+        "@angular-builders/jest": "^19.x",
+        "@testing-library/angular": "^17.x",
+        "jest-preset-angular": "^14.x",
+        "playwright": "^1.x",
+        "@playwright/test": "^1.x",
+        "eslint": "^9.x",
+        "angular-eslint": "^19.x",
+        "prettier": "^3.x"
+    }
 }
 ```
 
@@ -134,21 +139,24 @@ Initialize the Angular 19 project inside the monorepo with the defined folder st
 
 ## Acceptance Criteria
 
-- [ ] `ng build --configuration=production` compiles with no errors or warnings
-- [ ] `ng serve` starts the app and shows the shell layout with a sidebar
-- [ ] `jest` runs at least 1 placeholder test successfully
-- [ ] `ng lint` reports no errors
-- [ ] Lazy-loaded routes work (at least 1 placeholder feature)
-- [ ] The proxy correctly forwards to the backend API
-- [ ] The 5 environment files are configured
+- [x] Structure matches [architecture standard §6](../standards/pwc-internal-app-architecture.md#6-frontend-architecture) (workspace libraries + shell; AppKit chrome deferred)
+- [x] Auth follows [architecture standard §5](../standards/pwc-internal-app-architecture.md#5-authentication-and-authorization) — platform cookie only; no Bearer/sessionStorage tokens
+- [x] `ng build --configuration=production` compiles with no errors (bundle budget warnings only)
+- [x] `ng serve` starts the app and shows the shell layout (Material placeholder)
+- [x] `npm test` (Jest) runs at least 1 placeholder test successfully
+- [x] `ng lint` reports no errors on workspace libraries (`core`, `shell`, `shared-common`, `ui`); app-level a11y lint debt → **F00-W08**
+- [x] Lazy-loaded routes work (existing features preserved)
+- [x] The proxy correctly forwards `/api` to the backend API
+- [x] Environment files include platform auth configuration keys
+- [x] [`docs/technical/18-frontend-architecture.md`](../technical/18-frontend-architecture.md) updated (DoD documentation round-trip)
 
 ---
 
 ## Dependencies
 
-- **Blocks:** F00-W04 (frontend CI), F01-W04 (frontend platform session setup)
+- **Blocks:** FT05-W01 (frontend CI — see FT05 Delivery and Hosting), F1.1 (platform session setup)
 - **Depends on:** F00-W02 (repo already created on GitHub)
 
 ---
 
-*F00 - W03 - Angular 19 Frontend Scaffolding — Legal Ai Ar*
+_F00 - W03 - Angular 19 Frontend Scaffolding — Legal Ai Ar_

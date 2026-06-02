@@ -13,6 +13,7 @@ Templates and conventions for the project's three documentation formats.
 
 | Type | Folder | Naming |
 |------|--------|--------|
+| **Architecture standard** | `docs/standards/` | `pwc-internal-app-architecture.md` (single reference for internal PwC apps) |
 | Technical doc | `docs/technical/` | `{NN}-{kebab-title}.md` (sequential from 01) |
 | ADR | `docs/adr/` | `ADR-{NNN}-{kebab-title}.md` |
 | Guide | `docs/` | `guide-{topic}.md` |

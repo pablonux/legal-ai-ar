@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { authGuard } from './guards/auth.guard';
-import { ShellComponent } from './layout/shell/shell.component';
+import { authGuard } from '@legal-ai-ar/core';
+import { ShellComponent } from '@legal-ai-ar/shell';
 import { SearchHomeComponent } from './features/search/search-home/search-home.component';
 import { SearchResultsComponent } from './features/search/search-results/search-results.component';
 import { RulingDetailComponent } from './features/search/ruling-detail/ruling-detail.component';
@@ -46,23 +46,38 @@ export const routes: Routes = [
       { path: 'vocabulario/:id', component: ThesaurusDetailComponent },
       {
         path: 'ordenamiento',
-        loadComponent: () => import('./features/statutes/statute-list/statute-list.component').then(m => m.StatuteListComponent),
+        loadComponent: () =>
+          import('./features/statutes/statute-list/statute-list.component').then(
+            (m) => m.StatuteListComponent
+          )
       },
       {
         path: 'ordenamiento/piramide',
-        loadComponent: () => import('./features/statutes/normative-pyramid/normative-pyramid.component').then(m => m.NormativePyramidComponent),
+        loadComponent: () =>
+          import('./features/statutes/normative-pyramid/normative-pyramid.component').then(
+            (m) => m.NormativePyramidComponent
+          )
       },
       {
         path: 'ordenamiento/:id',
-        loadComponent: () => import('./features/statutes/statute-detail/statute-detail.component').then(m => m.StatuteDetailComponent),
+        loadComponent: () =>
+          import('./features/statutes/statute-detail/statute-detail.component').then(
+            (m) => m.StatuteDetailComponent
+          )
       },
       {
         path: 'procesos',
-        loadComponent: () => import('./features/proceedings/proceeding-list/proceeding-list.component').then(m => m.ProceedingListComponent),
+        loadComponent: () =>
+          import('./features/proceedings/proceeding-list/proceeding-list.component').then(
+            (m) => m.ProceedingListComponent
+          )
       },
       {
         path: 'procesos/:id',
-        loadComponent: () => import('./features/proceedings/proceeding-detail/proceeding-detail.component').then(m => m.ProceedingDetailComponent),
+        loadComponent: () =>
+          import('./features/proceedings/proceeding-detail/proceeding-detail.component').then(
+            (m) => m.ProceedingDetailComponent
+          )
       },
       { path: 'causas', redirectTo: '/procesos', pathMatch: 'full' },
 
@@ -71,11 +86,17 @@ export const routes: Routes = [
       { path: 'estadisticas', component: KbDashboardComponent },
       {
         path: 'ontologia',
-        loadComponent: () => import('./features/ontology/ontology-page/ontology-page.component').then(m => m.OntologyPageComponent),
+        loadComponent: () =>
+          import('./features/ontology/ontology-page/ontology-page.component').then(
+            (m) => m.OntologyPageComponent
+          )
       },
       {
         path: 'explorador',
-        loadComponent: () => import('./features/graph-explorer/graph-explorer-page/graph-explorer-page.component').then(m => m.GraphExplorerPageComponent),
+        loadComponent: () =>
+          import('./features/graph-explorer/graph-explorer-page/graph-explorer-page.component').then(
+            (m) => m.GraphExplorerPageComponent
+          )
       },
 
       // --- Admin ---
@@ -85,31 +106,55 @@ export const routes: Routes = [
         children: [
           {
             path: '',
-            loadComponent: () => import('./features/admin/ingestion/ingestion.component').then(m => m.IngestionComponent)
+            loadComponent: () =>
+              import('./features/admin/ingestion/ingestion.component').then(
+                (m) => m.IngestionComponent
+              )
           },
           { path: 'dlq', component: DeadLetterQueueComponent },
           {
             path: 'reproceso',
-            loadComponent: () => import('./features/admin/reprocess-queue/reprocess-queue.component').then(m => m.ReprocessQueueComponent)
+            loadComponent: () =>
+              import('./features/admin/reprocess-queue/reprocess-queue.component').then(
+                (m) => m.ReprocessQueueComponent
+              )
           },
           { path: 'users', component: UsersComponent },
           {
             path: 'jobs/:jobId',
-            loadComponent: () => import('./features/admin/jobs/job-detail/job-detail.component').then(m => m.JobDetailComponent)
+            loadComponent: () =>
+              import('./features/admin/jobs/job-detail/job-detail.component').then(
+                (m) => m.JobDetailComponent
+              )
           },
           {
             path: ':entityType',
-            loadComponent: () => import('./features/admin/entity-sources/entity-sources.component').then(m => m.EntitySourcesComponent)
+            loadComponent: () =>
+              import('./features/admin/entity-sources/entity-sources.component').then(
+                (m) => m.EntitySourcesComponent
+              )
           },
           {
             path: ':entityType/sources/:sourceId/jobs',
-            loadComponent: () => import('./features/admin/source-jobs/source-jobs.component').then(m => m.SourceJobsComponent)
+            loadComponent: () =>
+              import('./features/admin/source-jobs/source-jobs.component').then(
+                (m) => m.SourceJobsComponent
+              )
           },
           {
             path: ':entityType/sources/:sourceId/jobs/:jobId',
-            loadComponent: () => import('./features/admin/jobs/job-detail/job-detail.component').then(m => m.JobDetailComponent)
+            loadComponent: () =>
+              import('./features/admin/jobs/job-detail/job-detail.component').then(
+                (m) => m.JobDetailComponent
+              )
           }
         ]
+      },
+
+      {
+        path: 'salud',
+        loadChildren: () =>
+          import('./features/health-check/health-check.routes').then((m) => m.healthCheckRoutes)
       },
 
       // --- Backward compatibility redirects (F2.2) ---

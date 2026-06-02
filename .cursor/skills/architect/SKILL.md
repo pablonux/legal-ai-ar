@@ -17,6 +17,7 @@ Read before analyzing:
 
 | Document | Content |
 |----------|---------|
+| `docs/standards/pwc-internal-app-architecture.md` | **Architecture baseline** — auth, layers, API, frontend, testing, delivery (§16 compliance checklist) |
 | `docs/roadmap/features.md` | Full roadmap: features, endpoints, KPIs, stack |
 | `docs/roadmap/{Feature}/` | Work items of the specific feature |
 | `docs/technical/01-rag-retrieval.md` | Hybrid Search, GraphRAG, Contextual Retrieval |

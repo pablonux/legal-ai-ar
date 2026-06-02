@@ -7,12 +7,14 @@ import { firstValueFrom } from 'rxjs';
 import localeEsAr from '@angular/common/locales/es-AR';
 import { registerLocaleData } from '@angular/common';
 
-import { ArgDateAdapter } from './shared/adapters/arg-date-adapter';
+import {
+  AuthService,
+  errorInterceptor,
+  platformCredentialsInterceptor
+} from '@legal-ai-ar/core';
+import { ArgDateAdapter } from '@legal-ai-ar/shared-common';
 
 import { routes } from './app.routes';
-import { errorInterceptor } from './interceptors/error.interceptor';
-import { platformCredentialsInterceptor } from './interceptors/platform-credentials.interceptor';
-import { AuthService } from './services/auth.service';
 
 registerLocaleData(localeEsAr);
 

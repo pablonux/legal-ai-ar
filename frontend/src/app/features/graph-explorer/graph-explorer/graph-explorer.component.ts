@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, signal, inject } from '@angular/core';
 import cytoscape, { Core, StylesheetStyle, NodeSingular } from 'cytoscape';
 import { GraphExplorerService } from '../../../services/graph-explorer.service';
-import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner.component';
+import { LoadingSpinnerComponent } from '@legal-ai-ar/shared-common/components/loading-spinner/loading-spinner.component';
 import {
   ENTITY_TYPE_CONFIG,
   type GraphEntityNode,

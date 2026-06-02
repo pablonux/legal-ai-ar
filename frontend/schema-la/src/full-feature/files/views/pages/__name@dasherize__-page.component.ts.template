@@ -1,0 +1,25 @@
+import { Component, inject, OnInit } from '@angular/core';
+import { UiSectionComponent } from '@legal-ai-ar/ui';
+import { <%= classify(name) %>Facade } from '../../application/<%= dasherize(name) %>.facade';
+
+@Component({
+  selector: 'app-<%= dasherize(name) %>-page',
+  standalone: true,
+  imports: [UiSectionComponent],
+  template: `
+    <app-ui-section title="<%= titleLabel %>">
+      @if (facade.loading()) {
+        <p>Cargando…</p>
+      } @else {
+        <p><%= descriptionLabel %></p>
+      }
+    </app-ui-section>
+  `
+})
+export class <%= classify(name) %>PageComponent implements OnInit {
+  readonly facade = inject(<%= classify(name) %>Facade);
+
+  ngOnInit(): void {
+    this.facade.load();
+  }
+}

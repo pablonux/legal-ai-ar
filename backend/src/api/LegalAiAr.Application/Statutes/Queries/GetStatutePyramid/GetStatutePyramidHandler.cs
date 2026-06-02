@@ -1,5 +1,5 @@
 using LegalAiAr.Application.Mediation;
-using LegalAiAr.Application.Statutes.DTOs;
+using LegalAiAr.Contracts.Responses.Statutes;
 using LegalAiAr.Core.Enums;
 using LegalAiAr.Core.Interfaces.Repositories;
 
@@ -33,7 +33,7 @@ public class GetStatutePyramidHandler : IRequestHandler<GetStatutePyramidQuery, 
         return Enum.GetValues<NormativeLevel>()
             .OrderBy(l => (int)l)
             .Select(level => new PyramidLevelDto(
-                level,
+                level.ToString(),
                 Labels.GetValueOrDefault(level, level.ToString()),
                 counts.GetValueOrDefault(level, 0),
                 vigente.GetValueOrDefault(level, 0)))

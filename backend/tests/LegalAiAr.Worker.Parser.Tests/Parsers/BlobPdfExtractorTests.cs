@@ -50,7 +50,6 @@ public class BlobPdfExtractorTests
     }
 
     [Theory]
-    [InlineData(null!)]
     [InlineData("")]
     [InlineData("   ")]
     public async Task ExtractTextAsync_EmptyBlobPath_ThrowsArgumentException(string blobPath)
@@ -61,10 +60,24 @@ public class BlobPdfExtractorTests
         var sut = new BlobPdfExtractor(blobStorage, pdfExtractor, logger);
 
         var ex = await Assert.ThrowsAsync<ArgumentException>(
-            () => sut.ExtractTextAsync(blobPath!));
+            () => sut.ExtractTextAsync(blobPath));
 
         Assert.Equal("blobPathPdf", ex.ParamName);
         await blobStorage.DidNotReceive().ExistsAsync(Arg.Any<string>(), Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task ExtractTextAsync_NullBlobPath_ThrowsArgumentException()
+    {
+        var blobStorage = Substitute.For<IBlobStorageService>();
+        var pdfExtractor = Substitute.For<PdfTextExtractor>(Substitute.For<ITextNormalizer>());
+        var logger = Substitute.For<Microsoft.Extensions.Logging.ILogger<BlobPdfExtractor>>();
+        var sut = new BlobPdfExtractor(blobStorage, pdfExtractor, logger);
+
+        var ex = await Assert.ThrowsAsync<ArgumentException>(
+            () => sut.ExtractTextAsync(null!));
+
+        Assert.Equal("blobPathPdf", ex.ParamName);
     }
 
     [Fact]

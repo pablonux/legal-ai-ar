@@ -1,0 +1,3 @@
+export * from './<%= dasherize(name) %>.routes';
+export * from './data/<%= dasherize(name) %>.models';
+export * from './data/<%= dasherize(name) %>.service';

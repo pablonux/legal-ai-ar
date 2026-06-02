@@ -1,0 +1,19 @@
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { environment } from '@legal-ai-ar/core';
+import type { <%= classify(name) %>Entity } from '../domain/<%= dasherize(name) %>.models';
+
+@Injectable({ providedIn: 'root' })
+export class <%= classify(name) %>Api {
+  private readonly http = inject(HttpClient);
+  private readonly baseUrl = `${environment.apiUrl}/api/<%= dasherize(name) %>`;
+
+  list(): Observable<<%= classify(name) %>Entity[]> {
+    return this.http.get<<%= classify(name) %>Entity[]>(this.baseUrl);
+  }
+
+  getById(id: string): Observable<<%= classify(name) %>Entity> {
+    return this.http.get<<%= classify(name) %>Entity>(`${this.baseUrl}/${id}`);
+  }
+}

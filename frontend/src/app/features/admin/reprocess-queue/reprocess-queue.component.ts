@@ -1,8 +1,8 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { RulingReprocessService, type RulingReprocessRequestItem } from '../../../services/admin/ruling-reprocess.service';
-import { NotificationService } from '../../../shared/services/notification.service';
-import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner.component';
+import { NotificationService } from '@legal-ai-ar/shared-common/services/notification.service';
+import { LoadingSpinnerComponent } from '@legal-ai-ar/shared-common/components/loading-spinner/loading-spinner.component';
 
 type FilterStatus = '' | 'Queued' | 'Running' | 'Completed' | 'Failed';
 

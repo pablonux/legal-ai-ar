@@ -1,7 +1,7 @@
 import { Component, input, computed } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { RulingDatePipe } from '../../../shared/pipes/ruling-date.pipe';
-import { EntityPreviewDirective } from '../../../shared/directives/entity-preview.directive';
+import { RulingDatePipe } from '@legal-ai-ar/shared-common/pipes/ruling-date.pipe';
+import { EntityPreviewDirective } from '@legal-ai-ar/shared-common/directives/entity-preview.directive';
 import type { RulingCardData } from '../../../models/ruling.models';
 
 @Component({

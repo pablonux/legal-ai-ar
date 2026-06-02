@@ -1,0 +1,22 @@
+import { inject, Injectable, signal } from '@angular/core';
+import type { <%= classify(name) %>Entity } from '../domain/<%= dasherize(name) %>.models';
+import { <%= classify(name) %>Api } from '../api/<%= dasherize(name) %>.api';
+
+@Injectable({ providedIn: 'root' })
+export class <%= classify(name) %>Facade {
+  private readonly api = inject(<%= classify(name) %>Api);
+
+  readonly items = signal<<%= classify(name) %>Entity[]>([]);
+  readonly loading = signal(false);
+
+  load(): void {
+    this.loading.set(true);
+    this.api.list().subscribe({
+      next: (items) => {
+        this.items.set(items);
+        this.loading.set(false);
+      },
+      error: () => this.loading.set(false)
+    });
+  }
+}

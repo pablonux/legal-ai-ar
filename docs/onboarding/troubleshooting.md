@@ -3,7 +3,26 @@
 > Common errors when bringing Legal Ai Ar up locally, and how to fix them. If your issue isn't here,
 > check the [onboarding hub](README.md) or ask the Tech Lead.
 >
-> **Last updated:** 2026-05-28
+> **Last updated:** 2026-06-01
+
+---
+
+## 0. Setup script (`setup-local.ps1` / `setup-local.sh`)
+
+**Script exits with "NOT INSTALLED" on prerequisites.**
+Install the missing tool from §1 of [README.md](README.md): Git, .NET 10 SDK, Node 22+, Docker Desktop.
+Restart the terminal after installing.
+
+**`npm ci` fails during setup — 401 / 404 on `@appkit4/*`.**
+Complete JFrog / AppKit registry login first: [appkit-npm-access.md](appkit-npm-access.md). Then
+re-run the setup script from the repo root.
+
+**PowerShell execution policy blocks the script.**
+Run: `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` (once), or invoke:
+`powershell -ExecutionPolicy Bypass -File .\infra\scripts\setup-local.ps1`
+
+**`setup-local.sh: Permission denied`.**
+Run `chmod +x infra/scripts/setup-local.sh` once, then `./infra/scripts/setup-local.sh`.
 
 ---
 
@@ -63,7 +82,7 @@ on https://localhost:7064).
 ## 4. Frontend (Angular)
 
 **`npm ci` fails on lockfile mismatch.**
-Use `npm ci` (not `npm install`) and Node **20 LTS+**. If your Node is older, install/switch with `nvm`.
+Use `npm ci` (not `npm install`) and Node **22 LTS+**. If your Node is older, install/switch with `nvm`.
 
 **SPA loads but every API call is 401.**
 The dev identity cookie comes from the API. Make sure the **API is running** and you're on the
@@ -99,8 +118,7 @@ Tech Lead.
 **`docker compose -f docker-compose.app.yml up -d` builds but the API can't reach data services.**
 That compose file runs the app containers only and reads your `.env` for the cloud DEV connection
 strings — it does **not** start any database. Make sure `.env` is filled (§5) and you can reach Azure
-DEV (§1). Don't use the repo's `docker-compose.yml` (local SQL / Neo4j) — it's not part of our
-workflow.
+DEV (§1). There is **no** local SQL/Azurite compose file — the project uses shared cloud DEV only.
 
 ---
 

@@ -1,5 +1,5 @@
 using LegalAiAr.Application.Mediation;
-using LegalAiAr.Application.Search.DTOs;
+using LegalAiAr.Contracts.Responses.Search;
 
 namespace LegalAiAr.Application.Search.Queries;
 

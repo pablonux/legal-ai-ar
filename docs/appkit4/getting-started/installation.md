@@ -33,9 +33,12 @@ See [components/INDEX.md](../components/INDEX.md) for all 35 imports.
 - Include AppKit fonts via `@appkit4/styles` assets or the CDN bundle linked in [styles/styles.md](../styles/styles.md).  
 - Use AppKit grid classes for layout — not ad-hoc CSS Grid for page structure.
 
-## Full procedure
+## Registry access (required first)
 
-See the complete MCP export: [installation-angular.md](../guides/source/installation-angular.md).
+AppKit packages are **not** on the public npm registry. Authenticate and configure the scoped registry before `npm install`:
+
+1. **[AppKit NPM access (Legal Ai Ar)](../../onboarding/appkit-npm-access.md)** — login, `frontend/.npmrc`, CI notes.
+2. Full MCP export: [installation-angular.md](../guides/source/installation-angular.md) (prerequisites + `angular.json` assets).
 
 ## Portal
 

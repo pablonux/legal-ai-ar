@@ -1,13 +1,14 @@
+using LegalAiAr.Application.Mapping.Rulings;
 using LegalAiAr.Application.Mediation;
+using LegalAiAr.Contracts.Responses.Rulings;
 using LegalAiAr.Core.Interfaces.Services;
-using LegalAiAr.Core.Models;
 
 namespace LegalAiAr.Application.Rulings.Queries.GetSearchFacets;
 
 /// <summary>
 /// Handles retrieval of facet values for search filter dropdowns.
 /// </summary>
-public class GetSearchFacetsHandler : IRequestHandler<GetSearchFacetsQuery, SearchFacets>
+public class GetSearchFacetsHandler : IRequestHandler<GetSearchFacetsQuery, SearchFacetsResponse>
 {
     private readonly ISearchService _search;
 
@@ -17,10 +18,11 @@ public class GetSearchFacetsHandler : IRequestHandler<GetSearchFacetsQuery, Sear
     }
 
     /// <inheritdoc />
-    public async Task<SearchFacets> Handle(
+    public async Task<SearchFacetsResponse> Handle(
         GetSearchFacetsQuery request,
         CancellationToken cancellationToken)
     {
-        return await _search.GetFacetsAsync(cancellationToken);
+        var facets = await _search.GetFacetsAsync(cancellationToken);
+        return facets.ToResponse();
     }
 }

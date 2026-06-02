@@ -1,0 +1,25 @@
+{
+  "name": "legal-ai-ar",
+  "private": true,
+  "scripts": {
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.0",
+    "@commitlint/config-conventional": "^19.8.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.0",
+    "prettier": "^3.4.2"
+  },
+  "lint-staged": {
+    "frontend/**/*.{ts,html,scss,css,json}": [
+      "prettier --write --config frontend/.prettierrc --ignore-path frontend/.prettierignore"
+    ],
+    "frontend/**/*.ts": [
+      "node frontend/node_modules/eslint/bin/eslint.js --fix --config frontend/eslint.config.js"
+    ],
+    "*.{md,yml,yaml}": [
+      "prettier --write"
+    ]
+  }
+}

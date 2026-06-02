@@ -1,0 +1,5 @@
+/** Domain models for <%= dasherize(name) %> (thin slice). */
+
+export interface <%= classify(name) %>Summary {
+  readonly id: string;
+}

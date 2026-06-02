@@ -81,6 +81,9 @@ public class AppDbContext : DbContext
     // Admin ruling reprocess queue
     public DbSet<RulingReprocessRequest> RulingReprocessRequests => Set<RulingReprocessRequest>();
 
+    // Transactional outbox (domain events)
+    public DbSet<OutboxMessage> OutboxMessages => Set<OutboxMessage>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);

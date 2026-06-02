@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+# Husky runs from .git; ensure repo root so node_modules resolves on Windows/Git Bash.
+cd "$(dirname "$0")/.." || exit 1
+node node_modules/@commitlint/cli/cli.js --edit "$1"

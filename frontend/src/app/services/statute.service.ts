@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment';
+import { environment } from '@legal-ai-ar/core';
 import type { StatutePage, StatuteDetail, PyramidLevel } from '../models/statute.models';
 
 @Injectable({ providedIn: 'root' })

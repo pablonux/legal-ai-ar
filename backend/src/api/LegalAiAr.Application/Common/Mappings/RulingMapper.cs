@@ -1,4 +1,4 @@
-using LegalAiAr.Application.Rulings.DTOs;
+using LegalAiAr.Contracts.Responses.Rulings;
 using LegalAiAr.Core.Entities;
 using LegalAiAr.Core.Models;
 

@@ -71,7 +71,7 @@ public class ExtractProsecutorOpinionsHandler
                     var opinion = new ProsecutorOpinion
                     {
                         RulingId = ruling.Id,
-                        ProsecutorName = Truncate(result.ProsecutorName ?? "", 200),
+                        ProsecutorName = Truncate(result.ProsecutorName ?? "", 200) ?? string.Empty,
                         Summary = Truncate(result.Summary, 4000),
                         RecommendedDirection = Truncate(result.RecommendedDirection, 500),
                         AgreedWithCourt = result.AgreedWithCourt,

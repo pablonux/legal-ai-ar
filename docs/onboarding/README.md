@@ -4,7 +4,7 @@
 > Follow it top to bottom and you will have the project running locally and your IDE ready
 > in well under an hour — whether you work in **VS Code + Claude** or **Cursor**.
 >
-> **Last updated:** 2026-05-28
+> **Last updated:** 2026-06-01 (F00-W07 — setup scripts, cloud DEV workflow)
 
 ---
 
@@ -28,7 +28,7 @@ section (7 or 8).
 > **Golden rule (both environments):** the AI assistant **never writes code directly into files**.
 > It tells you which file to create or change, in which path, and gives you the code to paste.
 > This is intentional so a human always reviews what enters the repo. See the
-> [Developer Guide](../developer-guide.md).
+> [Developer Guide](developer-guide.md).
 
 ---
 
@@ -41,7 +41,8 @@ Install these once on your machine. Versions are the minimums the project is bui
 | **Git** | any recent | Clone the repo, branches, PRs | `git --version` |
 | **Docker Desktop** | any recent | Build / run the app (API, SPA, workers) in containers | `docker --version` |
 | **.NET SDK** | **10.0.100+** | Build and run the backend | `dotnet --version` |
-| **Node.js** | **20 LTS+** | Build and run the Angular SPA | `node --version` |
+| **Node.js** | **22 LTS+** | Build and run the Angular SPA | `node --version` |
+| **AppKit npm access** | JFrog + Entra SSO | Install `@appkit4/*` for the SPA (see [appkit-npm-access.md](appkit-npm-access.md)) | `npm whoami --registry=https://artifacts-west.pwc.com/artifactory/api/npm/g00020-pwc-gx-digital-appkit-npm/` |
 | **Azure CLI** | any recent | Sign in to the DEV subscription / deploy tooling | `az --version` |
 
 > The Angular CLI is **not** required globally — `npm ci` installs the pinned local version and you
@@ -66,6 +67,28 @@ cd legal-ai-ar
 
 Application code lives at the repo root: `backend/`, `frontend/`, plus `infra/`, `deployment/`,
 and `docker-compose.app.yml`.
+
+### Automated setup (recommended)
+
+From the repo root, run the setup script for your OS. It checks prerequisites, creates `.env` from
+the template if missing, and runs `dotnet restore` / `dotnet build` / `npm ci`:
+
+```powershell
+# Windows (PowerShell)
+.\infra\scripts\setup-local.ps1
+
+# Optional: verify Azure DEV connectivity (requires filled .env)
+.\infra\scripts\setup-local.ps1 -VerifyConnectivity
+```
+
+```bash
+# Linux / macOS
+chmod +x infra/scripts/setup-local.sh
+./infra/scripts/setup-local.sh
+```
+
+Then continue at [§3](#3-configuration--secrets-shared-cloud-dev) to fill secrets, and [§4–5](#4-run-the-backend-net)
+to start backend and frontend. Expected time with DEV credentials ready: **under 30 minutes**.
 
 ---
 
@@ -158,8 +181,9 @@ In a second terminal:
 
 ```bash
 cd frontend
+# One-time: npm login to PwC AppKit registry — see appkit-npm-access.md
 npm ci
-npm start          # ng serve
+npm start          # ng serve (proxy to API on :5088)
 ```
 
 | Endpoint | URL |
@@ -188,9 +212,9 @@ docker compose -f docker-compose.app.yml ps     # check container health
 docker compose -f docker-compose.app.yml logs -f api
 ```
 
-> The repo also contains a `docker-compose.app.yml` that would start a local SQL Server / Neo4j. **We
-> don't use it** — our workflow connects to the shared cloud DEV services. Use
-> `docker-compose.app.yml`.
+> The repo uses **`docker-compose.app.yml`** to run the API, SPA, and workers in containers. It reads
+> your `.env` and connects to the **same shared cloud DEV** services — it does **not** start a local
+> database or Azurite.
 
 ### Verify your setup
 
@@ -225,7 +249,7 @@ If anything fails, see [troubleshooting.md](troubleshooting.md).
      breakpoints in e.g. `CrawlerWorkerService.cs` and the worker breaks when a queue message arrives.
 
 Day-to-day, you drive work items with the AI exactly as described in the
-[Developer Guide](../developer-guide.md) (analysis → task breakdown → implement → review → PR).
+[Developer Guide](developer-guide.md) (analysis → task breakdown → implement → review → PR).
 
 ---
 
@@ -242,8 +266,8 @@ Day-to-day, you drive work items with the AI exactly as described in the
    (Backend, Frontend, Full Stack, per-worker).
 
 The AI workflow (skills: `architect`, `task-breakdown`, `developer`, `designer`, `reviewer`, …) is
-documented in the [Developer Guide](../developer-guide.md) and the
-[Cowork/Cursor setup tutorial](../cowork-setup-tutorial.md).
+documented in the [Developer Guide](developer-guide.md) and the
+[Cowork/Cursor setup tutorial](cowork-setup-tutorial.md).
 
 ---
 
@@ -251,15 +275,16 @@ documented in the [Developer Guide](../developer-guide.md) and the
 
 Once your environment is up:
 
-1. Read the [Developer Guide](../developer-guide.md) — the full flow from a work item to a PR.
+1. Read the [Developer Guide](developer-guide.md) — the full flow from a work item to a PR.
 2. Pick your assigned work item under `docs/roadmap/{Feature}/`.
 3. Ask the AI to analyze it (`architect`), then break it down (`task-breakdown`).
 4. Branch: `git checkout -b feature/fXX-wYY-short-description`.
 5. Implement task by task (the AI gives you code; you place it), then `dotnet build` / `dotnet test`.
 6. Ask the AI to `review`, fix issues, and open a PR to `main` (`Closes FXX-WYY`).
 
-CI (build, tests, `dotnet format`) must pass before merge — see
-[GitHub Delivery](../deployment/github-delivery.md).
+CI (build, tests, format / lint) must pass before merge when GitHub Actions is enabled — see
+[GitHub Delivery](../deployment/github-delivery.md). If Actions is disabled, run `dotnet build`,
+`dotnet test`, and `npm run lint:ci` locally before opening a PR.
 
 ---
 
@@ -271,12 +296,12 @@ Everything you might need, grouped by purpose.
 
 | Document | What it's for |
 |----------|---------------|
-| [Developer Guide](../developer-guide.md) | The work-item → PR workflow, AI skills, conventions, FAQ |
+| [Developer Guide](developer-guide.md) | The work-item → PR workflow, AI skills, conventions, FAQ |
 | [Definition of Done](../roadmap/DEFINITION-OF-DONE.md) | Mandatory close criteria incl. the documentation round-trip — a work item can't close without it |
 | [Azure Services](azure-services.md) | Credentials, per-component variable matrix, queues, connectivity verification |
 | [Recommended Extensions](recommended-extensions.md) | IDE extensions for VS Code and Cursor |
 | [Troubleshooting](troubleshooting.md) | Common setup errors and fixes |
-| [Cowork/Cursor Setup Tutorial](../cowork-setup-tutorial.md) | How the AI assistants are configured |
+| [Cowork/Cursor Setup Tutorial](cowork-setup-tutorial.md) | How the AI assistants are configured |
 
 ### Planning & scope
 
