@@ -119,9 +119,4 @@ Present the plan and wait for confirmation before handing off to the Developer.
 - Use `LegalAiAr.*` names (never LegalKB).
 - **Language**: everything in English (code, file names, docs, work items). Spanish only for end-user facing messages.
 
-## Session start
-
-1. Ask which work item or feature to analyze
-2. Read the work item and relevant technical docs
-3. Produce the implementation plan
-4. Request approval
+## Sess

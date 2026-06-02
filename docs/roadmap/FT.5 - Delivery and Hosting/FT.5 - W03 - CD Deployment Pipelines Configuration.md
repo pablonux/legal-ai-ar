@@ -1,6 +1,6 @@
-# FT05 - W03 - CD Deployment Pipelines Configuration
+# FT.5 - W03 - CD Deployment Pipelines Configuration
 
-> **Feature:** FT05 - Delivery and Hosting (formerly F00-W06)
+> **Feature:** FT.5 - Delivery and Hosting (formerly F0.0-W06)
 > **Release:** Cross-cutting (FT) | **Sprint:** —
 > **Track status:** ⏸ **On hold** — pending DevOps consultation (do not start until CI path confirmed)
 > **Type:** devops | **Priority:** High
@@ -196,7 +196,7 @@ sequenceDiagram
 
 ## Dependencies
 
-- **Depends on:** FT05-W01 (CI pipelines), FT05-W02 (Azure infrastructure provisioned)
+- **Depends on:** FT.5-W01 (CI pipelines), FT.5-W02 (Azure infrastructure provisioned)
 - **Blocks:** None directly (but enables deploys of all features)
 
 ---

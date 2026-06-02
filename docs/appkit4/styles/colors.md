@@ -174,7 +174,7 @@ Visualization colors are used only for data visualizations. A range of colors ar
 | Yellow 6 | `#FFC83D` | `$data-yellow-light` | 9.22:1 | Yes | Yes |
 | Yellow 7 | `#FFB600` | `$data-yellow` | 8.71:1 | Yes | No |
 | Yellow 8 | `#C28A00` | `$data-yellow-dark` | 5.05:1 | Yes | Yes |
-| Yellow 9 | `#855F00` | `$data-yellow-darker` | 5.77:1 | Yes | Yes |
+| Yellow 9 | `#855F0.0` | `$data-yellow-darker` | 5.77:1 | Yes | Yes |
 | Red 0 | `#F7C8C4` | `$data-red-lighter` | 10.22:1 | Yes | Yes |
 | Red 1 | `#E86153` | `$data-red-light` | 4.57:1 | Yes | Yes |
 | Red 2 | `#E0301E` | `$data-red` | 4.55:1 | Yes | Yes |

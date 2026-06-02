@@ -1,6 +1,6 @@
-# FT05 - W01 - GitHub Actions CI Configuration
+# FT.5 - W01 - GitHub Actions CI Configuration
 
-> **Feature:** FT05 - Delivery and Hosting (formerly F00-W04)
+> **Feature:** FT.5 - Delivery and Hosting (formerly F0.0-W04)
 > **Release:** Cross-cutting (FT) | **Sprint:** —
 > **Track status:** ⏸ **On hold** — pending DevOps consultation (CI platform / org policy)
 > **Type:** devops | **Priority:** High
@@ -49,8 +49,8 @@ delivery docs and gates; GHA YAML may remain as reference or be replaced).
 ### Implemented adaptations (vs. template below)
 
 - Backend tests: `dotnet test LegalAiAr.sln` (no separate UnitTests/IntegrationTests projects).
-- Backend format: `dotnet format` diagnostic only; `--verify-no-changes` deferred to **F00-W08**.
-- Frontend lint in CI: `npm run lint:ci` (workspace libs only); app lint debt → **F00-W08**.
+- Backend format: `dotnet format` diagnostic only; `--verify-no-changes` deferred to **F0.0-W08**.
+- Frontend lint in CI: `npm run lint:ci` (workspace libs only); app lint debt → **F0.0-W08**.
 - Frontend artifact path: `frontend/dist/legal-ai-ar`.
 - Removed legacy `.github/workflows/ci.yml`.
 
@@ -65,7 +65,7 @@ delivery docs and gates; GHA YAML may remain as reference or be replaced).
     - Required checks: `CI Backend / build-and-test`, `CI Frontend / build-and-test`
     - 1 approval, require up-to-date branch
 5. Verify AC: path-filtered runs, failing test blocks merge, artifacts on push to `main`.
-6. Mark remaining tasks/AC `[x]`, update [`STATUS.md`](../STATUS.md) (FT05 section) progress log, close WI.
+6. Mark remaining tasks/AC `[x]`, update [`STATUS.md`](../STATUS.md) (FT.5 section) progress log, close WI.
 
 **If using another CI:** document the chosen system in `docs/deployment/`, align branch/PR gates,
 update README badges, and either remove or archive the GHA workflow files in a follow-up change.
@@ -247,8 +247,8 @@ graph TD
 
 ## Dependencies
 
-- **Depends on:** F00-W02 (backend scaffolding), F00-W03 (frontend scaffolding) — done
-- **Blocks:** FT05-W03 (CD pipelines)
+- **Depends on:** F0.0-W02 (backend scaffolding), F0.0-W03 (frontend scaffolding) — done
+- **Blocks:** FT.5-W03 (CD pipelines)
 
 ---
 

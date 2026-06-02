@@ -176,7 +176,7 @@ legal-ai-ar/
 | [GitHub Delivery](docs/deployment/github-delivery.md) | Source control, CI quality gates, CD to Azure staging (API + SPA) |
 | [GCaaS Hosting](docs/deployment/gcaas-hosting.md) | PwC corporate hosting: Knative/Istio Helm deploy, Entra SSO (`id_token` cookie), Vault secrets, session model |
 
-> Both delivery paths and the platform auth model are summarized in [features.md §2.3](docs/roadmap/features.md) and tracked as feature **FT05 — Delivery and Hosting**.
+> Both delivery paths and the platform auth model are summarized in [features.md §2.3](docs/roadmap/features.md) and tracked as feature **FT.5 — Delivery and Hosting**.
 
 ---
 
@@ -187,25 +187,4 @@ New to the project? **Under 30 minutes** with DEV credentials ready:
 1. **Clone** the repo and run the setup script:
    - Windows: `.\infra\scripts\setup-local.ps1`
    - Linux/macOS: `./infra/scripts/setup-local.sh`
-2. **Fill** `.env` secrets (copy from `.env.example` — see onboarding §3).
-3. **Start** backend (`dotnet run --project src/api/LegalAiAr.Api` from `backend/`) and frontend
-   (`npm start` from `frontend/`).
-4. **Verify** Swagger at http://localhost:5088/swagger and the SPA at http://localhost:4200.
-
-Full guide (both IDE environments, Docker, troubleshooting):
-
-- **[Developer Onboarding](docs/onboarding/README.md)** — VS Code + Claude or Cursor + Docker
-- **[Developer Guide](docs/onboarding/developer-guide.md)** — work-item → PR flow
-- **[Recommended extensions](docs/onboarding/recommended-extensions.md)** · **[Troubleshooting](docs/onboarding/troubleshooting.md)**
-
----
-
-## Requirements
-
-- .NET 10 SDK
-- Node.js 22 LTS+ (Angular CLI installed locally via `npm ci`)
-- Docker Desktop (run the app — API, SPA, workers — in containers)
-- Access to the shared **cloud DEV** services (Azure SQL, AI Search, OpenAI, Storage) — there is no local stack
-- Azure Entra ID (platform-managed SSO; see [GCaaS Hosting](docs/deployment/gcaas-hosting.md))
-
-> Full step-by-step setup is in the [Developer Onboarding guide](docs/onboarding/README.md).
+2. **Fill** `.env` secrets (copy from `.env.exampl

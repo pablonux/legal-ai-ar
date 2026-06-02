@@ -99,7 +99,7 @@ change, so a backend-only PR does not run the frontend pipeline (and vice versa)
 4. **Restore** — `dotnet restore LegalAiAr.sln`
 5. **Build** — `dotnet build LegalAiAr.sln -c Release --no-restore`
 6. **Test** — `dotnet test LegalAiAr.sln -c Release --no-build` (all test projects in the solution)
-7. **Lint** — `dotnet format LegalAiAr.sln --verbosity diagnostic` (enforce `--verify-no-changes` in **F00-W08**)
+7. **Lint** — `dotnet format LegalAiAr.sln --verbosity diagnostic` (enforce `--verify-no-changes` in **F0.0-W08**)
 8. **Coverage** — optional upload to Codecov (`fail_ci_if_error: false`)
 9. **Artifact** (push to `main` only) — publish API to `backend/publish/`, upload as `backend-{sha}`
 
@@ -119,7 +119,7 @@ change, so a backend-only PR does not run the frontend pipeline (and vice versa)
 1. **Checkout** — `actions/checkout@v4`
 2. **Setup Node** — `actions/setup-node@v4`, Node `22`, npm cache
 3. **Install** — `npm ci`
-4. **Lint** — `npm run lint:ci` (workspace libraries only; app-level lint debt → **F00-W08**)
+4. **Lint** — `npm run lint:ci` (workspace libraries only; app-level lint debt → **F0.0-W08**)
 5. **Build** — `npm run build:prod`
 6. **Test** — `npm run test:coverage -- --ci --passWithNoTests`
 7. **Coverage** — optional upload to Codecov (`fail_ci_if_error: false`)
@@ -191,7 +191,7 @@ The **staging** Angular configuration uses `environment.staging.ts`: API at `leg
 
 ### Current scope vs target
 
-The **implemented** `cd.yml` deploys **API + SPA to staging only**. The broader target flow (worker images to ACR, Container Apps, smoke test, slot swap to production) is not in the workflow file yet and is tracked in feature **FT05**.
+The **implemented** `cd.yml` deploys **API + SPA to staging only**. The broader target flow (worker images to ACR, Container Apps, smoke test, slot swap to production) is not in the workflow file yet and is tracked in feature **FT.5**.
 
 ---
 

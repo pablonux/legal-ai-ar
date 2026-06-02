@@ -1,7 +1,7 @@
 # 07 — Observability & LLMOps
 
 > **Project:** Legal Ai Ar | **Category:** Observability & LLM Operations
-> **Status:** Partially defined (Application Insights + Serilog in F00-W01)
+> **Status:** Partially defined (Application Insights + Serilog in F0.0-W01)
 > **Last updated:** May 2026
 
 ---

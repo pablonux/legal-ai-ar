@@ -1,7 +1,7 @@
 # 04 — Document Ingestion & Processing
 
 > **Project:** Legal Ai Ar | **Category:** Document Ingestion & Processing
-> **Status:** Partially defined (7-step pipeline in F00-W01)
+> **Status:** Partially defined (7-step pipeline in F0.0-W01)
 > **Last updated:** May 2026
 
 ---
@@ -10,7 +10,7 @@
 
 The legal KB is fed by unstructured and semi-structured documents from official Argentine sources (SAIJ, InfoLEG, Official Gazette) and manual upload. The ingestion pipeline transforms these documents into structured data, enriched with metadata, embeddings, and relationships in the legal graph.
 
-This document defines the enrichment techniques that go beyond the base 7-step pipeline already defined in F00-W01: automatic classification, legal NER, LLM metadata enrichment, deduplication, and quality validation.
+This document defines the enrichment techniques that go beyond the base 7-step pipeline already defined in F0.0-W01: automatic classification, legal NER, LLM metadata enrichment, deduplication, and quality validation.
 
 ---
 

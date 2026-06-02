@@ -1,6 +1,6 @@
 ---
 name: work-item-generator
-description: "Generates work items (.md) for the Legal Ai Ar roadmap following the project's standard template. Use when the user asks to create a new work item, task, user story, or ticket for any roadmap feature (F00 or any R1–R4/FT feature in features.md). Also use when they say 'create W0X for FY.Z', 'add a task to the roadmap', 'I need a work item for...', or any variation that implies creating a new unit of work within the project plan."
+description: "Generates work items (.md) for the Legal Ai Ar roadmap following the project's standard template. Use when the user asks to create a new work item, task, user story, or ticket for any roadmap feature (F0.0 or any R1–R4/FT feature in features.md). Also use when they say 'create W0X for FY.Z', 'add a task to the roadmap', 'I need a work item for...', or any variation that implies creating a new unit of work within the project plan."
 ---
 
 # Work Item Generator — Legal Ai Ar
@@ -9,7 +9,7 @@ Generates work items in Markdown that follow the project's standard template.
 
 ## Project context
 
-Legal Ai Ar (PwC tax-legal) has a roadmap organized into 5 releases (R0.0–R4.0). **R0.0/F00** (Preparation) has detailed tickets on disk; the **R1–R4** features (`F1.x`, `F2.x`, `F3.x`, `F4.x`) and cross-cutting `FT.x` are catalogued in `features.md` and get detailed work items generated on demand when scheduled. Each feature contains work items (W01, W02, ...) which are individual .md documents.
+Legal Ai Ar (PwC tax-legal) has a roadmap organized into 5 releases (R0.0–R4.0). **R0.0/F0.0** (Preparation) has detailed tickets on disk; the **R1–R4** features (`F1.x`, `F2.x`, `F3.x`, `F4.x`) and cross-cutting `FT.x` are catalogued in `features.md` and get detailed work items generated on demand when scheduled. Each feature contains work items (W01, W02, ...) which are individual .md documents.
 
 ## Before generating
 

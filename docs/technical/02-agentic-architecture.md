@@ -1,7 +1,7 @@
 # 02 — Agentic Architecture
 
 > **Project:** Legal Ai Ar | **Category:** AI Agent Architecture
-> **Status:** Partially defined (3 agents + Semantic Kernel in F00-W01)
+> **Status:** Partially defined (3 agents + Semantic Kernel in F0.0-W01)
 > **Last updated:** May 2026
 
 ---

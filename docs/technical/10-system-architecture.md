@@ -435,7 +435,7 @@ ORDER BY j.StartedAt DESC
 
 ## 5. API — ASP.NET Core
 
-> **F00-W09:** The API layer uses **Minimal API** with convention-based `IEndpoint` discovery
+> **F0.0-W09:** The API layer uses **Minimal API** with convention-based `IEndpoint` discovery
 > (`AddLegalAiArEndpoints` / `MapLegalAiArEndpoints`). Route groups and policies are documented in
 > [`22-api-endpoints.md`](22-api-endpoints.md). MVC controllers were removed from `LegalAiAr.Api`.
 

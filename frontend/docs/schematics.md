@@ -2,7 +2,7 @@
 
 Legal Ai Ar uses the **`schema-la`** schematic collection to generate feature scaffolding aligned with
 [PwC Internal Application Architecture §6.2](../../docs/standards/pwc-internal-app-architecture.md#62-adaptive-feature-layering)
-(thin vs full slice) and workspace libraries from F00-W03.
+(thin vs full slice) and workspace libraries from F0.0-W03.
 
 ## Prerequisites
 

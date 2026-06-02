@@ -1,7 +1,7 @@
 # 01 — RAG & Retrieval
 
 > **Project:** Legal Ai Ar | **Category:** Retrieval-Augmented Generation
-> **Status:** Partially defined (Hybrid Search + GraphRAG in F00-W01)
+> **Status:** Partially defined (Hybrid Search + GraphRAG in F0.0-W01)
 > **Last updated:** May 2026
 
 ---

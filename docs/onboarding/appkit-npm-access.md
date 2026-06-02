@@ -77,13 +77,13 @@ npm ls @appkit4/angular-components @appkit4/styles
 | `401 Unauthorized` on `@appkit4/*` | Run `npm login` against the registry URL above.                                                                                                      |
 | `404` / package not found          | Check VPN/corporate network; confirm scope `@appkit4` in `frontend/.npmrc`.                                                                          |
 | SSL / certificate errors           | Corporate proxy; use PwC-managed Node/npm, not a bypass that breaks Artifactory.                                                                     |
-| Works locally, fails in CI         | Add Artifactory npm token as a **secret** in GitHub Actions (FT05-W01); map to `NODE_AUTH_TOKEN` or `.npmrc` in the pipeline — do not commit tokens. |
+| Works locally, fails in CI         | Add Artifactory npm token as a **secret** in GitHub Actions (FT.5-W01); map to `NODE_AUTH_TOKEN` or `.npmrc` in the pipeline — do not commit tokens. |
 
 ---
 
 ## CI (GitHub Actions)
 
-For **FT05-W01** and later pipelines:
+For **FT.5-W01** and later pipelines:
 
 1. Request/obtain an Artifactory identity token with read access to `g00020-pwc-gx-digital-appkit-npm`.
 2. Store as repository secret (e.g. `APPKIT_NPM_TOKEN`).

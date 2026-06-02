@@ -192,7 +192,4 @@ Before delivering, verify the diagram renders correctly. Common errors:
 | Explain a design decision | ADR |
 | Document a component/system | Technical doc (.md) |
 | Show data flow or pipeline | Flowchart (Mermaid) |
-| Show interaction between services | Sequence diagram (Mermaid) |
-| Step-by-step for a dev | Guide (.md) |
-| Plan work | Work item (use work-item-generator skill) |
-```
+| Show interaction between services | Sequ

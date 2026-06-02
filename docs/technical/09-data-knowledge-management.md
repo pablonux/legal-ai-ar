@@ -1,7 +1,7 @@
 # 09 — Data & Knowledge Management
 
 > **Project:** Legal Ai Ar | **Category:** Data & Knowledge Management
-> **Status:** Partially defined (SQL Graph + Ontology in F00-W01)
+> **Status:** Partially defined (SQL Graph + Ontology in F0.0-W01)
 > **Last updated:** May 2026
 
 ---

@@ -19,7 +19,7 @@ need:
 - Access to the shared cloud DEV services (Azure SQL, AI Search, OpenAI, Storage) — there is no local stack
 - Git + access to the `legal-ai-ar` repo
 
-> The original planning context for the environment lives in work item **F00 - W07 - Local
+> The original planning context for the environment lives in work item **F0.0 - W07 - Local
 > Environment Setup and Onboarding Guide**; the onboarding guide above is the live, dev-facing version.
 
 ### AI tools

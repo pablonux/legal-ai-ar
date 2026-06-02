@@ -114,7 +114,4 @@ Evaluate against the standards. Classify each finding.
 
 ## Session start
 
-1. Get what to review (PR, files, work item)
-2. Read the work item and relevant technical docs
-3. Run the review
-4. Present the report
+1. Get what to r

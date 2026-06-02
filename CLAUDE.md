@@ -40,7 +40,7 @@ legal-ai-ar/
 │   ├── roadmap/                              # Features, work items, backlog
 │   │   ├── features.md                       # Full roadmap (v2.0)
 │   │   ├── backlog.md
-│   │   └── F00..F23, FT01..FT05/            # One folder per feature
+│   │   └── F0.0..F23, FT01..FT.5/            # One folder per feature
 │   ├── technical/                            # 9 technical documents
 │   └── ontology/                             # Legal domain model
 └── README.md
@@ -104,10 +104,9 @@ Before generating code or work items, consult:
   - **Dev chat**: can be in Spanish or English interchangeably.
   - Example: the class is `LegalNorm`, the table is `LegalNorms`, the endpoint is `/api/legal-norms`, but the UI label reads "Normas Legales".
 - **Monorepo**: the project uses a single repository `legal-ai-ar`; never create separate repos.
-- **Work items**: each work item follows the project's standard template (see `docs/roadmap/F00*/F00 - W01*` as an example). Work item content must be in English.
+- **Work items**: each work item follows the project's standard template (see `docs/roadmap/F0.0*/F0.0 - W01*` as an example). Work item content must be in English.
 - **Consistency**: when referring to the project use "Legal Ai Ar" (display name) or "LegalAiAr" (.NET namespace); never "LegalKB".
 - **New projects to add**: `LegalAiAr.Agents` (Semantic Kernel) in `src/shared/` and `LegalAiAr.AgentEvals` in `tests/`.
-- **Infrastructure & delivery**: CI/CD and IaC are operated by the delivery track, not as application features, but they ARE documented and tracked. There are **two delivery paths**: (1) GitHub Actions → Azure staging (API + SPA), and (2) GCaaS Helm/Knative → corporate production. See `docs/deployment/github-delivery.md` and `docs/deployment/gcaas-hosting.md`, summarized in `docs/roadmap/features.md` §2.3 and feature **FT05**.
+- **Infrastructure & delivery**: CI/CD and IaC are operated by the delivery track, not as application features, but they ARE documented and tracked. There are **two delivery paths**: (1) GitHub Actions → Azure staging (API + SPA), and (2) GCaaS Helm/Knative → corporate production. See `docs/deployment/github-delivery.md` and `docs/deployment/gcaas-hosting.md`, summarized in `docs/roadmap/features.md` §2.3 and feature **FT.5**.
 - **Authentication (important)**: production auth is platform-managed Entra SSO on GCaaS — the platform issues an **`id_token` HTTP-only cookie** and the API validates it (`Auth:Platform`). Do NOT propose MSAL in the SPA, app-owned `/login` endpoints, or Bearer tokens; the SPA uses `withCredentials`. See `docs/deployment/gcaas-hosting.md`.
-- **Definition of Done — documentation round-trip (mandatory)**: a work item is **NOT done** until its documentation is updated: the work-item file (Tasks/Acceptance `[x]`), `docs/roadmap/STATUS.md` (progress log + "Next up"), and any affected docs (`docs/standards/*`, `docs/technical/*`, `docs/ontology/*`, `docs/deployment/*`, `features.md`, onboarding) synced to the merged code. **NEVER mark a work item complete or approve/finish its PR while documentation is pending.** This applies to every developer + AI (Cowork or Cursor). See `docs/roadmap/DEFINITION-OF-DONE.md`.
-- **Architecture baseline**: follow `docs/standards/pwc-internal-app-architecture.md` for auth, layering, API patterns, frontend structure, testing, and delivery.
+- **Definition of Done — documentation round-trip (mandatory)**: a work item is **NOT done** until its documentation is updated: the work-item file (Tasks/Acceptance `[x]`), `docs/roadmap/STATUS.md` (progress log + "Next up"), and any affected docs (`docs/standards/*`, `docs/technical/*`, `docs/ontology/*`, `docs/deployment/*`, `features.md`, onboarding) synced to the merged code. **NEVER mark a work

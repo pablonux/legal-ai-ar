@@ -1,6 +1,6 @@
 # Transactional Outbox and Domain Events
 
-> **Status:** F00-W12 merged to `main` ([PR #114](https://github.com/pwc-ar-xlos-argentinaaifactory/legal-ai-ar/pull/114), 2026-06-02).
+> **Status:** F0.0-W12 merged to `main` ([PR #114](https://github.com/pwc-ar-xlos-argentinaaifactory/legal-ai-ar/pull/114), 2026-06-02).
 > Infrastructure for reliable intra-API side effects per
 > [PwC Internal Application Architecture §4.5](../standards/pwc-internal-app-architecture.md#45-side-effects--outbox-and-queues).
 > Consumed by rich aggregates in **F2.1 Projects / Workspaces** (R2.0).
@@ -94,4 +94,4 @@ Handler registration: `AddDomainEventHandlersFromAssembly` scans `LegalAiAr.Appl
 
 ---
 
-_Transactional Outbox — Legal Ai Ar (F00-W12)_
+_Transactional Outbox — Legal Ai Ar (F0.0-W12)_

@@ -2,7 +2,7 @@
 
 ## Work item
 
-Closes **F__-W__**  <!-- e.g. Closes F00-W02 -->
+Closes **F__-W__**  <!-- e.g. Closes F0.0-W02 -->
 
 ## Summary
 

@@ -171,7 +171,7 @@ These colors should only be used to visualize data via charts, graphs or infogra
 | `$data-yellow-light` | Data yellow light | `#FFC83D` |
 | `$data-yellow` | Data yellow | `#FFB600` |
 | `$data-yellow-dark` | Data yellow dark | `#C28A00` |
-| `$data-yellow-darker` | Data yellow darker | `#855F00` |
+| `$data-yellow-darker` | Data yellow darker | `#855F0.0` |
 | `$data-red-lighter` | Data red lighter | `#F7C8C4` |
 | `$data-red-light` | Data red light | `#E86153` |
 | `$data-red` | Data red | `#E0301E` |

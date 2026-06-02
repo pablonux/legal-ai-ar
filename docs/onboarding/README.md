@@ -4,7 +4,7 @@
 > Follow it top to bottom and you will have the project running locally and your IDE ready
 > in well under an hour — whether you work in **VS Code + Claude** or **Cursor**.
 >
-> **Last updated:** 2026-06-01 (F00-W07 — setup scripts, cloud DEV workflow)
+> **Last updated:** 2026-06-01 (F0.0-W07 — setup scripts, cloud DEV workflow)
 
 ---
 
@@ -310,7 +310,7 @@ Everything you might need, grouped by purpose.
 | [Project Status](../roadmap/STATUS.md) | **Where we are / what's next** — read first |
 | [Features Roadmap](../roadmap/features.md) | Full plan: releases, features, endpoints, KPIs, stack |
 | [Backlog](../roadmap/backlog.md) | Feature/work-item inventory and totals |
-| `docs/roadmap/{Feature}/` | The work items themselves (e.g. F00 = dev environment & structure) |
+| `docs/roadmap/{Feature}/` | The work items themselves (e.g. F0.0 = dev environment & structure) |
 
 ### Technical deep-dives
 

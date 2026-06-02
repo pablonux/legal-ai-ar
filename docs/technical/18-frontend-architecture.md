@@ -6,7 +6,7 @@
 > This document describes the SPA as currently implemented. Route paths and UI labels are in Spanish
 > (end-user contact layer); everything else follows the English code convention.
 >
-> **Baseline:** Extends the [PwC Internal Application Architecture — Reference Guide](../standards/pwc-internal-app-architecture.md) (§6 Frontend). Workspace libraries (`core`, `shell`, `ui`, `shared-common`) were introduced in **F00-W03**; full AppKit 4 shell adoption and feature thin/full slices remain follow-up work (W11+).
+> **Baseline:** Extends the [PwC Internal Application Architecture — Reference Guide](../standards/pwc-internal-app-architecture.md) (§6 Frontend). Workspace libraries (`core`, `shell`, `ui`, `shared-common`) were introduced in **F0.0-W03**; full AppKit 4 shell adoption and feature thin/full slices remain follow-up work (W11+).
 
 ---
 
@@ -30,7 +30,7 @@ libraries in use today:
 
 ---
 
-## 2. Workspace structure (F00-W03)
+## 2. Workspace structure (F0.0-W03)
 
 ```
 frontend/
@@ -63,7 +63,7 @@ frontend/
 
 > **Note:** `command-palette`, `entity-preview`, and `onboarding-tip` live in `shared-common` but still
 > depend on domain services under `src/app/services/` via `@legal-ai-ar/app/*`. Extracting a dedicated
-> Use **`schema-la`** schematics (F00-W11) for new features; a dedicated `features` library is optional in R1+.
+> Use **`schema-la`** schematics (F0.0-W11) for new features; a dedicated `features` library is optional in R1+.
 
 ---
 
@@ -166,7 +166,7 @@ Shared keys on `LegalAiArEnvironment`:
 
 ---
 
-## 9. Schematics (`schema-la`) — F00-W11
+## 9. Schematics (`schema-la`) — F0.0-W11
 
 The **`schema-la`** collection in `frontend/schema-la/` generates thin/full feature slices, UI wrappers,
 and API client stubs per [architecture §6.2](../standards/pwc-internal-app-architecture.md#62-adaptive-feature-layering).
@@ -191,7 +191,7 @@ Setup and usage: [`frontend/docs/schematics.md`](../../frontend/docs/schematics.
 | Build                 | `npm run build` / `build:dev` / `build:qa` / `build:staging` / `build:prod` |
 | Link schematics       | `npm run link-schemas`                                                      |
 | Unit tests            | `npm test` (Jest; `projects/core` placeholder specs)                        |
-| Lint                  | `ng lint` (libraries clean; app-level a11y debt → **F00-W08**)              |
+| Lint                  | `ng lint` (libraries clean; app-level a11y debt → **F0.0-W08**)              |
 | E2E smoke             | `npm run e2e` (Playwright)                                                  |
 | Format                | `npm run format` (Prettier)                                                 |
 

@@ -57,7 +57,7 @@ Each document follows this structure:
 
 ## Relationship with the Roadmap
 
-These documents complement the [Comprehensive Documentation (F00-W01)](../roadmap/F00%20-%20Development%20Environment%20and%20Structure/F00%20-%20W01%20-%20Comprehensive%20Documentation.md) and serve as a technical reference for developers when implementing the roadmap features.
+These documents complement the [Comprehensive Documentation (F0.0-W01)](../roadmap/F0.0%20-%20Development%20Environment%20and%20Structure/F0.0%20-%20W01%20-%20Comprehensive%20Documentation.md) and serve as a technical reference for developers when implementing the roadmap features.
 
 ---
 

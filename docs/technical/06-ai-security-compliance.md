@@ -1,7 +1,7 @@
 # 06 — AI Security & Compliance
 
 > **Project:** Legal Ai Ar | **Category:** AI Security & Compliance
-> **Status:** Partially defined (audit log + Entra ID in F00-W01)
+> **Status:** Partially defined (audit log + Entra ID in F0.0-W01)
 > **Last updated:** May 2026
 
 ---

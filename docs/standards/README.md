@@ -19,16 +19,16 @@
 3. **When closing a work item**, include the standards doc in the [Definition of Done](../roadmap/DEFINITION-OF-DONE.md) documentation round-trip if architecture, auth, frontend structure, or delivery patterns changed.
 4. **Product-specific docs** in `docs/technical/` describe _this_ application's implementation; they must stay aligned with the standards guide, not replace it.
 
-### Roadmap alignment (F00)
+### Roadmap alignment (F0.0)
 
 | Work item    | Standard sections                   |
 | ------------ | ----------------------------------- |
-| F00-W03, W11 | §6 Frontend                         |
-| F00-W08      | §9 Testing                          |
-| FT05-W01–W03 | §10 Delivery                        |
-| F00-W09      | §4.4 API                            |
-| F00-W10      | §4 Contracts                        |
-| F00-W12      | §4.5 Outbox                         |
+| F0.0-W03, W11 | §6 Frontend                         |
+| F0.0-W08      | §9 Testing                          |
+| FT.5-W01–W03 | §10 Delivery                        |
+| F0.0-W09      | §4.4 API                            |
+| F0.0-W10      | §4 Contracts                        |
+| F0.0-W12      | §4.5 Outbox                         |
 | F1.1 (R1)    | §5 Auth production                  |
 | F2.1 (R2)    | §4.2 Rich aggregates + outbox usage |
 | F4.5 (R4)    | §7 Observability                    |

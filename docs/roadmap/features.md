@@ -38,19 +38,19 @@ jurisprudence, and **tax sources**: dictámenes, Tribunal Fiscal, consultas vinc
 
 ## 0. Release 0.0 — Development Environment & Structure
 
-> Unchanged by the product re-scope — F00 is environment/structure. Tickets are the files in
-> `F00 - Development Environment and Structure/` (source of truth): **W01** Comprehensive Documentation,
+> Unchanged by the product re-scope — F0.0 is environment/structure. Tickets are the files in
+> `F0.0 - Development Environment and Structure/` (source of truth): **W01** Comprehensive Documentation,
 > **W02** Monorepo Setup & Backend Scaffolding (done, merged PR #102), **W03** Angular 19 Frontend
 > Scaffolding (done, merged PR #105), **W07** Local Env & Onboarding, **W08** Code Quality,
-> **W09** Minimal API (PR #111), **W10** Contracts (PR #112), **W11** schematics (PR #113), **W12** outbox (PR #114) — **F00 complete**.
-> **CI/Bicep/CD** (former W04–W06) → **[FT05 — Delivery and Hosting](FT05%20-%20Delivery%20and%20Hosting/README.md)** (on hold — DevOps).
+> **W09** Minimal API (PR #111), **W10** Contracts (PR #112), **W11** schematics (PR #113), **W12** outbox (PR #114) — **F0.0 complete**.
+> **CI/Bicep/CD** (former W04–W06) → **[FT.5 — Delivery and Hosting](FT.5%20-%20Delivery%20and%20Hosting/README.md)** (on hold — DevOps).
 > All align with
 > [`docs/standards/pwc-internal-app-architecture.md`](../standards/pwc-internal-app-architecture.md).
 > See [`STATUS.md`](STATUS.md) for current progress.
 
 ### Architecture standard coverage by release
 
-| Standard section                           | R0.0 (F00)           | R1.0                          | R2.0+               |
+| Standard section                           | R0.0 (F0.0)           | R1.0                          | R2.0+               |
 | ------------------------------------------ | -------------------- | ----------------------------- | ------------------- |
 | §5 Platform auth (GCaaS cookie)            | dev/simulated        | **F1.1** production           | —                   |
 | §6 Frontend (AppKit, monorepo, schematics) | **W03, W11**         | full slice per new feature    | —                   |
@@ -58,11 +58,11 @@ jurisprudence, and **tax sources**: dictámenes, Tribunal Fiscal, consultas vinc
 | §4 Contracts DTOs                          | **W10**              | expand per feature            | —                   |
 | §4.5 Outbox + domain events                | **W12** (complete)   | —                             | **F2.1** aggregates |
 | §9 NetArchTest, quality                    | **W08**              | —                             | —                   |
-| §10 Delivery dual path                     | **FT05** (W01–W03)   | —                             | —                   |
+| §10 Delivery dual path                     | **FT.5** (W01–W03)   | —                             | —                   |
 | §8 AI extension                            | exists (Agents)      | **F1.7**, F3.2 tune           | —                   |
 | §7 Observability (OTel)                    | App Insights partial | —                             | **F4.5**            |
 
-**R0.0 (F00) total:** 41 SP — **application track complete** (W01–W03, W07–W12, merged to `main`). **FT05** adds 18 SP for delivery (on hold). FT05 closes §10 when DevOps unblocks; **R1** adds product features; **R2** uses the outbox with transactional workspaces (F2.1).
+**R0.0 (F0.0) total:** 41 SP — **application track complete** (W01–W03, W07–W12, merged to `main`). **FT.5** adds 18 SP for delivery (on hold). FT.5 closes §10 when DevOps unblocks; **R1** adds product features; **R2** uses the outbox with transactional workspaces (F2.1).
 
 ---
 
@@ -70,7 +70,7 @@ jurisprudence, and **tax sources**: dictámenes, Tribunal Fiscal, consultas vinc
 
 The MVP is a solid base (~78% reusable) and is documented in `docs/technical/`:
 
-- **Ingestion pipeline** (6 stages: Discoverer → Fetcher → Parser → Enricher → Persister → Indexer) for **CSJN** rulings and **SAIJ** legislation/jurisprudence + the **SAIJ thesaurus**. See tech docs 13–15. _(Tax sources are a new ingestion target — see F1.3.)_
+- **Ingestion pipeline** (6 stages: Discoverer → Fetcher → Parser → Enricher → Persister → Indexer) for **CSJN** rulings and **SAIJ** legislation/jurisprudence + the **SAIJ thesaurus**. See tech docs 13–15. _(Tax sources are a new ingestion target — see F1.5.)_
 - **KB data model** (~44 EF Core entities) — rulings, norms, statutes, citation graph, thesaurus. Tech doc 17.
 - **RAG / chat** — agentic tool-calling assistant with 13 tools, hybrid search (BM25 + 3072-d vectors) + GraphRAG, SSE streaming. Tech doc 16.
 - **Frontend** — Angular SPA with ~15 views (search, detail, chat, graph, admin). Tech doc 18.
@@ -117,7 +117,7 @@ hosted on **GCaaS** (Knative/Istio/Helm, Vault secrets). No MSAL / app-owned log
 
 | Release  | Name                      | Focus                                                                  |
 | -------- | ------------------------- | ---------------------------------------------------------------------- |
-| **R0.0** | Preparation               | Dev environment & structure (F00)                                      |
+| **R0.0** | Preparation               | Dev environment & structure (F0.0)                                      |
 | **R1.0** | Research & Monitoring     | KB research (incl. tax sources) + AI assistant + regulatory monitoring |
 | **R2.0** | Professional Productivity | Projects/Workspaces + Document review + Deliverable generation         |
 | **R3.0** | Knowledge & Intelligence  | Internal KB + tax/specialized agents + risk + tax controversy          |
@@ -131,9 +131,9 @@ hosted on **GCaaS** (Knative/Istio/Helm, Vault secrets). No MSAL / app-owned log
 | ---- | -------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
 | F1.1 | Authentication & corporate SSO (Entra `id_token`)                                                                          | simulated → platform                |
 | F1.2 | Home: "my projects", tasks & alerts                                                                                        | dashboard exists → reframe          |
-| F1.3 | **Tax sources**: ingest + search of dictámenes (ARCA/ARBA/AGIP), Comisión Arbitral, Tribunal Fiscal, consultas vinculantes | **new** (catalogued in tech doc 20) |
+| F1.5 | **Tax sources**: ingest + search of dictámenes (ARCA/ARBA/AGIP), Comisión Arbitral, Tribunal Fiscal, consultas vinculantes | **new** (catalogued in tech doc 20) |
 | F1.4 | Legislation search                                                                                                         | ~90%                                |
-| F1.5 | Case-law (jurisprudence) search                                                                                            | ~90%                                |
+| F1.3 | Case-law (jurisprudence) search                                                                                            | ~90%                                |
 | F1.6 | Norm / article detail (+ relationship graph)                                                                               | ~85%                                |
 | F1.7 | AI research assistant (chat over the KB)                                                                                   | ~80% — tax-tune                     |
 | F1.8 | Regulatory/tax monitoring & alerts (by industry/project)                                                                   | partial                             |
@@ -191,8 +191,8 @@ hosted on **GCaaS** (Knative/Istio/Helm, Vault secrets). No MSAL / app-owned log
 
 - **F1.1 Auth & SSO** — Platform Entra `id_token` cookie validated by the API; role-based authorization; SPA `withCredentials`. No MSAL.
 - **F1.2 Home** — Per-user landing: my projects, pending tasks/deadlines, regulatory alerts, recent research.
-- **F1.3 Tax sources** — Ingest and index dictámenes (ARCA/ARBA/AGIP), Comisión Arbitral resolutions, Tribunal Fiscal, consultas vinculantes (sources in tech doc 20). Each source needs its discovery/parse strategy (reuse the pipeline's strategy pattern).
-- **F1.4 / F1.5 Search** — Hybrid search over legislation and jurisprudence with filters; results with highlight.
+- **F1.5 Tax sources** — Ingest and index dictámenes (ARCA/ARBA/AGIP), Comisión Arbitral resolutions, Tribunal Fiscal, consultas vinculantes (sources in tech doc 20). Each source needs its discovery/parse strategy (reuse the pipeline's strategy pattern).
+- **F1.4 / F1.3 Search** — Hybrid search over legislation and jurisprudence with filters; results with highlight.
 - **F1.6 Detail** — Norm/article detail with relationship graph (amendments, citations).
 - **F1.7 AI assistant** — Agentic chat over the KB with tools; tax-tuned prompts; inline citations; SSE streaming.
 - **F1.8 Monitoring & alerts** — Track regulatory/tax changes; subscribe by branch/industry/project; push alerts.

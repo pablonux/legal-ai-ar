@@ -1,6 +1,6 @@
-# FT05 - W02 - Azure Infrastructure with Bicep (IaC)
+# FT.5 - W02 - Azure Infrastructure with Bicep (IaC)
 
-> **Feature:** FT05 - Delivery and Hosting (formerly F00-W05)
+> **Feature:** FT.5 - Delivery and Hosting (formerly F0.0-W05)
 > **Release:** Cross-cutting (FT) | **Sprint:** —
 > **Track status:** ⏸ **On hold** — pending DevOps consultation (Azure subscription / IaC ownership)
 > **Type:** devops | **Priority:** High
@@ -173,7 +173,7 @@ output connectionString string = 'Server=tcp:${sqlServer.properties.fullyQualifi
 ## Dependencies
 
 - **Depends on:** An Azure subscription with Contributor permissions
-- **Blocks:** FT05-W03 (CD pipelines need infrastructure to deploy to)
+- **Blocks:** FT.5-W03 (CD pipelines need infrastructure to deploy to)
 
 ---
 

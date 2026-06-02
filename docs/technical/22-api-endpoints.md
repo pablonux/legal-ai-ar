@@ -1,6 +1,6 @@
 # API Endpoints — Minimal API Groups
 
-> **Status:** F00-W10 merged to `main` ([PR #112](https://github.com/pwc-ar-xlos-argentinaaifactory/legal-ai-ar/pull/112), 2026-06-02).
+> **Status:** F0.0-W10 merged to `main` ([PR #112](https://github.com/pwc-ar-xlos-argentinaaifactory/legal-ai-ar/pull/112), 2026-06-02).
 > Wave 1–2 public HTTP types live in `LegalAiAr.Contracts`; endpoints use `IEndpoint` discovery under
 > `LegalAiAr.Api/Endpoints/`.
 
@@ -23,7 +23,7 @@ backend/src/shared/LegalAiAr.Contracts/
 **Migrated in W10 (wave 1–2):** `auth`, `rulings`, `statutes`, `courts`, `persons`, `thesaurus`, `search`.
 Admin, chat, ontology, graph, proceedings, and stats still use `Api/Models` or Application DTOs until migrated incrementally.
 
-**Transactional side effects (F00-W12):** domain events and the outbox are not exposed as HTTP endpoints. See
+**Transactional side effects (F0.0-W12):** domain events and the outbox are not exposed as HTTP endpoints. See
 [23 — Transactional Outbox & Domain Events](./23-outbox-domain-events.md).
 
 **Versioning (R1):** additive changes only — new optional properties or new endpoints; no breaking renames or removals without a new API version.

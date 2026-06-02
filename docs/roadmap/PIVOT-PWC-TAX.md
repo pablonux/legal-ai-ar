@@ -1,8 +1,8 @@
 # Roadmap Pivot — PwC Tax-Legal
 
-> 🟡 **Partially applied** on branch `feature/roadmap-pwc-tax-pivot` (after F00-W02 merged).
+> 🟡 **Partially applied** on branch `feature/roadmap-pwc-tax-pivot` (after F0.0-W02 merged).
 > **Done:** `features.md` and `backlog.md` rewritten to the PwC tax-legal scope; `STATUS.md` noted.
-> **Pending:** (a) retire the old litigation work-item folders (`F01…F23`, `FT01…FT05`); (b) add the
+> **Pending:** (a) retire the old litigation work-item folders (`F01…F23`, `FT01…FT.5`); (b) add the
 > business-layer entities (Project/Workspace, Document, Deliverable, …) to the data model / ontology;
 > (c) generate detailed work items per feature when scheduled.
 >
@@ -69,7 +69,7 @@ organized by **projects/workspaces** (each project serves a client).
 | F18 | User & role administration | = F19 |
 | F19 | Legal graph explorer | = F21 |
 | F20 | Assistant feedback | = F22 |
-| F21 | Cross-cutting: notifications, omnisearch, theme/accessibility, audit, PWA, delivery | = FT01–FT05 |
+| F21 | Cross-cutting: notifications, omnisearch, theme/accessibility, audit, PWA, delivery | = FT01–FT.5 |
 
 > Numbering above is indicative; final IDs assigned when applying. Litigation-only features
 > (judicial case files as unit of work, hearings, procedural deadlines, procedural agent) are removed.
@@ -88,7 +88,7 @@ is added:
 
 ---
 
-## 4. Apply plan (after F00-W02 merges)
+## 4. Apply plan (after F0.0-W02 merges)
 
 On a dedicated branch (`feature/roadmap-pwc-tax-pivot`), docs-only, respecting the
 [Definition of Done](DEFINITION-OF-DONE.md):
@@ -100,8 +100,8 @@ On a dedicated branch (`feature/roadmap-pwc-tax-pivot`), docs-only, respecting t
 4. Update the ontology / data model (new business-layer entities) and add a `STATUS.md` log entry.
 5. Update this file's banner to "applied".
 
-**Coordination:** does not touch the `F00` folder, code, or the dev's `STATUS.md` F00 progress. Merge
-**after** F00-W02 so the rewrite sits on the post-hoist paths.
+**Coordination:** does not touch the `F0.0` folder, code, or the dev's `STATUS.md` F0.0 progress. Merge
+**after** F0.0-W02 so the rewrite sits on the post-hoist paths.
 
 ---
 
