@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>F1.6 · Detalle de Norma + Grafo — Legal Ai Ar</title>
+<link rel="stylesheet" href="../shared/wireframe.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<style>
+.node { position:absolute; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:700; color:white; box-shadow:0 2px 8px rgba(0,0,0,.25); cursor:pointer; text-align:center; line-height:1.2; padding:4px; }
+.edge { position:absolute; height:2px; transform-origin:left center; }
+</style>
+</head>
+<body>
+<div class="page-wrapper">
+  <div class="page-header">
+    <a class="back-link" href="../index.html">← Todas las pantallas</a>
+    <div class="page-header-center">
+      <h1 class="feature-title">F1.6 · Detalle de Norma y Grafo de Relaciones</h1>
+      <div class="badges"><span class="badge badge-release">R1.0</span><span class="badge badge-role">Partner/Manager · Senior/Associate</span></div>
+    </div>
+    <div class="page-nav-arrows">
+      <a href="f1.5-fuentes-tributarias.html" class="nav-arrow">← F1.5</a>
+      <a href="f1.7-asistente-ia.html" class="nav-arrow">F1.7 Asistente IA →</a>
+    </div>
+  </div>
+  <div class="browser-wrapper">
+    <div class="browser-chrome">
+      <div class="dots"><span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span></div>
+      <div class="url-bar">legal-ai-ar.pwc.com.ar/legislacion/ley-23966</div>
+    </div>
+    <div class="app-shell">
+      <header class="topnav">
+        <div class="topnav-logo"><span class="logo-pwc">pwc</span> Legal Ai Ar</div>
+        <div class="topnav-flex"></div>
+        <button class="topnav-btn"><i class="ph ph-magnifying-glass" title="icon-search-outline"></i></button>
+        <div class="notif-wrapper"><button class="topnav-btn"><i class="ph ph-bell" title="icon-notification-outline"></i></button><span class="notif-dot"></span></div>
+        <div class="topnav-user"><span class="user-init">PM</span><span class="user-name">Pablo M. ▾</span></div>
+      </header>
+      <div class="app-body">
+        <nav class="sidebar">
+          <div class="sidebar-section">
+            <div class="sidebar-item"><span class="icon"><i class="ph ph-squares-four" title="icon-dashboard-outline"></i></span> Inicio</div>
+            <div class="sidebar-item"><span class="icon"><i class="ph ph-folder" title="icon-folder-closed-outline"></i></span> Mis Proyectos</div>
+          </div>
+          <div class="sidebar-divider"></div>
+          <div class="sidebar-section">
+            <div class="sidebar-label">Investigación</div>
+            <div class="sidebar-item active"><span class="icon"><i class="ph ph-book-open" title="icon-document-file-outline"></i></span> Legislación</div>
+            <div class="sidebar-item"><span class="icon"><i class="ph ph-scales" title="icon-balance-outline"></i></span> Jurisprudencia</div>
+            <div class="sidebar-item"><span class="icon"><i class="ph ph-receipt" title="icon-document-policies-outline"></i></span> Tributario</div>
+            <div class="sidebar-item"><span class="icon"><i class="ph ph-robot" title="icon-ask-question-outline"></i></span> Asistente IA</div>
+          </div>
+          <div class="sidebar-divider"></div>
+          <div class="sidebar-section">
+            <div class="sidebar-label">Seguimiento</div>
+            <div class="sidebar-item"><span class="icon"><i class="ph ph-bell" title="icon-notification-outline"></i></span> Monitoreo</div>
+          </div>
+        </nav>
+        <main class="main-content" style="display:flex;flex-direction:column;overflow:hidden;">
+          <!-- Breadcrumb -->
+          <div style="padding:10px 16px;background:white;border-bottom:1px solid var(--gray-200);display:flex;align-items:center;gap:6px;font-size:12px;color:var(--gray-500);">
+            <a href="#" style="color:var(--pwc);text-decoration:none;">Legislación</a> › <a href="#" style="color:var(--pwc);text-decoration:none;">Bienes Personales</a> › <strong style="color:var(--gray-900);">Ley 23.966</strong>
+            <div style="margin-left:auto;display:flex;gap:8px;">
+              <button class="btn btn-secondary btn-sm">Exportar</button>
+              <button class="btn btn-outline btn-sm">Guardar en proyecto</button>
+            </div>
+          </div>
+          <!-- Split: text left, graph right -->
+          <div style="display:flex;flex:1;overflow:hidden;">
+            <!-- Left: norm text -->
+            <div style="width:52%;border-right:1px solid var(--gray-200);overflow-y:auto;padding:16px;">
+              <div style="margin-bottom:12px;">
+                <div style="font-size:20px;font-weight:800;color:var(--gray-900);margin-bottom:6px;">Ley 23.966 — Impuesto sobre los Bienes Personales</div>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                  <span class="chip chip-green">Vigente</span>
+                  <span class="chip chip-blue">Texto Ordenado 2024</span>
+                  <span class="chip chip-orange">Bienes Personales</span>
+                  <span style="font-size:11px;color:var(--gray-400);">B.O. 20/08/1991 · última mod. ley 27.743</span>
+                </div>
+              </div>
+              <!-- Article list -->
+              <div style="margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;">
+                <div class="section-header" style="margin:0;border:none;">Articulado</div>
+                <input type="text" placeholder="Buscar artículo..." style="font-size:12px;border:1px solid var(--gray-300);border-radius:5px;padding:4px 8px;width:160px;">
+              </div>
+              <!-- Articles -->
+              <div style="border:1px solid var(--gray-200);border-radius:8px;overflow:hidden;">
+                <div style="background:var(--gray-50);padding:10px 14px;border-bottom:1px solid var(--gray-200);display:flex;align-items:center;gap:8px;cursor:pointer;">
+                  <span style="font-size:12px;font-weight:700;color:var(--pwc);width:50px;">Art. 1°</span>
+                  <span style="font-size:12px;color:var(--gray-700);">Hecho imponible y sujetos alcanzados</span>
+                  <span style="margin-left:auto;color:var(--gray-400);">▼</span>
+                </div>
+                <div style="padding:12px 14px;background:white;border-bottom:1px solid var(--gray-100);font-size:12px;color:var(--gray-700);line-height:1.7;">
+                  Establécese un impuesto que se aplicará en todo el territorio de la Nación y recaerá sobre los bienes personales existentes al <strong>31 de diciembre de cada año</strong>, situados en el país y en el exterior...
+                </div>
+                <div style="background:var(--gray-50);padding:10px 14px;border-bottom:1px solid var(--gray-200);display:flex;align-items:center;gap:8px;cursor:pointer;">
+                  <span style="font-size:12px;font-weight:700;color:var(--pwc);width:50px;">Art. 19</span>
+                  <span style="font-size:12px;color:var(--gray-700);">Sujetos pasivos</span>
+                  <span style="margin-left:auto;color:var(--gray-400);">▶</span>
+                </div>
+                <div style="background:var(--gray-50);padding:10px 14px;border-bottom:1px solid var(--gray-200);display:flex;align-items:center;gap:8px;cursor:pointer;background:var(--pwc-light);">
+                  <span style="font-size:12px;font-weight:700;color:var(--pwc);width:50px;">Art. 22</span>
+                  <span style="font-size:12px;color:var(--gray-900);font-weight:600;">Valuación de bienes — inc. j) Acciones y participaciones</span>
+                  <span style="margin-left:auto;color:var(--pwc);">▼</span>
+                </div>
+                <div style="padding:12px 14px;background:var(--pwc-light);border-bottom:1px solid var(--gray-200);font-size:12px;color:var(--gray-800);line-height:1.7;">
+                  Las acciones y participaciones en el capital de las sociedades regidas por la ley 19.550 y sus modificaciones, cuyos titulares sean personas humanas domiciliadas en el país y sucesiones indivisas radicadas en el mismo, se valuarán por su <strong>valor patrimonial proporcional</strong>...
+                  <div style="margin-top:8px;padding:8px;background:rgba(208,74,2,.08);border-radius:5px;border-left:3px solid var(--pwc);">
+                    <strong style="font-size:11px;color:var(--pwc);">Modificado por</strong><br>
+                    <span style="font-size:11px;color:var(--gray-700);">Ley 27.743 (ene 2024) — Incorpora REIBP y valuación de activos del exterior</span>
+                  </div>
+                </div>
+                <div style="background:var(--gray-50);padding:10px 14px;display:flex;align-items:center;gap:8px;cursor:pointer;">
+                  <span style="font-size:12px;font-weight:700;color:var(--pwc);width:50px;">Art. 43</span>
+                  <span style="font-size:12px;color:var(--gray-700);">Alícuotas aplicables</span>
+                  <span style="margin-left:auto;color:var(--gray-400);">▶</span>
+                </div>
+              </div>
+            </div>
+            <!-- Right: Graph -->
+            <div style="flex:1;display:flex;flex-direction:column;overflow:hidden;">
+              <div style="padding:10px 14px;background:white;border-bottom:1px solid var(--gray-200);display:flex;align-items:center;justify-content:space-between;">
+                <span style="font-size:13px;font-weight:600;color:var(--gray-900);">Grafo de relaciones</span>
+                <div style="display:flex;gap:6px;">
+                  <button class="btn btn-secondary btn-sm">Expandir</button>
+                  <button class="btn btn-outline btn-sm">Ver en pantalla completa</button>
+                </div>
+              </div>
+              <!-- Graph visualization -->
+              <div class="graph-area" style="flex:1;position:relative;">
+                <!-- Legend -->
+                <div style="position:absolute;top:10px;left:10px;background:white;border:1px solid var(--gray-200);border-radius:7px;padding:8px 10px;font-size:10px;z-index:10;">
+                  <div style="font-weight:700;margin-bottom:5px;color:var(--gray-700);">Tipo de relación</div>
+                  <div style="display:flex;align-items:center;gap:5px;margin-bottom:3px;"><div style="width:20px;height:2px;background:#D04A02;"></div> Modifica</div>
+                  <div style="display:flex;align-items:center;gap:5px;margin-bottom:3px;"><div style="width:20px;height:2px;background:#dc2626;border-top:2px dashed #dc2626;"></div> Deroga</div>
+                  <div style="display:flex;align-items:center;gap:5px;margin-bottom:3px;"><div style="width:20px;height:2px;background:#2563eb;"></div> Cita</div>
+                  <div style="display:flex;align-items:center;gap:5px;"><div style="width:20px;height:2px;background:#16a34a;"></div> Reglamenta</div>
+                </div>
+                <!-- Nodes -->
+                <!-- Central node: Ley 23.966 -->
+                <div class="node" style="width:70px;height:70px;background:var(--pwc);top:160px;left:200px;font-size:10px;">Ley<br>23.966</div>
+                <!-- Modifying laws -->
+                <div class="node" style="width:58px;height:58px;background:#7c3aed;top:80px;left:340px;font-size:9px;">Ley<br>27.743</div>
+                <div class="node" style="width:52px;height:52px;background:#7c3aed;top:200px;left:360px;font-size:9px;">Ley<br>27.541</div>
+                <div class="node" style="width:48px;height:48px;background:#7c3aed;top:280px;left:310px;font-size:9px;">Ley<br>27.430</div>
+                <!-- Regulatory decree -->
+                <div class="node" style="width:54px;height:54px;background:#16a34a;top:60px;left:120px;font-size:9px;">Dec.<br>127/96</div>
+                <div class="node" style="width:50px;height:50px;background:#16a34a;top:270px;left:140px;font-size:9px;">Dec.<br>1170/24</div>
+                <!-- Jurisprudencia nodes -->
+                <div class="node" style="width:50px;height:50px;background:#2563eb;top:130px;left:60px;font-size:9px;">TFN<br>38421</div>
+                <div class="node" style="width:44px;height:44px;background:#2563eb;top:230px;left:80px;font-size:9px;">CSJN<br>2024</div>
+                <!-- RG -->
+                <div class="node" style="width:50px;height:50px;background:#d97706;top:320px;left:220px;font-size:9px;">RG<br>5607/26</div>
+
+                <!-- Edges (simplified lines) -->
+                <svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;">
+                  <!-- Ley 23.966 → Ley 27.743 (modifica) -->
+                  <line x1="270" y1="195" x2="340" y2="109" stroke="#D04A02" stroke-width="2" marker-end="url(#arr)"/>
+                  <line x1="270" y1="195" x2="360" y2="227" stroke="#D04A02" stroke-width="2"/>
+                  <line x1="270" y1="195" x2="310" y2="304" stroke="#dc2626" stroke-width="2" stroke-dasharray="5,3"/>
+                  <line x1="235" y1="160" x2="174" y2="113" stroke="#16a34a" stroke-width="1.5"/>
+                  <line x1="235" y1="225" x2="190" y2="297" stroke="#16a34a" stroke-width="1.5"/>
+                  <line x1="200" y1="195" x2="110" y2="155" stroke="#2563eb" stroke-width="1.5"/>
+                  <line x1="200" y1="215" x2="124" y2="252" stroke="#2563eb" stroke-width="1.5"/>
+                  <line x1="235" y1="230" x2="270" y2="345" stroke="#d97706" stroke-width="1.5"/>
+                  <defs><marker id="arr" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#D04A02"/></marker></defs>
+                </svg>
+                <!-- Selected node tooltip -->
+                <div style="position:absolute;bottom:12px;right:12px;background:white;border:1px solid var(--gray-200);border-radius:8px;padding:12px;width:200px;box-shadow:0 2px 12px rgba(0,0,0,.1);">
+                  <div style="font-size:12px;font-weight:700;color:var(--gray-900);margin-bottom:4px;">Ley 27.743</div>
+                  <div style="font-size:11px;color:var(--gray-500);margin-bottom:6px;">Reforma tributaria — ene 2024</div>
+                  <div style="font-size:11px;color:var(--gray-700);margin-bottom:8px;">Modifica arts. 22, 25 y 25 bis de Ley 23.966. Incorpora REIBP.</div>
+                  <button class="btn btn-secondary btn-sm" style="width:100%;justify-content:center;">Ver detalle →</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </div>
+  <div class="screen-description">
+    <div class="desc-section"><h3>¿Qué hace?</h3><p>Vista de detalle de una norma: articulado completo, metadata (vigencia, organismo, fecha) y grafo interactivo de relaciones (normas que la modifican, derogan, reglamentan o citan).</p></div>
+    <div class="desc-section"><h3>Flujo</h3><ol><li>Usuario selecciona una norma en los resultados</li><li>Ve articulado organizado, con el artículo relevante resaltado</li><li>Explora el grafo de relaciones interactivo</li><li>Hace clic en un nodo del grafo para navegar a esa norma</li><li>Guarda la cita en el proyecto activo</li></ol></div>
+  </div>
+</div>
+</body>
+</html>

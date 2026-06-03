@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FT.2 · Búsqueda Global (Omnisearch) — Legal Ai Ar</title>
+<link rel="stylesheet" href="../shared/wireframe.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+</head>
+<body>
+<div class="page-wrapper">
+  <div class="page-header">
+    <a class="back-link" href="../index.html">← Todas las pantallas</a>
+    <div class="page-header-center">
+      <h1 class="feature-title">FT.2 · Búsqueda Global (Omnisearch)</h1>
+      <div class="badges"><span class="badge badge-release">FT · Cross-cutting</span><span class="badge badge-role">Todos los usuarios</span></div>
+    </div>
+    <div class="page-nav-arrows">
+      <a href="../r4.0/f4.5-observabilidad.html" class="nav-arrow">← F4.5 Observabilidad</a>
+      <span style="font-size:12px;color:var(--gray-300);">— última pantalla —</span>
+    </div>
+  </div>
+
+  <!-- Note about context -->
+  <div style="background:var(--blue-bg);border:1px solid var(--blue);border-radius:8px;padding:12px 16px;margin-bottom:14px;display:flex;align-items:center;gap:10px;">
+    <span style="font-size:18px;"><i class="ph ph-info" title="icon-info-outline"></i></span>
+    <div style="font-size:13px;color:var(--blue);">Esta pantalla es un overlay modal que aparece sobre cualquier página de la app al presionar <kbd style="background:white;border:1px solid var(--blue);border-radius:3px;padding:1px 5px;font-size:11px;">⌘K</kbd> o hacer clic en el ícono de búsqueda de la barra superior.</div>
+  </div>
+
+  <div class="browser-wrapper">
+    <div class="browser-chrome">
+      <div class="dots"><span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span></div>
+      <div class="url-bar">legal-ai-ar.pwc.com.ar/proyectos (el omnisearch es un overlay)</div>
+    </div>
+    <div class="app-shell">
+      <header class="topnav">
+        <div class="topnav-logo"><span class="logo-pwc">pwc</span> Legal Ai Ar</div>
+        <div class="topnav-flex"></div>
+        <button class="topnav-btn" style="background:rgba(255,255,255,.35);"><i class="ph ph-magnifying-glass" title="icon-search-outline"></i></button>
+        <div class="notif-wrapper"><button class="topnav-btn"><i class="ph ph-bell" title="icon-notification-outline"></i></button><span class="notif-dot"></span></div>
+        <div class="topnav-user"><span class="user-init">PM</span><span class="user-name">Pablo M. ▾</span></div>
+      </header>
+      <div class="app-body" style="position:relative;">
+        <!-- Background app (blurred) -->
+        <nav class="sidebar" style="filter:blur(2px);opacity:.4;">
+          <div class="sidebar-section">
+            <div class="sidebar-item"><span class="icon"><i class="ph ph-squares-four" title="icon-dashboard-outline"></i></span> Inicio</div>
+            <div class="sidebar-item"><span class="icon"><i class="ph ph-folder" title="icon-folder-closed-outline"></i></span> Mis Proyectos</div>
+          </div>
+        </nav>
+        <main class="main-content" style="filter:blur(3px);opacity:.3;padding:20px;">
+          <div style="font-size:20px;font-weight:700;color:var(--gray-900);margin-bottom:16px;">Mis Proyectos</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
+            <div class="card card-pad"><div style="font-size:16px;font-weight:700;">Grupo Pampa Foods</div></div>
+            <div class="card card-pad"><div style="font-size:16px;font-weight:700;">Austral Industrial S.A.</div></div>
+            <div class="card card-pad"><div style="font-size:16px;font-weight:700;">Campo Verde S.A.</div></div>
+          </div>
+        </main>
+
+        <!-- Omnisearch Modal Overlay -->
+        <div style="position:absolute;inset:0;background:rgba(0,0,0,.5);display:flex;flex-direction:column;align-items:center;padding-top:40px;z-index:100;">
+          <div style="background:white;border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.3);width:680px;overflow:hidden;max-height:500px;display:flex;flex-direction:column;">
+            <!-- Search input -->
+            <div style="display:flex;align-items:center;gap:12px;padding:16px 18px;border-bottom:1px solid var(--gray-200);">
+              <span style="font-size:20px;color:var(--gray-400);"><i class="ph ph-magnifying-glass" title="icon-search-outline"></i></span>
+              <input style="flex:1;border:none;outline:none;font-size:16px;color:var(--gray-900);" value="IVA exportación servicios digitales" placeholder="Buscar normas, fallos, proyectos, documentos...">
+              <kbd style="background:var(--gray-100);border:1px solid var(--gray-300);border-radius:4px;padding:2px 6px;font-size:11px;color:var(--gray-500);">ESC</kbd>
+            </div>
+            <!-- Result tabs -->
+            <div class="tabs" style="padding:0 16px;">
+              <div class="tab active">Todo (28)</div>
+              <div class="tab">Normas (12)</div>
+              <div class="tab">Jurisprudencia (8)</div>
+              <div class="tab">Proyectos (2)</div>
+              <div class="tab">Documentos (6)</div>
+            </div>
+            <!-- Results -->
+            <div style="flex:1;overflow-y:auto;padding:8px 12px;">
+              <!-- Section: Normas -->
+              <div style="padding:4px 6px 6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--gray-400);">Normas</div>
+              <div style="display:flex;align-items:center;gap:12px;padding:9px 10px;border-radius:7px;cursor:pointer;background:var(--pwc-light);border:1px solid rgba(208,74,2,.2);margin-bottom:4px;">
+                <div style="width:32px;height:32px;background:var(--pwc);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;"><i class="ph ph-book-open" title="icon-document-file-outline"></i></div>
+                <div style="flex:1;">
+                  <div style="font-size:13px;font-weight:600;color:var(--gray-900);">Ley 23.349 — Impuesto al Valor Agregado</div>
+                  <div style="font-size:11px;color:var(--gray-400);">Legislación · Vigente · Texto ordenado 2024</div>
+                </div>
+                <kbd style="background:var(--gray-100);border:1px solid var(--gray-200);border-radius:3px;padding:1px 5px;font-size:10px;color:var(--gray-400);">↵</kbd>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;padding:9px 10px;border-radius:7px;cursor:pointer;margin-bottom:4px;" onmouseover="this.style.background='var(--gray-50)'" onmouseout="this.style.background=''">
+                <div style="width:32px;height:32px;background:var(--blue);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;"><i class="ph ph-clipboard-text" title="icon-document-file-outline"></i></div>
+                <div style="flex:1;">
+                  <div style="font-size:13px;font-weight:600;color:var(--gray-900);">RG ARCA 5.607/2026 — Exportación de servicios digitales</div>
+                  <div style="font-size:11px;color:var(--gray-400);">RG ARCA · Vigente · ene 2026</div>
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;padding:9px 10px;border-radius:7px;cursor:pointer;margin-bottom:8px;" onmouseover="this.style.background='var(--gray-50)'" onmouseout="this.style.background=''">
+                <div style="width:32px;height:32px;background:var(--purple);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;"><i class="ph ph-receipt" title="icon-document-policies-outline"></i></div>
+                <div style="flex:1;">
+                  <div style="font-size:13px;font-weight:600;color:var(--gray-900);">DAT ARCA 4/2025 — Software intragrupo IVA exportación</div>
+                  <div style="font-size:11px;color:var(--gray-400);">Dictamen · Vigente · feb 2025</div>
+                </div>
+              </div>
+              <!-- Section: Jurisprudencia -->
+              <div style="padding:4px 6px 6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--gray-400);">Jurisprudencia</div>
+              <div style="display:flex;align-items:center;gap:12px;padding:9px 10px;border-radius:7px;cursor:pointer;margin-bottom:4px;" onmouseover="this.style.background='var(--gray-50)'" onmouseout="this.style.background=''">
+                <div style="width:32px;height:32px;background:var(--green);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;"><i class="ph ph-scales" title="icon-balance-outline"></i></div>
+                <div style="flex:1;">
+                  <div style="font-size:13px;font-weight:600;color:var(--gray-900);">TFN Sala D 41.892 — Servicios digitales IVA exportación</div>
+                  <div style="font-size:11px;color:var(--gray-400);">Tribunal Fiscal Nac. · may 2026 · Favorable contribuyente</div>
+                </div>
+              </div>
+              <!-- Section: Proyectos -->
+              <div style="padding:4px 6px 6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--gray-400);">Proyectos</div>
+              <div style="display:flex;align-items:center;gap:12px;padding:9px 10px;border-radius:7px;cursor:pointer;margin-bottom:4px;" onmouseover="this.style.background='var(--gray-50)'" onmouseout="this.style.background=''">
+                <div style="width:32px;height:32px;background:var(--pwc);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;"><i class="ph ph-folder" title="icon-folder-closed-outline"></i></div>
+                <div style="flex:1;">
+                  <div style="font-size:13px;font-weight:600;color:var(--gray-900);">Grupo Pampa Foods — Reestructuración IVA exportación de servicios</div>
+                  <div style="font-size:11px;color:var(--gray-400);">Proyecto activo · 8 documentos · Plazo: 10 jun</div>
+                </div>
+              </div>
+              <!-- Section: Documentos -->
+              <div style="padding:4px 6px 6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--gray-400);">Documentos del proyecto</div>
+              <div style="display:flex;align-items:center;gap:12px;padding:9px 10px;border-radius:7px;cursor:pointer;margin-bottom:4px;" onmouseover="this.style.background='var(--gray-50)'" onmouseout="this.style.background=''">
+                <div style="width:32px;height:32px;background:var(--red-bg);border:1px solid var(--red);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;"><i class="ph ph-file-text" title="icon-document-file-outline"></i></div>
+                <div style="flex:1;">
+                  <div style="font-size:13px;font-weight:600;color:var(--gray-900);">Memo tributario IVA — Exportación servicios Pampa Foods International</div>
+                  <div style="font-size:11px;color:var(--gray-400);">Entregable · Borrador · Grupo Pampa Foods · jun 2026</div>
+                </div>
+              </div>
+            </div>
+            <!-- Footer -->
+            <div style="padding:8px 16px;border-top:1px solid var(--gray-100);display:flex;align-items:center;justify-content:space-between;background:var(--gray-50);">
+              <div style="display:flex;gap:12px;font-size:11px;color:var(--gray-400);">
+                <span><kbd style="background:white;border:1px solid var(--gray-200);border-radius:3px;padding:1px 4px;">↑↓</kbd> Navegar</span>
+                <span><kbd style="background:white;border:1px solid var(--gray-200);border-radius:3px;padding:1px 4px;">↵</kbd> Abrir</span>
+                <span><kbd style="background:white;border:1px solid var(--gray-200);border-radius:3px;padding:1px 4px;">ESC</kbd> Cerrar</span>
+              </div>
+              <div style="font-size:11px;color:var(--gray-400);">28 resultados · ⌘K para abrir</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen-description">
+    <div class="desc-section"><h3>¿Qué hace?</h3><p>Barra de búsqueda global accesible desde cualquier pantalla (⌘K o clic en el ícono). Busca simultáneamente en normas, fallos, dictámenes, proyectos, documentos y entregables. Resultados en tiempo real agrupados por tipo.</p></div>
+    <div class="desc-section"><h3>Flujo</h3><ol><li>Usuario presiona ⌘K o el ícono de búsqueda</li><li>Overlay modal aparece sobre la pantalla actual</li><li>Escribe su consulta — resultados en tiempo real</li><li>Navega con ↑↓ y abre con Enter</li><li>Presiona ESC para cerrar y volver a la pantalla</li></ol></div>
+  </div>
+</div>
+</body>
+</html>

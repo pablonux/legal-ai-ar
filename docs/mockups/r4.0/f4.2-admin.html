@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>F4.2 · Administración — Legal Ai Ar</title>
+<link rel="stylesheet" href="../shared/wireframe.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+</head>
+<body>
+<div class="page-wrapper">
+  <div class="page-header">
+    <a class="back-link" href="../index.html">← Todas las pantallas</a>
+    <div class="page-header-center">
+      <h1 class="feature-title">F4.2 · Administración de Usuarios y Sistema</h1>
+      <div class="badges"><span class="badge badge-release">R4.0</span><span class="badge badge-role">Admin</span></div>
+    </div>
+    <div class="page-nav-arrows">
+      <a href="f4.1-reportes.html" class="nav-arrow">← F4.1 Reportes</a>
+      <a href="f4.3-grafo.html" class="nav-arrow">F4.3 Grafo →</a>
+    </div>
+  </div>
+  <div class="browser-wrapper">
+    <div class="browser-chrome">
+      <div class="dots"><span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span></div>
+      <div class="url-bar">legal-ai-ar.pwc.com.ar/admin/usuarios</div>
+    </div>
+    <div class="app-shell">
+      <header class="topnav">
+        <div class="topnav-logo"><span class="logo-pwc">pwc</span> Legal Ai Ar</div>
+        <div class="topnav-flex"></div>
+        <span class="chip" style="background:rgba(255,255,255,.2);color:white;font-size:11px;">Admin</span>
+        <button class="topnav-btn"><i class="ph ph-magnifying-glass" title="icon-search-outline"></i></button>
+        <div class="notif-wrapper"><button class="topnav-btn"><i class="ph ph-bell" title="icon-notification-outline"></i></button><span class="notif-dot"></span></div>
+        <div class="topnav-user"><span class="user-init">AD</span><span class="user-name">Admin ▾</span></div>
+      </header>
+      <div class="app-body">
+        <nav class="sidebar">
+          <div style="padding:10px 12px;background:#1f2937;border-bottom:1px solid #374151;">
+            <div style="font-size:11px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:.5px;">Panel de</div>
+            <div style="font-size:13px;font-weight:700;color:white;margin-top:2px;">Administración</div>
+          </div>
+          <div class="sidebar-section">
+            <div class="sidebar-item active"><span class="icon"><i class="ph ph-users" title="icon-add-user-outline"></i></span> Usuarios</div>
+            <div class="sidebar-item"><span class="icon"><i class="ph ph-database" title="icon-database-search-outline"></i></span> Fuentes de datos</div>
+            <div class="sidebar-item"><span class="icon"><i class="ph ph-gear" title="icon-configuration-outline"></i></span> Configuración</div>
+            <div class="sidebar-item"><span class="icon"><i class="ph ph-clipboard-text" title="icon-document-file-outline"></i></span> Log de auditoría</div>
+          </div>
+          <div class="sidebar-divider"></div>
+          <div class="sidebar-section">
+            <div class="sidebar-item"><span class="icon"><i class="ph ph-chart-bar" title="icon-bar-chart-outline"></i></span> Reportes (Admin)</div>
+            <div class="sidebar-item"><span class="icon"><i class="ph ph-broadcast" title="icon-configuration-outline"></i></span> Observabilidad</div>
+          </div>
+        </nav>
+        <main class="main-content">
+          <div class="content-pad">
+            <div class="content-header">
+              <div>
+                <div class="content-title">Usuarios del sistema</div>
+                <div class="content-subtitle">12 usuarios activos · Acceso vía Entra ID SSO</div>
+              </div>
+              <div style="display:flex;gap:8px;">
+                <div class="search-bar" style="width:220px;height:36px;"><span class="search-icon" style="font-size:13px;"><i class="ph ph-magnifying-glass" title="icon-search-outline"></i></span><input class="search-input" placeholder="Buscar usuario..." style="font-size:12px;"></div>
+                <button class="btn btn-primary">+ Agregar usuario</button>
+              </div>
+            </div>
+            <!-- Filter tabs -->
+            <div class="tabs" style="margin-bottom:16px;">
+              <div class="tab active">Todos (12)</div>
+              <div class="tab">Partner/Manager (3)</div>
+              <div class="tab">Senior/Associate (7)</div>
+              <div class="tab">Admin (2)</div>
+              <div class="tab">Inactivos (1)</div>
+            </div>
+            <!-- Users table -->
+            <div class="card" style="overflow:hidden;margin-bottom:16px;">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Usuario</th>
+                    <th>Rol</th>
+                    <th>Proyectos asignados</th>
+                    <th>Último acceso</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style="background:var(--pwc-light);">
+                    <td>
+                      <div style="display:flex;align-items:center;gap:10px;">
+                        <div class="avatar" style="background:var(--pwc);width:30px;height:30px;font-size:11px;">PM</div>
+                        <div><div style="font-weight:600;font-size:13px;">Pablo Martínez</div><div style="font-size:11px;color:var(--gray-400);">pablo.martinez@pwc.com</div></div>
+                      </div>
+                    </td>
+                    <td><span class="chip chip-orange">Partner</span></td>
+                    <td style="font-size:12px;">Todos (7)</td>
+                    <td style="font-size:12px;color:var(--green);">Ahora mismo</td>
+                    <td><span class="chip chip-green">Activo</span></td>
+                    <td><button class="btn btn-secondary btn-sm">Editar</button></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div style="display:flex;align-items:center;gap:10px;">
+                        <div class="avatar" style="background:var(--blue);width:30px;height:30px;font-size:11px;">LA</div>
+                        <div><div style="font-weight:600;font-size:13px;">Luis Aquino</div><div style="font-size:11px;color:var(--gray-400);">l.aquino@pwc.com</div></div>
+                      </div>
+                    </td>
+                    <td><span class="chip chip-blue">Senior</span></td>
+                    <td style="font-size:12px;">Pampa Foods, Campo Verde S.A.</td>
+                    <td style="font-size:12px;">hace 1 hora</td>
+                    <td><span class="chip chip-green">Activo</span></td>
+                    <td><button class="btn btn-secondary btn-sm">Editar</button></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div style="display:flex;align-items:center;gap:10px;">
+                        <div class="avatar" style="background:var(--purple);width:30px;height:30px;font-size:11px;">CR</div>
+                        <div><div style="font-weight:600;font-size:13px;">Carolina Rodríguez</div><div style="font-size:11px;color:var(--gray-400);">c.rodriguez@pwc.com</div></div>
+                      </div>
+                    </td>
+                    <td><span class="chip chip-purple">Manager</span></td>
+                    <td style="font-size:12px;">Austral Industrial</td>
+                    <td style="font-size:12px;">hace 3 horas</td>
+                    <td><span class="chip chip-green">Activo</span></td>
+                    <td><button class="btn btn-secondary btn-sm">Editar</button></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div style="display:flex;align-items:center;gap:10px;">
+                        <div class="avatar" style="background:var(--gray-400);width:30px;height:30px;font-size:11px;">JP</div>
+                        <div><div style="font-weight:600;font-size:13px;color:var(--gray-400);">Juan Pérez</div><div style="font-size:11px;color:var(--gray-300);">j.perez@pwc.com</div></div>
+                      </div>
+                    </td>
+                    <td><span class="chip chip-gray">Associate</span></td>
+                    <td style="font-size:12px;color:var(--gray-400);">—</td>
+                    <td style="font-size:12px;color:var(--gray-400);">hace 30 días</td>
+                    <td><span class="chip chip-gray">Inactivo</span></td>
+                    <td><button class="btn btn-secondary btn-sm">Reactivar</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- Data sources section -->
+            <div class="card card-pad">
+              <div class="card-header" style="margin-bottom:12px;">
+                <div class="card-title"><i class="ph ph-database" title="icon-database-search-outline"></i> Fuentes de datos activas</div>
+                <button class="btn btn-secondary btn-sm">Administrar fuentes</button>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;">
+                <div style="padding:10px;background:var(--green-bg);border-radius:7px;border:1px solid var(--green);text-align:center;">
+                  <div style="font-size:20px;"><i class="ph ph-archive" title="icon-archive-outline"></i></div>
+                  <div style="font-size:12px;font-weight:700;color:var(--gray-900);margin-top:4px;">SAIJ</div>
+                  <div style="font-size:11px;color:var(--green);">● Activo</div>
+                  <div style="font-size:10px;color:var(--gray-400);">Últ. ingesta: hoy</div>
+                </div>
+                <div style="padding:10px;background:var(--green-bg);border-radius:7px;border:1px solid var(--green);text-align:center;">
+                  <div style="font-size:20px;"><i class="ph ph-scales" title="icon-balance-outline"></i></div>
+                  <div style="font-size:12px;font-weight:700;color:var(--gray-900);margin-top:4px;">CSJN</div>
+                  <div style="font-size:11px;color:var(--green);">● Activo</div>
+                  <div style="font-size:10px;color:var(--gray-400);">Últ. ingesta: ayer</div>
+                </div>
+                <div style="padding:10px;background:var(--green-bg);border-radius:7px;border:1px solid var(--green);text-align:center;">
+                  <div style="font-size:20px;"><i class="ph ph-receipt" title="icon-document-policies-outline"></i></div>
+                  <div style="font-size:12px;font-weight:700;color:var(--gray-900);margin-top:4px;">ARCA</div>
+                  <div style="font-size:11px;color:var(--green);">● Activo</div>
+                  <div style="font-size:10px;color:var(--gray-400);">Últ. ingesta: hoy</div>
+                </div>
+                <div style="padding:10px;background:var(--yellow-bg);border-radius:7px;border:1px solid var(--yellow);text-align:center;">
+                  <div style="font-size:20px;"><i class="ph ph-handshake" title="icon-handshake-outline"></i></div>
+                  <div style="font-size:12px;font-weight:700;color:var(--gray-900);margin-top:4px;">Com. Arbitral</div>
+                  <div style="font-size:11px;color:var(--yellow);"><i class="ph ph-warning" title="icon-hazard-outline"></i> Con errores</div>
+                  <div style="font-size:10px;color:var(--gray-400);">Últ. ingesta: hace 3 días</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </div>
+  <div class="screen-description">
+    <div class="desc-section"><h3>¿Qué hace?</h3><p>Alta/baja de usuarios y asignación de roles globales. Gestión de fuentes de datos activas (monitoreo de ingesta). Configuración del sistema. Log de auditoría inmutable de todos los cambios de configuración.</p></div>
+    <div class="desc-section"><h3>Flujo</h3><ol><li>Admin accede al panel con tabs: Usuarios / Fuentes / Config / Auditoría</li><li>Gestiona usuarios: rol, proyectos asignados, estado</li><li>Monitorea el estado de cada fuente de ingesta</li><li>Accede al log de auditoría para revisiones de compliance</li></ol></div>
+  </div>
+</div>
+</body>
+</html>
