@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>F4.4 · Feedback del Asistente — Legal Ai Ar</title>
+<link rel="stylesheet" href="https://appkitcdn.pwc.com/appkit4/cdn/styles/4.11.0/appkit.min.css">
+<link rel="stylesheet" href="https://appkitcdn.pwc.com/appkit4/cdn/styles/4.11.0/themes/appkit.orange.min.css">
+<link rel="stylesheet" href="../shared/wireframe.css">
+</head>
+<body>
+<div class="page-wrapper">
+  <div class="page-header">
+    <a class="back-link" href="../index.html">← Todas las pantallas</a>
+    <div class="page-header-center">
+      <h1 class="feature-title">F4.4 · Feedback del Asistente IA</h1>
+      <div class="badges"><span class="badge badge-release">R4.0</span><span class="badge badge-role">Partner/Manager · Senior/Associate (usan) · Admin (métricas)</span></div>
+    </div>
+    <div class="page-nav-arrows">
+      <a href="f4.3-grafo.html" class="nav-arrow">← F4.3 Grafo</a>
+      <a href="f4.5-observabilidad.html" class="nav-arrow">F4.5 Observabilidad →</a>
+    </div>
+  </div>
+  <div class="browser-wrapper">
+    <div class="browser-chrome">
+      <div class="dots"><span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span></div>
+      <div class="url-bar">legal-ai-ar.pwc.com.ar/admin/feedback</div>
+    </div>
+    <div class="app-shell">
+      <header class="topnav">
+        <div class="topnav-logo"><span class="logo-pwc">pwc</span> Legal Ai Ar</div>
+        <div class="topnav-flex"></div>
+        <button class="topnav-btn"><span class="Appkit4-icon icon-search-outline"></span></button>
+        <div class="notif-wrapper"><button class="topnav-btn"><span class="Appkit4-icon icon-notification-outline"></span></button><span class="notif-dot"></span></div>
+        <div class="topnav-user"><span class="user-init">AD</span><span class="user-name">Admin ▾</span></div>
+      </header>
+      <div class="app-body">
+        <nav class="sidebar">
+          <div class="sidebar-section">
+            <div class="sidebar-item"><span class="icon"><span class="Appkit4-icon icon-dashboard-outline"></span></span> Inicio</div>
+          </div>
+          <div class="sidebar-divider"></div>
+          <div class="sidebar-section">
+            <div class="sidebar-label">Administración</div>
+            <div class="sidebar-item"><span class="icon"><span class="Appkit4-icon icon-add-user-outline"></span></span> Usuarios</div>
+            <div class="sidebar-item active"><span class="icon"><span class="Appkit4-icon icon-analysis-outline"></span></span> Feedback IA</div>
+            <div class="sidebar-item"><span class="icon"><span class="Appkit4-icon icon-configuration-outline"></span></span> Observabilidad</div>
+          </div>
+        </nav>
+        <main class="main-content" style="display:flex;overflow:hidden;">
+          <!-- Left: Feedback examples (how users see it in chat) -->
+          <div style="width:340px;flex-shrink:0;border-right:1px solid var(--gray-200);display:flex;flex-direction:column;overflow:hidden;background:white;">
+            <div style="padding:12px 14px;border-bottom:1px solid var(--gray-200);">
+              <div style="font-size:13px;font-weight:700;color:var(--gray-900);">Así lo ven los usuarios</div>
+              <div style="font-size:11px;color:var(--gray-400);">Feedback inline en el chat</div>
+            </div>
+            <div class="chat-area" style="flex:1;">
+              <div class="chat-msg chat-msg-user">
+                <div class="chat-sender" style="text-align:right;">Pablo M.</div>
+                <div class="chat-bubble bubble-user">¿El transfer pricing es obligatorio para grupos con ingresos menores a $100M?</div>
+              </div>
+              <div class="chat-msg">
+                <div class="chat-sender">Asistente</div>
+                <div class="chat-bubble bubble-ai">
+                  <p>Sí, el régimen de precios de transferencia aplica a <strong>todas las transacciones</strong> entre sujetos vinculados del exterior, independientemente del monto de ingresos del grupo. El umbral de $100M refiere solo a la obligación de presentar el estudio de precios de transferencia (EPT) según RG ARCA 1.122. <span class="citation">[RG 1122 art.4]</span></p>
+                </div>
+                <!-- Feedback buttons -->
+                <div style="display:flex;align-items:center;gap:6px;margin-top:6px;padding-left:4px;">
+                  <span style="font-size:11px;color:var(--gray-400);">¿Esta respuesta fue útil?</span>
+                  <button style="background:var(--green-bg);border:1.5px solid var(--green);border-radius:6px;padding:4px 10px;cursor:pointer;font-size:14px;color:var(--green);font-weight:700;"><span class="Appkit4-icon icon-like-outline"></span></button>
+                  <button style="background:var(--gray-50);border:1.5px solid var(--gray-300);border-radius:6px;padding:4px 10px;cursor:pointer;font-size:14px;color:var(--gray-400);"><span class="Appkit4-icon icon-reject-outline"></span></button>
+                </div>
+              </div>
+              <div class="chat-msg">
+                <div class="chat-sender">Asistente</div>
+                <div class="chat-bubble bubble-ai">
+                  <p>La documentación de precios de transferencia incluye el Informe País por País (CbCR) para grupos con ingresos mayores a €750M, el EPT para transacciones mayores a $10M, y el Formulario 969 para todas las transacciones.</p>
+                </div>
+                <!-- Feedback with thumbs down + comment -->
+                <div style="margin-top:6px;padding:8px 10px;background:var(--red-bg);border:1px solid var(--red);border-radius:7px;max-width:85%;">
+                  <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
+                    <button style="background:var(--red);border:none;border-radius:6px;padding:4px 10px;cursor:pointer;font-size:14px;color:white;"><span class="Appkit4-icon icon-reject-outline"></span></button>
+                    <span style="font-size:11px;font-weight:700;color:var(--red);">Marcado como no útil</span>
+                  </div>
+                  <div style="font-size:11px;color:var(--gray-700);background:white;border-radius:5px;padding:6px 8px;">"El umbral del Form. 969 es incorrecto según la RG 5.607. Revisar."</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Right: Admin metrics panel -->
+          <div style="flex:1;overflow-y:auto;padding:16px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+              <div style="font-size:15px;font-weight:700;color:var(--gray-900);">Panel de métricas — Feedback del asistente</div>
+              <div style="display:flex;gap:8px;">
+                <select style="font-size:12px;border:1px solid var(--gray-300);border-radius:5px;padding:4px 8px;">
+                  <option>Últimos 30 días</option><option>Esta semana</option><option>Este mes</option>
+                </select>
+                <button class="btn btn-secondary btn-sm">Exportar</button>
+              </div>
+            </div>
+            <!-- KPIs -->
+            <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:16px;">
+              <div class="kpi-card">
+                <div class="kpi-value" style="color:var(--green);">87%</div>
+                <div class="kpi-label">Satisfacción global 👍</div>
+                <div class="kpi-trend trend-up">↑ 4pp vs mes anterior</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-value" style="color:var(--blue);">312</div>
+                <div class="kpi-label">Respuestas evaluadas</div>
+                <div class="kpi-trend" style="color:var(--gray-400);">de 398 totales (78%)</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-value" style="color:var(--red);">41</div>
+                <div class="kpi-label">Respuestas 👎</div>
+                <div class="kpi-trend trend-up">↓ 8 vs mes anterior</div>
+              </div>
+            </div>
+            <!-- Satisfaction by category -->
+            <div class="card card-pad" style="margin-bottom:14px;">
+              <div class="card-title" style="margin-bottom:12px;">Satisfacción por categoría de consulta</div>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <div>
+                  <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px;"><span>IVA y exportaciones</span><span style="color:var(--green);font-weight:700;">91%</span></div>
+                  <div style="height:8px;background:var(--gray-200);border-radius:4px;"><div style="height:100%;width:91%;background:var(--green);border-radius:4px;"></div></div>
+                </div>
+                <div>
+                  <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px;"><span>Precios de transferencia</span><span style="color:var(--yellow);font-weight:700;">78%</span></div>
+                  <div style="height:8px;background:var(--gray-200);border-radius:4px;"><div style="height:100%;width:78%;background:var(--yellow);border-radius:4px;"></div></div>
+                </div>
+                <div>
+                  <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px;"><span>Reorganizaciones societarias</span><span style="color:var(--green);font-weight:700;">89%</span></div>
+                  <div style="height:8px;background:var(--gray-200);border-radius:4px;"><div style="height:100%;width:89%;background:var(--green);border-radius:4px;"></div></div>
+                </div>
+                <div>
+                  <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px;"><span>IIBB y regulatorio provincial</span><span style="color:var(--red);font-weight:700;">71%</span></div>
+                  <div style="height:8px;background:var(--gray-200);border-radius:4px;"><div style="height:100%;width:71%;background:var(--red);border-radius:4px;"></div></div>
+                </div>
+              </div>
+            </div>
+            <!-- Recent negative feedback -->
+            <div class="card card-pad">
+              <div class="card-title" style="margin-bottom:12px;">Feedback negativo reciente — Para revisión de prompts</div>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <div style="padding:10px;background:var(--red-bg);border-radius:7px;border-left:3px solid var(--red);">
+                  <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+                    <span class="chip chip-red" style="font-size:10px;">PT / Form. 969</span>
+                    <span style="font-size:11px;color:var(--gray-400);">L. Aquino · hace 2 horas</span>
+                  </div>
+                  <div style="font-size:12px;color:var(--gray-800);">"El umbral del Formulario 969 es incorrecto según RG 5.607. El asistente citó datos desactualizados."</div>
+                  <button class="btn btn-secondary btn-sm" style="margin-top:6px;">Ver respuesta completa →</button>
+                </div>
+                <div style="padding:10px;background:var(--red-bg);border-radius:7px;border-left:3px solid var(--red);">
+                  <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+                    <span class="chip chip-red" style="font-size:10px;">IIBB multiprovincias</span>
+                    <span style="font-size:11px;color:var(--gray-400);">C. Rodríguez · ayer</span>
+                  </div>
+                  <div style="font-size:12px;color:var(--gray-800);">"No distinguió correctamente entre el Convenio Multilateral y los regímenes unilaterales en la atribución de ingresos."</div>
+                  <button class="btn btn-secondary btn-sm" style="margin-top:6px;">Ver respuesta completa →</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </div>
+  <div class="screen-description">
+    <div class="desc-section"><h3>¿Qué hace?</h3><p>Los usuarios dan 👍/👎 en cada respuesta del asistente (con comentario opcional). El Admin ve un panel de métricas de satisfacción por categoría y los feedbacks negativos recientes para ajustar prompts y evaluar el modelo.</p></div>
+    <div class="desc-section"><h3>Flujo</h3><ol><li>Usuario recibe respuesta del asistente y evalúa con 👍 o 👎</li><li>Si es negativo, puede agregar un comentario explicativo</li><li>El feedback queda registrado asociado a la respuesta</li><li>Admin ve el panel de métricas y el detalle de feedbacks negativos</li><li>El equipo técnico ajusta prompts en base a los patrones</li></ol></div>
+  </div>
+</div>
+</body>
+</html>

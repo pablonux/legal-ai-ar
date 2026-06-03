@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>F4.1 · Reportes de Práctica — Legal Ai Ar</title>
+<link rel="stylesheet" href="https://appkitcdn.pwc.com/appkit4/cdn/styles/4.11.0/appkit.min.css">
+<link rel="stylesheet" href="https://appkitcdn.pwc.com/appkit4/cdn/styles/4.11.0/themes/appkit.orange.min.css">
+<link rel="stylesheet" href="../shared/wireframe.css">
+</head>
+<body>
+<div class="page-wrapper">
+  <div class="page-header">
+    <a class="back-link" href="../index.html">← Todas las pantallas</a>
+    <div class="page-header-center">
+      <h1 class="feature-title">F4.1 · Reportes de Práctica</h1>
+      <div class="badges"><span class="badge badge-release">R4.0</span><span class="badge badge-role">Partner / Manager</span></div>
+    </div>
+    <div class="page-nav-arrows">
+      <a href="../r3.0/f3.4-controversias.html" class="nav-arrow">← F3.4 Controversias</a>
+      <a href="f4.2-admin.html" class="nav-arrow">F4.2 Admin →</a>
+    </div>
+  </div>
+  <div class="browser-wrapper">
+    <div class="browser-chrome">
+      <div class="dots"><span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span></div>
+      <div class="url-bar">legal-ai-ar.pwc.com.ar/reportes</div>
+    </div>
+    <div class="app-shell">
+      <header class="topnav">
+        <div class="topnav-logo"><span class="logo-pwc">pwc</span> Legal Ai Ar</div>
+        <div class="topnav-flex"></div>
+        <button class="topnav-btn"><span class="Appkit4-icon icon-search-outline"></span></button>
+        <div class="notif-wrapper"><button class="topnav-btn"><span class="Appkit4-icon icon-notification-outline"></span></button><span class="notif-dot"></span></div>
+        <div class="topnav-user"><span class="user-init">PM</span><span class="user-name">Pablo M. ▾</span></div>
+      </header>
+      <div class="app-body">
+        <nav class="sidebar">
+          <div class="sidebar-section">
+            <div class="sidebar-item"><span class="icon"><span class="Appkit4-icon icon-dashboard-outline"></span></span> Inicio</div>
+            <div class="sidebar-item"><span class="icon"><span class="Appkit4-icon icon-folder-closed-outline"></span></span> Mis Proyectos</div>
+          </div>
+          <div class="sidebar-divider"></div>
+          <div class="sidebar-section">
+            <div class="sidebar-label">Análisis</div>
+            <div class="sidebar-item active"><span class="icon"><span class="Appkit4-icon icon-bar-chart-outline"></span></span> Reportes</div>
+            <div class="sidebar-item"><span class="icon"><span class="Appkit4-icon icon-network-outline"></span></span> Grafo Legal</div>
+            <div class="sidebar-item"><span class="icon"><span class="Appkit4-icon icon-hazard-outline"></span></span> Análisis de Riesgo</div>
+            <div class="sidebar-item"><span class="icon"><span class="Appkit4-icon icon-archive-outline"></span></span> KB Interna</div>
+          </div>
+        </nav>
+        <main class="main-content">
+          <div class="content-pad">
+            <div class="content-header">
+              <div>
+                <div class="content-title"><span class="Appkit4-icon icon-bar-chart-outline"></span> Reportes de la práctica</div>
+                <div class="content-subtitle">Período: mayo 2026 · PwC Tax-Legal Argentina</div>
+              </div>
+              <div style="display:flex;gap:8px;">
+                <select style="font-size:12px;border:1px solid var(--gray-300);border-radius:5px;padding:5px 10px;">
+                  <option>Mayo 2026</option><option>Abril 2026</option><option>Q1 2026</option>
+                </select>
+                <button class="btn btn-secondary">Exportar PDF</button>
+                <button class="btn btn-outline"><span class="Appkit4-icon icon-bar-chart-outline"></span> Exportar Excel</button>
+              </div>
+            </div>
+            <!-- KPIs -->
+            <div class="kpi-grid">
+              <div class="kpi-card">
+                <div class="kpi-value">7</div>
+                <div class="kpi-label">Proyectos activos</div>
+                <div class="kpi-trend trend-up">↑ 2 vs mes anterior</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-value" style="color:var(--green);">14</div>
+                <div class="kpi-label">Entregables completados</div>
+                <div class="kpi-trend trend-up">↑ 4 vs mes anterior</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-value" style="color:var(--blue);">312</div>
+                <div class="kpi-label">Consultas al asistente IA</div>
+                <div class="kpi-trend trend-up">↑ 28% vs mes anterior</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-value" style="color:var(--yellow);">4</div>
+                <div class="kpi-label">Alertas sin atender</div>
+                <div class="kpi-trend trend-down">↓ 6 vs semana pasada</div>
+              </div>
+            </div>
+            <!-- Charts row -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+              <!-- Bar chart: entregables por proyecto -->
+              <div class="card card-pad">
+                <div class="card-title" style="margin-bottom:14px;">Entregables por proyecto (mayo)</div>
+                <div style="display:flex;flex-direction:column;gap:8px;">
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <div style="font-size:12px;color:var(--gray-600);width:90px;text-align:right;flex-shrink:0;">Grupo Pampa Foods</div>
+                    <div style="flex:1;height:22px;background:var(--gray-100);border-radius:4px;overflow:hidden;position:relative;">
+                      <div style="height:100%;width:70%;background:var(--pwc);border-radius:4px;display:flex;align-items:center;padding-left:8px;"><span style="font-size:11px;color:white;font-weight:700;">7</span></div>
+                    </div>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <div style="font-size:12px;color:var(--gray-600);width:90px;text-align:right;flex-shrink:0;">Austral Industrial S.A.</div>
+                    <div style="flex:1;height:22px;background:var(--gray-100);border-radius:4px;overflow:hidden;">
+                      <div style="height:100%;width:30%;background:var(--blue);border-radius:4px;display:flex;align-items:center;padding-left:8px;"><span style="font-size:11px;color:white;font-weight:700;">3</span></div>
+                    </div>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <div style="font-size:12px;color:var(--gray-600);width:90px;text-align:right;flex-shrink:0;">Campo Verde S.A.</div>
+                    <div style="flex:1;height:22px;background:var(--gray-100);border-radius:4px;overflow:hidden;">
+                      <div style="height:100%;width:40%;background:var(--green);border-radius:4px;display:flex;align-items:center;padding-left:8px;"><span style="font-size:11px;color:white;font-weight:700;">4</span></div>
+                    </div>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <div style="font-size:12px;color:var(--gray-600);width:90px;text-align:right;flex-shrink:0;">Otros (4)</div>
+                    <div style="flex:1;height:22px;background:var(--gray-100);border-radius:4px;overflow:hidden;">
+                      <div style="height:100%;width:20%;background:var(--gray-400);border-radius:4px;display:flex;align-items:center;padding-left:8px;"><span style="font-size:11px;color:white;font-weight:700;">2+</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Usage chart: IA queries over time -->
+              <div class="card card-pad">
+                <div class="card-title" style="margin-bottom:14px;">Consultas al asistente IA (últimas 4 semanas)</div>
+                <div style="display:flex;align-items:flex-end;gap:8px;height:100px;padding-bottom:8px;border-bottom:1px solid var(--gray-200);">
+                  <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">
+                    <div style="width:100%;background:var(--blue);border-radius:3px 3px 0 0;" style="height:52px;background:var(--blue-bg);border-top:2px solid var(--blue);"></div>
+                    <div style="font-size:10px;color:var(--gray-400);">S1</div>
+                  </div>
+                  <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">
+                    <div style="width:100%;border-top:2px solid var(--blue);" style="height:65px;background:var(--blue-bg);"></div>
+                    <div style="font-size:10px;color:var(--gray-400);">S2</div>
+                  </div>
+                  <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">
+                    <div style="width:100%;border-top:2px solid var(--blue);" style="height:78px;background:var(--blue-bg);"></div>
+                    <div style="font-size:10px;color:var(--gray-400);">S3</div>
+                  </div>
+                  <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">
+                    <div style="width:100%;border-top:2px solid var(--pwc);" style="height:90px;background:var(--pwc-light);"></div>
+                    <div style="font-size:10px;color:var(--pwc);font-weight:700;">S4</div>
+                  </div>
+                </div>
+                <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:11px;color:var(--gray-500);">
+                  <span>63 consultas</span><span>74 consultas</span><span>88 consultas</span><span style="color:var(--pwc);font-weight:700;">87 consultas</span>
+                </div>
+              </div>
+            </div>
+            <!-- Projects table -->
+            <div class="card" style="overflow:hidden;">
+              <div style="padding:12px 16px;border-bottom:1px solid var(--gray-200);display:flex;align-items:center;justify-content:space-between;">
+                <div class="card-title">Estado de proyectos</div>
+                <button class="btn btn-secondary btn-sm">Ver detalles</button>
+              </div>
+              <table class="data-table">
+                <thead><tr><th>Proyecto / Cliente</th><th>Estado</th><th>Entregables</th><th>Tareas</th><th>Alertas</th><th>Próximo plazo</th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Grupo Pampa Foods</strong><br><span style="font-size:11px;color:var(--gray-400);">IVA exportación servicios</span></td>
+                    <td><span class="chip chip-green">Activo</span></td>
+                    <td style="text-align:center;">7/8 <span class="Appkit4-icon icon-check-mark-outline"></span></td>
+                    <td style="text-align:center;color:var(--yellow);font-weight:600;">5 (2 urgentes)</td>
+                    <td style="text-align:center;">1</td>
+                    <td style="color:var(--yellow);font-weight:600;">10 jun</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Austral Industrial S.A.</strong><br><span style="font-size:11px;color:var(--gray-400);">Controversia ARCA Ganancias</span></td>
+                    <td><span class="chip chip-yellow">En revisión</span></td>
+                    <td style="text-align:center;">3/4 <span class="Appkit4-icon icon-check-mark-outline"></span></td>
+                    <td style="text-align:center;color:var(--red);font-weight:600;">3 (1 vence hoy)</td>
+                    <td style="text-align:center;color:var(--red);">2</td>
+                    <td style="color:var(--red);font-weight:600;">Hoy</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Campo Verde S.A.</strong><br><span style="font-size:11px;color:var(--gray-400);">Opinión legal BP campos</span></td>
+                    <td><span class="chip chip-green">Activo</span></td>
+                    <td style="text-align:center;">2/4 <span class="Appkit4-icon icon-check-mark-outline"></span></td>
+                    <td style="text-align:center;">4</td>
+                    <td style="text-align:center;">0</td>
+                    <td>18 jun</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </div>
+  <div class="screen-description">
+    <div class="desc-section"><h3>¿Qué hace?</h3><p>Métricas de la práctica: proyectos activos, entregables completados, uso del asistente IA, alertas atendidas. Drill-down por proyecto y exportación a PDF/Excel para reuniones de management.</p></div>
+    <div class="desc-section"><h3>Flujo</h3><ol><li>Partner accede al módulo de Reportes</li><li>Selecciona período y tipo de vista</li><li>Ve KPIs, gráficos y tabla de proyectos</li><li>Hace drill-down al proyecto que le interesa</li><li>Exporta el reporte a PDF o Excel</li></ol></div>
+  </div>
+</div>
+</body>
+</html>

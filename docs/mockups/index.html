@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Legal Ai Ar — Storyboard de Pantallas</title>
+<link rel="stylesheet" href="https://appkitcdn.pwc.com/appkit4/cdn/styles/4.11.0/appkit.min.css">
+<link rel="stylesheet" href="https://appkitcdn.pwc.com/appkit4/cdn/styles/4.11.0/themes/appkit.orange.min.css">
+<link rel="stylesheet" href="shared/wireframe.css">
+<style>
+body { background: #eef0f3; }
+.index-wrapper { max-width: 1080px; margin: 0 auto; padding: 32px 20px; }
+.index-header { text-align: center; margin-bottom: 40px; }
+.index-header h1 { font-size: 28px; font-weight: 800; color: var(--gray-900); }
+.index-header p { color: var(--gray-500); margin-top: 8px; font-size: 14px; }
+.pwc-bar { width: 60px; height: 4px; background: var(--pwc); border-radius: 2px; margin: 14px auto; }
+.release-section { margin-bottom: 32px; }
+.release-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--pwc); margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+.release-title::after { content: ''; flex: 1; height: 1px; background: var(--gray-200); }
+.screen-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.screen-card { background: white; border: 1px solid var(--gray-200); border-radius: 10px; padding: 16px; text-decoration: none; display: block; transition: all 0.15s; }
+.screen-card:hover { border-color: var(--pwc); box-shadow: 0 4px 16px rgba(208,74,2,0.12); transform: translateY(-2px); }
+.screen-card-id { font-size: 11px; font-weight: 700; color: var(--pwc); margin-bottom: 6px; }
+.screen-card-title { font-size: 14px; font-weight: 600; color: var(--gray-900); margin-bottom: 8px; }
+.screen-card-role { font-size: 11px; color: var(--gray-500); }
+.screen-card-preview { height: 70px; background: var(--gray-50); border-radius: 6px; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; font-size: 28px; border: 1px solid var(--gray-100); }
+.legend { display: flex; gap: 20px; justify-content: center; margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--gray-200); }
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--gray-500); }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+</style>
+</head>
+<body>
+<div class="index-wrapper">
+  <div class="index-header">
+    <div class="logo-pwc-xl">pwc</div>
+    <h1>Legal Ai Ar — Storyboard de Pantallas</h1>
+    <div class="pwc-bar"></div>
+    <p>22 pantallas · Comité de usuarios para aprobación por rol · PwC Tax-Legal</p>
+    <div style="display:flex;gap:10px;justify-content:center;margin-top:12px;flex-wrap:wrap;">
+      <span class="chip chip-orange">Partner / Manager</span>
+      <span class="chip chip-blue">Senior / Associate</span>
+      <span class="chip chip-gray">Admin</span>
+    </div>
+  </div>
+
+  <!-- R1.0 -->
+  <div class="release-section">
+    <div class="release-title">R1.0 · Research &amp; Monitoring</div>
+    <div class="screen-grid">
+      <a class="screen-card" href="r1.0/f1.1-auth.html">
+        <div class="screen-card-preview"><span class="Appkit4-icon icon-lockclosed-locked-outline"></span></div>
+        <div class="screen-card-id">F1.1</div>
+        <div class="screen-card-title">Autenticación &amp; SSO</div>
+        <div class="screen-card-role">Todos los usuarios</div>
+      </a>
+      <a class="screen-card" href="r1.0/f1.2-home.html">
+        <div class="screen-card-preview"><span class="Appkit4-icon icon-dashboard-outline"></span></div>
+        <div class="screen-card-id">F1.2</div>
+        <div class="screen-card-title">Home — Mis proyectos</div>
+        <div class="screen-card-role">Partner/Manager · Senior</div>
+      </a>
+      <a class="screen-card" href="r1.0/f1.3-jurisprudencia.html">
+        <div class="screen-card-preview"><span class="Appkit4-icon icon-analysis-outline"></span></div>
+        <div class="screen-card-id">F1.3</div>
+        <div class="screen-card-title">Búsqueda de Jurisprudencia</div>
+        <div class="screen-card-role">Partner/Manager · Senior</div>
+      </a>
+      <a class="screen-card" href="r1.0/f1.4-legislacion.html">
+        <div class="screen-card-preview"><span class="Appkit4-icon icon-document-file-outline"></span></div>
+        <div class="screen-card-id">F1.4</div>
+        <div class="screen-card-title">Búsqueda de Legislación</div>
+        <div class="screen-card-role">Partner/Manager · Senior</div>
+      </a>
+      <a class="screen-card" href="r1.0/f1.5-fuentes-tributarias.html">
+        <div class="screen-card-preview"><span class="Appkit4-icon icon-document-policies-outline"></span></div>
+        <div class="screen-card-id">F1.5</div>
+        <div class="screen-card-title">Fuentes Tributarias</div>
+        <div class="screen-card-role">Partner/Manager · Senior</div>
+      </a>
+      <a class="screen-card" href="r1.0/f1.6-detalle-norma.html">
+        <div class="screen-card-preview"><span class="Appkit4-icon icon-document-file-outline"></span></div>
+        <div class="screen-card-id">F1.6</div>
+        <div class="screen-card-title">Detalle de Norma + Grafo</div>
+        <div class="screen-card-role">Partner/Manager · Senior</div>
+      </a>
+      <a class="screen-card" href="r1.0/f1.7-asistente-ia.html">
+        <div class="screen-card-preview"><span class="Appkit4-icon icon-ask-question-outline"></span></div>
+        <div class="screen-card-id">F1.7</div>
+        <div class="screen-card-title">Asistente de IA</div>
+        <div class="screen-card-role">Partner/Manager · Senior</div>
+      </a>
+      <a class="screen-card" href="r1.0/f1.8-monitoreo.html">
+        <div class="screen-card-preview"><span class="Appkit4-icon icon-notification-outline"></span></div>
+        <div class="screen-card-id">F1.8</div>
+        <div class="screen-card-title">Monitoreo y Alertas</div>
+        <div class="screen-card-role">Partner/Manager · Senior</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- R2.0 -->
+  <div class="release-section">
+    <div class="release-title">R2.0 · Professional Productivity</div>
+    <div class="screen-grid">
+      <a class="screen-card" href="r2.0/f2.1-proyectos.html">
+        <div class="screen-card-preview"><span class="Appkit4-icon icon-folder-closed-outline"></span></div>
+        <div class="screen-card-id">F2.1</div>
+        <div class="screen-card-title">Proyectos / Workspaces</div>
+        <div class="screen-card-role">Partner/Manager · Senior</div>
+      </a>
+      <a class="screen-card" href="r2.0/f2.2-revision-documentos.html">
+        <div class="screen-card-preview"><span class="Appkit4-icon icon-document-file-outline"></span></div>
+        <div class="screen-card-id">F2.2</div>
+        <div class="screen-card-title">Revisión de Documentos</div>
+        <div class="screen-card-role">Partner/Manager · Senior</div>
+      </a>
+      <a class="screen-card" href="r2.0/f2.3-entregables.html">
+        <div class="screen-card-preview"><span class="Appkit4-icon icon-notebook-outline"></span></div>
+        <div class="screen-card-id">F2.3</div>
+        <div class="screen-card-title">Generación de Entregables</div>
+        <div class="screen-card-role">Partner/Manager · Senior</div>
+      </a>
+      <a class="screen-card" href="r2.0/f2.4-tareas-plazos.html">
+        <div class="screen-card-preview"><span class="Appkit4-icon icon-calendar-outline"></span></div>
+        <div class="screen-card-id">F2.4</div>
+        <div class="screen-card-title">Tareas y Plazos</div>
+        <div class="screen-card-role">Partner/Manager · Senior</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- R3.0 -->
+  <div class="release-section">
+    <div class="release-title">R3.0 · Knowledge &amp; Intelligence</div>
+    <div class="screen-grid">
+      <a class="screen-card" href="r3.0/f3.1-kb-interna.html">
+        <div class="screen-card-preview"><span class="Appkit4-icon icon-archive-outline"></span></div>
+        <div class="screen-card-id">F3.1</div>
+        <div class="screen-card-title">KB Interna PwC</div>
+        <div class="screen-card-role">Partner/Manager · Senior · Admin</div>
+      </a>
+      <a class="screen-card" href="r3.0/f3.2-agentes.html">
+        <div class="screen-card-preview"><span class="Appkit4-icon icon-ask-question-outline"></span></div>
+        <div class="screen-card-id">F3.2</div>
+        <div class="screen-card-title">Agentes Especializados</div>
+        <div class="screen-card-role">Partner/Manager · Senior</div>
+      </a>
+      <a class="screen-card" href="r3.0/f3.3-riesgo.html">
+        <div class="screen-card-preview"><span class="Appkit4-icon icon-hazard-outline"></span></div>
+        <div class="screen-card-id">F3.3</div>
+        <div class="screen-card-title">Análisis de Riesgo</div>
+        <div class="screen-card-role">Partner/Manager · Senior</div>
+      </a>
+      <a class="screen-card" href="r3.0/f3.4-controversias.html">
+        <div class="screen-card-preview"><span class="Appkit4-icon icon-alert-outline"></span></div>
+        <div class="screen-card-id">F3.4</div>
+        <div class="screen-card-title">Controversias Tributarias</div>
+        <div class="screen-card-role">Partner/Manager · Senior</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- R4.0 -->
+  <div class="release-section">
+    <div class="release-title">R4.0 · Scale &amp; Operations</div>
+    <div class="screen-grid">
+      <a class="screen-card" href="r4.0/f4.1-reportes.html">
+        <div class="screen-card-preview"><span class="Appkit4-icon icon-bar-chart-outline"></span></div>
+        <div class="screen-card-id">F4.1</div>
+        <div class="screen-card-title">Reportes de Práctica</div>
+        <div class="screen-card-role">Partner / Manager</div>
+      </a>
+      <a class="screen-card" href="r4.0/f4.2-admin.html">
+        <div class="screen-card-preview"><span class="Appkit4-icon icon-add-user-outline"></span></div>
+        <div class="screen-card-id">F4.2</div>
+        <div class="screen-card-title">Administración</div>
+        <div class="screen-card-role">Admin</div>
+      </a>
+      <a class="screen-card" href="r4.0/f4.3-grafo.html">
+        <div class="screen-card-preview"><span class="Appkit4-icon icon-network-outline"></span></div>
+        <div class="screen-card-id">F4.3</div>
+        <div class="screen-card-title">Grafo Legal Explorer</div>
+        <div class="screen-card-role">Partner/Manager · Senior</div>
+      </a>
+      <a class="screen-card" href="r4.0/f4.4-feedback.html">
+        <div class="screen-card-preview"><span class="Appkit4-icon icon-like-outline"></span></div>
+        <div class="screen-card-id">F4.4</div>
+        <div class="screen-card-title">Feedback del Asistente</div>
+        <div class="screen-card-role">Todos</div>
+      </a>
+      <a class="screen-card" href="r4.0/f4.5-observabilidad.html">
+        <div class="screen-card-preview"><span class="Appkit4-icon icon-configuration-outline"></span></div>
+        <div class="screen-card-id">F4.5</div>
+        <div class="screen-card-title">Observabilidad &amp; LLMOps</div>
+        <div class="screen-card-role">Admin / DevOps</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- FT -->
+  <div class="release-section">
+    <div class="release-title">FT · Cross-cutting</div>
+    <div class="screen-grid">
+      <a class="screen-card" href="ft/ft2-omnisearch.html">
+        <div class="screen-card-preview"><span class="Appkit4-icon icon-search-outline"></span></div>
+        <div class="screen-card-id">FT.2</div>
+        <div class="screen-card-title">Búsqueda Global (Omnisearch)</div>
+        <div class="screen-card-role">Todos los usuarios</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--pwc)"></div> PwC Orange — acciones primarias</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--blue)"></div> Azul — información / datos</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div> Verde — estados positivos</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div> Rojo — alertas / riesgo</div>
+  </div>
+</div>
+</body>
+</html>

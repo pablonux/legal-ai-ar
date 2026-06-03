@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>F3.2 · Agentes Especializados — Legal Ai Ar</title>
+<link rel="stylesheet" href="https://appkitcdn.pwc.com/appkit4/cdn/styles/4.11.0/appkit.min.css">
+<link rel="stylesheet" href="https://appkitcdn.pwc.com/appkit4/cdn/styles/4.11.0/themes/appkit.orange.min.css">
+<link rel="stylesheet" href="../shared/wireframe.css">
+</head>
+<body>
+<div class="page-wrapper">
+  <div class="page-header">
+    <a class="back-link" href="../index.html">← Todas las pantallas</a>
+    <div class="page-header-center">
+      <h1 class="feature-title">F3.2 · Agentes Especializados</h1>
+      <div class="badges"><span class="badge badge-release">R3.0</span><span class="badge badge-role">Partner/Manager · Senior/Associate</span></div>
+    </div>
+    <div class="page-nav-arrows">
+      <a href="f3.1-kb-interna.html" class="nav-arrow">← F3.1 KB Interna</a>
+      <a href="f3.3-riesgo.html" class="nav-arrow">F3.3 Análisis riesgo →</a>
+    </div>
+  </div>
+  <div class="browser-wrapper">
+    <div class="browser-chrome">
+      <div class="dots"><span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span></div>
+      <div class="url-bar">legal-ai-ar.pwc.com.ar/asistente?modo=multi-agente</div>
+    </div>
+    <div class="app-shell">
+      <header class="topnav">
+        <div class="topnav-logo"><span class="logo-pwc">pwc</span> Legal Ai Ar</div>
+        <div class="topnav-flex"></div>
+        <button class="topnav-btn"><span class="Appkit4-icon icon-search-outline"></span></button>
+        <div class="notif-wrapper"><button class="topnav-btn"><span class="Appkit4-icon icon-notification-outline"></span></button><span class="notif-dot"></span></div>
+        <div class="topnav-user"><span class="user-init">PM</span><span class="user-name">Pablo M. ▾</span></div>
+      </header>
+      <div class="app-body">
+        <nav class="sidebar">
+          <div class="sidebar-section">
+            <div class="sidebar-item"><span class="icon"><span class="Appkit4-icon icon-dashboard-outline"></span></span> Inicio</div>
+            <div class="sidebar-item"><span class="icon"><span class="Appkit4-icon icon-folder-closed-outline"></span></span> Mis Proyectos</div>
+          </div>
+          <div class="sidebar-divider"></div>
+          <div class="sidebar-section">
+            <div class="sidebar-label">Investigación</div>
+            <div class="sidebar-item"><span class="icon"><span class="Appkit4-icon icon-document-file-outline"></span></span> Legislación</div>
+            <div class="sidebar-item"><span class="icon"><span class="Appkit4-icon icon-analysis-outline"></span></span> Jurisprudencia</div>
+            <div class="sidebar-item"><span class="icon"><span class="Appkit4-icon icon-document-policies-outline"></span></span> Tributario</div>
+            <div class="sidebar-item active"><span class="icon"><span class="Appkit4-icon icon-ask-question-outline"></span></span> Asistente IA</div>
+          </div>
+          <div class="sidebar-divider"></div>
+          <div class="sidebar-section">
+            <div class="sidebar-label">Historial</div>
+            <div class="sidebar-item" style="font-size:12px;"><span class="icon"><span class="Appkit4-icon icon-comment-outline"></span></span> IVA exportación servicios</div>
+            <div class="sidebar-item" style="font-size:12px;"><span class="icon"><span class="Appkit4-icon icon-comment-outline"></span></span> Reestructuración holding</div>
+          </div>
+        </nav>
+        <main class="main-content" style="display:flex;overflow:hidden;">
+          <!-- Chat column -->
+          <div style="flex:1;display:flex;flex-direction:column;overflow:hidden;">
+            <!-- Agent selector -->
+            <div style="padding:10px 16px;background:white;border-bottom:1px solid var(--gray-200);">
+              <div style="font-size:11px;font-weight:700;color:var(--gray-500);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">Modo de agente</div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <div style="padding:7px 14px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;background:var(--pwc);color:white;"><span class="Appkit4-icon icon-analysis-outline"></span> Multi-agente (activo)</div>
+                <div style="padding:7px 14px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;background:var(--gray-100);color:var(--gray-600);">Agente Tributario</div>
+                <div style="padding:7px 14px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;background:var(--gray-100);color:var(--gray-600);">Agente Legislación</div>
+                <div style="padding:7px 14px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;background:var(--gray-100);color:var(--gray-600);">⚖️ Agente Jurisprudencia</div>
+              </div>
+            </div>
+            <!-- Messages -->
+            <div class="chat-area" style="flex:1;">
+              <!-- User query -->
+              <div class="chat-msg chat-msg-user">
+                <div class="chat-sender" style="text-align:right;">Pablo M.</div>
+                <div class="chat-bubble bubble-user">¿Cuál es el tratamiento de IVA y de Impuesto a las Ganancias para la reorganización de un grupo empresario que transfiere un establecimiento comercial al holding? ¿Hay jurisprudencia relevante del TFN sobre este tema?</div>
+              </div>
+              <!-- Agent reasoning steps -->
+              <div class="chat-msg">
+                <div class="chat-sender">Sistema Multi-agente</div>
+                <div style="background:var(--gray-50);border:1px solid var(--gray-200);border-radius:12px 12px 12px 4px;padding:12px 14px;max-width:85%;">
+                  <div style="font-size:11px;font-weight:700;color:var(--gray-500);margin-bottom:8px;text-transform:uppercase;letter-spacing:.4px;">Razonamiento Multi-paso (ReAct)</div>
+                  <div style="display:flex;flex-direction:column;gap:6px;">
+                    <div style="display:flex;align-items:flex-start;gap:8px;">
+                      <span style="width:20px;height:20px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;color:white;font-weight:700;flex-shrink:0;margin-top:1px;"><span class="Appkit4-icon icon-check-mark-outline"></span></span>
+                      <div style="font-size:12px;color:var(--gray-700);">
+                        <strong style="color:var(--green);">Agente Tributario</strong> — Consulta legislación sobre reorganizaciones empresariales (Ley 19.550 art.82, LIG art.77-78, Ley IVA art.2 párr.2)
+                      </div>
+                    </div>
+                    <div style="display:flex;align-items:flex-start;gap:8px;">
+                      <span style="width:20px;height:20px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;color:white;font-weight:700;flex-shrink:0;margin-top:1px;"><span class="Appkit4-icon icon-check-mark-outline"></span></span>
+                      <div style="font-size:12px;color:var(--gray-700);">
+                        <strong style="color:var(--green);">Agente Jurisprudencia</strong> — Búsqueda TFN sobre reorganizaciones — encontrados 8 fallos relevantes (2018-2026)
+                      </div>
+                    </div>
+                    <div style="display:flex;align-items:flex-start;gap:8px;">
+                      <span style="width:20px;height:20px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;color:white;font-weight:700;flex-shrink:0;margin-top:1px;"><span class="Appkit4-icon icon-check-mark-outline"></span></span>
+                      <div style="font-size:12px;color:var(--gray-700);">
+                        <strong style="color:var(--green);">Agente Tributario</strong> — Verifica dictámenes ARCA sobre tratamiento IVA en transferencia de establecimientos
+                      </div>
+                    </div>
+                    <div style="display:flex;align-items:flex-start;gap:8px;">
+                      <span style="width:20px;height:20px;background:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;color:white;font-weight:700;flex-shrink:0;margin-top:1px;">→</span>
+                      <div style="font-size:12px;color:var(--gray-500);">
+                        <strong>Consolidando</strong> respuesta cruzada entre ambos agentes...
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- AI consolidated response -->
+              <div class="chat-msg">
+                <div class="chat-sender">Agente Multi-fuente</div>
+                <div class="chat-bubble bubble-ai">
+                  <p style="margin-bottom:8px;">La reorganización empresarial con transferencia de establecimiento comercial al holding tiene un tratamiento diferencial para <strong>IVA</strong> y <strong>Ganancias</strong>:</p>
+                  <p style="margin-bottom:6px;"><strong><strong>IVA (Agente Tributario)</strong></p>
+                  <p style="margin-bottom:8px;">La transferencia de un establecimiento comercial como unidad de negocio está <strong>excluida del objeto</strong> del IVA conforme art. 2°, párr. 2° de la Ley 23.349 <span class="citation">[Ley 23.349 art.2]</span>, siempre que se transfiera la totalidad de los activos y se continúe la actividad. El Dictamen DAT 8/2024 <span class="citation">[DAT 8/2024]</span> confirmó este criterio.</p>
+                  <p style="margin-bottom:6px;"><strong><strong>Ganancias (Agente Tributario + Jurisprudencia)</strong></p>
+                  <p style="margin-bottom:8px;">La reorganización free tax aplica bajo art. 77 LIG <span class="citation">[LIG art.77]</span>, con diferimiento del resultado. El TFN Sala B en Fallo 39.201 <span class="citation">[TFN 39.201-B]</span> (2024) estableció que el requisito de continuidad de la empresa es de carácter sustancial, no meramente formal.</p>
+                  <p><strong><span class="Appkit4-icon icon-hazard-outline"></span> Riesgo clave:</strong> ARCA puede cuestionar que el holding tenga sustancia suficiente. Conviene documentar la actividad económica real del holding receptor.</p>
+                </div>
+              </div>
+            </div>
+            <div class="chat-input-bar">
+              <input class="chat-input" placeholder="Consultá una cuestión legal-tributaria compleja...">
+              <button class="btn btn-primary">Enviar ↑</button>
+            </div>
+          </div>
+          <!-- Right: Sources panel -->
+          <div style="width:230px;border-left:1px solid var(--gray-200);display:flex;flex-direction:column;background:white;">
+            <div style="padding:12px 14px;border-bottom:1px solid var(--gray-200);">
+              <div style="font-size:13px;font-weight:700;color:var(--gray-900);"><span class="Appkit4-icon icon-archive-outline"></span> Fuentes (6)</div>
+              <div style="font-size:11px;color:var(--gray-400);margin-top:2px;">2 agentes · 6 fuentes cruzadas</div>
+            </div>
+            <div style="flex:1;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:7px;">
+              <div class="card card-pad" style="cursor:pointer;border-left:3px solid var(--blue);">
+                <div style="font-size:10px;font-weight:700;color:var(--blue);text-transform:uppercase;">Legislación</div>
+                <div style="font-size:12px;font-weight:600;color:var(--gray-900);margin:3px 0;">Ley 23.349 art. 2°</div>
+                <div style="font-size:11px;color:var(--gray-500);">Exclusiones del objeto IVA</div>
+              </div>
+              <div class="card card-pad" style="cursor:pointer;border-left:3px solid var(--blue);">
+                <div style="font-size:10px;font-weight:700;color:var(--blue);text-transform:uppercase;">Legislación</div>
+                <div style="font-size:12px;font-weight:600;color:var(--gray-900);margin:3px 0;">LIG art. 77–78</div>
+                <div style="font-size:11px;color:var(--gray-500);">Reorganizaciones libres de impuesto</div>
+              </div>
+              <div class="card card-pad" style="cursor:pointer;border-left:3px solid var(--pwc);">
+                <div style="font-size:10px;font-weight:700;color:var(--pwc);text-transform:uppercase;">Dictamen ARCA</div>
+                <div style="font-size:12px;font-weight:600;color:var(--gray-900);margin:3px 0;">DAT 8/2024</div>
+                <div style="font-size:11px;color:var(--gray-500);">Transferencia establecimiento — IVA</div>
+              </div>
+              <div class="card card-pad" style="cursor:pointer;border-left:3px solid var(--green);">
+                <div style="font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;">Jurisprudencia</div>
+                <div style="font-size:12px;font-weight:600;color:var(--gray-900);margin:3px 0;">TFN Sala B 39.201</div>
+                <div style="font-size:11px;color:var(--gray-500);">Reorganización: requisito sustancia</div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </div>
+  <div class="screen-description">
+    <div class="desc-section"><h3>¿Qué hace?</h3><p>Router de Semantic Kernel sobre agentes especializados: tributario, legislación y jurisprudencia. Para consultas complejas usa ReAct (razonamiento multi-paso visible). Tax-tuning específico para derecho fiscal argentino.</p></div>
+    <div class="desc-section"><h3>Flujo</h3><ol><li>Usuario hace una consulta compleja multi-fuente</li><li>Router activa los agentes más adecuados</li><li>Los agentes razonan en pasos visibles (ReAct)</li><li>Resultados consolidados con citas cruzadas</li><li>Usuario guarda la respuesta o las fuentes en el proyecto</li></ol></div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>F1.1 · Autenticación &amp; SSO — Legal Ai Ar</title>
+<link rel="stylesheet" href="https://appkitcdn.pwc.com/appkit4/cdn/styles/4.11.0/appkit.min.css">
+<link rel="stylesheet" href="https://appkitcdn.pwc.com/appkit4/cdn/styles/4.11.0/themes/appkit.orange.min.css">
+<link rel="stylesheet" href="../shared/wireframe.css">
+<style>#spinner{animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}</style>
+</head>
+<body>
+<div class="page-wrapper">
+  <div class="page-header">
+    <a class="back-link" href="../index.html">← Todas las pantallas</a>
+    <div class="page-header-center">
+      <h1 class="feature-title">F1.1 · Autenticación &amp; SSO</h1>
+      <div class="badges">
+        <span class="badge badge-release">R1.0</span>
+        <span class="badge badge-role">Todos los usuarios</span>
+      </div>
+    </div>
+    <div class="page-nav-arrows">
+      <span style="font-size:12px;color:var(--gray-300)">— primera —</span>
+      <a href="f1.2-home.html" class="nav-arrow">F1.2 Home →</a>
+    </div>
+  </div>
+
+  <div class="browser-wrapper">
+    <div class="browser-chrome">
+      <div class="dots"><span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span></div>
+      <div class="url-bar">legal-ai-ar.pwc.com.ar/auth/login</div>
+    </div>
+    <div class="app-shell" style="background:linear-gradient(135deg,#1a1a2e 0%,#2d1810 55%,#D04A02 100%);justify-content:center;align-items:center;display:flex;">
+      <div style="background:white;border-radius:14px;padding:40px 44px;width:420px;box-shadow:0 20px 60px rgba(0,0,0,.35);text-align:center;">
+        <div style="width:64px;height:64px;background:var(--pwc);border-radius:14px;margin:0 auto 18px;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 4px 14px rgba(208,74,2,.4);font-weight:800;letter-spacing:-1px;font-size:20px;">pwc</div>
+        <h2 style="font-size:22px;font-weight:800;color:var(--gray-900);margin-bottom:4px;">Legal Ai Ar</h2>
+        <p style="font-size:13px;color:var(--gray-400);margin-bottom:28px;">Herramienta legal-tributaria · PwC Argentina</p>
+
+        <div style="background:var(--gray-50);border:1.5px solid var(--gray-200);border-radius:10px;padding:18px;margin-bottom:20px;text-align:left;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+            <div style="width:38px;height:38px;background:#0078d4;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;color:white;font-weight:800;">M</div>
+            <div>
+              <div style="font-size:13px;font-weight:700;color:var(--gray-900);">Microsoft Entra ID</div>
+              <div style="font-size:11px;color:var(--gray-400);">Cuenta corporativa PwC</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;background:white;border:1px solid var(--gray-200);border-radius:7px;padding:10px 14px;">
+            <div id="spinner" style="width:18px;height:18px;border-radius:50%;border:2.5px solid var(--pwc);border-top-color:transparent;flex-shrink:0;"></div>
+            <div>
+              <div style="font-size:12px;font-weight:600;color:var(--gray-800);">pablo.martin@pwc.com</div>
+              <div style="font-size:11px;color:var(--gray-400);">Verificando credenciales corporativas...</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:18px;">
+          <span class="chip chip-blue">SSO Entra ID</span>
+          <span class="chip chip-green">HTTP-only cookie</span>
+          <span class="chip chip-gray">GCaaS Platform</span>
+        </div>
+        <p style="font-size:11px;color:var(--gray-400);line-height:1.6;">Sin contraseña manual. Sesión gestionada por la plataforma GCaaS. El token nunca queda expuesto en el navegador.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen-description">
+    <div class="desc-section">
+      <h3>¿Qué hace?</h3>
+      <p>Login automático con la cuenta PwC corporativa (Entra ID). Sin usuario ni contraseña manual. GCaaS emite una cookie de sesión HTTP-only segura que la API valida en cada request.</p>
+    </div>
+    <div class="desc-section">
+      <h3>Flujo</h3>
+      <ol>
+        <li>Usuario accede a la URL de la app</li>
+        <li>Plataforma detecta sesión Entra activa y emite cookie segura</li>
+        <li>API valida la cookie y obtiene perfil + rol del usuario</li>
+        <li>App muestra el Home personalizado según el rol</li>
+        <li>Al cerrar sesión, la plataforma invalida la cookie</li>
+      </ol>
+    </div>
+  </div>
+</div>
+</body>
+</html>
