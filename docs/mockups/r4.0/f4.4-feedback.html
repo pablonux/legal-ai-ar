@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>F4.4 · Feedback del Asistente — Legal Ai Ar</title>
+<link rel="stylesheet" href="https://appkitcdn.pwc.com/appkit4/cdn/styles/4.11.0/appkit.min.css">
+<link rel="stylesheet" href="https://appkitcdn.pwc.com/appkit4/cdn/styles/4.11.0/themes/appkit.orange.min.css">
 <link rel="stylesheet" href="../shared/wireframe.css">
-<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
 </head>
 <body>
 <div class="page-wrapper">
@@ -28,21 +29,21 @@
       <header class="topnav">
         <div class="topnav-logo"><span class="logo-pwc">pwc</span> Legal Ai Ar</div>
         <div class="topnav-flex"></div>
-        <button class="topnav-btn"><i class="ph ph-magnifying-glass" title="icon-search-outline"></i></button>
-        <div class="notif-wrapper"><button class="topnav-btn"><i class="ph ph-bell" title="icon-notification-outline"></i></button><span class="notif-dot"></span></div>
+        <button class="topnav-btn"><span class="Appkit4-icon icon-search-outline"></span></button>
+        <div class="notif-wrapper"><button class="topnav-btn"><span class="Appkit4-icon icon-notification-outline"></span></button><span class="notif-dot"></span></div>
         <div class="topnav-user"><span class="user-init">AD</span><span class="user-name">Admin ▾</span></div>
       </header>
       <div class="app-body">
         <nav class="sidebar">
           <div class="sidebar-section">
-            <div class="sidebar-item"><span class="icon"><i class="ph ph-squares-four" title="icon-dashboard-outline"></i></span> Inicio</div>
+            <div class="sidebar-item"><span class="icon"><span class="Appkit4-icon icon-dashboard-outline"></span></span> Inicio</div>
           </div>
           <div class="sidebar-divider"></div>
           <div class="sidebar-section">
             <div class="sidebar-label">Administración</div>
-            <div class="sidebar-item"><span class="icon"><i class="ph ph-users" title="icon-add-user-outline"></i></span> Usuarios</div>
-            <div class="sidebar-item active"><span class="icon"><i class="ph ph-thumbs-up" title="icon-analysis-outline"></i></span> Feedback IA</div>
-            <div class="sidebar-item"><span class="icon"><i class="ph ph-broadcast" title="icon-configuration-outline"></i></span> Observabilidad</div>
+            <div class="sidebar-item"><span class="icon"><span class="Appkit4-icon icon-add-user-outline"></span></span> Usuarios</div>
+            <div class="sidebar-item active"><span class="icon"><span class="Appkit4-icon icon-analysis-outline"></span></span> Feedback IA</div>
+            <div class="sidebar-item"><span class="icon"><span class="Appkit4-icon icon-configuration-outline"></span></span> Observabilidad</div>
           </div>
         </nav>
         <main class="main-content" style="display:flex;overflow:hidden;">
@@ -65,8 +66,8 @@
                 <!-- Feedback buttons -->
                 <div style="display:flex;align-items:center;gap:6px;margin-top:6px;padding-left:4px;">
                   <span style="font-size:11px;color:var(--gray-400);">¿Esta respuesta fue útil?</span>
-                  <button style="background:var(--green-bg);border:1.5px solid var(--green);border-radius:6px;padding:4px 10px;cursor:pointer;font-size:14px;color:var(--green);font-weight:700;"><i class="ph ph-thumbs-up" title="icon-like-outline"></i></button>
-                  <button style="background:var(--gray-50);border:1.5px solid var(--gray-300);border-radius:6px;padding:4px 10px;cursor:pointer;font-size:14px;color:var(--gray-400);"><i class="ph ph-thumbs-down" title="icon-dislike-outline"></i></button>
+                  <button style="background:var(--green-bg);border:1.5px solid var(--green);border-radius:6px;padding:4px 10px;cursor:pointer;font-size:14px;color:var(--green);font-weight:700;"><span class="Appkit4-icon icon-like-outline"></span></button>
+                  <button style="background:var(--gray-50);border:1.5px solid var(--gray-300);border-radius:6px;padding:4px 10px;cursor:pointer;font-size:14px;color:var(--gray-400);"><span class="Appkit4-icon icon-reject-outline"></span></button>
                 </div>
               </div>
               <div class="chat-msg">
@@ -77,7 +78,7 @@
                 <!-- Feedback with thumbs down + comment -->
                 <div style="margin-top:6px;padding:8px 10px;background:var(--red-bg);border:1px solid var(--red);border-radius:7px;max-width:85%;">
                   <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
-                    <button style="background:var(--red);border:none;border-radius:6px;padding:4px 10px;cursor:pointer;font-size:14px;color:white;"><i class="ph ph-thumbs-down" title="icon-dislike-outline"></i></button>
+                    <button style="background:var(--red);border:none;border-radius:6px;padding:4px 10px;cursor:pointer;font-size:14px;color:white;"><span class="Appkit4-icon icon-reject-outline"></span></button>
                     <span style="font-size:11px;font-weight:700;color:var(--red);">Marcado como no útil</span>
                   </div>
                   <div style="font-size:11px;color:var(--gray-700);background:white;border-radius:5px;padding:6px 8px;">"El umbral del Form. 969 es incorrecto según la RG 5.607. Revisar."</div>

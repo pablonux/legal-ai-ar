@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>F4.2 · Administración — Legal Ai Ar</title>
+<link rel="stylesheet" href="https://appkitcdn.pwc.com/appkit4/cdn/styles/4.11.0/appkit.min.css">
+<link rel="stylesheet" href="https://appkitcdn.pwc.com/appkit4/cdn/styles/4.11.0/themes/appkit.orange.min.css">
 <link rel="stylesheet" href="../shared/wireframe.css">
-<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
 </head>
 <body>
 <div class="page-wrapper">
@@ -29,8 +30,8 @@
         <div class="topnav-logo"><span class="logo-pwc">pwc</span> Legal Ai Ar</div>
         <div class="topnav-flex"></div>
         <span class="chip" style="background:rgba(255,255,255,.2);color:white;font-size:11px;">Admin</span>
-        <button class="topnav-btn"><i class="ph ph-magnifying-glass" title="icon-search-outline"></i></button>
-        <div class="notif-wrapper"><button class="topnav-btn"><i class="ph ph-bell" title="icon-notification-outline"></i></button><span class="notif-dot"></span></div>
+        <button class="topnav-btn"><span class="Appkit4-icon icon-search-outline"></span></button>
+        <div class="notif-wrapper"><button class="topnav-btn"><span class="Appkit4-icon icon-notification-outline"></span></button><span class="notif-dot"></span></div>
         <div class="topnav-user"><span class="user-init">AD</span><span class="user-name">Admin ▾</span></div>
       </header>
       <div class="app-body">
@@ -40,15 +41,15 @@
             <div style="font-size:13px;font-weight:700;color:white;margin-top:2px;">Administración</div>
           </div>
           <div class="sidebar-section">
-            <div class="sidebar-item active"><span class="icon"><i class="ph ph-users" title="icon-add-user-outline"></i></span> Usuarios</div>
-            <div class="sidebar-item"><span class="icon"><i class="ph ph-database" title="icon-database-search-outline"></i></span> Fuentes de datos</div>
-            <div class="sidebar-item"><span class="icon"><i class="ph ph-gear" title="icon-configuration-outline"></i></span> Configuración</div>
-            <div class="sidebar-item"><span class="icon"><i class="ph ph-clipboard-text" title="icon-document-file-outline"></i></span> Log de auditoría</div>
+            <div class="sidebar-item active"><span class="icon"><span class="Appkit4-icon icon-add-user-outline"></span></span> Usuarios</div>
+            <div class="sidebar-item"><span class="icon"><span class="Appkit4-icon icon-database-search-outline"></span></span> Fuentes de datos</div>
+            <div class="sidebar-item"><span class="icon"><span class="Appkit4-icon icon-configuration-outline"></span></span> Configuración</div>
+            <div class="sidebar-item"><span class="icon"><span class="Appkit4-icon icon-document-file-outline"></span></span> Log de auditoría</div>
           </div>
           <div class="sidebar-divider"></div>
           <div class="sidebar-section">
-            <div class="sidebar-item"><span class="icon"><i class="ph ph-chart-bar" title="icon-bar-chart-outline"></i></span> Reportes (Admin)</div>
-            <div class="sidebar-item"><span class="icon"><i class="ph ph-broadcast" title="icon-configuration-outline"></i></span> Observabilidad</div>
+            <div class="sidebar-item"><span class="icon"><span class="Appkit4-icon icon-bar-chart-outline"></span></span> Reportes (Admin)</div>
+            <div class="sidebar-item"><span class="icon"><span class="Appkit4-icon icon-configuration-outline"></span></span> Observabilidad</div>
           </div>
         </nav>
         <main class="main-content">
@@ -59,7 +60,7 @@
                 <div class="content-subtitle">12 usuarios activos · Acceso vía Entra ID SSO</div>
               </div>
               <div style="display:flex;gap:8px;">
-                <div class="search-bar" style="width:220px;height:36px;"><span class="search-icon" style="font-size:13px;"><i class="ph ph-magnifying-glass" title="icon-search-outline"></i></span><input class="search-input" placeholder="Buscar usuario..." style="font-size:12px;"></div>
+                <div class="search-bar" style="width:220px;height:36px;"><span class="search-icon" style="font-size:13px;"><span class="Appkit4-icon icon-search-outline"></span></span><input class="search-input" placeholder="Buscar usuario..." style="font-size:12px;"></div>
                 <button class="btn btn-primary">+ Agregar usuario</button>
               </div>
             </div>
@@ -143,32 +144,32 @@
             <!-- Data sources section -->
             <div class="card card-pad">
               <div class="card-header" style="margin-bottom:12px;">
-                <div class="card-title"><i class="ph ph-database" title="icon-database-search-outline"></i> Fuentes de datos activas</div>
+                <div class="card-title"><span class="Appkit4-icon icon-database-search-outline"></span> Fuentes de datos activas</div>
                 <button class="btn btn-secondary btn-sm">Administrar fuentes</button>
               </div>
               <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;">
                 <div style="padding:10px;background:var(--green-bg);border-radius:7px;border:1px solid var(--green);text-align:center;">
-                  <div style="font-size:20px;"><i class="ph ph-archive" title="icon-archive-outline"></i></div>
+                  <div style="font-size:20px;"><span class="Appkit4-icon icon-archive-outline"></span></div>
                   <div style="font-size:12px;font-weight:700;color:var(--gray-900);margin-top:4px;">SAIJ</div>
                   <div style="font-size:11px;color:var(--green);">● Activo</div>
                   <div style="font-size:10px;color:var(--gray-400);">Últ. ingesta: hoy</div>
                 </div>
                 <div style="padding:10px;background:var(--green-bg);border-radius:7px;border:1px solid var(--green);text-align:center;">
-                  <div style="font-size:20px;"><i class="ph ph-scales" title="icon-balance-outline"></i></div>
+                  <div style="font-size:20px;"><span class="Appkit4-icon icon-analysis-outline"></span></div>
                   <div style="font-size:12px;font-weight:700;color:var(--gray-900);margin-top:4px;">CSJN</div>
                   <div style="font-size:11px;color:var(--green);">● Activo</div>
                   <div style="font-size:10px;color:var(--gray-400);">Últ. ingesta: ayer</div>
                 </div>
                 <div style="padding:10px;background:var(--green-bg);border-radius:7px;border:1px solid var(--green);text-align:center;">
-                  <div style="font-size:20px;"><i class="ph ph-receipt" title="icon-document-policies-outline"></i></div>
+                  <div style="font-size:20px;"><span class="Appkit4-icon icon-document-policies-outline"></span></div>
                   <div style="font-size:12px;font-weight:700;color:var(--gray-900);margin-top:4px;">ARCA</div>
                   <div style="font-size:11px;color:var(--green);">● Activo</div>
                   <div style="font-size:10px;color:var(--gray-400);">Últ. ingesta: hoy</div>
                 </div>
                 <div style="padding:10px;background:var(--yellow-bg);border-radius:7px;border:1px solid var(--yellow);text-align:center;">
-                  <div style="font-size:20px;"><i class="ph ph-handshake" title="icon-handshake-outline"></i></div>
+                  <div style="font-size:20px;"><span class="Appkit4-icon icon-account-check-outline"></span></div>
                   <div style="font-size:12px;font-weight:700;color:var(--gray-900);margin-top:4px;">Com. Arbitral</div>
-                  <div style="font-size:11px;color:var(--yellow);"><i class="ph ph-warning" title="icon-hazard-outline"></i> Con errores</div>
+                  <div style="font-size:11px;color:var(--yellow);"><span class="Appkit4-icon icon-hazard-outline"></span> Con errores</div>
                   <div style="font-size:10px;color:var(--gray-400);">Últ. ingesta: hace 3 días</div>
                 </div>
               </div>
